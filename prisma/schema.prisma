@@ -1,0 +1,232 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  email              String   @unique
+  firstName          String?
+  lastName           String?
+  displayPreference  String   @default("firstname")
+  alias              String?
+  participantNumber  Int      @unique
+  referralCode       String   @unique
+  role               String   @default("participant")
+  passwordHash       String?
+  blocked            Boolean  @default(false)
+  lastIp             String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  payments           Payment[]
+  referralsMade      Referral[]          @relation("Referrer")
+  referredAs         Referral?           @relation("Referred")
+  pointsTransactions PointsTransaction[]
+  prizeEntries       PrizeEntry[]
+  legalAcceptances   LegalAcceptance[]
+  sessions           Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  kind      String   @default("participant")
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Campaign {
+  id                      String    @id @default(cuid())
+  slug                    String    @unique
+  name                    String
+  status                  String    @default("draft")
+  goalCents               Int       @default(40000000)
+  contributionCents       Int       @default(200)
+  targetContributions     Int       @default(200000)
+  startDate               DateTime?
+  endDate                 DateTime?
+  goalFailureScenario     String?
+  goalFailureText         String?
+  paymentsEnabled         Boolean   @default(true)
+  paymentsPaused          Boolean   @default(false)
+  referralPublicEnabled   Boolean   @default(false)
+  prizeFeatureEnabled     Boolean   @default(false)
+  multiLevelEnabled       Boolean   @default(false)
+  liveMode                Boolean   @default(false)
+  pointsOwnContribution   Int       @default(5)
+  pointsDirectReferral    Int       @default(5)
+  pointsReferredBonus     Int       @default(2)
+  pointsFurtherLevel      Int       @default(1)
+  moneyBreakdownJson      String    @default("[]")
+  storyText               String    @default("")
+  organizerName           String    @default("")
+  organizerEmail          String    @default("")
+  organizerAddress        String    @default("")
+  organizerCompany        String    @default("")
+  vatNumber               String    @default("")
+  purchaseDate            DateTime?
+  purchasePriceCents      Int?
+  purchasePhotoUrl        String?
+  purchaseProofUrl        String?
+  vehiclePlateMasked      String?
+  checklistJson           String    @default("{}")
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  payments                Payment[]
+  updates                 CampaignUpdate[]
+  draws                   Draw[]
+}
+
+model Payment {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  campaignId  String
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  amountCents Int
+  status      String    @default("pending")
+  mollieId    String?   @unique
+  method      String?
+  ipAddress   String?
+  userAgent   String?
+  fingerprint String?
+  paidAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  referrals   Referral[]
+  refunds     Refund[]
+  prizeEntries PrizeEntry[]
+}
+
+model Referral {
+  id              String   @id @default(cuid())
+  referrerId      String
+  referrer        User     @relation("Referrer", fields: [referrerId], references: [id])
+  referredUserId  String   @unique
+  referredUser    User     @relation("Referred", fields: [referredUserId], references: [id])
+  referralCode    String
+  paymentId       String?
+  payment         Payment? @relation(fields: [paymentId], references: [id])
+  verifiedPayment Boolean  @default(false)
+  pointsAwarded   Int      @default(0)
+  source          String?
+  fraudStatus     String   @default("clean")
+  createdAt       DateTime @default(now())
+}
+
+model PointsTransaction {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  amount     Int
+  reason     String
+  source     String
+  paymentId  String?
+  referralId String?
+  createdAt  DateTime @default(now())
+}
+
+model PrizeEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  paymentId   String
+  payment     Payment  @relation(fields: [paymentId], references: [id])
+  entryNumber String   @unique
+  valid       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Draw {
+  id              String    @id @default(cuid())
+  campaignId      String
+  campaign        Campaign  @relation(fields: [campaignId], references: [id])
+  type            String
+  status          String    @default("pending")
+  participantHash String?
+  lockedAt        DateTime?
+  drawnAt         DateTime?
+  randomSeed      String?
+  winnerId        String?
+  validEntryCount Int?
+  auditJson       String?
+  createdAt       DateTime  @default(now())
+}
+
+model FraudFlag {
+  id         String   @id @default(cuid())
+  type       String
+  severity   String   @default("review")
+  userId     String?
+  paymentId  String?
+  referralId String?
+  details    String
+  status     String   @default("open")
+  createdAt  DateTime @default(now())
+}
+
+model Refund {
+  id          String   @id @default(cuid())
+  paymentId   String
+  payment     Payment  @relation(fields: [paymentId], references: [id])
+  amountCents Int
+  status      String
+  reason      String?
+  mollieId    String?
+  createdAt   DateTime @default(now())
+}
+
+model CampaignUpdate {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  title      String
+  body       String
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metaJson  String?
+  ip        String?
+  createdAt DateTime @default(now())
+}
+
+model LegalAcceptance {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  document   String
+  version    String
+  ip         String?
+  acceptedAt DateTime @default(now())
+}
+
+model FaqItem {
+  id          Int     @id @default(autoincrement())
+  question    String
+  answer      String
+  legalReview Boolean @default(true)
+  sortOrder   Int     @default(0)
+  published   Boolean @default(true)
+}
+
+model SiteContent {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}

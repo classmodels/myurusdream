@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #050505;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+  --line: #2a2a2a;
+  --yellow: #ffd100;
+  --yellow-dim: #c9a400;
+  --white: #f7f7f4;
+  --muted: #9c9c96;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-yellow: var(--yellow);
+  --color-yellow-dim: var(--yellow-dim);
+  --color-muted: var(--muted);
+  --font-display: var(--font-oswald);
+  --font-sans: var(--font-outfit);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-outfit), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-oswald), sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.yellow-glow {
+  box-shadow: 0 0 0 1px rgba(255, 209, 0, 0.25), 0 12px 40px rgba(255, 209, 0, 0.12);
+}
+
+.hero-scrim {
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 5, 0.92) 0%,
+    rgba(5, 5, 5, 0.72) 42%,
+    rgba(5, 5, 5, 0.2) 70%,
+    rgba(5, 5, 5, 0.45) 100%
+  );
+}
+
+@media (max-width: 768px) {
+  .hero-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.55) 0%,
+      rgba(5, 5, 5, 0.88) 55%,
+      rgba(5, 5, 5, 0.96) 100%
+    );
+  }
+}
+
+.step-para {
+  clip-path: polygon(18px 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
+}
+
+.progress-track {
+  background: #222;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c9a400, #ffd100);
+  box-shadow: 0 0 18px rgba(255, 209, 0, 0.45);
+}
+
+.legal-stamp {
+  border: 1px dashed rgba(255, 209, 0, 0.55);
+  color: #ffd100;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.7rem;
+  display: inline-block;
+}
+
+.grid-fade {
+  background-image:
+    linear-gradient(rgba(255, 209, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 209, 0, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.btn-yellow {
+  background: #ffd100;
+  color: #111;
+  font-family: var(--font-oswald), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 0.95rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 8px 30px rgba(255, 209, 0, 0.22);
+}
+
+.btn-yellow:hover {
+  background: #ffe14a;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  border: 1px solid rgba(255, 209, 0, 0.55);
+  color: #ffd100;
+  font-family: var(--font-oswald), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  padding: 0.95rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 209, 0, 0.1);
+}
+
+.card-dark {
+  background: #111;
+  border: 1px solid #2a2a2a;
+}
+
+input, textarea, select {
+  background: #0b0b0b;
+  border: 1px solid #2a2a2a;
+  color: #f7f7f4;
+  border-radius: 0;
+  padding: 0.75rem 0.9rem;
+  width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: 1px solid #ffd100;
+  border-color: #ffd100;
+}
+
+label {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9c9c96;
+}
+
+::selection {
+  background: #ffd100;
+  color: #111;
+}
