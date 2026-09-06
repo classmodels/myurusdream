@@ -45,9 +45,9 @@ export function ShareButtons({
         <a className="btn-yellow" href={links.whatsapp} target="_blank" rel="noreferrer">
           WhatsApp
         </a>
-        <a className="btn-ghost" href={links.facebook} target="_blank" rel="noreferrer">
+        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.facebook, "Facebook")}>
           Facebook
-        </a>
+        </button>
         <a className="btn-ghost" href={links.email}>
           E-mail
         </a>

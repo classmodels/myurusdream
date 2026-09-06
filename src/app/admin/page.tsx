@@ -148,9 +148,10 @@ export default async function AdminPage() {
       </section>
 
       <section className="card-dark p-6 space-y-4">
-        <h2 className="font-display text-3xl">Deeltekst</h2>
+        <h2 className="font-display text-3xl">Tekst bij doorsturen</h2>
         <p className="text-sm text-muted">
-          Deze tekst gaat mee via WhatsApp, Facebook, e-mail, Instagram, TikTok en Snapchat.
+          Hier past u de tekst aan. Die gaat mee via WhatsApp, Facebook, e-mail, Instagram, TikTok
+          en Snapchat. Bij Facebook: plak de gekopieerde tekst in het bericht.
         </p>
         <form action={saveShareCopy} className="grid gap-3">
           <input

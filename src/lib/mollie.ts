@@ -3,10 +3,18 @@ import { decryptSecret } from "./secret-box";
 import { getSetting } from "./settings";
 
 export function siteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "http://127.0.0.1:3001").replace(
-    /\/$/,
-    "",
-  );
+  const raw = (process.env.NEXT_PUBLIC_SITE_URL || "").trim().replace(/\/$/, "");
+  const local = !raw || /127\.0\.0\.1|localhost/i.test(raw);
+  if (local) {
+    return process.env.NODE_ENV === "production"
+      ? "https://myurusdream.be"
+      : raw || "http://127.0.0.1:3001";
+  }
+  return raw;
+}
+
+export function publicSiteUrl() {
+  return "https://myurusdream.be";
 }
 
 export async function getMollieApiKey() {

@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 
 process.env.DATABASE_URL ||= "mysql://build:build@127.0.0.1:3306/build";
+process.env.NEXT_PUBLIC_SITE_URL ||= "https://myurusdream.be";
 
 const generateOnly = process.argv.includes("--generate-only");
 

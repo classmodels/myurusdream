@@ -1,5 +1,5 @@
 import { SITE_DOMAIN, SITE_NAME, SHARE_TEXT } from "./constants";
-import { siteUrl } from "./mollie";
+import { publicSiteUrl } from "./mollie";
 import { getSetting } from "./settings";
 
 export async function getShareCopy() {
@@ -10,7 +10,7 @@ export async function getShareCopy() {
 }
 
 export function shareUrl(referralCode?: string | null) {
-  const base = `${siteUrl()}/meedoen`;
+  const base = `${publicSiteUrl()}/meedoen`;
   return referralCode ? `${base}/${encodeURIComponent(referralCode)}` : base;
 }
 
