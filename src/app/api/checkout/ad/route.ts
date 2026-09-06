@@ -5,7 +5,7 @@ import { getCampaign } from "@/lib/campaign";
 import { paymentsAllowed } from "@/lib/flags";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { looksSuspiciousEmail, tooManyFromIp, flagFraud } from "@/lib/fraud";
-import { getMollie, mollieConfigured, siteUrl } from "@/lib/mollie";
+import { getMollie, getMollieWebhookUrl, mollieConfigured, siteUrl } from "@/lib/mollie";
 import { audit } from "@/lib/audit";
 import { ensurePayerUser, occupiedPixels, recordLegalAcceptances } from "@/lib/ad-users";
 import { fulfillPaidPayment } from "@/lib/payments";
@@ -91,7 +91,7 @@ async function handleAdCheckout(req: Request) {
     return NextResponse.json({ error: checkoutFieldError(parsed.error) }, { status: 400 });
   }
 
-  if (mollieConfigured()) {
+  if (await mollieConfigured()) {
     const limited = rateLimit(`checkout-ad:${ip}`, 20, 10 * 60 * 1000);
     if (!limited.ok) {
       return NextResponse.json({ error: "Te veel pogingen. Probeer later opnieuw." }, { status: 429 });
@@ -250,7 +250,7 @@ async function handleAdCheckout(req: Request) {
     meta: { kind: parsed.data.kind, amountCents },
   });
 
-  if (!mollieConfigured()) {
+  if (!(await mollieConfigured())) {
     try {
       await fulfillPaidPayment(payment.id);
       await createUserSession(payment.userId, "participant");
@@ -267,8 +267,8 @@ async function handleAdCheckout(req: Request) {
   }
 
   try {
-    const mollie = getMollie();
-    const webhook = process.env.MOLLIE_WEBHOOK_URL?.trim();
+    const mollie = await getMollie();
+    const webhook = await getMollieWebhookUrl();
     const created = await mollie.payments.create({
       amount: { currency: "EUR", value: (amountCents / 100).toFixed(2) },
       description,
@@ -276,7 +276,7 @@ async function handleAdCheckout(req: Request) {
         parsed.data.kind === "pixel"
           ? `${siteUrl()}/koop-pixels?pid=${payment.id}`
           : `${siteUrl()}/bedankt?pid=${payment.id}`,
-      webhookUrl: webhook || `${siteUrl()}/api/webhooks/mollie`,
+      webhookUrl: webhook,
       metadata: { paymentId: payment.id, userId: user.id, kind: parsed.data.kind },
     });
     await prisma.payment.update({

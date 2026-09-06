@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SITE_NAME } from "@/lib/constants";
+import { NotificationBell } from "@/components/NotificationBell";
+import { PushEnable } from "@/components/PushEnable";
 
 export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -53,6 +55,8 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
               {l.label}
             </Link>
           ))}
+          <NotificationBell loggedIn={loggedIn} />
+          <PushEnable />
           <Link href="/meedoen" className="btn-yellow text-sm px-4 py-2">
             {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
           </Link>
@@ -79,6 +83,8 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
                 {l.label}
               </Link>
             ))}
+            <NotificationBell loggedIn={loggedIn} />
+            <PushEnable />
             <Link href="/meedoen" className="btn-yellow text-sm" onClick={() => setOpen(false)}>
               {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
             </Link>

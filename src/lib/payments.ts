@@ -5,6 +5,7 @@ import { flagFraud } from "./fraud";
 import { multiLevelEnabled } from "./flags";
 import { audit } from "./audit";
 import { isRoutablePublicIp } from "./phone";
+import { notifyUser } from "./notify";
 import { POINTS } from "./constants";
 
 function samePublicIp(a: string | null | undefined, b: string | null | undefined) {
@@ -57,6 +58,12 @@ async function awardLineagePoints(input: {
         referralId: parent.id,
       },
     });
+    await notifyUser({
+      userId: parent.referrerId,
+      title: "Nieuwe punten",
+      body: `+${input.amount} punten: iemand in uw lijn heeft gestort.`,
+      url: "/dashboard",
+    });
     currentId = parent.referrerId;
   }
 }
@@ -104,6 +111,12 @@ export async function fulfillPaidPayment(paymentId: string) {
         source: "own_contribution",
         paymentId: paid.id,
       },
+    });
+    await notifyUser({
+      userId: paid.userId,
+      title: "Storting bevestigd",
+      body: `Uw €2 is binnen. +${ownPoints} punten staan op uw dashboard.`,
+      url: "/dashboard",
     });
   }
 
@@ -169,6 +182,12 @@ export async function fulfillPaidPayment(paymentId: string) {
             referralId: referral.id,
           },
         });
+        await notifyUser({
+          userId: referral.referrerId,
+          title: "Iemand stortte via uw link",
+          body: `+${points} punten. Open uw dashboard voor de details.`,
+          url: "/dashboard",
+        });
       }
       const further = paid.campaign.pointsFurtherLevel || POINTS.furtherLine;
       const alreadyFurther = await prisma.pointsTransaction.findFirst({
@@ -184,6 +203,18 @@ export async function fulfillPaidPayment(paymentId: string) {
         });
       }
     }
+  }
+
+  if (!isContribution) {
+    await notifyUser({
+      userId: paid.userId,
+      title: "Betaling bevestigd",
+      body:
+        paid.kind === "sponsor"
+          ? "Uw sponsorbijdrage is bevestigd."
+          : "Uw pixels staan op de muur.",
+      url: paid.kind === "pixel" ? "/pixels" : "/sponsors",
+    });
   }
 
   await audit({

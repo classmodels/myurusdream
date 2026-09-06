@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPublicCampaignView } from "@/lib/campaign";
 import { formatCents } from "@/lib/money";
+import { uniqueVisitorCount } from "@/lib/visitors";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,7 @@ export async function GET() {
     sponsorCount: view.totals.sponsorCount,
     pixelCents: view.totals.pixelCents,
     pixelCount: view.totals.pixelCount,
+    uniqueVisitors: await uniqueVisitorCount(),
     liveMode: view.campaign.liveMode,
     status: view.campaign.status,
   });

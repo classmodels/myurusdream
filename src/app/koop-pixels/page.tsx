@@ -28,9 +28,9 @@ export default async function KoopPixelsPage({
   if (pid) {
     const payment = await prisma.payment.findUnique({ where: { id: pid } });
     if (payment?.kind === "pixel") {
-      if (mollieConfigured() && payment.mollieId && payment.status !== "paid") {
+      if ((await mollieConfigured()) && payment.mollieId && payment.status !== "paid") {
         try {
-          const remote = await getMollie().payments.get(payment.mollieId);
+          const remote = await (await getMollie()).payments.get(payment.mollieId);
           if (remote.status === "paid") {
             await fulfillPaidPayment(payment.id);
           }
@@ -75,7 +75,7 @@ export default async function KoopPixelsPage({
           <PixelWall
             blockedReason={gate.allowed ? null : gate.reason}
             goalFailureText={campaign.goalFailureText}
-            mollieReady={mollieConfigured()}
+            mollieReady={await mollieConfigured()}
             initialOccupied={occupied}
           />
         </div>

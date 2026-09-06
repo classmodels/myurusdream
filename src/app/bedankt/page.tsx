@@ -18,11 +18,11 @@ export default async function BedanktPage({
   const { pid } = await searchParams;
   let user = await getSessionUser("participant");
 
-  if (pid && mollieConfigured()) {
+  if (pid && (await mollieConfigured())) {
     const payment = await prisma.payment.findUnique({ where: { id: pid } });
     if (payment?.mollieId && payment.status !== "paid") {
       try {
-        const remote = await getMollie().payments.get(payment.mollieId);
+        const remote = await (await getMollie()).payments.get(payment.mollieId);
         if (remote.status === "paid") {
           await fulfillPaidPayment(payment.id);
         }

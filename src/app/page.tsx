@@ -13,11 +13,13 @@ import { groupSponsors, isExampleSponsor, sponsorSignupHref } from "@/lib/sponso
 import { POINTS_EXPLAIN_SHORT, WINNERS_EXPLAIN } from "@/lib/constants";
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { uniqueVisitorCount } from "@/lib/visitors";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const view = await getPublicCampaignView();
+  const visitors = await uniqueVisitorCount();
   const story = view.campaign.storyText.split("\n").filter(Boolean);
   const storySplit = story.findIndex((p) => /^of het lukt\?/i.test(p));
   const storyMain = storySplit === -1 ? story : story.slice(0, storySplit);
@@ -101,6 +103,7 @@ export default async function HomePage() {
           sponsorCount: view.totals.sponsorCount,
           pixelCents: view.totals.pixelCents,
           pixelCount: view.totals.pixelCount,
+          uniqueVisitors: visitors,
         }}
       />
 

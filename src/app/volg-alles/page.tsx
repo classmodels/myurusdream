@@ -5,11 +5,13 @@ import { ActivityFeed } from "@/components/ActivityFeed";
 import { prisma } from "@/lib/prisma";
 import { LiveCounter } from "@/components/LiveCounter";
 import { PageHero } from "@/components/PageHero";
+import { uniqueVisitorCount } from "@/lib/visitors";
 
 export const dynamic = "force-dynamic";
 
 export default async function VolgAllesPage() {
   const view = await getPublicCampaignView();
+  const visitors = await uniqueVisitorCount();
   const resolved = resolveBreakdown(
     parseMoneyBreakdown(view.campaign.moneyBreakdownJson),
     view.totals.raisedCents,
@@ -57,6 +59,7 @@ export default async function VolgAllesPage() {
           sponsorCount: view.totals.sponsorCount,
           pixelCents: view.totals.pixelCents,
           pixelCount: view.totals.pixelCount,
+          uniqueVisitors: visitors,
         }}
       />
       <div className="mx-auto grid max-w-7xl gap-6 px-5 md:grid-cols-3">

@@ -16,6 +16,7 @@ export type LiveCounterStats = {
   sponsorCount: number;
   pixelCents: number;
   pixelCount: number;
+  uniqueVisitors: number;
 };
 
 export function LiveCounter({
@@ -87,6 +88,9 @@ export function LiveCounter({
           <span>
             Nog nodig <span className="text-yellow">{formatCents(stats.remainingCents)}</span>
           </span>
+          <span>
+            Bezoekers <span className="text-yellow">{stats.uniqueVisitors.toLocaleString("nl-BE")}</span>
+          </span>
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -104,6 +108,11 @@ export function LiveCounter({
             label="Pixels"
             value={formatCents(stats.pixelCents)}
             hint={`${stats.pixelCount.toLocaleString("nl-BE")} storting${stats.pixelCount === 1 ? "" : "en"}`}
+          />
+          <Stat
+            label="Bezoekers"
+            value={stats.uniqueVisitors.toLocaleString("nl-BE")}
+            hint="Unieke mensen op de site"
           />
         </div>
 
@@ -129,6 +138,7 @@ function statsSafe(s: Partial<LiveCounterStats>): LiveCounterStats {
     sponsorCount: s.sponsorCount ?? 0,
     pixelCents: s.pixelCents ?? 0,
     pixelCount: s.pixelCount ?? 0,
+    uniqueVisitors: s.uniqueVisitors ?? 0,
   };
 }
 

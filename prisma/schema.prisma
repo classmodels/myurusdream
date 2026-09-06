@@ -35,6 +35,9 @@ model User {
   prizeEntries       PrizeEntry[]
   legalAcceptances   LegalAcceptance[]
   sessions           Session[]
+  pushDevices        PushDevice[]
+  notices            Notice[]
+  noticeReads        NoticeRead[]
 
   @@index([phoneNormalized])
 }
@@ -247,4 +250,47 @@ model SiteContent {
   id    String @id @default(cuid())
   key   String @unique
   value String @db.Text
+}
+
+model UniqueVisitor {
+  id        String   @id @default(cuid())
+  token     String   @unique @db.VarChar(64)
+  createdAt DateTime @default(now())
+}
+
+model PushDevice {
+  id           String   @id @default(cuid())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint     String   @db.Text
+  endpointHash String   @unique @db.VarChar(64)
+  p256dh       String
+  auth         String
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Notice {
+  id        String       @id @default(cuid())
+  userId    String?
+  user      User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String       @db.Text
+  url       String?
+  createdAt DateTime     @default(now())
+  reads     NoticeRead[]
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model NoticeRead {
+  noticeId String
+  userId   String
+  notice   Notice  @relation(fields: [noticeId], references: [id], onDelete: Cascade)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  readAt   DateTime @default(now())
+
+  @@id([noticeId, userId])
 }

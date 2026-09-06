@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CookieBanner } from "@/components/CookieBanner";
 import { CaptureReferral } from "@/components/CaptureReferral";
+import { TrackVisit } from "@/components/TrackVisit";
 import { SITE_NAME, TAGLINE, LAMBORGHINI_DISCLAIMER } from "@/lib/constants";
 import { siteUrl } from "@/lib/mollie";
 import { getSessionUser } from "@/lib/auth";
@@ -47,12 +48,15 @@ export const metadata: Metadata = {
     images: ["/images/og.png"],
   },
   robots: { index: true, follow: true },
+  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 };
+
+export const dynamic = "force-dynamic";
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const participant = await getSessionUser("participant");
@@ -61,6 +65,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-bg text-white">
         <Header loggedIn={Boolean(participant)} />
         <CaptureReferral />
+        <TrackVisit />
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieBanner />

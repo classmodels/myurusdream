@@ -35,7 +35,7 @@ export default async function PixelsPage({
           <PixelWall
             blockedReason={gate.allowed ? null : gate.reason}
             goalFailureText={campaign.goalFailureText}
-            mollieReady={mollieConfigured()}
+            mollieReady={await mollieConfigured()}
             initialOccupied={occupied}
             orderable={false}
             fullBleed

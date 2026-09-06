@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "./prisma";
-import { getMollie, mollieConfigured, siteUrl } from "./mollie";
+import { getMollie, getMollieWebhookUrl, mollieConfigured, siteUrl } from "./mollie";
 import { SITE_NAME } from "./constants";
 import { audit } from "./audit";
 
@@ -35,7 +35,7 @@ export async function createContributionPayment(input: {
 }
 
 export async function contributionCheckoutResponse(payment: { id: string; userId: string; amountCents: number }) {
-  if (!mollieConfigured()) {
+  if (!(await mollieConfigured())) {
     return NextResponse.json({
       paymentId: payment.id,
       simulate: true,
@@ -44,13 +44,13 @@ export async function contributionCheckoutResponse(payment: { id: string; userId
   }
 
   try {
-    const mollie = getMollie();
-    const webhook = process.env.MOLLIE_WEBHOOK_URL?.trim();
+    const mollie = await getMollie();
+    const webhook = await getMollieWebhookUrl();
     const created = await mollie.payments.create({
       amount: { currency: "EUR", value: (payment.amountCents / 100).toFixed(2) },
       description: `${SITE_NAME} — bijdrage €2`,
       redirectUrl: `${siteUrl()}/bedankt?pid=${payment.id}`,
-      webhookUrl: webhook || `${siteUrl()}/api/webhooks/mollie`,
+      webhookUrl: webhook,
       metadata: { paymentId: payment.id, userId: payment.userId },
     });
     await prisma.payment.update({

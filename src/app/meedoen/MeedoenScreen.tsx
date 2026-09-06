@@ -87,12 +87,12 @@ export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
             </p>
           </div>
           ) : (
-            <MeedoenForm blockedReason={gate.reason} mollieReady={mollieConfigured()} />
+            <MeedoenForm blockedReason={gate.reason} mollieReady={await mollieConfigured()} />
           )
         ) : (
           <MeedoenForm
             blockedReason={gate.allowed ? null : gate.reason}
-            mollieReady={mollieConfigured()}
+            mollieReady={await mollieConfigured()}
             referralCode={ref}
           />
         )}

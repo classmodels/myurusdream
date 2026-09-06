@@ -15,6 +15,10 @@ import {
 import { audit } from "@/lib/audit";
 import { hashEntries, fulfillPaidPayment } from "@/lib/payments";
 import { randomSecureIndex } from "@/lib/auth";
+import { encryptSecret } from "@/lib/secret-box";
+import { getSetting, setSetting } from "@/lib/settings";
+import { isMollieKey, siteUrl } from "@/lib/mollie";
+import { notifyEveryone } from "@/lib/notify";
 
 async function requireAdmin() {
   const user = await getSessionUser("admin");
@@ -328,6 +332,43 @@ export async function markSimulatePaid(formData: FormData) {
     action: "payment.manual_paid",
     entity: "Payment",
     entityId: id,
+  });
+  revalidatePath("/admin");
+}
+
+export async function saveMollie(formData: FormData) {
+  const admin = await requireAdmin();
+  const key = String(formData.get("apiKey") || "").trim();
+  const webhook = String(formData.get("webhookUrl") || "").trim();
+  if (key) {
+    if (!isMollieKey(key)) {
+      throw new Error("Sleutel moet beginnen met test_ of live_");
+    }
+    await setSetting("mollie_api_key", encryptSecret(key));
+  }
+  await setSetting("mollie_webhook_url", webhook || `${siteUrl()}/api/webhooks/mollie`);
+  await audit({
+    actorId: admin.id,
+    action: "mollie.settings",
+    entity: "SiteContent",
+    meta: { hasKey: Boolean(key || (await getSetting("mollie_api_key"))) },
+  });
+  revalidatePath("/admin");
+  revalidatePath("/meedoen");
+}
+
+export async function sendBroadcast(formData: FormData) {
+  const admin = await requireAdmin();
+  const title = String(formData.get("title") || "").trim();
+  const body = String(formData.get("body") || "").trim();
+  const url = String(formData.get("url") || "/").trim() || "/";
+  if (!title || !body) throw new Error("Titel en tekst zijn verplicht.");
+  await notifyEveryone({ title, body, url });
+  await audit({
+    actorId: admin.id,
+    action: "notice.broadcast",
+    entity: "Notice",
+    meta: { title },
   });
   revalidatePath("/admin");
 }

@@ -7,14 +7,14 @@ import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { z } from "zod";
 
 export async function POST(req: Request) {
-  if (mollieConfigured()) {
+  if (await mollieConfigured()) {
     return NextResponse.json(
-      { error: "Simulatie is uitgeschakeld wanneer een Mollie test-sleutel actief is." },
+      { error: "Simulatie is uitgeschakeld wanneer een Mollie-sleutel actief is." },
       { status: 400 },
     );
   }
   const ip = clientIp(req.headers);
-  if (mollieConfigured()) {
+  if (await mollieConfigured()) {
     const limited = rateLimit(`simulate:${ip}`, 20, 10 * 60 * 1000);
     if (!limited.ok) {
       return NextResponse.json({ error: "Te veel pogingen. Probeer later opnieuw." }, { status: 429 });

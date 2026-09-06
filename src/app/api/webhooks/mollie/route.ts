@@ -4,7 +4,7 @@ import { getMollie, mollieConfigured } from "@/lib/mollie";
 import { fulfillPaidPayment } from "@/lib/payments";
 
 export async function POST(req: Request) {
-  if (!mollieConfigured()) {
+  if (!(await mollieConfigured())) {
     return NextResponse.json({ ok: true, ignored: true });
   }
 
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "missing id" }, { status: 400 });
   }
 
-  const mollie = getMollie();
+  const mollie = await getMollie();
   const remote = await mollie.payments.get(id);
   const payment = await prisma.payment.findFirst({ where: { mollieId: id } });
   if (!payment) {

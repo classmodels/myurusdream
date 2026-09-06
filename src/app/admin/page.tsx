@@ -26,7 +26,12 @@ import {
   blockUser,
   reviewFraud,
   lockAndDraw,
+  saveMollie,
+  sendBroadcast,
 } from "./actions";
+import { getMollieApiKey, getMollieWebhookUrl, isMollieKey } from "@/lib/mollie";
+import { maskSecret } from "@/lib/secret-box";
+import { uniqueVisitorCount } from "@/lib/visitors";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +45,7 @@ export default async function AdminPage() {
   today.setHours(0, 0, 0, 0);
   const week = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-  const [todayCount, weekCount, failed, refunds, referrals, fraudOpen, users, payments, faqs, flags, draws] =
+  const [todayCount, weekCount, failed, refunds, referrals, fraudOpen, users, payments, faqs, flags, draws, visitors, mollieKey, webhookUrl] =
     await Promise.all([
       prisma.payment.count({ where: { campaignId: campaign.id, status: "paid", paidAt: { gte: today } } }),
       prisma.payment.count({ where: { campaignId: campaign.id, status: "paid", paidAt: { gte: week } } }),
@@ -51,8 +56,12 @@ export default async function AdminPage() {
       prisma.user.findMany({
         where: { role: "participant" },
         orderBy: { createdAt: "desc" },
-        take: 25,
-        include: { payments: { orderBy: { createdAt: "desc" }, take: 1 } },
+        include: {
+          payments: {
+            where: { status: "paid" },
+            select: { kind: true, amountCents: true, status: true, paidAt: true },
+          },
+        },
       }),
       prisma.payment.findMany({
         orderBy: { createdAt: "desc" },
@@ -62,10 +71,18 @@ export default async function AdminPage() {
       prisma.faqItem.findMany({ orderBy: { sortOrder: "asc" } }),
       prisma.fraudFlag.findMany({ orderBy: { createdAt: "desc" }, take: 20 }),
       prisma.draw.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
+      uniqueVisitorCount(),
+      getMollieApiKey(),
+      getMollieWebhookUrl(),
     ]);
 
   const checklist = parseChecklist(campaign.checklistJson);
   const liveReady = canSwitchLive(campaign);
+  const euro2Count = users.reduce(
+    (n, u) => n + u.payments.filter((p) => p.kind === "contribution").length,
+    0,
+  );
+  const accountCount = users.length;
 
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-5 pb-24 pt-28">
@@ -82,6 +99,11 @@ export default async function AdminPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Kpi label="Ontvangen" value={formatCents(totals.raisedCents)} />
         <Kpi label="Deelnemers" value={String(totals.participantCount)} />
+        <Kpi label="Bezoekers" value={String(visitors)} />
+        <Kpi label="€2 stortingen" value={String(euro2Count)} />
+        <Kpi label="€2 totaal" value={formatCents(totals.contributionCents)} />
+        <Kpi label="Sponsors" value={`${totals.sponsorCount} · ${formatCents(totals.sponsorCents)}`} />
+        <Kpi label="Accounts" value={String(accountCount)} />
         <Kpi label="Vandaag" value={String(todayCount)} />
         <Kpi label="Deze week" value={String(weekCount)} />
         <Kpi label="Mislukt" value={String(failed)} />
@@ -89,6 +111,35 @@ export default async function AdminPage() {
         <Kpi label="Referrals (geverifieerd)" value={String(referrals)} />
         <Kpi label="Fraud alerts open" value={String(fraudOpen)} />
       </div>
+
+      <section className="card-dark p-6 space-y-4">
+        <h2 className="font-display text-3xl">Mollie</h2>
+        <p className="text-sm text-muted">
+          {isMollieKey(mollieKey)
+            ? `Sleutel actief: ${maskSecret(mollieKey)} (${mollieKey.startsWith("live_") ? "LIVE" : "test"})`
+            : "Nog geen sleutel. Zonder sleutel werkt betalen niet."}
+        </p>
+        <form action={saveMollie} className="grid gap-3">
+          <input
+            name="apiKey"
+            type="password"
+            autoComplete="off"
+            placeholder={isMollieKey(mollieKey) ? "Nieuwe sleutel (leeg = behouden)" : "test_... of live_..."}
+          />
+          <input name="webhookUrl" defaultValue={webhookUrl} placeholder="Webhook URL" />
+          <button className="btn-yellow w-fit">Mollie opslaan</button>
+        </form>
+      </section>
+
+      <section className="card-dark p-6 space-y-4">
+        <h2 className="font-display text-3xl">Bericht naar iedereen</h2>
+        <form action={sendBroadcast} className="grid gap-3">
+          <input name="title" placeholder="Titel" required />
+          <textarea name="body" rows={3} placeholder="Tekst" required />
+          <input name="url" defaultValue="/" placeholder="Link, bv. /dashboard" />
+          <button className="btn-yellow w-fit">Versturen</button>
+        </form>
+      </section>
 
       <section className="card-dark p-6 space-y-4">
         <h2 className="font-display text-3xl">Betalingen</h2>
@@ -229,25 +280,45 @@ export default async function AdminPage() {
             <thead className="text-muted">
               <tr>
                 <th className="p-2">#</th>
+                <th className="p-2">Naam</th>
                 <th className="p-2">E-mail</th>
-                <th className="p-2">Betaling</th>
+                <th className="p-2">GSM</th>
+                <th className="p-2">€2</th>
+                <th className="p-2">Sponsor</th>
                 <th className="p-2"></th>
               </tr>
             </thead>
             <tbody>
-              {users.map((u) => (
+              {users.map((u) => {
+                const euro2 = u.payments.filter((p) => p.kind === "contribution");
+                const sponsors = u.payments.filter((p) => p.kind === "sponsor" || p.kind === "pixel");
+                return (
                 <tr key={u.id} className="border-t border-white/10">
                   <td className="p-2">{u.participantNumber}</td>
+                  <td className="p-2">{[u.firstName, u.lastName].filter(Boolean).join(" ") || "—"}</td>
                   <td className="p-2">{u.email}</td>
-                  <td className="p-2">{u.payments[0]?.status || "—"}</td>
+                  <td className="p-2">{u.phone || "—"}</td>
                   <td className="p-2">
-                    <form action={blockUser}>
+                    {euro2.length} · {formatCents(euro2.reduce((s, p) => s + p.amountCents, 0))}
+                  </td>
+                  <td className="p-2">
+                    {sponsors.length
+                      ? formatCents(sponsors.reduce((s, p) => s + p.amountCents, 0))
+                      : "—"}
+                  </td>
+                  <td className="p-2">
+                    <a href={`/admin/deelnemer/${u.id}`} className="text-yellow">
+                      Dashboard
+                    </a>
+                    {" · "}
+                    <form action={blockUser} className="inline">
                       <input type="hidden" name="userId" value={u.id} />
                       <button className="text-yellow">{u.blocked ? "Deblokkeer" : "Blokkeer"}</button>
                     </form>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
