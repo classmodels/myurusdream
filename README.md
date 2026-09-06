@@ -10,7 +10,7 @@ Dit is **geen goed doel**, geen investering en geen winstbelofte. Open persoonli
 
 Deze onafhankelijke campagne is **niet verbonden aan, georganiseerd door of gesponsord door Automobili Lamborghini S.p.A.** Er wordt geen officieel Lamborghini-logo als huisstijl gebruikt.
 
-## Starten (lokaal, SQLite, geen Docker)
+## Starten (lokaal, MySQL)
 
 ```bash
 cd /Users/vangyzelalain/Desktop/Myurusdream
@@ -31,31 +31,23 @@ Wijzig dit in productie via `ADMIN_EMAIL` / `ADMIN_PASSWORD` en daarna opnieuw s
 
 **Eerste echte testbetaling:** in admin eerst scenario A/B/C instellen (“wat als het doel niet wordt bereikt”). Zonder die keuze is betalen geblokkeerd.
 
-## Productie: PostgreSQL
+## Productie: MySQL (Combell)
 
-Lokaal gebruikt Prisma **SQLite** (`DATABASE_URL="file:./dev.db"`).
-
-Voor productie: zelfde schema, andere URL, bijvoorbeeld:
+Prisma gebruikt **MySQL**. Zet `DATABASE_URL` in Combell (Node.js-omgeving), niet in git:
 
 ```
-DATABASE_URL="postgresql://user:pass@host:5432/myurusdream"
+DATABASE_URL="mysql://USER:PASSWORD@HOST:3306/DATABASE"
 ```
 
 Geldbedragen staan overal in **integer cents**. Geen floats.
 
-Daarna:
-
-```
-npx prisma migrate deploy
-npm run build
-npm start   # of een host zoals Vercel / Node
-```
+Daarna (op de server via `npm run serve`): `prisma db push` + seed, daarna `next start`.
 
 ## Environment
 
 | Variabele | Doel |
 | --- | --- |
-| `DATABASE_URL` | SQLite lokaal, PostgreSQL in productie |
+| `DATABASE_URL` | MySQL-connectiestring (`mysql://...`) |
 | `SESSION_SECRET` | HMAC/sessies |
 | `NEXT_PUBLIC_SITE_URL` | o.a. `http://127.0.0.1:3001` |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | seed van de admin |

@@ -1,7 +1,11 @@
 import { spawn } from "node:child_process";
 
-process.env.DATABASE_URL ||= "file:./prod.db";
 process.env.NEXT_PUBLIC_SITE_URL ||= "https://myurusdream.be";
+
+if (!process.env.DATABASE_URL || !process.env.DATABASE_URL.startsWith("mysql")) {
+  console.error("DATABASE_URL must be a mysql:// connection string from Combell.");
+  process.exit(1);
+}
 
 function run(command, args) {
   return new Promise((resolve, reject) => {
@@ -13,7 +17,7 @@ function run(command, args) {
   });
 }
 
-await run("npx", ["--yes", "prisma@6.19.3", "db", "push"]);
+await run("npx", ["--yes", "prisma@6.19.3", "db", "push", "--skip-generate"]);
 await run("npx", ["tsx", "prisma/seed.ts"]);
 await run("npx", [
   "next",

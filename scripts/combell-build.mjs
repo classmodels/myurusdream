@@ -1,6 +1,8 @@
 import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 
+process.env.DATABASE_URL ||= "mysql://build:build@127.0.0.1:3306/build";
+
 const generateOnly = process.argv.includes("--generate-only");
 
 function run(command, args) {

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -60,7 +60,7 @@ model Campaign {
   startDate               DateTime?
   endDate                 DateTime?
   goalFailureScenario     String?
-  goalFailureText         String?
+  goalFailureText         String?   @db.Text
   paymentsEnabled         Boolean   @default(true)
   paymentsPaused          Boolean   @default(false)
   referralPublicEnabled   Boolean   @default(false)
@@ -71,8 +71,8 @@ model Campaign {
   pointsDirectReferral    Int       @default(2)
   pointsReferredBonus     Int       @default(0)
   pointsFurtherLevel      Int       @default(1)
-  moneyBreakdownJson      String    @default("[]")
-  storyText               String    @default("")
+  moneyBreakdownJson      String    @default("[]") @db.Text
+  storyText               String    @default("") @db.Text
   organizerName           String    @default("")
   organizerEmail          String    @default("")
   organizerAddress        String    @default("")
@@ -83,7 +83,7 @@ model Campaign {
   purchasePhotoUrl        String?
   purchaseProofUrl        String?
   vehiclePlateMasked      String?
-  checklistJson           String    @default("{}")
+  checklistJson           String    @default("{}") @db.Text
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
 
@@ -103,7 +103,7 @@ model Payment {
   mollieId    String?   @unique
   method      String?
   ipAddress   String?
-  userAgent   String?
+  userAgent   String?   @db.Text
   fingerprint String?
   paidAt      DateTime?
   createdAt   DateTime  @default(now())
@@ -118,7 +118,7 @@ model Payment {
   pixelH      Int?
   pixelColor  String?
   pixelLabel  String?
-  pixelImage  String?
+  pixelImage  String?   @db.Text
 
   referrals   Referral[]
   refunds     Refund[]
@@ -176,7 +176,7 @@ model Draw {
   randomSeed      String?
   winnerId        String?
   validEntryCount Int?
-  auditJson       String?
+  auditJson       String?   @db.Text
   createdAt       DateTime  @default(now())
 }
 
@@ -187,7 +187,7 @@ model FraudFlag {
   userId     String?
   paymentId  String?
   referralId String?
-  details    String
+  details    String    @db.Text
   status     String   @default("open")
   createdAt  DateTime @default(now())
 }
@@ -208,7 +208,7 @@ model CampaignUpdate {
   campaignId String
   campaign   Campaign @relation(fields: [campaignId], references: [id])
   title      String
-  body       String
+  body       String    @db.Text
   published  Boolean  @default(true)
   createdAt  DateTime @default(now())
 }
@@ -219,7 +219,7 @@ model AuditLog {
   action    String
   entity    String
   entityId  String?
-  metaJson  String?
+  metaJson  String?   @db.Text
   ip        String?
   createdAt DateTime @default(now())
 }
@@ -236,8 +236,8 @@ model LegalAcceptance {
 
 model FaqItem {
   id          Int     @id @default(autoincrement())
-  question    String
-  answer      String
+  question    String  @db.Text
+  answer      String  @db.Text
   legalReview Boolean @default(true)
   sortOrder   Int     @default(0)
   published   Boolean @default(true)
@@ -246,5 +246,5 @@ model FaqItem {
 model SiteContent {
   id    String @id @default(cuid())
   key   String @unique
-  value String
+  value String @db.Text
 }

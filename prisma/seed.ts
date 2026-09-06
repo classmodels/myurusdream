@@ -215,12 +215,6 @@ async function removeExampleAds(campaignId: string) {
       },
     },
   });
-  await prisma.user.deleteMany({
-    where: {
-      email: { endsWith: "@myurusdream.local" },
-      role: { not: "admin" },
-    },
-  });
 }
 
 async function seedExampleAds(campaignId: string) {
