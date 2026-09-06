@@ -6,7 +6,7 @@
     "dev": "next dev --hostname 127.0.0.1 --port 3001",
     "build": "prisma generate && next build",
     "start": "next start --hostname 0.0.0.0 --port 3000",
-    "serve": "next start --hostname 0.0.0.0 --port 3000",
+    "serve": "node scripts/combell-serve.mjs",
     "lint": "eslint",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
@@ -23,7 +23,12 @@
     "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "prisma": "^6.19.0",
+    "tsx": "^4.23.12"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -33,9 +38,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
-    "prisma": "^6.19.0",
     "tailwindcss": "^4",
-    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }
