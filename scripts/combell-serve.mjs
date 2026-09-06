@@ -13,7 +13,7 @@ function run(command, args) {
   });
 }
 
-await run("npx", ["prisma", "db", "push"]);
+await run("npx", ["--yes", "prisma@6.19.3", "db", "push"]);
 await run("npx", ["tsx", "prisma/seed.ts"]);
 await run("npx", [
   "next",

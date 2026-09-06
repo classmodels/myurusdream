@@ -4,27 +4,27 @@
   "private": true,
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1 --port 3001",
-    "build": "npx prisma generate && npx next build",
+    "build": "node scripts/combell-build.mjs",
     "start": "next start --hostname 0.0.0.0 --port 3000",
     "serve": "node scripts/combell-serve.mjs",
     "lint": "eslint",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:setup": "prisma db push && tsx prisma/seed.ts",
-    "postinstall": "npx prisma generate"
+    "postinstall": "node scripts/combell-build.mjs --generate-only"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@mollie/api-client": "^4.6.0",
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "6.19.3",
+    "prisma": "6.19.3",
     "bcryptjs": "^3.0.3",
     "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "zod": "^4.4.3",
-    "prisma": "^6.19.0",
     "tsx": "^4.23.12",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
