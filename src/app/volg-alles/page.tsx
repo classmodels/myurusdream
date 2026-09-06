@@ -1,17 +1,31 @@
+import Link from "next/link";
 import { getPublicCampaignView, parseMoneyBreakdown, resolveBreakdown } from "@/lib/campaign";
 import { formatCents } from "@/lib/money";
 import { ActivityFeed } from "@/components/ActivityFeed";
 import { prisma } from "@/lib/prisma";
 import { LiveCounter } from "@/components/LiveCounter";
+import { PageHero } from "@/components/PageHero";
 
 export const dynamic = "force-dynamic";
 
 export default async function VolgAllesPage() {
   const view = await getPublicCampaignView();
-  const breakdown = resolveBreakdown(
+  const resolved = resolveBreakdown(
     parseMoneyBreakdown(view.campaign.moneyBreakdownJson),
     view.totals.raisedCents,
   );
+  const breakdown = [
+    resolved.find((l) => l.key === "gross") ?? {
+      key: "gross",
+      label: "Bruto ontvangen bijdragen",
+      cents: view.totals.raisedCents,
+    },
+    resolved.find((l) => l.key === "fees") ?? {
+      key: "fees",
+      label: "Transactiekosten",
+      cents: view.feeCents,
+    },
+  ];
   const updates = await prisma.campaignUpdate.findMany({
     where: { campaignId: view.campaign.id, published: true },
     orderBy: { createdAt: "desc" },
@@ -22,20 +36,27 @@ export default async function VolgAllesPage() {
       : 0;
 
   return (
-    <div className="pb-24 pt-24">
-      <div className="mx-auto max-w-7xl px-5">
-        <p className="font-display text-sm tracking-[0.3em] text-yellow">Transparantie</p>
-        <h1 className="mt-3 font-display text-5xl md:text-7xl">Volg alles mee</h1>
-      </div>
+    <div className="pb-24">
+      <PageHero kicker="Transparantie" title="Volg alles mee" image="/images/urus-night.png">
+        <p>Alleen bevestigde betalingen tellen. Geen fictieve bedragen.</p>
+        <Link href="/meedoen" className="btn-yellow mt-6">
+          Ik doe mee voor €2
+        </Link>
+      </PageHero>
       <LiveCounter
         initial={{
-          raisedCents: view.totals.raisedCents,
+          raisedCents: view.netCents,
           goalCents: view.campaign.goalCents,
           participantCount: view.totals.participantCount,
           targetContributions: view.campaign.targetContributions,
           remainingCents: view.remainingCents,
           remainingPeople: view.remainingPeople,
           percent: view.percent,
+          contributionCents: view.totals.contributionCents,
+          sponsorCents: view.totals.sponsorCents,
+          sponsorCount: view.totals.sponsorCount,
+          pixelCents: view.totals.pixelCents,
+          pixelCount: view.totals.pixelCount,
         }}
       />
       <div className="mx-auto grid max-w-7xl gap-6 px-5 md:grid-cols-3">

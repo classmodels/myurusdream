@@ -28,12 +28,7 @@ export function allChecklistComplete(checklist: Checklist): boolean {
 }
 
 export function publicReferralEnabled(campaign: Campaign): boolean {
-  const checklist = parseChecklist(campaign.checklistJson);
-  return (
-    !DISABLED_PENDING_LEGAL_APPROVAL &&
-    campaign.referralPublicEnabled &&
-    checklist.referralLegalApproved
-  );
+  return campaign.referralPublicEnabled;
 }
 
 export function publicPrizeEnabled(campaign: Campaign): boolean {
@@ -46,7 +41,7 @@ export function publicPrizeEnabled(campaign: Campaign): boolean {
 }
 
 export function multiLevelEnabled(campaign: Campaign): boolean {
-  return MULTI_LEVEL_REFERRALS && campaign.multiLevelEnabled;
+  return campaign.multiLevelEnabled;
 }
 
 export function paymentsAllowed(campaign: Campaign): {
@@ -56,8 +51,7 @@ export function paymentsAllowed(campaign: Campaign): {
   if (!campaign.goalFailureScenario) {
     return {
       allowed: false,
-      reason:
-        "Betalingen zijn geblokkeerd tot de organisator vastlegt wat er gebeurt als het doel niet wordt bereikt.",
+      reason: "Betalen staat nog niet open.",
     };
   }
   if (campaign.paymentsPaused || !campaign.paymentsEnabled) {

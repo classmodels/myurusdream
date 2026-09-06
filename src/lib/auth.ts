@@ -3,11 +3,11 @@ import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 
-const PARTICIPANT_COOKIE = "droomop2_session";
-const ADMIN_COOKIE = "droomop2_admin";
+const PARTICIPANT_COOKIE = "myurusdream_session";
+const ADMIN_COOKIE = "myurusdream_admin";
 
 function secret() {
-  return process.env.SESSION_SECRET || "droomop2-dev-insecure";
+  return process.env.SESSION_SECRET || "myurusdream-dev-insecure";
 }
 
 function sign(value: string) {
@@ -42,7 +42,7 @@ export async function nextParticipantNumber() {
 export async function createUserSession(
   userId: string,
   kind: "participant" | "admin",
-  days = 30,
+  days = kind === "admin" ? 1 : 365,
 ) {
   const token = generateToken();
   const expiresAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);

@@ -14,9 +14,11 @@ export async function POST(req: Request) {
     );
   }
   const ip = clientIp(req.headers);
-  const limited = rateLimit(`simulate:${ip}`, 10, 10 * 60 * 1000);
-  if (!limited.ok) {
-    return NextResponse.json({ error: "Te veel pogingen." }, { status: 429 });
+  if (mollieConfigured()) {
+    const limited = rateLimit(`simulate:${ip}`, 20, 10 * 60 * 1000);
+    if (!limited.ok) {
+      return NextResponse.json({ error: "Te veel pogingen. Probeer later opnieuw." }, { status: 429 });
+    }
   }
 
   const body = await req.json().catch(() => null);
@@ -34,5 +36,6 @@ export async function POST(req: Request) {
 
   const paid = await fulfillPaidPayment(payment.id);
   await createUserSession(paid.userId, "participant");
-  return NextResponse.json({ ok: true, redirect: `/bedankt?pid=${paid.id}` });
+  const redirect = paid.kind === "pixel" ? `/koop-pixels?pid=${paid.id}` : `/bedankt?pid=${paid.id}`;
+  return NextResponse.json({ ok: true, redirect });
 }

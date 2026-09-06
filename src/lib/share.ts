@@ -1,9 +1,14 @@
-import { SITE_NAME, SHARE_TEXT } from "./constants";
+import { SITE_DOMAIN, SITE_NAME, SHARE_TEXT } from "./constants";
 import { siteUrl } from "./mollie";
 
 export function shareUrl(referralCode?: string | null) {
   const base = `${siteUrl()}/meedoen`;
-  return referralCode ? `${base}?ref=${encodeURIComponent(referralCode)}` : base;
+  return referralCode ? `${base}/${encodeURIComponent(referralCode)}` : base;
+}
+
+export function prettyShareUrl(referralCode?: string | null) {
+  const path = referralCode ? `/meedoen/${encodeURIComponent(referralCode)}` : "/meedoen";
+  return `${SITE_DOMAIN}${path}`;
 }
 
 export function shareLinks(referralCode?: string | null) {

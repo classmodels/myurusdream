@@ -6,6 +6,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "",
     "/meedoen",
+    "/sponsor-worden",
+    "/sponsors",
+    "/koop-pixels",
+    "/pixels",
     "/volg-alles",
     "/faq",
     "/voorwaarden",

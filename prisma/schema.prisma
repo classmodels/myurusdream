@@ -12,6 +12,11 @@ model User {
   email              String   @unique
   firstName          String?
   lastName           String?
+  phone              String?
+  phoneNormalized    String?
+  vatNumber          String?
+  companyName        String?
+  address            String?
   displayPreference  String   @default("firstname")
   alias              String?
   participantNumber  Int      @unique
@@ -30,6 +35,8 @@ model User {
   prizeEntries       PrizeEntry[]
   legalAcceptances   LegalAcceptance[]
   sessions           Session[]
+
+  @@index([phoneNormalized])
 }
 
 model Session {
@@ -61,8 +68,8 @@ model Campaign {
   multiLevelEnabled       Boolean   @default(false)
   liveMode                Boolean   @default(false)
   pointsOwnContribution   Int       @default(5)
-  pointsDirectReferral    Int       @default(5)
-  pointsReferredBonus     Int       @default(2)
+  pointsDirectReferral    Int       @default(2)
+  pointsReferredBonus     Int       @default(0)
   pointsFurtherLevel      Int       @default(1)
   moneyBreakdownJson      String    @default("[]")
   storyText               String    @default("")
@@ -101,6 +108,17 @@ model Payment {
   paidAt      DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  kind        String    @default("contribution")
+  sponsorName String?
+  sponsorUrl  String?
+  sponsorTier String?
+  pixelX      Int?
+  pixelY      Int?
+  pixelW      Int?
+  pixelH      Int?
+  pixelColor  String?
+  pixelLabel  String?
+  pixelImage  String?
 
   referrals   Referral[]
   refunds     Refund[]

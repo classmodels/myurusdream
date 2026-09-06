@@ -4,7 +4,7 @@ export default function CookiesPage() {
   return (
     <LegalPage title="Cookiebeleid">
       <p>
-        DroomOp2 gebruikt in deze versie alleen essentiële cookies: een httpOnly sessiecookie
+        myurusdream.be gebruikt in deze versie alleen essentiële cookies: een httpOnly sessiecookie
         na login of betaling, en een lokale voorkeur voor de cookiemelding.
       </p>
       <p>

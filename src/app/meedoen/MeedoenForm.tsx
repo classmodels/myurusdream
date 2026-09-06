@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { LegalChecks } from "@/app/sponsors/SponsorForm";
 
 type Props = {
   blockedReason: string | null;
-  goalFailureText: string | null;
   mollieReady: boolean;
   referralCode?: string;
 };
 
-export function MeedoenForm({ blockedReason, goalFailureText, mollieReady, referralCode }: Props) {
+export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props) {
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [simulateId, setSimulateId] = useState<string | null>(null);
@@ -23,10 +23,11 @@ export function MeedoenForm({ blockedReason, goalFailureText, mollieReady, refer
     const payload = {
       email: String(form.get("email")),
       firstName: String(form.get("firstName")),
-      lastName: String(form.get("lastName") || ""),
-      acceptTerms: form.get("acceptTerms") === "on",
-      acceptPrivacy: form.get("acceptPrivacy") === "on",
-      acceptCampaign: form.get("acceptCampaign") === "on",
+      lastName: String(form.get("lastName")),
+      phone: String(form.get("phone")),
+      acceptTerms: form.get("acceptLegal") === "on",
+      acceptPrivacy: form.get("acceptLegal") === "on",
+      acceptCampaign: form.get("acceptLegal") === "on",
       referralCode: String(form.get("referralCode") || ""),
     };
     const res = await fetch("/api/checkout", {
@@ -71,87 +72,77 @@ export function MeedoenForm({ blockedReason, goalFailureText, mollieReady, refer
       <div className="card-dark p-8">
         <p className="font-display text-3xl text-yellow">Betalen staat nog niet open</p>
         <p className="mt-4 text-white/75">{blockedReason}</p>
-        <p className="mt-4 text-sm text-muted">
-          De organisator moet in het adminpaneel eerst kiezen wat er gebeurt als het doel niet
-          wordt gehaald (scenario A, B of C).
-        </p>
+        <div className="mt-8 flex flex-col gap-3">
+          <Link href="/" className="btn-ghost">
+            Terug naar de homepage
+          </Link>
+          <Link href="/volg-alles" className="text-sm uppercase tracking-widest text-yellow">
+            Bekijk de live teller →
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={onSubmit} className="card-dark space-y-5 p-8">
-      <div>
-        <label htmlFor="firstName">Voornaam</label>
-        <input id="firstName" name="firstName" required className="mt-2" autoComplete="given-name" />
+    <form onSubmit={onSubmit} className="meedoen-form card-dark space-y-3 p-4 sm:p-5">
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label htmlFor="firstName">Voornaam</label>
+          <input id="firstName" name="firstName" required className="mt-1" autoComplete="given-name" />
+        </div>
+        <div>
+          <label htmlFor="lastName">Achternaam</label>
+          <input id="lastName" name="lastName" required className="mt-1" autoComplete="family-name" />
+        </div>
       </div>
-      <div>
-        <label htmlFor="lastName">Achternaam (optioneel)</label>
-        <input id="lastName" name="lastName" className="mt-2" autoComplete="family-name" />
-      </div>
-      <div>
-        <label htmlFor="email">E-mail</label>
-        <input id="email" name="email" type="email" required className="mt-2" autoComplete="email" />
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label htmlFor="email">E-mail</label>
+          <input id="email" name="email" type="email" required className="mt-1" autoComplete="email" />
+        </div>
+        <div>
+          <label htmlFor="phone">GSM-nummer</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            required
+            className="mt-1"
+            autoComplete="tel"
+            inputMode="tel"
+          />
+        </div>
       </div>
       <input type="hidden" name="referralCode" value={referralCode || ""} />
-
-      {goalFailureText ? (
-        <div className="border border-yellow/30 p-4 text-sm text-white/80">
-          <p className="uppercase tracking-widest text-yellow">Als het doel niet wordt bereikt</p>
-          <p className="mt-2">{goalFailureText}</p>
-        </div>
+      {referralCode ? (
+        <p className="border border-yellow/35 bg-yellow/5 p-2.5 text-[0.7rem] leading-snug text-white/75">
+          U bent uitgenodigd via iemands persoonlijke link. Bij een bevestigde €2 krijgt u 5
+          punten — niet meer, niet minder. Wie u uitnodigde krijgt +2.
+        </p>
       ) : null}
 
-      <label className="flex items-start gap-3 text-sm normal-case tracking-normal text-white/80">
-        <input type="checkbox" name="acceptTerms" className="mt-1 w-auto" required />
-        <span>
-          Ik aanvaard de{" "}
-          <Link href="/voorwaarden" className="text-yellow">
-            algemene voorwaarden
-          </Link>
-          .
-        </span>
-      </label>
-      <label className="flex items-start gap-3 text-sm normal-case tracking-normal text-white/80">
-        <input type="checkbox" name="acceptCampaign" className="mt-1 w-auto" required />
-        <span>
-          Ik aanvaard de{" "}
-          <Link href="/campagnevoorwaarden" className="text-yellow">
-            campagnevoorwaarden
-          </Link>{" "}
-          en begrijp: dit is geen goed doel, geen investering en geen winstbelofte.
-        </span>
-      </label>
-      <label className="flex items-start gap-3 text-sm normal-case tracking-normal text-white/80">
-        <input type="checkbox" name="acceptPrivacy" className="mt-1 w-auto" required />
-        <span>
-          Ik heb het{" "}
-          <Link href="/privacy" className="text-yellow">
-            privacybeleid
-          </Link>{" "}
-          gelezen.
-        </span>
-      </label>
-
       {!mollieReady ? (
-        <p className="border border-yellow/40 p-3 text-sm text-yellow">
+        <p className="border border-yellow/40 p-2.5 text-[0.7rem] leading-snug text-yellow">
           Testmodus: Mollie-sleutel ontbreekt. U kunt de betaling lokaal simuleren.
         </p>
       ) : (
-        <p className="text-sm text-muted">
+        <p className="text-[0.7rem] leading-snug text-muted">
           U gaat naar de beveiligde checkout van Mollie (Bancontact, kaarten, Apple Pay indien
           beschikbaar). Wij bewaren geen kaartgegevens.
         </p>
       )}
 
-      <button className="btn-yellow w-full" disabled={busy} type="submit">
+      <LegalChecks />
+
+      <button className="btn-yellow w-full !px-3 !py-2 !text-[0.7rem]" disabled={busy} type="submit">
         {busy ? "Even geduld…" : "Betaal €2"}
       </button>
 
-      {status ? <p className="text-sm text-yellow">{status}</p> : null}
+      {status ? <p className="text-[0.7rem] text-yellow">{status}</p> : null}
 
       {simulateId ? (
-        <button type="button" className="btn-ghost w-full" onClick={simulate} disabled={busy}>
+        <button type="button" className="btn-ghost w-full !px-3 !py-2 !text-[0.7rem]" onClick={simulate} disabled={busy}>
           Simuleer betaling (lokaal)
         </button>
       ) : null}

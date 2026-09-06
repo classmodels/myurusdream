@@ -138,10 +138,10 @@ export default async function AdminPage() {
 
       <section className="grid gap-6 md:grid-cols-2">
         <div className="card-dark p-6 space-y-3">
-          <h2 className="font-display text-2xl">Referral (publiek blijft env-gated)</h2>
+          <h2 className="font-display text-2xl">Referralpunten</h2>
           <p className="text-sm text-muted">
-            Admin-toggle: {campaign.referralPublicEnabled ? "aan" : "uit"}. Publiek zichtbaar alleen als env-flag
-            false is én checklist referral goedgekeurd.
+            Publiek: {campaign.referralPublicEnabled ? "aan" : "uit"}. Eigen storting 5, directe
+            doorstuurder +2, verdere lijn +1. De nieuwe storter krijgt geen extra bonus.
           </p>
           <form action={toggleReferralAdmin}>
             <button className="btn-ghost">Toggle referral-adminvlag</button>
@@ -258,7 +258,7 @@ export default async function AdminPage() {
         <ul className="mt-4 space-y-2 text-sm">
           {payments.map((p) => (
             <li key={p.id} className="border-b border-white/10 pb-2">
-              {p.status} · {formatCents(p.amountCents)} · {p.user.email} · {p.id}
+              {p.status} · {p.kind} · {formatCents(p.amountCents)} · {p.user.email} · {p.id}
             </li>
           ))}
         </ul>

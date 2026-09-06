@@ -15,7 +15,7 @@ export default async function ContactPage() {
         <br />
         Adres: {campaign.organizerAddress || "Nog in te vullen"}
         <br />
-        E-mail: {campaign.organizerEmail || "admin@droomop2.local"}
+        E-mail: {campaign.organizerEmail || "admin@myurusdream.be"}
         <br />
         BTW: {campaign.vatNumber || "Nog in te vullen"}
       </p>

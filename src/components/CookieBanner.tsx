@@ -6,7 +6,7 @@ export function CookieBanner() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setShow(localStorage.getItem("droomop2_cookies") !== "essential");
+    setShow(localStorage.getItem("myurusdream_cookies") !== "essential");
   }, []);
 
   if (!show) return null;
@@ -23,7 +23,7 @@ export function CookieBanner() {
         <button
           className="btn-yellow text-sm px-4 py-2"
           onClick={() => {
-            localStorage.setItem("droomop2_cookies", "essential");
+            localStorage.setItem("myurusdream_cookies", "essential");
             setShow(false);
           }}
         >

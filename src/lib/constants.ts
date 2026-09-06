@@ -1,5 +1,6 @@
-export const SITE_NAME = "DroomOp2";
-export const SITE_DOMAIN = "droomop2.be";
+export const SITE_DOMAIN = "myurusdream.be";
+export const SITE_NAME = SITE_DOMAIN;
+export const CAMPAIGN_SLUG = "myurusdream";
 export const TAGLINE = "Kan €2 een droom op wielen waarmaken?";
 
 export const LEGAL_WATERMARK =
@@ -55,3 +56,23 @@ export const GOAL_FAILURE_OPTIONS = {
 export type GoalFailureScenario = keyof typeof GOAL_FAILURE_OPTIONS;
 
 export const LEGAL_DOC_VERSION = "0.1-draft";
+
+export const LIVE_DRAW = {
+  dateLabel: "zaterdag 31 oktober 2026",
+  place:
+    "een spectaculaire, nog bekend te maken locatie in België — live gestreamd voor iedereen die meedeed",
+  winners: 4,
+} as const;
+
+/** Product rules. Own donation always 5. Direct sharer +2. Deeper upline +1. Invitee never gets extra. */
+export const POINTS = {
+  own: 5,
+  directSharer: 2,
+  furtherLine: 1,
+} as const;
+
+export const POINTS_EXPLAIN_SHORT =
+  "Elke €2-storting levert 5 punten op, bijgeteld bij u. Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw code in de link: wie dan stort, houdt 5 punten en u krijgt +2. Stort iemand verder in uw lijn: u krijgt +1. Nog niet gestort? Delen kan, maar zonder punten.";
+
+export const WINNERS_EXPLAIN =
+  "Als het doel van €400.000 gehaald is, zijn er vier weekends met de wagen. Twee gaan naar wie het meest deelt (hoogste punten). De twee andere bepaalt het lot uit de lotinglijst: elke €2 is een apart nummer, tien stortingen is tien kansen. Zonder gehaald doel is er geen trekking en geen weekend.";

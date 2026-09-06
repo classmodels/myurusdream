@@ -1,24 +1,43 @@
 import { prisma } from "./prisma";
 import { parseChecklist, publicPrizeEnabled, publicReferralEnabled } from "./flags";
-import { DEFAULT_CHECKLIST } from "./constants";
+import { CAMPAIGN_SLUG, DEFAULT_CHECKLIST } from "./constants";
 
 export async function getCampaign() {
   const campaign = await prisma.campaign.findUnique({
-    where: { slug: "droomop2" },
+    where: { slug: CAMPAIGN_SLUG },
   });
   if (!campaign) throw new Error("Campaign not seeded");
   return campaign;
 }
 
 export async function getLiveTotals(campaignId: string) {
-  const paid = await prisma.payment.aggregate({
+  const grouped = await prisma.payment.groupBy({
+    by: ["kind"],
     where: { campaignId, status: "paid" },
     _sum: { amountCents: true },
     _count: { _all: true },
   });
+  const byKind = Object.fromEntries(
+    grouped.map((g) => [
+      g.kind,
+      { cents: g._sum.amountCents ?? 0, count: g._count._all },
+    ]),
+  );
+  const contributionCents = byKind.contribution?.cents ?? 0;
+  const participantCount = byKind.contribution?.count ?? 0;
+  const sponsorCents = byKind.sponsor?.cents ?? 0;
+  const sponsorCount = byKind.sponsor?.count ?? 0;
+  const pixelCents = byKind.pixel?.cents ?? 0;
+  const pixelCount = byKind.pixel?.count ?? 0;
+  const raisedCents = grouped.reduce((sum, g) => sum + (g._sum.amountCents ?? 0), 0);
   return {
-    raisedCents: paid._sum.amountCents ?? 0,
-    participantCount: paid._count._all,
+    raisedCents,
+    participantCount,
+    contributionCents,
+    sponsorCents,
+    sponsorCount,
+    pixelCents,
+    pixelCount,
   };
 }
 
@@ -39,22 +58,27 @@ export function parseMoneyBreakdown(json: string): MoneyLine[] {
   }
 }
 
+export function transactionFeeCents(lines: MoneyLine[]): number {
+  return Math.max(0, lines.find((l) => l.key === "fees")?.cents ?? 0);
+}
+
 export async function getPublicCampaignView() {
   const campaign = await getCampaign();
   const totals = await getLiveTotals(campaign.id);
-  const remainingCents = Math.max(0, campaign.goalCents - totals.raisedCents);
+  const feeCents = transactionFeeCents(parseMoneyBreakdown(campaign.moneyBreakdownJson));
+  const netCents = Math.max(0, totals.raisedCents - feeCents);
+  const remainingCents = Math.max(0, campaign.goalCents - netCents);
   const remainingPeople = Math.max(
     0,
     campaign.targetContributions - totals.participantCount,
   );
-  const pct =
-    campaign.goalCents > 0
-      ? (totals.raisedCents / campaign.goalCents) * 100
-      : 0;
+  const pct = campaign.goalCents > 0 ? (netCents / campaign.goalCents) * 100 : 0;
 
   return {
     campaign,
     totals,
+    feeCents,
+    netCents,
     remainingCents,
     remainingPeople,
     percent: Math.min(100, pct),
@@ -78,33 +102,6 @@ export function defaultMoneyBreakdown(): MoneyLine[] {
       label: "Transactiekosten",
       cents: 0,
       note: "Schatting. Exacte kosten volgen uit de betaalprovider.",
-    },
-    {
-      key: "tax",
-      label: "Belastingen indien van toepassing",
-      cents: 0,
-      note: "Nog te bepalen na fiscale controle.",
-    },
-    {
-      key: "legal",
-      label: "Juridische en administratieve kosten",
-      cents: 0,
-    },
-    {
-      key: "vehicle",
-      label: "Aankoopprijs voertuig (indicatief)",
-      cents: 0,
-      note: "€400.000 is het brutodoel, niet automatisch de aankoopprijs.",
-    },
-    { key: "insurance", label: "Verzekering", cents: 0 },
-    { key: "registration", label: "Inschrijving", cents: 0 },
-    { key: "other", label: "Overige kosten", cents: 0 },
-    {
-      key: "remainder",
-      label: "Resterend bedrag",
-      cents: 0,
-      dynamic: true,
-      note: "Bruto minus de hierboven ingevulde posten.",
     },
   ];
 }

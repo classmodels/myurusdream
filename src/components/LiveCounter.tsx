@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatCents } from "@/lib/money";
 
-type Stats = {
+export type LiveCounterStats = {
   raisedCents: number;
   goalCents: number;
   participantCount: number;
@@ -11,9 +11,22 @@ type Stats = {
   remainingCents: number;
   remainingPeople: number;
   percent: number;
+  contributionCents: number;
+  sponsorCents: number;
+  sponsorCount: number;
+  pixelCents: number;
+  pixelCount: number;
 };
 
-export function LiveCounter({ initial }: { initial: Stats }) {
+export function LiveCounter({
+  initial,
+  className,
+  showTitle = true,
+}: {
+  initial: LiveCounterStats;
+  className?: string;
+  showTitle?: boolean;
+}) {
   const [stats, setStats] = useState(statsSafe(initial));
 
   useEffect(() => {
@@ -31,40 +44,78 @@ export function LiveCounter({ initial }: { initial: Stats }) {
   const pct = Math.min(100, stats.percent);
 
   return (
-    <section id="teller" className="relative overflow-hidden bg-surface py-16 md:py-24">
+    <section
+      id={showTitle ? "teller" : undefined}
+      className={`relative z-0 overflow-hidden bg-surface pt-8 pb-16 md:pt-10 md:pb-20 ${className ?? ""}`}
+    >
       <div className="pointer-events-none absolute inset-0 grid-fade opacity-40" />
       <div className="relative mx-auto max-w-7xl px-5">
-        <p className="font-display text-sm tracking-[0.3em] text-yellow">Live campagneteller</p>
-        <div className="mt-4 flex flex-wrap items-end gap-4">
-          <h2 className="font-display text-5xl leading-none md:text-7xl">
+        <div>
+          {showTitle ? (
+            <p className="font-display text-base tracking-[0.22em] text-yellow md:text-lg">
+              Totaal live campagneteller
+            </p>
+          ) : null}
+          <h2 className={`${showTitle ? "mt-5" : ""} font-display text-4xl leading-none md:text-5xl`}>
             {formatCents(stats.raisedCents)}
             <span className="text-white/35"> / {formatCents(stats.goalCents)}</span>
           </h2>
+          <p className="mt-2 text-sm text-white/55">
+            <span>
+              €2 <span className="text-yellow">{formatCents(stats.contributionCents)}</span>
+            </span>
+            <span className="mx-2 text-white/25">·</span>
+            <span>
+              Sponsors <span className="text-yellow">{formatCents(stats.sponsorCents)}</span>
+            </span>
+            <span className="mx-2 text-white/25">·</span>
+            <span>
+              Pixels <span className="text-yellow">{formatCents(stats.pixelCents)}</span>
+            </span>
+          </p>
         </div>
         <div className="progress-track mt-8">
           <div className="progress-fill" style={{ width: `${pct}%` }} />
         </div>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat label="Deelnemers" value={stats.participantCount.toLocaleString("nl-BE")} />
-          <Stat
-            label="Van het doel"
-            value={`${pct.toLocaleString("nl-BE", { maximumFractionDigits: 2 })}%`}
-          />
-          <Stat label="Nog nodig" value={formatCents(stats.remainingCents)} />
+        <div className="mt-4 flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted">
+          <span>
+            Van het doel{" "}
+            <span className="text-yellow">
+              {pct.toLocaleString("nl-BE", { maximumFractionDigits: 2 })}%
+            </span>
+          </span>
+          <span>
+            Nog nodig <span className="text-yellow">{formatCents(stats.remainingCents)}</span>
+          </span>
+        </div>
+
+        <div className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <Stat label="Totaal van €2" value={formatCents(stats.contributionCents)} />
           <Stat
             label="Deelnemers / doel"
             value={`${stats.participantCount.toLocaleString("nl-BE")} / ${stats.targetContributions.toLocaleString("nl-BE")}`}
           />
+          <Stat
+            label="Sponsors"
+            value={formatCents(stats.sponsorCents)}
+            hint={`${stats.sponsorCount.toLocaleString("nl-BE")} storting${stats.sponsorCount === 1 ? "" : "en"}`}
+          />
+          <Stat
+            label="Pixels"
+            value={formatCents(stats.pixelCents)}
+            hint={`${stats.pixelCount.toLocaleString("nl-BE")} storting${stats.pixelCount === 1 ? "" : "en"}`}
+          />
         </div>
+
         <p className="mt-6 text-sm text-muted">
-          Alleen bevestigde betalingen tellen. Geen fictieve cijfers. Zonder betalingen: €0 / €400.000.
+          Alleen bevestigde betalingen tellen. Het getoonde totaal is bruto minus transactiekosten.
         </p>
       </div>
     </section>
   );
 }
 
-function statsSafe(s: Stats): Stats {
+function statsSafe(s: Partial<LiveCounterStats>): LiveCounterStats {
   return {
     raisedCents: s.raisedCents ?? 0,
     goalCents: s.goalCents ?? 40_000_000,
@@ -73,14 +124,30 @@ function statsSafe(s: Stats): Stats {
     remainingCents: s.remainingCents ?? 40_000_000,
     remainingPeople: s.remainingPeople ?? 200_000,
     percent: s.percent ?? 0,
+    contributionCents: s.contributionCents ?? 0,
+    sponsorCents: s.sponsorCents ?? 0,
+    sponsorCount: s.sponsorCount ?? 0,
+    pixelCents: s.pixelCents ?? 0,
+    pixelCount: s.pixelCount ?? 0,
   };
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({
+  label,
+  value,
+  hint,
+  className,
+}: {
+  label: string;
+  value: string;
+  hint?: string;
+  className?: string;
+}) {
   return (
-    <div className="card-dark p-5">
-      <p className="text-xs uppercase tracking-[0.2em] text-muted">{label}</p>
-      <p className="mt-2 font-display text-3xl text-yellow">{value}</p>
+    <div className={`card-dark px-4 py-3 ${className ?? ""}`}>
+      <p className="text-[0.65rem] uppercase tracking-[0.2em] text-muted">{label}</p>
+      <p className="mt-1.5 font-display text-xl text-yellow md:text-2xl">{value}</p>
+      {hint ? <p className="mt-1 text-xs text-white/40">{hint}</p> : null}
     </div>
   );
 }

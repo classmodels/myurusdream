@@ -1,8 +1,8 @@
-# DroomOp2
+# myurusdream.be
 
 Persoonlijke, transparante campagne: **kunnen 200.000 mensen met €2 samen één autodroom mogelijk maken?**
 
-- Site: **DroomOp2** (droomop2.be)
+- Site: **myurusdream.be**
 - Tagline: *Kan €2 een droom op wielen waarmaken?*
 - Lokaal: **http://127.0.0.1:3001** (poort 3001, zodat ModelPort op 3000 kan blijven)
 
@@ -13,7 +13,7 @@ Deze onafhankelijke campagne is **niet verbonden aan, georganiseerd door of gesp
 ## Starten (lokaal, SQLite, geen Docker)
 
 ```bash
-cd /Users/vangyzelalain/Desktop/droomop2
+cd /Users/vangyzelalain/Desktop/Myurusdream
 cp .env.example .env   # of gebruik het bestaande .env
 npm install
 npx prisma generate
@@ -24,7 +24,7 @@ npm run dev            # http://127.0.0.1:3001
 ### Admin (lokaal)
 
 - URL: http://127.0.0.1:3001/admin
-- E-mail: `admin@droomop2.local`
+- E-mail: `admin@myurusdream.local`
 - Wachtwoord: `admin123`
 
 Wijzig dit in productie via `ADMIN_EMAIL` / `ADMIN_PASSWORD` en daarna opnieuw seeden of het wachtwoord in de database updaten.
@@ -38,7 +38,7 @@ Lokaal gebruikt Prisma **SQLite** (`DATABASE_URL="file:./dev.db"`).
 Voor productie: zelfde schema, andere URL, bijvoorbeeld:
 
 ```
-DATABASE_URL="postgresql://user:pass@host:5432/droomop2"
+DATABASE_URL="postgresql://user:pass@host:5432/myurusdream"
 ```
 
 Geldbedragen staan overal in **integer cents**. Geen floats.

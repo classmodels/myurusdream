@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { DEFAULT_CHECKLIST } from "../src/lib/constants";
+import { CAMPAIGN_SLUG, DEFAULT_CHECKLIST, GOAL_FAILURE_OPTIONS } from "../src/lib/constants";
+import { DEFAULT_FAQS } from "../src/lib/faq";
+import { EXAMPLE_PIXELS, EXAMPLE_SPONSORS, pixelPriceCents } from "../src/lib/sponsors";
 
 const prisma = new PrismaClient();
 
 const STORY = `Ik ga u geen verhaal vertellen over een goed doel.
 
-Ik ga u niet proberen overtuigen met een ziekte, een drama of een verzonnen reden.
+En ook niet proberen te overtuigen met een ziekte, een drama of een verzonnen reden.
 
 Mijn reden is veel eenvoudiger.
 
@@ -26,128 +28,7 @@ Voor één persoon is €2 een klein bedrag.
 
 Of het lukt?
 
-Ik heb geen idee.
-
-Maar ik wil het één keer geprobeerd hebben.
-
-En iedereen moet vanaf dag één kunnen volgen wat er gebeurt.`;
-
-const FAQS: { question: string; answer: string; legal: boolean }[] = [
-  {
-    question: "Is dit een goed doel?",
-    answer:
-      "Nee. DroomOp2 is geen goed doel, geen liefdadigheid en geen hulporganisatie. Het is een open, persoonlijke campagne: één initiatiefnemer vraagt vrijwillige bijdragen van €2 om een autodroom mogelijk te maken.",
-    legal: false,
-  },
-  {
-    question: "Waarom €2?",
-    answer:
-      "Omdat €2 voor de meeste mensen een klein, eenmalig bedrag is. Het idee is niet één grote gift, maar heel veel kleine, vrijwillige bijdragen: 200.000 × €2 = €400.000 bruto.",
-    legal: false,
-  },
-  {
-    question: "Waar gaat het geld naartoe?",
-    answer:
-      "Naar de persoonlijke campagne van de initiatiefnemer, met als doel een Lamborghini Urus mogelijk te maken. Het brutodoel van €400.000 is niet automatisch de aankoopprijs. Transactiekosten, belastingen, verzekering, inschrijving en administratie kunnen het beschikbare bedrag verlagen. De uitsplitsing staat op de site en is vanuit het adminpaneel aanpasbaar. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Wat gebeurt er als €400.000 niet wordt bereikt?",
-    answer:
-      "Dat wordt vóór de eerste echte betaling vastgelegd in het adminpaneel (terugbetaling, verlenging of een vooraf omschreven alternatief) en getoond op de betaalpagina. Zolang die keuze niet is ingesteld, kan er niet betaald worden. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Kan ik meer dan €2 bijdragen?",
-    answer:
-      "In deze eerste versie is de bijdrage vast op €2 per deelnemer. Eventuele extra bedragen volgen alleen als dat later duidelijk op de site wordt aangekondigd.",
-    legal: false,
-  },
-  {
-    question: "Is €2 een abonnement?",
-    answer:
-      "Nee. Het is een eenmalige bijdrage. Er wordt nooit automatisch opnieuw geïnd.",
-    legal: false,
-  },
-  {
-    question: "Kan ik mijn betaling annuleren?",
-    answer:
-      "Herroepings- en terugbetalingsrechten hangen af van de definitieve campagnevoorwaarden en het toepasselijke recht. Zie de pagina Terugbetaling. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Hoe werkt de teller?",
-    answer:
-      "De teller telt alleen bevestigde betalingen uit de database. Er worden geen fictieve bedragen getoond. Zonder betalingen ziet u €0 / €400.000 en 0 deelnemers.",
-    legal: false,
-  },
-  {
-    question: "Hoe worden betalingen gecontroleerd?",
-    answer:
-      "Betalingen lopen via Mollie (hosted checkout). Deze site slaat geen kaartgegevens op. Alleen een bevestigde status via de betaalprovider telt mee voor de teller.",
-    legal: false,
-  },
-  {
-    question: "Hoe werkt een eventuele winactie?",
-    answer:
-      "Een eventuele week rijden of extra week via punten is standaard UITGESCHAKELD tot juridische goedkeuring (PRIZE_FEATURE_ENABLED = false). [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Hoe wordt een winnaar aangeduid?",
-    answer:
-      "Indien ooit geactiveerd: uniek deelnemersnummer, afgesloten lijst, hash, cryptografisch veilige loting en auditlog. Dit is nu niet publiek actief. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Wie mag deelnemen?",
-    answer:
-      "Meerderjarigen die de voorwaarden aanvaarden. Precieze leeftijds- en woonplaatsregels volgen in de definitieve voorwaarden. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Welke voorwaarden gelden om met de wagen te rijden?",
-    answer:
-      "Nog niet van toepassing. Eventueel gebruik vereist geldig rijbewijs, verzekering en aparte gebruiksvoorwaarden. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Wie betaalt brandstof?",
-    answer:
-      "Nog niet vastgelegd. Wordt opgenomen in eventuele gebruiksvoorwaarden van een winactie. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Wie betaalt verzekering?",
-    answer:
-      "De organisator is verantwoordelijk voor een wettelijk correcte verzekering van het voertuig indien het wordt aangekocht. Details volgen. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Wat bij schade?",
-    answer:
-      "Nog niet van toepassing. Schade, franchise en aansprakelijkheid horen in aparte voorwaarden. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Wat gebeurt er wanneer de wagen nog niet geleverd is?",
-    answer:
-      "De status van aankoop en levering wordt bijgewerkt op de pagina Volg alles mee. Er is geen belofte van een leverdatum.",
-    legal: false,
-  },
-  {
-    question: "Hoe worden persoonsgegevens beschermd?",
-    answer:
-      "We vragen alleen wat nodig is voor betaling, bevestiging en wettelijke plichten. Zie het privacybeleid. [JURIDISCHE CONTROLE VEREIST VOOR PUBLICATIE]",
-    legal: true,
-  },
-  {
-    question: "Hoe kan ik contact opnemen?",
-    answer:
-      "Via de contactpagina. Zolang de organisatorgegevens niet definitief zijn, is het contactadres het lokale admin-adres uit de README.",
-    legal: false,
-  },
-];
+Laat ons samen bewijzen dat geen enkel idee te gek is om waar te maken.`;
 
 const MONEY = [
   {
@@ -193,7 +74,7 @@ const MONEY = [
 ];
 
 async function main() {
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@droomop2.local";
+  const adminEmail = process.env.ADMIN_EMAIL || "admin@myurusdream.local";
   const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
   const passwordHash = await bcrypt.hash(adminPassword, 10);
 
@@ -211,31 +92,49 @@ async function main() {
   });
 
   await prisma.campaign.upsert({
-    where: { slug: "droomop2" },
-    update: {},
+    where: { slug: CAMPAIGN_SLUG },
+    update: { name: "myurusdream.be" },
     create: {
-      slug: "droomop2",
-      name: "DroomOp2",
+      slug: CAMPAIGN_SLUG,
+      name: "myurusdream.be",
       status: "draft",
       goalCents: 40_000_000,
       contributionCents: 200,
       targetContributions: 200_000,
       storyText: STORY,
-      organizerEmail: adminEmail,
+      organizerEmail: "info@myurusdream.be",
       organizerName: "Nog in te vullen — organisator",
       moneyBreakdownJson: JSON.stringify(MONEY),
       checklistJson: JSON.stringify(DEFAULT_CHECKLIST),
-      referralPublicEnabled: false,
+      referralPublicEnabled: true,
       prizeFeatureEnabled: false,
-      multiLevelEnabled: false,
+      multiLevelEnabled: true,
       liveMode: false,
       paymentsEnabled: true,
       paymentsPaused: false,
+      goalFailureScenario: "B",
+      goalFailureText: GOAL_FAILURE_OPTIONS.B,
     },
   });
 
   const campaign = await prisma.campaign.findUniqueOrThrow({
-    where: { slug: "droomop2" },
+    where: { slug: CAMPAIGN_SLUG },
+  });
+
+  await prisma.campaign.update({
+    where: { id: campaign.id },
+    data: {
+      goalFailureScenario: campaign.goalFailureScenario || "B",
+      goalFailureText: campaign.goalFailureText || GOAL_FAILURE_OPTIONS.B,
+      paymentsEnabled: true,
+      paymentsPaused: false,
+      referralPublicEnabled: true,
+      multiLevelEnabled: true,
+      pointsOwnContribution: 5,
+      pointsDirectReferral: 2,
+      pointsReferredBonus: 0,
+      pointsFurtherLevel: 1,
+    },
   });
 
   const updateCount = await prisma.campaignUpdate.count({
@@ -254,7 +153,7 @@ async function main() {
 
   if ((await prisma.faqItem.count()) === 0) {
     await prisma.faqItem.createMany({
-      data: FAQS.map((f, i) => ({
+      data: DEFAULT_FAQS.map((f, i) => ({
         question: f.question,
         answer: f.answer,
         legalReview: f.legal,
@@ -262,10 +161,131 @@ async function main() {
         published: true,
       })),
     });
+  } else {
+    for (const [i, f] of DEFAULT_FAQS.entries()) {
+      const existing = await prisma.faqItem.findFirst({ where: { question: f.question } });
+      if (existing) {
+        await prisma.faqItem.update({
+          where: { id: existing.id },
+          data: { answer: f.answer, legalReview: f.legal, published: true, sortOrder: i + 1 },
+        });
+      } else {
+        await prisma.faqItem.create({
+          data: {
+            question: f.question,
+            answer: f.answer,
+            legalReview: f.legal,
+            sortOrder: i + 1,
+            published: true,
+          },
+        });
+      }
+    }
   }
 
+  await prisma.faqItem.deleteMany({
+    where: { question: "Wanneer worden de 4 winnaars getrokken?" },
+  });
+
+  await seedExampleAds(campaign.id);
+
   console.log("Seed OK. Admin:", adminEmail);
-  console.log("ZERO payments seeded. Counter must show €0.");
+  console.log("Voorbeeld-sponsors en pixels gezet. Counter telt echte (lokale) demo-stortingen mee.");
+}
+
+function slugName(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+async function seedExampleAds(campaignId: string) {
+  const last = await prisma.user.findFirst({
+    orderBy: { participantNumber: "desc" },
+    select: { participantNumber: true },
+  });
+  let n = last?.participantNumber ?? 0;
+
+  for (const s of EXAMPLE_SPONSORS) {
+    const exists = await prisma.payment.findFirst({
+      where: { campaignId, kind: "sponsor", sponsorName: s.name, status: "paid" },
+    });
+    if (exists) continue;
+    n += 1;
+    const email = `voorbeeld.${slugName(s.name)}@myurusdream.local`;
+    const user = await prisma.user.upsert({
+      where: { email },
+      update: { firstName: s.name },
+      create: {
+        email,
+        firstName: s.name,
+        participantNumber: n,
+        referralCode: `sp${n.toString(36)}`,
+      },
+    });
+    await prisma.payment.create({
+      data: {
+        userId: user.id,
+        campaignId,
+        amountCents: s.cents,
+        status: "paid",
+        paidAt: new Date(),
+        kind: "sponsor",
+        sponsorName: s.name,
+        sponsorUrl: s.url,
+        sponsorTier: s.tier,
+      },
+    });
+  }
+
+  for (const p of EXAMPLE_PIXELS) {
+    const exists = await prisma.payment.findFirst({
+      where: { campaignId, kind: "pixel", pixelLabel: p.label, status: "paid" },
+    });
+    if (exists) {
+      await prisma.payment.update({
+        where: { id: exists.id },
+        data: {
+          amountCents: pixelPriceCents(p.w, p.h),
+          pixelColor: p.color,
+          pixelImage: p.image,
+        },
+      });
+      continue;
+    }
+    n += 1;
+    const email = `pixel.${slugName(p.label)}@myurusdream.local`;
+    const user = await prisma.user.upsert({
+      where: { email },
+      update: { firstName: p.label },
+      create: {
+        email,
+        firstName: p.label,
+        participantNumber: n,
+        referralCode: `px${n.toString(36)}`,
+      },
+    });
+    await prisma.payment.create({
+      data: {
+        userId: user.id,
+        campaignId,
+        amountCents: pixelPriceCents(p.w, p.h),
+        status: "paid",
+        paidAt: new Date(),
+        kind: "pixel",
+        sponsorName: p.label,
+        sponsorUrl: p.url,
+        pixelX: p.x,
+        pixelY: p.y,
+        pixelW: p.w,
+        pixelH: p.h,
+        pixelColor: p.color,
+        pixelLabel: p.label,
+        pixelImage: p.image,
+      },
+    });
+  }
 }
 
 main()

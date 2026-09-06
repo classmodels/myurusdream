@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Oswald, Outfit } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CookieBanner } from "@/components/CookieBanner";
+import { CaptureReferral } from "@/components/CaptureReferral";
 import { SITE_NAME, TAGLINE, LAMBORGHINI_DISCLAIMER } from "@/lib/constants";
 import { siteUrl } from "@/lib/mollie";
+import { getSessionUser } from "@/lib/auth";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -23,13 +25,13 @@ const url = siteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(url),
   title: {
-    default: "€2 voor een droom | Lamborghini Urus Project",
+    default: `${SITE_NAME} | €2 voor een droom`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
     "Kunnen 200.000 mensen met een bijdrage van €2 samen één uitzonderlijke autodroom mogelijk maken? Volg de campagne volledig transparant.",
   openGraph: {
-    title: "€2 voor een droom | Lamborghini Urus Project",
+    title: `${SITE_NAME} | €2 voor een droom`,
     description:
       "Kunnen 200.000 mensen met een bijdrage van €2 samen één uitzonderlijke autodroom mogelijk maken? Volg de campagne volledig transparant.",
     url,
@@ -40,18 +42,25 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "€2 voor een droom | Lamborghini Urus Project",
+    title: `${SITE_NAME} | €2 voor een droom`,
     description: TAGLINE,
     images: ["/images/og.png"],
   },
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const participant = await getSessionUser("participant");
   return (
     <html lang="nl" className={`${oswald.variable} ${outfit.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-white">
-        <Header />
+        <Header loggedIn={Boolean(participant)} />
+        <CaptureReferral />
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieBanner />

@@ -35,7 +35,7 @@ export function AdminLoginForm() {
           id="email"
           name="email"
           type="email"
-          defaultValue="admin@droomop2.local"
+          defaultValue="admin@myurusdream.local"
           className="mt-2"
         />
       </div>

@@ -1,4 +1,4 @@
-import { LegalStamp } from "@/components/LegalStamp";
+import { PageHero } from "@/components/PageHero";
 import type { ReactNode } from "react";
 
 export function LegalPage({
@@ -9,10 +9,13 @@ export function LegalPage({
   children: ReactNode;
 }) {
   return (
-    <article className="mx-auto max-w-3xl px-5 pb-24 pt-28">
-      <LegalStamp />
-      <h1 className="mt-6 font-display text-5xl">{title}</h1>
-      <div className="prose-legal mt-8 space-y-4 text-white/80 leading-relaxed">{children}</div>
+    <article className="pb-24">
+      <PageHero kicker="Juridisch" title={title} image="/images/urus-villa.png" compact />
+      <div className="mx-auto mt-5 max-w-7xl px-5">
+        <div className="prose-legal max-w-3xl space-y-4 text-left text-[0.8rem] leading-normal text-white/80">
+          {children}
+        </div>
+      </div>
     </article>
   );
 }

@@ -1,39 +1,33 @@
 import Link from "next/link";
-import { LegalStamp } from "./LegalStamp";
 
 const steps = [
-  { n: "01", title: "Stort éénmalig €2", icon: "wallet" },
-  { n: "02", title: "U krijgt meteen 5 punten", icon: "star", gated: true },
-  { n: "03", title: "Nodig vrienden of familie uit via uw persoonlijke link", icon: "share", gated: true },
-  { n: "04", title: "Per directe deelnemer ontvangt u 5 punten", icon: "people", gated: true },
-  { n: "05", title: "De door u uitgenodigde deelnemer krijgt 2 extra punten", icon: "gift", gated: true },
-  { n: "06", title: "Elke verdere storting in die lijn levert u 1 extra punt op", icon: "chart", gated: true },
+  { n: "01", title: "Stort €2 — zo vaak u wilt", icon: "wallet" },
+  { n: "02", title: "Elke storting: 5 punten en een extra lotnummer", icon: "star" },
+  { n: "03", title: "Na uw storting delen WhatsApp, Facebook en e-mail uw code mee", icon: "share" },
+  { n: "04", title: "Wie via uw link stort, krijgt zelf 5 punten. U krijgt +2", icon: "people" },
+  { n: "05", title: "Elke extra storting in uw lijn: +1 punt voor u", icon: "chart" },
+  { n: "06", title: "Twee weekends via punten, twee via loting — alleen als het doel gehaald is", icon: "gift" },
 ];
 
-export function HowItWorks({
-  prizePublic,
-  referralPublic,
-}: {
-  prizePublic: boolean;
-  referralPublic: boolean;
-}) {
+export function HowItWorks() {
   return (
-    <section id="hoe" className="relative overflow-hidden py-20 md:py-28">
+    <section id="how-it-works" className="relative z-0 -mt-[70px] overflow-hidden py-20 md:py-28">
+      <span id="hoe" className="absolute top-0" aria-hidden />
       <div className="absolute inset-0">
         <img
-          src="/images/og.png"
-          alt=""
-          className="h-full w-full object-cover opacity-30"
+          src="/images/urus-night.png"
+          alt="Gele Urus bij nacht — sfeerbeeld"
+          className="h-full w-full object-cover object-right"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/92 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/35" />
       </div>
       <div className="relative mx-auto max-w-7xl px-5">
         <p className="font-display text-5xl italic md:text-7xl">
           HOE <span className="text-yellow">WERKT HET?</span>
         </p>
         <p className="mt-4 max-w-xl text-white/70">
-          Eén kleine, vrijwillige bijdrage. Geen abonnement. De punten- en uitnodigingsstappen
-          zijn technisch voorbereid, maar publiek nog niet actief.
+          Eén kleine, vrijwillige bijdrage — of meerdere, als u wilt. Geen abonnement. Na uw
+          eerste €2 sturen de deelknoppen op de site automatisch uw persoonlijke code mee.
         </p>
         <div className="mt-12 grid gap-10 lg:grid-cols-2">
           <div className="space-y-3">
@@ -44,41 +38,28 @@ export function HowItWorks({
               >
                 <span className="font-display text-2xl text-yellow">{s.n}</span>
                 <StepIcon name={s.icon} />
-                <div>
-                  <p className="font-medium">{s.title}</p>
-                  {s.gated && !referralPublic ? (
-                    <p className="text-xs uppercase tracking-widest text-yellow/80">
-                      Onder voorbehoud van juridische goedkeuring
-                    </p>
-                  ) : null}
-                </div>
+                <p className="font-medium">{s.title}</p>
               </div>
             ))}
           </div>
           <div className="flex flex-col gap-4">
             <div className="border border-yellow/60 bg-black/70 p-6">
               <p className="font-display text-2xl text-yellow">UW KANSEN</p>
-              {prizePublic ? (
-                <ul className="mt-3 space-y-2 text-white/80">
-                  <li>1 week rijden via loting, onder de gebruiksvoorwaarden.</li>
-                  <li>1 extra week voor de deelnemer met de meeste punten, indien geactiveerd.</li>
-                </ul>
-              ) : (
-                <p className="mt-3 text-white/70">
-                  Een eventuele winactie (week rijden) is niet publiek actief.
-                  <br />
-                  <span className="text-yellow">Onder voorbehoud van juridische goedkeuring.</span>
-                </p>
-              )}
-              <div className="mt-4">
-                <LegalStamp />
-              </div>
+              <ul className="mt-3 space-y-2 text-white/80">
+                <li>Elke €2: 5 punten, bijgeteld, plus een extra lotnummer.</li>
+                <li>Wie uw persoonlijke link deelde: +2 bij elke storting via die link.</li>
+                <li>Elke volgende storting in die lijn: +1 voor de eerdere doorstuurders.</li>
+                <li>
+                  Als het doel van €400.000 gehaald is: twee weekends voor de hoogste punten,
+                  twee weekends geloot uit de lotinglijst (meer €2 = meer kansen).
+                </li>
+              </ul>
             </div>
             <div className="border border-yellow/60 bg-black/70 p-6">
               <p className="font-display text-2xl text-yellow">TRANSPARANTIE</p>
               <p className="mt-3 text-white/80">
-                Iedereen kan de teller en het opgehaalde bedrag volgen. Puntenstand alleen als
-                dat juridisch is goedgekeurd.
+                Iedereen kan de teller en het opgehaalde bedrag volgen. Uw punten en
+                persoonlijke link staan in uw dashboard.
               </p>
               <Link href="/volg-alles" className="mt-4 inline-block text-sm uppercase tracking-widest text-yellow">
                 Bekijk de live teller →
@@ -87,6 +68,9 @@ export function HowItWorks({
             <p className="text-center text-sm text-white/60">
               <span className="text-yellow">♥</span> Vrijwillige steun van €2 — transparant, eenvoudig en zichtbaar
             </p>
+            <Link href="/meedoen" className="btn-yellow">
+              Ik doe mee voor €2
+            </Link>
           </div>
         </div>
       </div>

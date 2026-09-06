@@ -197,8 +197,8 @@ export async function savePointsConfig(formData: FormData) {
     where: { id: campaign.id },
     data: {
       pointsOwnContribution: Number(formData.get("pointsOwnContribution") || 5),
-      pointsDirectReferral: Number(formData.get("pointsDirectReferral") || 5),
-      pointsReferredBonus: Number(formData.get("pointsReferredBonus") || 2),
+      pointsDirectReferral: Number(formData.get("pointsDirectReferral") || 2),
+      pointsReferredBonus: Number(formData.get("pointsReferredBonus") || 0),
       pointsFurtherLevel: Number(formData.get("pointsFurtherLevel") || 1),
     },
   });
