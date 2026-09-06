@@ -71,8 +71,8 @@ model Campaign {
   pointsDirectReferral    Int       @default(2)
   pointsReferredBonus     Int       @default(0)
   pointsFurtherLevel      Int       @default(1)
-  moneyBreakdownJson      String    @default("[]") @db.Text
-  storyText               String    @default("") @db.Text
+  moneyBreakdownJson      String    @db.Text
+  storyText               String    @db.Text
   organizerName           String    @default("")
   organizerEmail          String    @default("")
   organizerAddress        String    @default("")
@@ -83,7 +83,7 @@ model Campaign {
   purchasePhotoUrl        String?
   purchaseProofUrl        String?
   vehiclePlateMasked      String?
-  checklistJson           String    @default("{}") @db.Text
+  checklistJson           String    @db.Text
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
 
