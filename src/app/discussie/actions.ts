@@ -16,7 +16,7 @@ export async function postComment(formData: FormData) {
   if (name.length < 2 || body.length < 8) {
     throw new Error("Vul een naam en een mening in.");
   }
-  await prisma.comment.create({
+  await prisma.discussionPost.create({
     data: { name, body, ip: ip.slice(0, 64), published: true },
   });
   revalidatePath("/discussie");
@@ -26,7 +26,7 @@ export async function hideComment(formData: FormData) {
   const admin = await getSessionUser("admin");
   if (!admin) throw new Error("Niet ingelogd als admin.");
   const id = String(formData.get("id") || "");
-  await prisma.comment.update({ where: { id }, data: { published: false } });
+  await prisma.discussionPost.update({ where: { id }, data: { published: false } });
   revalidatePath("/discussie");
   revalidatePath("/admin");
 }

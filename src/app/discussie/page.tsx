@@ -5,12 +5,17 @@ import { hideComment, postComment } from "./actions";
 export const dynamic = "force-dynamic";
 
 export default async function DiscussiePage() {
-  const [comments, participant, admin] = await Promise.all([
-    prisma.comment.findMany({
+  let comments: { id: string; name: string; body: string; createdAt: Date }[] = [];
+  try {
+    comments = await prisma.discussionPost.findMany({
       where: { published: true },
       orderBy: { createdAt: "desc" },
       take: 100,
-    }),
+    });
+  } catch {
+    comments = [];
+  }
+  const [participant, admin] = await Promise.all([
     getSessionUser("participant"),
     getSessionUser("admin"),
   ]);

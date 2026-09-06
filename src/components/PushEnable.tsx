@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-function urlBase64ToUint8Array(base64: string) {
-  const padding = "=".repeat((4 - (base64.length % 4)) % 4);
-  const raw = atob((base64 + padding).replace(/-/g, "+").replace(/_/g, "/"));
-  const out = new Uint8Array(raw.length);
-  for (let i = 0; i < raw.length; i += 1) out[i] = raw.charCodeAt(i);
-  return out;
-}
+import { registerPush } from "@/lib/register-push";
 
 export function PushEnable() {
   const [status, setStatus] = useState<"idle" | "on" | "off" | "blocked">("idle");
@@ -23,7 +16,9 @@ export function PushEnable() {
       return;
     }
     if (Notification.permission === "granted") {
-      enable().then(() => setStatus("on")).catch(() => setStatus("on"));
+      registerPush()
+        .then((ok) => setStatus(ok ? "on" : "off"))
+        .catch(() => setStatus("off"));
       return;
     }
     setStatus("off");
@@ -31,39 +26,34 @@ export function PushEnable() {
 
   async function enable() {
     try {
-      await navigator.serviceWorker.register("/sw.js");
       const perm = await Notification.requestPermission();
       if (perm !== "granted") {
         setStatus("blocked");
         return;
       }
-      const res = await fetch("/api/push/vapid");
-      const { key } = await res.json();
-      const reg = await navigator.serviceWorker.ready;
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(key),
-      });
-      await fetch("/api/push/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sub),
-      });
-      setStatus("on");
+      const ok = await registerPush();
+      setStatus(ok ? "on" : "blocked");
     } catch {
       setStatus("blocked");
     }
   }
 
-  if (status === "idle" || status === "on" || status === "blocked") return null;
+  if (status === "idle" || status === "blocked") return null;
+  if (status === "on") {
+    return (
+      <span className="whitespace-nowrap text-xs uppercase tracking-[0.14em] text-white/45">
+        Meldingen aan
+      </span>
+    );
+  }
 
   return (
     <button
       type="button"
       onClick={enable}
-      className="whitespace-nowrap text-xs uppercase tracking-[0.14em] text-white/75 hover:text-yellow"
+      className="whitespace-nowrap text-xs uppercase tracking-[0.14em] text-yellow hover:text-white"
     >
-      Meldingen
+      Zet meldingen aan
     </button>
   );
 }

@@ -295,7 +295,7 @@ model NoticeRead {
   @@id([noticeId, userId])
 }
 
-model Comment {
+model DiscussionPost {
   id        String   @id @default(cuid())
   name      String
   body      String   @db.Text
@@ -304,4 +304,5 @@ model Comment {
   createdAt DateTime @default(now())
 
   @@index([createdAt])
+  @@map("discussion_post")
 }

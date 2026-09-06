@@ -41,8 +41,12 @@ export async function notifyUser(input: {
         url: input.url || "/dashboard",
       },
     });
+    const unread =
+      (await prisma.notice.count({
+        where: { OR: [{ userId: input.userId }, { userId: null }] },
+      })) || 1;
     const devices = await prisma.pushDevice.findMany({ where: { userId: input.userId } });
-    await sendPush(devices, notice.title, notice.body, notice.url, notice.id);
+    await sendPush(devices, notice.title, notice.body, notice.url, notice.id, unread);
   } catch (err) {
     console.error("notifyUser failed", err);
   }
@@ -58,7 +62,8 @@ export async function notifyEveryone(input: { title: string; body: string; url?:
     },
   });
   const devices = await prisma.pushDevice.findMany();
-  await sendPush(devices, notice.title, notice.body, notice.url, notice.id);
+  const badge = Math.max(1, devices.length ? 1 : 1);
+  await sendPush(devices, notice.title, notice.body, notice.url, notice.id, badge);
   return notice;
 }
 
@@ -68,6 +73,7 @@ async function sendPush(
   body: string,
   url: string | null,
   noticeId: string,
+  badge = 1,
 ) {
   if (!devices.length) return;
   await configuredWebPush();
@@ -76,6 +82,7 @@ async function sendPush(
     body,
     url: url || "/",
     noticeId,
+    badge,
   });
   await Promise.all(
     devices.map(async (device) => {
@@ -86,6 +93,7 @@ async function sendPush(
             keys: { p256dh: device.p256dh, auth: device.auth },
           },
           payload,
+          { TTL: 60 * 60 * 24, urgency: "high" },
         );
       } catch (err) {
         const status = (err as { statusCode?: number }).statusCode;

@@ -79,7 +79,7 @@ export default async function AdminPage() {
       getMollieApiKey(),
       getMollieWebhookUrl(),
       getShareCopy(),
-      prisma.comment.findMany({ orderBy: { createdAt: "desc" }, take: 40 }),
+      prisma.discussionPost.findMany({ orderBy: { createdAt: "desc" }, take: 40 }),
     ]);
 
   const checklist = parseChecklist(campaign.checklistJson);

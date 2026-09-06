@@ -36,9 +36,8 @@ export function ParticipantDashboard({
       {!preview ? (
         <>
           <p className="mt-3 max-w-2xl text-white/75">
-            U blijft ingelogd. Nog eens €2 storten kan met één knop — we vragen uw gegevens niet
-            opnieuw. Elke extra €2 is +5 punten en een extra lotnummer. Klik bovenaan op
-            Meldingen als u berichten op uw gsm wilt.
+            U blijft ingelogd. Nog eens €2 storten kan met één knop. Klik bovenaan op
+            “Zet meldingen aan”. Op iPhone: Deel → Zet op beginscherm, open dat icoon, dan meldingen.
           </p>
           <div className="mt-6">
             <RepeatDonateButton />
