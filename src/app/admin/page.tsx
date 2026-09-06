@@ -28,10 +28,14 @@ import {
   lockAndDraw,
   saveMollie,
   sendBroadcast,
+  saveShareCopy,
 } from "./actions";
 import { getMollieApiKey, getMollieWebhookUrl, isMollieKey } from "@/lib/mollie";
 import { maskSecret } from "@/lib/secret-box";
 import { uniqueVisitorCount } from "@/lib/visitors";
+import { getShareCopy } from "@/lib/share";
+import { SHARE_TEXT, SITE_NAME } from "@/lib/constants";
+import { hideComment } from "@/app/discussie/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +49,7 @@ export default async function AdminPage() {
   today.setHours(0, 0, 0, 0);
   const week = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-  const [todayCount, weekCount, failed, refunds, referrals, fraudOpen, users, payments, faqs, flags, draws, visitors, mollieKey, webhookUrl] =
+  const [todayCount, weekCount, failed, refunds, referrals, fraudOpen, users, payments, faqs, flags, draws, visitors, mollieKey, webhookUrl, shareCopy, comments] =
     await Promise.all([
       prisma.payment.count({ where: { campaignId: campaign.id, status: "paid", paidAt: { gte: today } } }),
       prisma.payment.count({ where: { campaignId: campaign.id, status: "paid", paidAt: { gte: week } } }),
@@ -74,6 +78,8 @@ export default async function AdminPage() {
       uniqueVisitorCount(),
       getMollieApiKey(),
       getMollieWebhookUrl(),
+      getShareCopy(),
+      prisma.comment.findMany({ orderBy: { createdAt: "desc" }, take: 40 }),
     ]);
 
   const checklist = parseChecklist(campaign.checklistJson);
@@ -138,6 +144,22 @@ export default async function AdminPage() {
           <textarea name="body" rows={3} placeholder="Tekst" required />
           <input name="url" defaultValue="/" placeholder="Link, bv. /dashboard" />
           <button className="btn-yellow w-fit">Versturen</button>
+        </form>
+      </section>
+
+      <section className="card-dark p-6 space-y-4">
+        <h2 className="font-display text-3xl">Deeltekst</h2>
+        <p className="text-sm text-muted">
+          Deze tekst gaat mee via WhatsApp, Facebook, e-mail, Instagram, TikTok en Snapchat.
+        </p>
+        <form action={saveShareCopy} className="grid gap-3">
+          <input
+            name="subject"
+            defaultValue={shareCopy.subject}
+            placeholder={`Onderwerp e-mail, bv. ${SITE_NAME}`}
+          />
+          <textarea name="text" rows={5} defaultValue={shareCopy.text || SHARE_TEXT} required />
+          <button className="btn-yellow w-fit">Deeltekst opslaan</button>
         </form>
       </section>
 
@@ -352,6 +374,29 @@ export default async function AdminPage() {
                   Wegcijferen
                 </button>
               </form>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="font-display text-3xl">Discussie</h2>
+        <p className="mt-2 text-sm text-muted">
+          <a href="/discussie" className="text-yellow">Open de pagina</a>
+        </p>
+        <ul className="mt-4 space-y-3">
+          {comments.map((c) => (
+            <li key={c.id} className="card-dark p-4 text-sm">
+              <p className="text-yellow">
+                {c.name} {c.published ? "" : "(verborgen)"}
+              </p>
+              <p className="mt-1 text-white/70">{c.body}</p>
+              {c.published ? (
+                <form action={hideComment} className="mt-2">
+                  <input type="hidden" name="id" value={c.id} />
+                  <button className="text-yellow">Verbergen</button>
+                </form>
+              ) : null}
             </li>
           ))}
         </ul>

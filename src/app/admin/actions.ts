@@ -372,3 +372,17 @@ export async function sendBroadcast(formData: FormData) {
   });
   revalidatePath("/admin");
 }
+
+export async function saveShareCopy(formData: FormData) {
+  const admin = await requireAdmin();
+  const text = String(formData.get("text") || "").trim();
+  const subject = String(formData.get("subject") || "").trim();
+  if (text.length < 10) throw new Error("Deeltekst is te kort.");
+  await setSetting("share_text", text);
+  await setSetting("share_email_subject", subject || "myurusdream.be — €2 voor een droom");
+  await audit({ actorId: admin.id, action: "share.copy", entity: "SiteContent" });
+  revalidatePath("/admin");
+  revalidatePath("/");
+  revalidatePath("/dashboard");
+  revalidatePath("/bedankt");
+}

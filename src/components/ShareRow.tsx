@@ -1,7 +1,7 @@
-import { shareLinks } from "@/lib/share";
-import { CopyButton } from "./CopyButton";
+import { getShareCopy } from "@/lib/share";
+import { ShareButtons } from "./ShareButtons";
 
-export function ShareRow({
+export async function ShareRow({
   referralCode,
   className,
   stacked = false,
@@ -14,23 +14,16 @@ export function ShareRow({
   compact?: boolean;
   copyLabel?: string;
 }) {
-  const links = shareLinks(referralCode);
+  const copy = await getShareCopy();
   return (
-    <div
-      className={`${compact ? "share-row-compact" : ""} flex gap-2 ${
-        stacked ? "flex-col" : "flex-wrap items-center"
-      } ${className ?? (stacked ? "" : "justify-center")}`}
-    >
-      <a className="btn-yellow" href={links.whatsapp} target="_blank" rel="noreferrer">
-        WhatsApp
-      </a>
-      <a className="btn-ghost" href={links.facebook} target="_blank" rel="noreferrer">
-        Facebook
-      </a>
-      <a className="btn-ghost" href={links.email}>
-        E-mail
-      </a>
-      <CopyButton url={links.url} label={copyLabel ?? (referralCode ? "Kopieer mijn link" : "Kopieer campagne")} />
-    </div>
+    <ShareButtons
+      referralCode={referralCode}
+      shareText={copy.text}
+      shareSubject={copy.subject}
+      className={className}
+      stacked={stacked}
+      compact={compact}
+      copyLabel={copyLabel}
+    />
   );
 }

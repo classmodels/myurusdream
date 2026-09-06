@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/koop-pixels",
     "/pixels",
     "/volg-alles",
+    "/discussie",
     "/faq",
     "/voorwaarden",
     "/campagnevoorwaarden",

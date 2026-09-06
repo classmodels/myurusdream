@@ -15,8 +15,10 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     { href: "/sponsors", label: "Sponsors" },
     { href: "/pixels", label: "Pixelwall" },
     { href: "/volg-alles", label: "Volg alles" },
+    { href: "/discussie", label: "Discussie" },
     { href: "/faq", label: "FAQ" },
     { href: loggedIn ? "/dashboard" : "/inloggen", label: loggedIn ? "Dashboard" : "Inloggen" },
+    { href: "/admin", label: "Admin" },
   ];
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             {SITE_NAME}
           </span>
         </Link>
-        <nav className="hidden items-center gap-5 xl:flex">
+        <nav className="hidden items-center gap-4 xl:flex">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -62,16 +64,17 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
           </Link>
         </nav>
         <button
+          type="button"
           className="btn-ghost px-3 py-2 text-xs xl:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label="Menu"
         >
-          Menu
+          {open ? "Sluiten" : "Menu"}
         </button>
       </div>
       {open ? (
-        <div className="border-t border-white/10 bg-black/95 px-5 py-4 xl:hidden">
+        <div className="absolute inset-x-0 top-full z-[80] border-t border-white/10 bg-black px-5 py-5 xl:hidden">
           <div className="flex flex-col gap-4">
             {links.map((l) => (
               <Link

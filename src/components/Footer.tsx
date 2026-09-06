@@ -8,6 +8,7 @@ const explore = [
   ["/pixels", "Pixelwall"],
   ["/#how-it-works", "Hoe het werkt"],
   ["/volg-alles", "Volg alles"],
+  ["/discussie", "Discussie"],
   ["/faq", "FAQ"],
   ["/dashboard", "Dashboard"],
 ];

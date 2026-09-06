@@ -294,3 +294,14 @@ model NoticeRead {
 
   @@id([noticeId, userId])
 }
+
+model Comment {
+  id        String   @id @default(cuid())
+  name      String
+  body      String   @db.Text
+  ip        String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
