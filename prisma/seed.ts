@@ -187,10 +187,15 @@ async function main() {
     where: { question: "Wanneer worden de 4 winnaars getrokken?" },
   });
 
-  await seedExampleAds(campaign.id);
-
-  console.log("Seed OK. Admin:", adminEmail);
-  console.log("Voorbeeld-sponsors en pixels gezet. Counter telt echte (lokale) demo-stortingen mee.");
+  if (process.env.SEED_EXAMPLE_ADS === "true") {
+    await seedExampleAds(campaign.id);
+    console.log("Seed OK. Admin:", adminEmail);
+    console.log("Voorbeeld-sponsors en pixels gezet (SEED_EXAMPLE_ADS=true).");
+  } else {
+    await removeExampleAds(campaign.id);
+    console.log("Seed OK. Admin:", adminEmail);
+    console.log("Geen voorbeeld-stortingen. Teller start op echte betalingen.");
+  }
 }
 
 function slugName(name: string) {
@@ -198,6 +203,24 @@ function slugName(name: string) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+}
+
+async function removeExampleAds(campaignId: string) {
+  await prisma.payment.deleteMany({
+    where: {
+      campaignId,
+      user: {
+        email: { endsWith: "@myurusdream.local" },
+        role: { not: "admin" },
+      },
+    },
+  });
+  await prisma.user.deleteMany({
+    where: {
+      email: { endsWith: "@myurusdream.local" },
+      role: { not: "admin" },
+    },
+  });
 }
 
 async function seedExampleAds(campaignId: string) {
