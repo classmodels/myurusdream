@@ -58,8 +58,12 @@ export function PushEnable() {
   if (status === "idle" || status === "on" || status === "blocked") return null;
 
   return (
-    <button type="button" onClick={enable} className="btn-ghost text-xs px-3 py-2">
-      Berichten op gsm
+    <button
+      type="button"
+      onClick={enable}
+      className="whitespace-nowrap text-xs uppercase tracking-[0.14em] text-white/75 hover:text-yellow"
+    >
+      Meldingen
     </button>
   );
 }

@@ -216,6 +216,24 @@ section[id],
   background: rgba(255, 209, 0, 0.1);
 }
 
+.header-cta {
+  background: #ffd100;
+  color: #111;
+  font-family: var(--font-oswald), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 0.7rem;
+  padding: 0.35rem 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.header-cta:hover {
+  background: #ffe14a;
+}
+
 .share-row-compact .btn-yellow,
 .share-row-compact .btn-ghost {
   height: 1.85rem;

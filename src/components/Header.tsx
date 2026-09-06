@@ -28,13 +28,16 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const linkClass =
+    "whitespace-nowrap text-xs uppercase tracking-[0.14em] text-white/75 hover:text-yellow";
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors ${
         scrolled ? "bg-black/85 backdrop-blur-md border-b border-white/10" : "bg-black/25 backdrop-blur-[2px]"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3">
         <Link href="/" className="flex min-w-0 items-center gap-1">
           <span className="relative h-9 w-8 shrink-0 overflow-hidden">
             <img
@@ -49,32 +52,30 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
         </Link>
         <nav className="hidden items-center gap-4 xl:flex">
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="whitespace-nowrap text-xs uppercase tracking-[0.14em] text-white/75 hover:text-yellow"
-            >
+            <Link key={l.href} href={l.href} className={linkClass}>
               {l.label}
             </Link>
           ))}
           <NotificationBell loggedIn={loggedIn} />
           <PushEnable />
-          <Link href="/meedoen" className="btn-yellow text-sm px-4 py-2">
+          <Link href="/meedoen" className="header-cta">
             {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
           </Link>
         </nav>
-        <button
-          type="button"
-          className="btn-ghost px-3 py-2 text-xs xl:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="Menu"
-        >
-          {open ? "Sluiten" : "Menu"}
-        </button>
+        <div className="xl:hidden">
+          <button
+            type="button"
+            className={linkClass}
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label="Menu"
+          >
+            {open ? "Sluiten" : "Menu"}
+          </button>
+        </div>
       </div>
       {open ? (
-        <div className="absolute inset-x-0 top-full z-[80] border-t border-white/10 bg-black px-5 py-5 xl:hidden">
+        <div className="border-t border-white/10 bg-black px-5 py-5 xl:hidden">
           <div className="flex flex-col gap-4">
             {links.map((l) => (
               <Link
@@ -88,7 +89,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             ))}
             <NotificationBell loggedIn={loggedIn} />
             <PushEnable />
-            <Link href="/meedoen" className="btn-yellow text-sm" onClick={() => setOpen(false)}>
+            <Link href="/meedoen" className="header-cta w-fit" onClick={() => setOpen(false)}>
               {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
             </Link>
           </div>
