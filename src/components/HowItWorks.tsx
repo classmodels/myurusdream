@@ -15,7 +15,7 @@ export function HowItWorks() {
       <span id="hoe" className="absolute top-0" aria-hidden />
       <div className="absolute inset-0">
         <img
-          src="/images/urus-night.png"
+          src="/images/urus-night.png?v=20260908a"
           alt="Urus bij nacht — sfeerbeeld"
           className="h-full w-full object-cover object-right"
         />

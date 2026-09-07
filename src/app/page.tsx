@@ -45,7 +45,7 @@ export default async function HomePage() {
       <section className="relative w-full overflow-hidden pt-[4.75rem]">
         <div className="relative mb-[30px]">
           <img
-            src="/5.png?v=20260907c"
+            src="/5.png?v=20260908a"
             alt="Lamborghini Urus in champagne — sfeerbeeld van de droom, geen partnership"
             className="block h-auto w-full"
           />
@@ -124,7 +124,7 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-black">
         <div className="relative aspect-cinema w-full">
           <img
-            src="/images/urus-villa.png"
+            src="/images/urus-villa.png?v=20260908a"
             alt="Urus in champagne op een donker terras bij schemer — sfeerbeeld"
             className="h-full w-full object-cover object-[78%_center] md:object-center"
           />
@@ -153,7 +153,7 @@ export default async function HomePage() {
 
       <section id="verhaal" className="relative overflow-hidden bg-black pt-20 pb-8 md:pt-28 md:pb-10">
         <img
-          src="/images/urus-dusk.png"
+          src="/images/urus-dusk.png?v=20260908a"
           alt=""
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
@@ -169,7 +169,7 @@ export default async function HomePage() {
             <Reveal>
               <div className="aspect-cinema overflow-hidden border border-white/10">
                 <img
-                  src="/images/urus-detail.png"
+                  src="/images/urus-detail.png?v=20260908a"
                   alt="Detail van de Urus"
                   className="h-full w-full object-cover"
                 />
@@ -247,7 +247,7 @@ export default async function HomePage() {
       </section>
 
       <section className="relative overflow-hidden border-y border-white/10 py-20">
-        <img src="/images/urus-night.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/urus-night.png?v=20260908a" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-black/75" />
         <div className="relative mx-auto max-w-7xl px-5 text-center">
           <p className="font-script text-3xl">Samen naar de droom</p>
@@ -271,7 +271,7 @@ export default async function HomePage() {
       </section>
 
       <section className="relative overflow-hidden pt-10 pb-24 md:pt-12">
-        <img src="/images/urus-hero.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/urus-hero.png?v=20260908a" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative mx-auto max-w-7xl px-5 text-left">
           <div>
@@ -328,7 +328,7 @@ export default async function HomePage() {
 
       <section className="relative overflow-hidden bg-surface py-20">
         <img
-          src="/images/urus-terrace.png"
+          src="/images/urus-terrace.png?v=20260908a"
           alt=""
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
@@ -363,7 +363,7 @@ export default async function HomePage() {
         embedded
         kicker="Zelfstandigen & kleine merken"
         title="De Pixelwall. Uw reclame, vak voor vak."
-        image="/images/urus-night.png"
+        image="/images/urus-night.png?v=20260908a"
         titleClassName="whitespace-nowrap text-[clamp(0.72rem,2.1vw+0.45rem,3.25rem)]"
         contentClassName="mt-8 max-w-5xl"
       >
