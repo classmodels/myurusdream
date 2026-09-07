@@ -4,6 +4,10 @@ import { getSetting, setSetting } from "@/lib/settings";
 import { campaignHtml, type MailVars } from "@/lib/mail-template";
 import { siteUrl } from "@/lib/mollie";
 
+const BREVO_HOST = "smtp-relay.brevo.com";
+const BREVO_USER = "b6d3b2001@smtp-brevo.com";
+const BREVO_FROM = "myurusdream.be <info@myurusdream.be>";
+
 export type SmtpConfig = {
   host: string;
   port: number;
@@ -24,14 +28,14 @@ export async function getSmtpConfig(): Promise<SmtpConfig> {
     }
   }
   return {
-    host: (await getSetting("smtp_host"))?.trim() || process.env.SMTP_HOST?.trim() || "smtp-relay.brevo.com",
+    host: (await getSetting("smtp_host"))?.trim() || process.env.SMTP_HOST?.trim() || BREVO_HOST,
     port: Number((await getSetting("smtp_port"))?.trim() || process.env.SMTP_PORT || 587) || 587,
-    user: (await getSetting("smtp_user"))?.trim() || process.env.SMTP_USER?.trim() || "",
+    user: (await getSetting("smtp_user"))?.trim() || process.env.SMTP_USER?.trim() || BREVO_USER,
     pass,
     from:
       (await getSetting("smtp_from"))?.trim() ||
       process.env.SMTP_FROM?.trim() ||
-      "myurusdream.be <info@myurusdream.be>",
+      BREVO_FROM,
   };
 }
 
@@ -42,10 +46,10 @@ export async function saveSmtpConfig(input: {
   pass: string;
   from: string;
 }) {
-  await setSetting("smtp_host", input.host.trim() || "smtp-relay.brevo.com");
+  await setSetting("smtp_host", input.host.trim() || BREVO_HOST);
   await setSetting("smtp_port", String(Number(input.port) || 587));
-  await setSetting("smtp_user", input.user.trim());
-  await setSetting("smtp_from", input.from.trim() || "myurusdream.be <info@myurusdream.be>");
+  await setSetting("smtp_user", input.user.trim() || BREVO_USER);
+  await setSetting("smtp_from", input.from.trim() || BREVO_FROM);
   if (input.pass.trim()) {
     await setSetting("smtp_pass", encryptSecret(input.pass.trim()));
   }

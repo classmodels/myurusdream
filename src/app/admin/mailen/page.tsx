@@ -55,7 +55,7 @@ export default async function AdminMailenPage() {
           </label>
           <label className="grid gap-1">
             Gebruikersnaam
-            <input name="user" defaultValue={smtp.user} placeholder="b6d3b2001@smtp-brevo.com" />
+            <input name="user" defaultValue={smtp.user || "b6d3b2001@smtp-brevo.com"} placeholder="b6d3b2001@smtp-brevo.com" />
           </label>
           <label className="grid gap-1">
             Wachtwoord
