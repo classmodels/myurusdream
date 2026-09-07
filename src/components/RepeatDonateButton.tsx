@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { readStoredReferralClient } from "@/lib/referral";
 
 export function RepeatDonateButton({
   className,
@@ -15,7 +16,11 @@ export function RepeatDonateButton({
   async function donate() {
     setBusy(true);
     setStatus(null);
-    const res = await fetch("/api/checkout/repeat", { method: "POST" });
+    const res = await fetch("/api/checkout/repeat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ referralCode: readStoredReferralClient() }),
+    });
     const data = await res.json();
     if (!res.ok) {
       setBusy(false);

@@ -51,13 +51,9 @@ export function looksSuspiciousEmail(email: string) {
 export async function checkSelfReferral(
   referrerId: string,
   email: string,
-  phoneNormalized?: string,
+  _phoneNormalized?: string,
 ) {
   const referrer = await prisma.user.findUnique({ where: { id: referrerId } });
   if (!referrer) return false;
-  if (referrer.email.toLowerCase() === email.toLowerCase()) return true;
-  if (phoneNormalized && referrer.phoneNormalized && referrer.phoneNormalized === phoneNormalized) {
-    return true;
-  }
-  return false;
+  return referrer.email.toLowerCase() === email.toLowerCase();
 }

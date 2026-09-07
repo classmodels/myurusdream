@@ -10,6 +10,7 @@ export async function createContributionPayment(input: {
   amountCents: number;
   ip: string;
   userAgent: string | null;
+  referralCode?: string | null;
 }) {
   const payment = await prisma.payment.create({
     data: {
@@ -20,6 +21,7 @@ export async function createContributionPayment(input: {
       kind: "contribution",
       ipAddress: input.ip,
       userAgent: input.userAgent,
+      referralCode: input.referralCode || null,
     },
   });
 

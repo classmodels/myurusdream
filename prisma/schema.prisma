@@ -122,6 +122,7 @@ model Payment {
   pixelColor  String?
   pixelLabel  String?
   pixelImage  String?   @db.Text
+  referralCode String?
 
   referrals   Referral[]
   refunds     Refund[]

@@ -5,9 +5,10 @@ import { getCampaign } from "@/lib/campaign";
 import { paymentsAllowed } from "@/lib/flags";
 import { generateReferralCode, nextParticipantNumber } from "@/lib/auth";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
-import { checkSelfReferral, flagFraud, looksSuspiciousEmail } from "@/lib/fraud";
+import { flagFraud, looksSuspiciousEmail } from "@/lib/fraud";
 import { LEGAL_DOC_VERSION } from "@/lib/constants";
 import { parseRefCookie } from "@/lib/referral";
+import { attachReferral } from "@/lib/referral-attach";
 import { isLikelyPhone, normalizePhone } from "@/lib/phone";
 import { contributionCheckoutResponse, createContributionPayment } from "@/lib/contribution-checkout";
 
@@ -97,37 +98,12 @@ export async function POST(req: Request) {
   }
 
   if (refCode) {
-    const referrer = await prisma.user.findUnique({ where: { referralCode: refCode } });
-    if (referrer) {
-      const self = await checkSelfReferral(referrer.id, email, phoneNormalized);
-      const already = await prisma.referral.findUnique({ where: { referredUserId: user.id } });
-      const referrerPaid = await prisma.payment.findFirst({
-        where: { userId: referrer.id, status: "paid", kind: "contribution" },
-      });
-      if (self) {
-        await flagFraud({
-          type: "self_referral",
-          details: "Poging tot self-referral bij checkout.",
-          userId: user.id,
-        });
-      } else if (!referrerPaid) {
-        await flagFraud({
-          type: "unpaid_referrer",
-          details: "Link van iemand zonder bevestigde €2 genegeerd.",
-          userId: user.id,
-        });
-      } else if (!already) {
-        await prisma.referral.create({
-          data: {
-            referrerId: referrer.id,
-            referredUserId: user.id,
-            referralCode: refCode,
-            source: "checkout",
-            fraudStatus: "clean",
-          },
-        });
-      }
-    }
+    await attachReferral({
+      userId: user.id,
+      email,
+      phoneNormalized,
+      refCode,
+    });
   }
 
   const alreadyLegal = await prisma.legalAcceptance.findFirst({
@@ -152,6 +128,7 @@ export async function POST(req: Request) {
     amountCents: campaign.contributionCents,
     ip,
     userAgent: req.headers.get("user-agent")?.slice(0, 300) || null,
+    referralCode: refCode || null,
   });
 
   return contributionCheckoutResponse(payment);

@@ -5,6 +5,7 @@ import { getCampaign } from "@/lib/campaign";
 import { paymentsAllowed } from "@/lib/flags";
 import { mollieConfigured } from "@/lib/mollie";
 import { REF_COOKIE, normalizeReferralCode } from "@/lib/referral";
+import { attachReferral } from "@/lib/referral-attach";
 import { RepeatDonateButton } from "@/components/RepeatDonateButton";
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -17,6 +18,14 @@ export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
   const campaign = await getCampaign();
   const gate = paymentsAllowed(campaign);
   const participant = await getSessionUser("participant");
+  if (participant && ref) {
+    await attachReferral({
+      userId: participant.id,
+      email: participant.email,
+      phoneNormalized: participant.phoneNormalized,
+      refCode: ref,
+    });
+  }
   const paidCount = participant
     ? await prisma.payment.count({
         where: { userId: participant.id, status: "paid", kind: "contribution" },

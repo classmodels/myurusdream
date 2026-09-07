@@ -7,63 +7,12 @@ import { audit } from "./audit";
 import { isRoutablePublicIp } from "./phone";
 import { notifyUser } from "./notify";
 import { POINTS } from "./constants";
+import { computeShareAwards, isSelfReferral } from "./referral-rules";
+import { attachReferral, loadShareLineage } from "./referral-attach";
 
 function samePublicIp(a: string | null | undefined, b: string | null | undefined) {
   if (!a || !b || a !== b) return false;
   return isRoutablePublicIp(a);
-}
-
-async function awardLineagePoints(input: {
-  paidUserId: string;
-  directReferrerId: string;
-  paymentId: string;
-  amount: number;
-  payerIp: string | null;
-}) {
-  const visited = new Set<string>([input.paidUserId, input.directReferrerId]);
-  let currentId = input.directReferrerId;
-  while (true) {
-    const parent = await prisma.referral.findUnique({
-      where: { referredUserId: currentId },
-    });
-    if (!parent?.verifiedPayment) break;
-    if (visited.has(parent.referrerId)) break;
-    visited.add(parent.referrerId);
-
-    const ancestorPaid = await prisma.payment.findFirst({
-      where: { userId: parent.referrerId, status: "paid", kind: "contribution" },
-      orderBy: { paidAt: "desc" },
-    });
-    if (!ancestorPaid) break;
-
-    if (samePublicIp(input.payerIp, ancestorPaid.ipAddress)) {
-      await flagFraud({
-        type: "same_ip_lineage",
-        details: "Zelfde publiek IP als een eerdere schakel — punten blijven wel tellen.",
-        userId: parent.referrerId,
-        paymentId: input.paymentId,
-        referralId: parent.id,
-      });
-    }
-
-    await prisma.pointsTransaction.create({
-      data: {
-        userId: parent.referrerId,
-        amount: input.amount,
-        reason: "Verdere storting in uw lijn",
-        source: "further_level",
-        paymentId: input.paymentId,
-        referralId: parent.id,
-      },
-    });
-    await notifyUser({
-      userId: parent.referrerId,
-      title: "Nieuwe punten",
-      body: `+${input.amount} punten: iemand in uw lijn heeft gestort.`,
-      url: "/dashboard",
-    });
-    currentId = parent.referrerId;
-  }
 }
 
 export async function fulfillPaidPayment(paymentId: string) {
@@ -118,18 +67,27 @@ export async function fulfillPaidPayment(paymentId: string) {
     });
   }
 
-  const referral = await prisma.referral.findUnique({
+  let referral = await prisma.referral.findUnique({
     where: { referredUserId: paid.userId },
   });
+  if (isContribution && !referral && paid.referralCode) {
+    await attachReferral({
+      userId: paid.userId,
+      email: paid.user.email,
+      phoneNormalized: paid.user.phoneNormalized,
+      refCode: paid.referralCode,
+    });
+    referral = await prisma.referral.findUnique({
+      where: { referredUserId: paid.userId },
+    });
+  }
   if (isContribution && referral && referral.fraudStatus !== "blocked") {
     const referrerPaid = await prisma.payment.findFirst({
       where: { userId: referral.referrerId, status: "paid", kind: "contribution" },
       orderBy: { paidAt: "desc" },
     });
     const referrer = await prisma.user.findUnique({ where: { id: referral.referrerId } });
-    const self =
-      referral.referrerId === paid.userId ||
-      referrer?.email.toLowerCase() === paid.user.email.toLowerCase();
+    const self = isSelfReferral(referrer || { id: "", email: "" }, paid.user);
 
     if (self || !referrerPaid) {
       if (!referral.verifiedPayment) {
@@ -157,48 +115,53 @@ export async function fulfillPaidPayment(paymentId: string) {
           referralId: referral.id,
         });
       }
-      const points = paid.campaign.pointsDirectReferral || POINTS.directSharer;
-      const alreadyDirect = await prisma.pointsTransaction.findFirst({
-        where: { paymentId: paid.id, source: "direct_referral" },
+      const lineage = await loadShareLineage(referral.referrerId, paid.userId);
+      const awards = computeShareAwards({
+        payerId: paid.userId,
+        directReferrerId: referral.referrerId,
+        referrerPaid: true,
+        self: false,
+        blocked: false,
+        lineage,
+        directPoints: paid.campaign.pointsDirectReferral || POINTS.directSharer,
+        furtherPoints: paid.campaign.pointsFurtherLevel || POINTS.furtherLine,
+        multiLevel: multiLevelEnabled(paid.campaign),
       });
-      if (!alreadyDirect) {
-        await prisma.referral.update({
-          where: { id: referral.id },
-          data: {
-            verifiedPayment: true,
-            paymentId: paid.id,
-            pointsAwarded: { increment: points },
-            fraudStatus: "clean",
-          },
+      for (const award of awards) {
+        const source = award.source;
+        const already = await prisma.pointsTransaction.findFirst({
+          where: { paymentId: paid.id, userId: award.userId, source },
         });
+        if (already) continue;
+        if (source === "direct_referral") {
+          await prisma.referral.update({
+            where: { id: referral.id },
+            data: {
+              verifiedPayment: true,
+              paymentId: paid.id,
+              pointsAwarded: { increment: award.amount },
+              fraudStatus: "clean",
+            },
+          });
+        }
         await prisma.pointsTransaction.create({
           data: {
-            userId: referral.referrerId,
-            amount: points,
-            reason: "Iemand stortte via uw persoonlijke link",
-            source: "direct_referral",
+            userId: award.userId,
+            amount: award.amount,
+            reason:
+              source === "direct_referral"
+                ? "Iemand stortte via uw persoonlijke link"
+                : "Verdere storting in uw lijn",
+            source,
             paymentId: paid.id,
-            referralId: referral.id,
+            referralId: source === "direct_referral" ? referral.id : undefined,
           },
         });
         await notifyUser({
-          userId: referral.referrerId,
-          title: "Iemand stortte via uw link",
-          body: `+${points} punten. Open uw dashboard voor de details.`,
+          userId: award.userId,
+          title: source === "direct_referral" ? "Iemand stortte via uw link" : "Nieuwe punten",
+          body: `+${award.amount} punten. Open uw dashboard voor de details.`,
           url: "/dashboard",
-        });
-      }
-      const further = paid.campaign.pointsFurtherLevel || POINTS.furtherLine;
-      const alreadyFurther = await prisma.pointsTransaction.findFirst({
-        where: { paymentId: paid.id, source: "further_level" },
-      });
-      if (!alreadyFurther && multiLevelEnabled(paid.campaign) && further > 0) {
-        await awardLineagePoints({
-          paidUserId: paid.userId,
-          directReferrerId: referral.referrerId,
-          paymentId: paid.id,
-          amount: further,
-          payerIp: paid.ipAddress,
         });
       }
     }

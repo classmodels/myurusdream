@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { LegalChecks } from "@/app/sponsors/SponsorForm";
-import { REF_COOKIE } from "@/lib/referral";
+import { persistReferralClient, readStoredReferralClient } from "@/lib/referral";
 
 type Props = {
   blockedReason: string | null;
@@ -19,16 +19,12 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
 
   useEffect(() => {
     if (referralCode) {
+      persistReferralClient(referralCode);
       setRefCode(referralCode);
       return;
     }
-    const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${REF_COOKIE}=([^;]+)`));
-    if (!match) return;
-    try {
-      setRefCode(decodeURIComponent(match[1]).trim().slice(0, 32));
-    } catch {
-      /* ignore */
-    }
+    const stored = readStoredReferralClient();
+    if (stored) setRefCode(stored);
   }, [referralCode]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {

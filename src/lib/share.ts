@@ -11,7 +11,9 @@ export async function getShareCopy() {
 
 export function shareUrl(referralCode?: string | null) {
   const base = `${publicSiteUrl()}/meedoen`;
-  return referralCode ? `${base}/${encodeURIComponent(referralCode)}` : base;
+  if (!referralCode) return base;
+  const code = encodeURIComponent(referralCode);
+  return `${base}/${code}?ref=${code}`;
 }
 
 export function prettyShareUrl(referralCode?: string | null) {

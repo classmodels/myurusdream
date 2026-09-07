@@ -4,10 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SITE_NAME } from "@/lib/constants";
 import { NotificationBell } from "@/components/NotificationBell";
+import { persistReferralClient, readStoredReferralClient, referralFromPathname } from "@/lib/referral";
 
 export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [meedoenHref, setMeedoenHref] = useState("/meedoen");
   const links = [
     { href: "/#teller", label: "Teller" },
     { href: "/#verhaal", label: "Verhaal" },
@@ -25,6 +27,13 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+    const fromPath = referralFromPathname(window.location.pathname);
+    const fromQuery = new URLSearchParams(window.location.search).get("ref");
+    const stored = fromPath || fromQuery || readStoredReferralClient();
+    if (stored) {
+      persistReferralClient(stored);
+      setMeedoenHref(`/meedoen/${encodeURIComponent(stored)}`);
+    }
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -57,7 +66,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             </Link>
           ))}
           <NotificationBell loggedIn={loggedIn} />
-          <Link href="/meedoen" className="header-cta">
+          <Link href={meedoenHref} className="header-cta">
             {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
           </Link>
         </nav>
@@ -87,7 +96,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
               </Link>
             ))}
             <NotificationBell loggedIn={loggedIn} />
-            <Link href="/meedoen" className="header-cta w-fit" onClick={() => setOpen(false)}>
+            <Link href={meedoenHref} className="header-cta w-fit" onClick={() => setOpen(false)}>
               {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
             </Link>
           </div>

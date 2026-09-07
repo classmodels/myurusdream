@@ -3,6 +3,8 @@ import { getCampaign } from "@/lib/campaign";
 import { paymentsAllowed } from "@/lib/flags";
 import { getSessionUser } from "@/lib/auth";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { parseRefCookie } from "@/lib/referral";
+import { attachReferral } from "@/lib/referral-attach";
 import { contributionCheckoutResponse, createContributionPayment } from "@/lib/contribution-checkout";
 
 export async function POST(req: Request) {
@@ -23,12 +25,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: gate.reason }, { status: 403 });
   }
 
+  const body = await req.json().catch(() => ({} as { referralCode?: string }));
+  const refCode =
+    String(body.referralCode || "").trim() || parseRefCookie(req.headers.get("cookie"));
+  if (refCode) {
+    await attachReferral({
+      userId: user.id,
+      email: user.email,
+      phoneNormalized: user.phoneNormalized,
+      refCode,
+    });
+  }
+
   const payment = await createContributionPayment({
     userId: user.id,
     campaignId: campaign.id,
     amountCents: campaign.contributionCents,
     ip,
     userAgent: req.headers.get("user-agent")?.slice(0, 300) || null,
+    referralCode: refCode || null,
   });
 
   return contributionCheckoutResponse(payment);
