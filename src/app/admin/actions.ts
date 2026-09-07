@@ -497,7 +497,9 @@ export async function saveSmtp(formData: FormData) {
   revalidateAdmin();
 }
 
-export async function sendTestMail(_prev: { ok?: string; error?: string }, formData: FormData) {
+export type TestMailState = { ok?: string; error?: string };
+
+export async function sendTestMail(_prev: TestMailState, formData: FormData): Promise<TestMailState> {
   try {
     const admin = await requireAdmin();
     const to = String(formData.get("to") || "").trim();

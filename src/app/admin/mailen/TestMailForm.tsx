@@ -1,10 +1,10 @@
 "use client";
 
 import { useActionState } from "react";
-import { sendTestMail } from "../actions";
+import { sendTestMail, type TestMailState } from "../actions";
 
 export function TestMailForm() {
-  const [state, action, pending] = useActionState(sendTestMail, {});
+  const [state, action, pending] = useActionState<TestMailState, FormData>(sendTestMail, {});
 
   return (
     <form action={action} className="grid gap-2">

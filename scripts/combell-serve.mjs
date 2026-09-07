@@ -50,7 +50,11 @@ await run(tsxCmd, tsxCmdArgs);
 
 if (existsSync("scripts/launch-cleanup.mjs")) {
   console.log("Running one-shot launch cleanup…");
-  await run("node", ["scripts/launch-cleanup.mjs"]);
+  try {
+    await run("node", ["scripts/launch-cleanup.mjs"]);
+  } catch (error) {
+    console.error("launch cleanup failed (continuing serve):", error);
+  }
 }
 
 const nextBin = existsSync("node_modules/next/dist/bin/next")
