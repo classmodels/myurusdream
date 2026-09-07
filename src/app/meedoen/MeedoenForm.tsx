@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { LegalChecks } from "@/app/sponsors/SponsorForm";
+import { REF_COOKIE } from "@/lib/referral";
 
 type Props = {
   blockedReason: string | null;
@@ -14,6 +15,21 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [simulateId, setSimulateId] = useState<string | null>(null);
+  const [refCode, setRefCode] = useState(referralCode || "");
+
+  useEffect(() => {
+    if (referralCode) {
+      setRefCode(referralCode);
+      return;
+    }
+    const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${REF_COOKIE}=([^;]+)`));
+    if (!match) return;
+    try {
+      setRefCode(decodeURIComponent(match[1]).trim().slice(0, 32));
+    } catch {
+      /* ignore */
+    }
+  }, [referralCode]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,7 +44,7 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
       acceptTerms: form.get("acceptLegal") === "on",
       acceptPrivacy: form.get("acceptLegal") === "on",
       acceptCampaign: form.get("acceptLegal") === "on",
-      referralCode: String(form.get("referralCode") || ""),
+      referralCode: String(form.get("referralCode") || refCode || ""),
     };
     const res = await fetch("/api/checkout", {
       method: "POST",
@@ -114,8 +130,8 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
           />
         </div>
       </div>
-      <input type="hidden" name="referralCode" value={referralCode || ""} />
-      {referralCode ? (
+      <input type="hidden" name="referralCode" value={refCode} />
+      {refCode ? (
         <p className="border border-yellow/35 bg-yellow/5 p-2.5 text-[0.7rem] leading-snug text-white/75">
           U bent uitgenodigd via iemands persoonlijke link. Bij een bevestigde €2 krijgt u 5
           punten — niet meer, niet minder. Wie u uitnodigde krijgt +2.

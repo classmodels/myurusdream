@@ -9,7 +9,7 @@ import { PushAsk } from "@/components/PushAsk";
 import { SITE_NAME, LAMBORGHINI_DISCLAIMER } from "@/lib/constants";
 import { siteUrl } from "@/lib/mollie";
 import { getSessionUser } from "@/lib/auth";
-import { socialShareMetadata } from "@/lib/share-meta";
+import { campaignShareMetadata } from "@/lib/share-meta";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -25,14 +25,13 @@ const outfit = Outfit({
 
 export async function generateMetadata(): Promise<Metadata> {
   const url = siteUrl();
-  const social = await socialShareMetadata(url);
   return {
     metadataBase: new URL(url),
     title: {
       default: `${SITE_NAME} | €2 voor een droom`,
       template: `%s | ${SITE_NAME}`,
     },
-    ...social,
+    ...campaignShareMetadata(url),
     robots: { index: true, follow: true },
     manifest: "/manifest.json",
     appleWebApp: {

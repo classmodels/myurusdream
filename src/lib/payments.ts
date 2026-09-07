@@ -39,13 +39,11 @@ async function awardLineagePoints(input: {
     if (samePublicIp(input.payerIp, ancestorPaid.ipAddress)) {
       await flagFraud({
         type: "same_ip_lineage",
-        details: "Geen lijn-punt: zelfde publiek IP als een eerdere schakel.",
+        details: "Zelfde publiek IP als een eerdere schakel — punten blijven wel tellen.",
         userId: parent.referrerId,
         paymentId: input.paymentId,
         referralId: parent.id,
       });
-      currentId = parent.referrerId;
-      continue;
     }
 
     await prisma.pointsTransaction.create({
@@ -149,15 +147,16 @@ export async function fulfillPaidPayment(paymentId: string) {
         paymentId: paid.id,
         referralId: referral.id,
       });
-    } else if (samePublicIp(paid.ipAddress, referrerPaid.ipAddress)) {
-      await flagFraud({
-        type: "same_ip_referral",
-        details: "Geen verwijzingspunten: storting vanaf hetzelfde publieke IP als de doorstuurder.",
-        userId: paid.userId,
-        paymentId: paid.id,
-        referralId: referral.id,
-      });
     } else {
+      if (samePublicIp(paid.ipAddress, referrerPaid.ipAddress)) {
+        await flagFraud({
+          type: "same_ip_referral",
+          details: "Storting vanaf hetzelfde publieke IP als de doorstuurder — punten blijven wel tellen.",
+          userId: paid.userId,
+          paymentId: paid.id,
+          referralId: referral.id,
+        });
+      }
       const points = paid.campaign.pointsDirectReferral || POINTS.directSharer;
       const alreadyDirect = await prisma.pointsTransaction.findFirst({
         where: { paymentId: paid.id, source: "direct_referral" },

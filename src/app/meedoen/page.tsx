@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { MeedoenScreen } from "./MeedoenScreen";
 import { shareUrl } from "@/lib/share";
-import { socialShareMetadata } from "@/lib/share-meta";
+import { campaignShareMetadata } from "@/lib/share-meta";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return socialShareMetadata(shareUrl());
+  return campaignShareMetadata(shareUrl());
 }
 
 export default async function MeedoenPage({

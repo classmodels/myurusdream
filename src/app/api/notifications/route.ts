@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/auth";
+import { noticesVisibleToUser } from "@/lib/referral-rules";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +42,7 @@ export async function GET() {
 
   const items = await prisma.notice.findMany({
     where: {
-      OR: [{ userId: user.id }, { userId: null }],
+      ...noticesVisibleToUser(user),
       NOT: { reads: { some: { userId: user.id, hidden: true } } },
     },
     orderBy: { createdAt: "desc" },
@@ -56,7 +57,7 @@ export async function POST() {
   const user = await getSessionUser("participant");
   if (!user) return NextResponse.json({ ok: true });
   const items = await prisma.notice.findMany({
-    where: { OR: [{ userId: user.id }, { userId: null }] },
+    where: noticesVisibleToUser(user),
     select: { id: true },
   });
   await prisma.noticeRead.createMany({

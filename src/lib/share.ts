@@ -9,10 +9,6 @@ export async function getShareCopy() {
   return { text, subject };
 }
 
-export function facebookCardTitle(text: string) {
-  return text.split(/(?<=[.!?])\s+/)[0]?.trim() || text;
-}
-
 export function shareUrl(referralCode?: string | null) {
   const base = `${publicSiteUrl()}/meedoen`;
   return referralCode ? `${base}/${encodeURIComponent(referralCode)}` : base;
@@ -33,7 +29,7 @@ export function shareLinks(
     url,
     text,
     whatsapp: `https://wa.me/?text=${encodeURIComponent(text)}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(copy.text)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
     email: `mailto:?subject=${encodeURIComponent(copy.subject)}&body=${encodeURIComponent(text)}`,
     instagram: "https://www.instagram.com/",
     tiktok: "https://www.tiktok.com/",
