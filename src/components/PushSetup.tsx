@@ -38,18 +38,7 @@ export function PushSetup() {
         setStatus("blocked");
         return;
       }
-      const ok = await registerPush();
-      if (ok) {
-        try {
-          new Notification("Meldingen staan aan", {
-            body: "Dit is hoe een bericht eruitziet.",
-            icon: "/3.png",
-          });
-        } catch {
-          /* ignore */
-        }
-        if (navigator.setAppBadge) navigator.setAppBadge(1).catch(() => undefined);
-      }
+      const ok = await registerPush({ sendTest: true });
       setStatus(ok ? "on" : "fail");
     } catch {
       setStatus("fail");
@@ -79,7 +68,7 @@ export function PushSetup() {
         </>
       ) : null}
       {status === "on" ? (
-        <p className="text-white/80">Meldingen staan aan. U krijgt een testbericht. Kijk op het icoon naar een 1.</p>
+        <p className="text-white/80">Meldingen staan aan.</p>
       ) : null}
       {status === "blocked" ? (
         <p className="text-white/70">Meldingen zijn geblokkeerd in de instellingen van deze telefoon.</p>

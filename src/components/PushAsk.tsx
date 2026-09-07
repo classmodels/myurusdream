@@ -20,7 +20,7 @@ export function PushAsk() {
       const perm = await Notification.requestPermission();
       localStorage.setItem("myurusdream_push_asked", "1");
       if (perm === "granted") {
-        await registerPush();
+        await registerPush({ sendTest: true });
         if (navigator.setAppBadge) navigator.setAppBadge(1).catch(() => undefined);
       }
     } catch {

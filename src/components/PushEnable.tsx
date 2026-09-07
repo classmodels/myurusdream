@@ -31,7 +31,7 @@ export function PushEnable() {
         setStatus("blocked");
         return;
       }
-      const ok = await registerPush();
+      const ok = await registerPush({ sendTest: true });
       setStatus(ok ? "on" : "blocked");
     } catch {
       setStatus("blocked");

@@ -25,7 +25,17 @@ export function isStandaloneApp() {
   );
 }
 
-export async function registerPush() {
+let inflight: Promise<boolean> | null = null;
+
+export async function registerPush(options?: { sendTest?: boolean }) {
+  if (inflight) return inflight;
+  inflight = registerPushOnce(options).finally(() => {
+    inflight = null;
+  });
+  return inflight;
+}
+
+async function registerPushOnce(options?: { sendTest?: boolean }) {
   if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
     return false;
   }
@@ -34,12 +44,13 @@ export async function registerPush() {
   if (Notification.permission !== "granted") return false;
   const res = await fetch("/api/push/vapid");
   const { key } = await res.json();
-  const existing = await reg.pushManager.getSubscription();
-  if (existing) await existing.unsubscribe().catch(() => undefined);
-  const sub = await reg.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(key),
-  });
+  let sub = await reg.pushManager.getSubscription();
+  if (!sub) {
+    sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(key),
+    });
+  }
   const payload = {
     endpoint: sub.endpoint,
     keys: {
@@ -53,13 +64,13 @@ export async function registerPush() {
     body: JSON.stringify(payload),
   });
   if (!saved.ok) return false;
-  await fetch("/api/push/test", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ endpoint: sub.endpoint }),
-  }).catch(() => undefined);
-  if (navigator.setAppBadge) {
-    navigator.setAppBadge(1).catch(() => undefined);
+  if (options?.sendTest && localStorage.getItem("myurusdream_push_tested") !== "1") {
+    localStorage.setItem("myurusdream_push_tested", "1");
+    await fetch("/api/push/test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ endpoint: sub.endpoint }),
+    }).catch(() => undefined);
   }
   return true;
 }
