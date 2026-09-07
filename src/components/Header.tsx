@@ -19,7 +19,6 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     { href: loggedIn ? "/dashboard" : "/inloggen", label: loggedIn ? "Dashboard" : "Inloggen" },
     { href: "/admin", label: "Admin" },
     { href: "/meldingen", label: "Meldingen" },
-    { href: "/meldingen", label: "Meldingen" },
   ];
 
   useEffect(() => {

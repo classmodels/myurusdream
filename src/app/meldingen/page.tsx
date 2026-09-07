@@ -8,8 +8,9 @@ export default function MeldingenPage() {
       <p className="font-display text-sm tracking-[0.3em] text-yellow">Gsm</p>
       <h1 className="mt-3 font-display text-4xl">Meldingen</h1>
       <p className="mt-4 text-white/75">
-        Zet dit aan om een voorvertoning en een cijfer op het icoon te krijgen als iemand stort of u een
-        bericht stuurt.
+        Het icoon op je startscherm is niet genoeg. Tik hieronder op <strong>Zet meldingen aan</strong>.
+        Apple vraagt daarna nog eens of je berichten toestaat. Zonder die twee stappen komen er geen
+        meldingen.
       </p>
       <div className="mt-8">
         <PushSetup />

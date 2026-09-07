@@ -291,6 +291,7 @@ model NoticeRead {
   notice   Notice  @relation(fields: [noticeId], references: [id], onDelete: Cascade)
   user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   readAt   DateTime @default(now())
+  hidden   Boolean @default(false)
 
   @@id([noticeId, userId])
 }

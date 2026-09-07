@@ -77,9 +77,11 @@ export async function sendPush(
 ) {
   if (!devices.length) return;
   await configuredWebPush();
+  const preview =
+    url && url !== "/" ? `${body}\n\nTik hier om de pagina te openen.` : body;
   const payload = JSON.stringify({
     title,
-    body,
+    body: preview,
     url: url || "/",
     noticeId,
     badge,

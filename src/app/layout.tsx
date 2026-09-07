@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { CookieBanner } from "@/components/CookieBanner";
 import { CaptureReferral } from "@/components/CaptureReferral";
 import { TrackVisit } from "@/components/TrackVisit";
+import { PushAsk } from "@/components/PushAsk";
 import { SITE_NAME, TAGLINE, LAMBORGHINI_DISCLAIMER } from "@/lib/constants";
 import { siteUrl } from "@/lib/mollie";
 import { getSessionUser } from "@/lib/auth";
@@ -71,6 +72,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <Header loggedIn={Boolean(participant)} />
         <CaptureReferral />
         <TrackVisit />
+        <PushAsk />
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieBanner />

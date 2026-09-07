@@ -62,7 +62,8 @@ export function PushSetup() {
       {status === "need-app" ? (
         <p className="text-white/80">
           Op iPhone: tik op Delen (vierkant met pijl) → Zet op beginscherm. Open daarna <b>dat icoon</b>, niet
-          Safari. Dan pas kunt u meldingen aanzetten.
+          Safari. Bij de eerste opening vraagt de app of u meldingen wilt. Tik dan Ja — Apple vraagt dat niet
+          automatisch alleen omdat het icoon er staat.
         </p>
       ) : null}
       {status === "off" || status === "fail" ? (
