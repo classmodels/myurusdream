@@ -67,7 +67,7 @@ export async function notifyEveryone(input: { title: string; body: string; url?:
   return notice;
 }
 
-async function sendPush(
+export async function sendPush(
   devices: { id: string; endpoint: string; p256dh: string; auth: string }[],
   title: string,
   body: string,

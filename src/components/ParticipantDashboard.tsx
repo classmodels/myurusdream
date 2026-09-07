@@ -37,7 +37,8 @@ export function ParticipantDashboard({
         <>
           <p className="mt-3 max-w-2xl text-white/75">
             U blijft ingelogd. Nog eens €2 storten kan met één knop. Klik bovenaan op
-            “Zet meldingen aan”. Op iPhone: Deel → Zet op beginscherm, open dat icoon, dan meldingen.
+            “Zet meldingen aan” op de pagina Meldingen. Op iPhone: open het icoon op het
+            beginscherm, ga naar Meldingen, tik op de gele knop.
           </p>
           <div className="mt-6">
             <RepeatDonateButton />

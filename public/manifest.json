@@ -8,6 +8,6 @@
   "lang": "nl-BE",
   "icons": [
     { "src": "/3.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/3.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "/3.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }

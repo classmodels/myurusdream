@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SITE_NAME } from "@/lib/constants";
 import { NotificationBell } from "@/components/NotificationBell";
-import { PushEnable } from "@/components/PushEnable";
 
 export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -19,6 +18,8 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     { href: "/faq", label: "FAQ" },
     { href: loggedIn ? "/dashboard" : "/inloggen", label: loggedIn ? "Dashboard" : "Inloggen" },
     { href: "/admin", label: "Admin" },
+    { href: "/meldingen", label: "Meldingen" },
+    { href: "/meldingen", label: "Meldingen" },
   ];
 
   useEffect(() => {
@@ -57,7 +58,6 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             </Link>
           ))}
           <NotificationBell loggedIn={loggedIn} />
-          <PushEnable />
           <Link href="/meedoen" className="header-cta">
             {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
           </Link>
@@ -88,7 +88,6 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
               </Link>
             ))}
             <NotificationBell loggedIn={loggedIn} />
-            <PushEnable />
             <Link href="/meedoen" className="header-cta w-fit" onClick={() => setOpen(false)}>
               {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
             </Link>

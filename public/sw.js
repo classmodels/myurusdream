@@ -7,35 +7,42 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("push", (event) => {
-  event.waitUntil(handlePush(event));
+  event.waitUntil(showPush(event));
 });
 
-async function handlePush(event) {
-  let data = { title: "myurusdream.be", body: "Nieuw bericht", url: "/", badge: 1 };
+async function showPush(event) {
+  let title = "myurusdream.be";
+  let body = "Nieuw bericht";
+  let url = "/";
+  let badge = 1;
   try {
-    if (event.data) data = { ...data, ...event.data.json() };
+    if (event.data) {
+      const data = event.data.json();
+      title = data.title || title;
+      body = data.body || body;
+      url = data.url || url;
+      badge = Number(data.badge) || 1;
+    }
   } catch {
-    /* keep default */
-  }
-  const existing = await self.registration.getNotifications();
-  const count = Math.max(1, Number(data.badge) || existing.length + 1);
-  if (self.navigator && self.navigator.setAppBadge) {
     try {
-      await self.navigator.setAppBadge(count);
+      body = event.data ? event.data.text() : body;
     } catch {
-      /* ignore */
+      /* keep default */
     }
   }
-  await self.registration.showNotification(data.title || "myurusdream.be", {
-    body: data.body || "Nieuw bericht",
-    icon: "/3.png",
-    badge: "/3.png",
-    image: "/5.png",
-    tag: data.noticeId || "myurusdream-" + Date.now(),
-    renotify: true,
-    vibrate: [120, 80, 120],
-    data: { url: data.url || "/" },
+  const origin = self.location.origin;
+  await self.registration.showNotification(title, {
+    body,
+    icon: origin + "/3.png",
+    data: { url },
   });
+  if (self.navigator && self.navigator.setAppBadge) {
+    try {
+      await self.navigator.setAppBadge(badge);
+    } catch {
+      /* iOS older */
+    }
+  }
 }
 
 self.addEventListener("notificationclick", (event) => {
@@ -44,15 +51,5 @@ self.addEventListener("notificationclick", (event) => {
     self.navigator.clearAppBadge().catch(() => undefined);
   }
   const target = new URL(event.notification.data?.url || "/", self.location.origin).href;
-  event.waitUntil(
-    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
-      for (const client of clients) {
-        if (client.url.startsWith(self.location.origin) && "focus" in client) {
-          client.focus();
-          return client;
-        }
-      }
-      return self.clients.openWindow(target);
-    }),
-  );
+  event.waitUntil(self.clients.openWindow(target));
 });
