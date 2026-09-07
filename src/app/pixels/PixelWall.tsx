@@ -427,7 +427,7 @@ export function PixelWall({
           })}
           <div
             data-pixel-reserve=""
-            className="relative z-20 flex flex-col items-center justify-start bg-black px-2 pb-1 pt-1"
+            className="pixel-wall-reserve relative z-20 flex flex-col items-center justify-center bg-black px-1 py-0.5 md:justify-start md:px-2 md:pb-1 md:pt-1"
             style={{
               gridColumn: `${PIXEL_TITLE_RESERVE.x + 1} / span ${PIXEL_TITLE_RESERVE.w}`,
               gridRow: `${PIXEL_TITLE_RESERVE.y + 1} / span ${PIXEL_TITLE_RESERVE.h}`,
@@ -443,16 +443,11 @@ export function PixelWall({
               </p>
             )}
             {!orderable ? (
-              <Link
-                href={pixelOrderHref()}
-                className="btn-yellow mt-3 hidden shrink-0 !px-8 !py-2 !text-[0.7rem] md:inline-flex"
-              >
+              <Link href={pixelOrderHref()} className="btn-yellow pixel-wall-cta">
                 Koop piksels
               </Link>
             ) : (
-              <span className="btn-yellow mt-3 hidden shrink-0 !px-8 !py-2 !text-[0.7rem] md:inline-flex">
-                Koop piksels
-              </span>
+              <span className="btn-yellow pixel-wall-cta">Koop piksels</span>
             )}
           </div>
           {placeRect ? (

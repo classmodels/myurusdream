@@ -17,6 +17,7 @@ export type LiveCounterStats = {
   pixelCents: number;
   pixelCount: number;
   uniqueVisitors: number;
+  onlineVisitors: number;
 };
 
 export function LiveCounter({
@@ -88,12 +89,9 @@ export function LiveCounter({
           <span>
             Nog nodig <span className="text-yellow">{formatCents(stats.remainingCents)}</span>
           </span>
-          <span>
-            Bezoekers <span className="text-yellow">{stats.uniqueVisitors.toLocaleString("nl-BE")}</span>
-          </span>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
           <Stat label="Totaal van €2" value={formatCents(stats.contributionCents)} />
           <Stat
             label="Deelnemers / doel"
@@ -109,11 +107,7 @@ export function LiveCounter({
             value={formatCents(stats.pixelCents)}
             hint={`${stats.pixelCount.toLocaleString("nl-BE")} storting${stats.pixelCount === 1 ? "" : "en"}`}
           />
-          <Stat
-            label="Bezoekers"
-            value={stats.uniqueVisitors.toLocaleString("nl-BE")}
-            hint="Unieke mensen op de site"
-          />
+          <VisitorStat total={stats.uniqueVisitors} online={stats.onlineVisitors} />
         </div>
 
         <p className="mt-6 text-sm text-muted">
@@ -139,6 +133,7 @@ function statsSafe(s: Partial<LiveCounterStats>): LiveCounterStats {
     pixelCents: s.pixelCents ?? 0,
     pixelCount: s.pixelCount ?? 0,
     uniqueVisitors: s.uniqueVisitors ?? 0,
+    onlineVisitors: s.onlineVisitors ?? 0,
   };
 }
 
@@ -154,10 +149,43 @@ function Stat({
   className?: string;
 }) {
   return (
-    <div className={`card-dark px-4 py-3 ${className ?? ""}`}>
-      <p className="text-[0.65rem] uppercase tracking-[0.2em] text-muted">{label}</p>
-      <p className="mt-1.5 font-display text-xl text-yellow md:text-2xl">{value}</p>
-      {hint ? <p className="mt-1 text-xs text-white/40">{hint}</p> : null}
+    <div className={`card-dark min-w-0 overflow-hidden px-3 py-3 sm:px-4 ${className ?? ""}`}>
+      <p className="text-[clamp(0.52rem,2.6vw,0.65rem)] uppercase leading-tight tracking-[0.12em] text-muted sm:tracking-[0.2em]">
+        {label}
+      </p>
+      <p className="mt-1.5 font-display text-[clamp(1.05rem,4.6vw,1.5rem)] leading-none text-yellow md:text-2xl">
+        {value}
+      </p>
+      {hint ? <p className="mt-1 text-[clamp(0.62rem,2.4vw,0.75rem)] text-white/40">{hint}</p> : null}
+    </div>
+  );
+}
+
+function VisitorStat({ total, online }: { total: number; online: number }) {
+  return (
+    <div className="card-dark col-span-2 min-w-0 overflow-hidden px-3 py-3 sm:px-4 lg:col-span-2">
+      <p className="text-center text-[clamp(0.52rem,2.6vw,0.65rem)] uppercase leading-tight tracking-[0.12em] text-muted sm:tracking-[0.2em]">
+        Bezoekers
+      </p>
+      <div className="mt-1.5 grid grid-cols-2 gap-2 sm:gap-4">
+        <div className="min-w-0 text-left">
+          <p className="text-[clamp(0.5rem,2.4vw,0.62rem)] uppercase leading-tight tracking-[0.1em] text-white/40">
+            Totaal
+          </p>
+          <p className="mt-0.5 font-display text-[clamp(1.15rem,5vw,1.75rem)] leading-none text-yellow">
+            {total.toLocaleString("nl-BE")}
+          </p>
+        </div>
+        <div className="min-w-0 text-right">
+          <p className="inline-flex items-center justify-end gap-1 text-[clamp(0.5rem,2.4vw,0.62rem)] uppercase leading-tight tracking-[0.1em] text-white/40">
+            <span className="online-dot shrink-0" aria-hidden="true" />
+            Nu live
+          </p>
+          <p className="mt-0.5 font-display text-[clamp(1.15rem,5vw,1.75rem)] leading-none text-yellow">
+            {online.toLocaleString("nl-BE")}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     { href: "/volg-alles", label: "Volg alles" },
     { href: "/discussie", label: "Discussie" },
     { href: "/faq", label: "FAQ" },
-    { href: loggedIn ? "/dashboard" : "/inloggen", label: loggedIn ? "Dashboard" : "Inloggen" },
+    { href: "/dashboard", label: "Uw dashboard" },
     { href: "/admin", label: "Admin" },
     { href: "/meldingen", label: "Meldingen" },
   ];

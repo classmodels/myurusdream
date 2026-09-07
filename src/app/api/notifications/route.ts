@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/auth";
 import { noticesVisibleToUser } from "@/lib/referral-rules";
 
 export const dynamic = "force-dynamic";
+
+const GUEST_SINCE_COOKIE = "myurusdream_notice_since";
 
 function payload(
   items: { id: string; title: string; body: string; url: string | null; createdAt: Date; read: boolean }[],
@@ -26,11 +29,31 @@ function payload(
   });
 }
 
+function guestSinceFromCookie(raw: string | undefined): Date | null {
+  if (!raw) return null;
+  const ms = Number(raw);
+  if (!Number.isFinite(ms) || ms <= 0) return null;
+  const parsed = new Date(ms);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
 export async function GET() {
   const user = await getSessionUser("participant");
   if (!user) {
+    const store = await cookies();
+    let since = guestSinceFromCookie(store.get(GUEST_SINCE_COOKIE)?.value);
+    if (!since) {
+      since = new Date();
+      store.set(GUEST_SINCE_COOKIE, String(since.getTime()), {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 400,
+      });
+    }
     const items = await prisma.notice.findMany({
-      where: { userId: null },
+      where: { userId: null, createdAt: { gte: since } },
       orderBy: { createdAt: "desc" },
       take: 40,
     });

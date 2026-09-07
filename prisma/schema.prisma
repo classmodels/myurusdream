@@ -254,9 +254,12 @@ model SiteContent {
 }
 
 model UniqueVisitor {
-  id        String   @id @default(cuid())
-  token     String   @unique @db.VarChar(64)
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  token      String   @unique @db.VarChar(64)
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  @@index([lastSeenAt])
 }
 
 model PushDevice {

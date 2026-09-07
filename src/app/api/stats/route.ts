@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPublicCampaignView } from "@/lib/campaign";
 import { formatCents } from "@/lib/money";
-import { uniqueVisitorCount } from "@/lib/visitors";
+import { uniqueVisitorCount, onlineVisitorCount } from "@/lib/visitors";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +23,7 @@ export async function GET() {
     pixelCents: view.totals.pixelCents,
     pixelCount: view.totals.pixelCount,
     uniqueVisitors: await uniqueVisitorCount(),
+    onlineVisitors: await onlineVisitorCount(),
     liveMode: view.campaign.liveMode,
     status: view.campaign.status,
   });

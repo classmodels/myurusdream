@@ -13,13 +13,13 @@ import { groupSponsors, isExampleSponsor, sponsorSignupHref } from "@/lib/sponso
 import { POINTS_EXPLAIN_SHORT, WINNERS_EXPLAIN } from "@/lib/constants";
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { uniqueVisitorCount } from "@/lib/visitors";
+import { uniqueVisitorCount, onlineVisitorCount } from "@/lib/visitors";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const view = await getPublicCampaignView();
-  const visitors = await uniqueVisitorCount();
+  const [visitors, onlineVisitors] = await Promise.all([uniqueVisitorCount(), onlineVisitorCount()]);
   const story = view.campaign.storyText.split("\n").filter(Boolean);
   const storySplit = story.findIndex((p) => /^of het lukt\?/i.test(p));
   const storyMain = storySplit === -1 ? story : story.slice(0, storySplit);
@@ -104,6 +104,7 @@ export default async function HomePage() {
           pixelCents: view.totals.pixelCents,
           pixelCount: view.totals.pixelCount,
           uniqueVisitors: visitors,
+          onlineVisitors,
         }}
       />
 
@@ -313,7 +314,14 @@ export default async function HomePage() {
 
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-5">
-          <h2 className="font-display text-4xl">Vier weekends. Twee via inspanning, twee via het lot.</h2>
+          <h2 className="font-display text-4xl">U kan gratis met de Urus rijden</h2>
+          <p className="mt-4 font-display text-4xl">
+            <span className="text-yellow">4 weekends</span>
+            <br />
+            <span className="text-yellow">2</span> via inspanning,
+            <br />
+            <span className="text-yellow">2</span> via het lot.
+          </p>
           <p className="mt-4 max-w-3xl text-white/75">{WINNERS_EXPLAIN}</p>
           <p className="mt-3 max-w-3xl text-white/75">{POINTS_EXPLAIN_SHORT}</p>
           {view.prizePublic ? (

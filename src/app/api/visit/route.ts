@@ -18,8 +18,8 @@ export async function POST(req: Request) {
   if (!token || token.length < 16) {
     token = randomBytes(16).toString("hex");
   }
-  const count = await rememberVisitor(token);
-  const res = NextResponse.json({ count });
+  const counts = await rememberVisitor(token);
+  const res = NextResponse.json({ count: counts.total, ...counts });
   res.cookies.set("myurusdream_vid", token, {
     httpOnly: true,
     sameSite: "lax",
