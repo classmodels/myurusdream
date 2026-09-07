@@ -16,7 +16,7 @@ export function HowItWorks() {
       <div className="absolute inset-0">
         <img
           src="/images/urus-night.png"
-          alt="Gele Urus bij nacht — sfeerbeeld"
+          alt="Urus bij nacht — sfeerbeeld"
           className="h-full w-full object-cover object-right"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/35" />

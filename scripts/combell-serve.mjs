@@ -48,6 +48,11 @@ await run(prismaCmd, prismaCmdArgs);
 const [tsxCmd, tsxCmdArgs] = tsxArgs(["prisma/seed.ts"]);
 await run(tsxCmd, tsxCmdArgs);
 
+if (existsSync("scripts/launch-cleanup.mjs")) {
+  console.log("Running one-shot launch cleanup…");
+  await run("node", ["scripts/launch-cleanup.mjs"]);
+}
+
 const nextBin = existsSync("node_modules/next/dist/bin/next")
   ? ["node", ["node_modules/next/dist/bin/next", "start", "--hostname", "0.0.0.0", "--port", process.env.PORT || "3000"]]
   : ["npx", ["next", "start", "--hostname", "0.0.0.0", "--port", process.env.PORT || "3000"]];

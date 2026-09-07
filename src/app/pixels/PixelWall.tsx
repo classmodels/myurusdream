@@ -48,7 +48,7 @@ function PixelAdPeek({
   const title = label.trim() || "Uw titel";
   return (
     <div
-      className={`w-[min(280px,calc(100vw-1.5rem))] border border-yellow bg-black p-3 shadow-[0_0_40px_rgba(255,209,0,0.28)] ${className}`}
+      className={`w-[min(280px,calc(100vw-1.5rem))] border border-yellow bg-black p-3 shadow-[0_0_40px_rgba(212,171,126,0.28)] ${className}`}
       style={style}
     >
       <div className="flex h-36 items-center justify-center bg-[#111]">

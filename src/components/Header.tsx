@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState, type MouseEvent } from "react";
-import { SITE_NAME } from "@/lib/constants";
 import { NotificationBell } from "@/components/NotificationBell";
 import { persistReferralClient, readStoredReferralClient, referralFromPathname } from "@/lib/referral";
 
@@ -67,16 +66,16 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
       }`}
     >
       <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3">
-        <Link href="/" className="relative z-10 flex min-w-0 items-center gap-1">
-          <span className="relative h-9 w-8 shrink-0 overflow-hidden">
-            <img
-              src="/3.png?v=20260828e"
-              alt=""
-              className="absolute left-1/2 top-1/2 h-[102%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
-            />
+        <Link href="/" className="relative z-10 flex min-w-0 flex-col items-center justify-center">
+          <span className="whitespace-nowrap font-display text-lg font-bold tracking-[0.12em] text-white sm:text-xl sm:tracking-[0.14em]">
+            MY <span className="text-yellow">URUS</span> DREAM
           </span>
-          <span className="truncate font-display text-lg tracking-[0.12em] text-yellow sm:text-xl sm:tracking-[0.14em]">
-            {SITE_NAME}
+          <span className="mt-[2px] flex items-center gap-2">
+            <span className="h-px w-3 bg-yellow/70" aria-hidden="true" />
+            <span className="whitespace-nowrap font-display text-[0.5rem] tracking-[0.22em] text-white/80">
+              DRIVE YOUR DREAM
+            </span>
+            <span className="h-px w-3 bg-yellow/70" aria-hidden="true" />
           </span>
         </Link>
         <nav className="pointer-events-none absolute inset-x-5 top-1/2 hidden -translate-y-1/2 xl:flex">

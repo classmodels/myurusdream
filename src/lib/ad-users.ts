@@ -92,7 +92,7 @@ export async function occupiedPixels(campaignId: string): Promise<OccupiedPixel[
         h: p.pixelH as number,
         label: title,
         caption: caption || example?.caption || null,
-        color: p.pixelColor || "#ffd100",
+        color: p.pixelColor || "#d4ab7e",
         url: p.sponsorUrl,
         image: example?.image || p.pixelImage || null,
       };

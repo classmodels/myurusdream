@@ -43,6 +43,12 @@ yarn-error.log*
 /prisma/*.db
 /prisma/*.db-journal
 
+# local mail layout preview (not for deploy)
+/mail-preview
+
+# original (yellow) photos before champagne restyle
+/originals-backup
+
 # vercel
 .vercel
 

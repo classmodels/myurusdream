@@ -10,9 +10,9 @@ import {
   saveSmtp,
   sendBroadcast,
   sendMailCampaign,
-  sendTestMail,
 } from "../actions";
 import { Accordion } from "@/components/Accordion";
+import { TestMailForm } from "./TestMailForm";
 
 export const dynamic = "force-dynamic";
 
@@ -67,13 +67,7 @@ export default async function AdminMailenPage() {
           </label>
           <button className="btn-yellow w-fit">SMTP opslaan</button>
         </form>
-        <form action={sendTestMail} className="flex flex-wrap items-end gap-2">
-          <label className="grid gap-1">
-            Testmail naar
-            <input name="to" placeholder="uw@adres.be" className="max-w-xs" />
-          </label>
-          <button className="btn-ghost">Testmail sturen</button>
-        </form>
+        <TestMailForm />
       </section>
 
       <section className="card-dark space-y-4 p-6">
@@ -127,13 +121,13 @@ export default async function AdminMailenPage() {
       <Accordion title="Voorbeeld van de mail" compact className="">
         <div className="px-4 py-4">
           <p className="mb-3 text-sm text-muted">
-            Zo ziet een mail eruit in het gele sjabloon. De tekst die u typt komt in het crème
-            middenstuk.
+            Zo ziet een mail eruit in het champagne-sjabloon. De tekst die u typt komt in het
+            donkere middenstuk, tussen de header en de footer van het ontwerp.
           </p>
           <iframe
             title="Voorbeeldmail"
             src="/admin/mailen/voorbeeld"
-            className="h-[520px] w-full border border-white/10 bg-black"
+            className="h-[860px] w-full border border-white/10 bg-black"
           />
         </div>
       </Accordion>

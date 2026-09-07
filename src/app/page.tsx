@@ -45,14 +45,21 @@ export default async function HomePage() {
       <section className="relative w-full overflow-hidden pt-[4.75rem]">
         <div className="relative mb-[30px]">
           <img
-            src="/5.png?v=20260828f"
-            alt="Gele Lamborghini Urus — sfeerbeeld van de droom, geen partnership"
+            src="/5.png?v=20260907c"
+            alt="Lamborghini Urus in champagne — sfeerbeeld van de droom, geen partnership"
             className="block h-auto w-full"
           />
           <div className="hero-scrim pointer-events-none absolute inset-0" />
-          <p className="absolute right-4 top-4 z-20 hidden max-w-[min(100%,28rem)] text-right font-display text-xl text-yellow sm:text-2xl md:right-6 md:top-6 md:block md:max-w-none md:text-4xl">
-            200.000 mensen × €2 = €400.000
-          </p>
+          <div className="absolute right-4 top-4 z-20 hidden text-right md:right-8 md:top-6 md:block">
+            <p className="font-script text-3xl leading-snug [text-shadow:0_2px_16px_rgba(0,0,0,0.9),0_0_36px_rgba(0,0,0,0.7)] md:text-4xl">
+              Samen naar
+              <br />
+              de droom
+            </p>
+            <p className="mt-3 font-display text-sm tracking-[0.18em] text-yellow [text-shadow:0_2px_12px_rgba(0,0,0,0.95),0_0_28px_rgba(0,0,0,0.8)] md:text-base">
+              200.000 mensen × €2 = €400.000
+            </p>
+          </div>
           <div className="absolute inset-0 z-10 flex flex-col items-start justify-start pl-4 pr-5 pb-24 pt-4 text-left md:pl-6 md:pb-24 md:pt-6">
             <h1 className="font-display font-bold text-[2.15rem] leading-[1.28] tracking-tight sm:text-5xl md:text-7xl">
               Kan <span className="text-yellow">€2</span> een
@@ -118,7 +125,7 @@ export default async function HomePage() {
         <div className="relative aspect-cinema w-full">
           <img
             src="/images/urus-villa.png"
-            alt="Gele Urus op een donker terras bij schemer — sfeerbeeld"
+            alt="Urus in champagne op een donker terras bij schemer — sfeerbeeld"
             className="h-full w-full object-cover object-[78%_center] md:object-center"
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 w-[70%] bg-gradient-to-r from-black/55 via-black/25 to-transparent md:w-1/2 md:from-black/45 md:via-black/15" />
@@ -144,8 +151,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="verhaal" className="bg-black pt-20 pb-8 md:pt-28 md:pb-10">
-        <div className="mx-auto max-w-7xl px-5">
+      <section id="verhaal" className="relative overflow-hidden bg-black pt-20 pb-8 md:pt-28 md:pb-10">
+        <img
+          src="/images/urus-dusk.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
+        />
+        <div className="relative mx-auto max-w-7xl px-5">
           <Reveal className="relative">
             <p className="absolute bottom-full left-0 mb-3 font-display text-[0.8rem] tracking-[0.3em] text-yellow">
               Waarom deze campagne?
@@ -157,7 +170,7 @@ export default async function HomePage() {
               <div className="aspect-cinema overflow-hidden border border-white/10">
                 <img
                   src="/images/urus-detail.png"
-                  alt="Detail van de gele Urus"
+                  alt="Detail van de Urus"
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -237,7 +250,8 @@ export default async function HomePage() {
         <img src="/images/urus-night.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-black/75" />
         <div className="relative mx-auto max-w-7xl px-5 text-center">
-          <p className="font-display text-[0.8rem] tracking-[0.3em] text-yellow">€2 × 200.000</p>
+          <p className="font-script text-3xl">Samen naar de droom</p>
+          <p className="mt-2 font-display text-[0.8rem] tracking-[0.3em] text-yellow">€2 × 200.000</p>
           <h2 className="mt-3 font-display text-4xl md:text-6xl">Niet één persoon. Heel veel kleine bijdragen.</h2>
           <p className="mx-auto mt-6 max-w-2xl text-white/80">
             Voor één persoon is €2 iets kleins. Voor mij betekent het iets groots.
@@ -312,8 +326,14 @@ export default async function HomePage() {
 
       <HowItWorks />
 
-      <section className="bg-surface py-20">
-        <div className="mx-auto max-w-7xl px-5">
+      <section className="relative overflow-hidden bg-surface py-20">
+        <img
+          src="/images/urus-terrace.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
+        />
+        <div className="relative mx-auto max-w-7xl px-5">
           <h2 className="font-display text-4xl">U kan gratis met de Urus rijden</h2>
           <p className="mt-4 font-display text-4xl">
             <span className="text-yellow">4 weekends</span>

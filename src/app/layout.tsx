@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Oswald, Outfit } from "next/font/google";
+import { Great_Vibes, Oswald, Outfit } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CookieBanner } from "@/components/CookieBanner";
@@ -21,6 +21,12 @@ const oswald = Oswald({
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
+});
+
+const script = Great_Vibes({
+  variable: "--font-script",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -52,7 +58,7 @@ export const dynamic = "force-dynamic";
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const participant = await getSessionUser("participant");
   return (
-    <html lang="nl" className={`${oswald.variable} ${outfit.variable} h-full antialiased`}>
+    <html lang="nl" className={`${oswald.variable} ${outfit.variable} ${script.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-white">
         <Header loggedIn={Boolean(participant)} />
         <CaptureReferral />

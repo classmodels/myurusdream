@@ -275,7 +275,7 @@ export type OccupiedPixel = {
 };
 
 function exampleMark() {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="#111111"/><rect x="14" y="14" width="292" height="132" fill="none" stroke="#ffd100" stroke-width="4"/><circle cx="64" cy="80" r="28" fill="#ffd100"/><path d="M52 88c8-18 16-18 24 0" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M58 78h12M64 70v20" stroke="#111" stroke-width="3" stroke-linecap="round"/><text x="108" y="74" fill="#ffd100" font-family="Arial Black,Impact,sans-serif" font-size="28">DE KORREL</text><text x="108" y="104" fill="#ffe14a" font-family="Arial,sans-serif" font-size="13">BAKKERIJ</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="#111111"/><rect x="14" y="14" width="292" height="132" fill="none" stroke="#d4ab7e" stroke-width="4"/><circle cx="64" cy="80" r="28" fill="#d4ab7e"/><path d="M52 88c8-18 16-18 24 0" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M58 78h12M64 70v20" stroke="#111" stroke-width="3" stroke-linecap="round"/><text x="108" y="74" fill="#d4ab7e" font-family="Arial Black,Impact,sans-serif" font-size="28">DE KORREL</text><text x="108" y="104" fill="#e4ba92" font-family="Arial,sans-serif" font-size="13">BAKKERIJ</text></svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
@@ -460,7 +460,7 @@ export const EXAMPLE_PIXELS: OccupiedPixel[] = [
     caption: "Onderhoud & banden",
     color: "#1a1400",
     url: "https://example.com",
-    image: exampleLogo("WESTPOORT", "#1a1400", "#ffe14a"),
+    image: exampleLogo("WESTPOORT", "#1a1400", "#e4ba92"),
   },
   {
     x: 9,
@@ -469,9 +469,9 @@ export const EXAMPLE_PIXELS: OccupiedPixel[] = [
     h: 2,
     label: "Kapper Luna",
     caption: "Knippen & kleur",
-    color: "#201800",
+    color: "#1c1610",
     url: "https://example.com",
-    image: exampleLogo("LUNA", "#201800", "#ffd100"),
+    image: exampleLogo("LUNA", "#1c1610", "#d4ab7e"),
   },
   {
     x: 11,
@@ -480,7 +480,7 @@ export const EXAMPLE_PIXELS: OccupiedPixel[] = [
     h: 1,
     label: "Frituur Max",
     caption: null,
-    color: "#ffd100",
+    color: "#d4ab7e",
     url: "https://example.com",
     image: null,
   },
@@ -491,9 +491,9 @@ export const EXAMPLE_PIXELS: OccupiedPixel[] = [
     h: 2,
     label: "Bloemen Saar",
     caption: "Boeketten",
-    color: "#161000",
+    color: "#17120c",
     url: "https://example.com",
-    image: exampleLogo("SAAR", "#161000", "#ffd100"),
+    image: exampleLogo("SAAR", "#17120c", "#d4ab7e"),
   },
   {
     x: 14,
@@ -504,6 +504,6 @@ export const EXAMPLE_PIXELS: OccupiedPixel[] = [
     caption: "Drukwerk op maat",
     color: "#0f0f0f",
     url: "https://example.com",
-    image: exampleLogo("KADE", "#0f0f0f", "#e8c200"),
+    image: exampleLogo("KADE", "#0f0f0f", "#d4ab7e"),
   },
 ];

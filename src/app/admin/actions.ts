@@ -497,17 +497,22 @@ export async function saveSmtp(formData: FormData) {
   revalidateAdmin();
 }
 
-export async function sendTestMail(formData: FormData) {
-  const admin = await requireAdmin();
-  const to = String(formData.get("to") || admin.email).trim();
-  if (!to) throw new Error("Vul een testadres in.");
-  await sendCampaignMail({
-    to,
-    subject: "Testmail myurusdream.be",
-    body: "Dit is een testmail via Brevo, met het sjabloon van myurusdream.be.",
-    vars: { firstName: admin.firstName || "", lastName: admin.lastName || "", email: to },
-  });
-  await audit({ actorId: admin.id, action: "mail.test", entity: "MailCampaign", meta: { to } });
+export async function sendTestMail(_prev: { ok?: string; error?: string }, formData: FormData) {
+  try {
+    const admin = await requireAdmin();
+    const to = String(formData.get("to") || "").trim();
+    if (!to) return { error: "Vul uw eigen e-mailadres in bij Testmail naar." };
+    await sendCampaignMail({
+      to,
+      subject: "Testmail myurusdream.be",
+      body: "Dit is een testmail via Brevo, met het sjabloon van myurusdream.be.",
+      vars: { firstName: admin.firstName || "", lastName: admin.lastName || "", email: to },
+    });
+    await audit({ actorId: admin.id, action: "mail.test", entity: "MailCampaign", meta: { to } });
+    return { ok: `Verzonden naar ${to}. Kijk ook in spam.` };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "Verzenden is mislukt." };
+  }
 }
 
 export async function createMailList(formData: FormData) {

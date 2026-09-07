@@ -86,13 +86,29 @@ export async function sendCampaignMail(options: {
     base: siteUrl(),
     vars: { ...options.vars, email: options.to },
   });
-  await transporter(cfg).sendMail({
-    from: cfg.from,
-    to: options.to,
-    subject: options.subject,
-    text: options.body,
-    html,
-  });
+  try {
+    await transporter(cfg).sendMail({
+      from: cfg.from,
+      to: options.to,
+      subject: options.subject,
+      text: options.body,
+      html,
+    });
+  } catch (error) {
+    throw new Error(smtpErrorMessage(error));
+  }
+}
+
+function smtpErrorMessage(error: unknown) {
+  const err = error as { message?: string; response?: string; code?: string };
+  const text = `${err.message || ""} ${err.response || ""} ${err.code || ""}`;
+  if (/EAUTH|Invalid login|535/i.test(text)) {
+    return "Brevo weigert de sleutel. Plak de SMTP-sleutel (xsmtpsib-) opnieuw en klik SMTP opslaan.";
+  }
+  if (/sender|unauthenticated|550|553|relay not permitted/i.test(text)) {
+    return "Brevo weigert de afzender. Voeg info@myurusdream.be toe als Sender in Brevo en bevestig de mail.";
+  }
+  return err.message || "Verzenden via Brevo is mislukt.";
 }
 
 export function parseEmailCsv(text: string) {
