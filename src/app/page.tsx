@@ -50,7 +50,7 @@ export default async function HomePage() {
             className="block h-auto w-full"
           />
           <div className="hero-scrim pointer-events-none absolute inset-0" />
-          <p className="absolute right-4 top-4 z-20 max-w-[min(100%,28rem)] text-right font-display text-xl text-yellow sm:text-2xl md:right-6 md:top-6 md:max-w-none md:text-4xl">
+          <p className="absolute right-4 top-4 z-20 hidden max-w-[min(100%,28rem)] text-right font-display text-xl text-yellow sm:text-2xl md:right-6 md:top-6 md:block md:max-w-none md:text-4xl">
             200.000 mensen × €2 = €400.000
           </p>
           <div className="absolute inset-0 z-10 flex flex-col items-start justify-start pl-4 pr-5 pb-24 pt-4 text-left md:pl-6 md:pb-24 md:pt-6">
