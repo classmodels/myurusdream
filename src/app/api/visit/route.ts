@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 import { rememberVisitor } from "@/lib/visitors";
+import { getSessionUser } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +21,17 @@ export async function POST(req: Request) {
     token = randomBytes(16).toString("hex");
   }
   const counts = await rememberVisitor(token);
-  const res = NextResponse.json({ count: counts.total, ...counts });
+  const participant = await getSessionUser("participant").catch(() => null);
+  if (participant) {
+    await prisma.user.update({
+      where: { id: participant.id },
+      data: { lastSeenAt: new Date() },
+    });
+  }
+  const res = NextResponse.json(
+    { count: counts.total, ...counts },
+    { headers: { "Cache-Control": "no-store, no-cache, must-revalidate" } },
+  );
   res.cookies.set("myurusdream_vid", token, {
     httpOnly: true,
     sameSite: "lax",

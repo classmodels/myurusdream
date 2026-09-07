@@ -25,6 +25,7 @@ model User {
   passwordHash       String?
   blocked            Boolean  @default(false)
   lastIp             String?
+  lastSeenAt         DateTime?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
@@ -254,12 +255,51 @@ model SiteContent {
 }
 
 model UniqueVisitor {
-  id         String   @id @default(cuid())
-  token      String   @unique @db.VarChar(64)
-  createdAt  DateTime @default(now())
-  lastSeenAt DateTime @default(now())
+  id           String   @id @default(cuid())
+  token        String   @unique @db.VarChar(64)
+  createdAt    DateTime @default(now())
+  lastSeenUnix Int      @default(0)
 
-  @@index([lastSeenAt])
+  @@index([lastSeenUnix])
+}
+
+model DailyVisitor {
+  day   String @db.Char(10)
+  token String @db.VarChar(64)
+
+  @@id([day, token])
+  @@index([day])
+}
+
+model MailList {
+  id        String        @id @default(cuid())
+  name      String
+  createdAt DateTime      @default(now())
+  contacts  MailContact[]
+}
+
+model MailContact {
+  id            String   @id @default(cuid())
+  listId        String
+  list          MailList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  email         String
+  firstName     String   @default("")
+  lastName      String   @default("")
+  unsubscribed  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@unique([listId, email])
+}
+
+model MailCampaign {
+  id        String    @id @default(cuid())
+  subject   String
+  body      String    @db.Text
+  audience  String
+  sentAt    DateTime?
+  sentCount Int       @default(0)
+  failCount Int       @default(0)
+  createdAt DateTime  @default(now())
 }
 
 model PushDevice {

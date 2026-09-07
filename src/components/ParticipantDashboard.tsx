@@ -7,6 +7,7 @@ import { POINTS_EXPLAIN_SHORT, WINNERS_EXPLAIN } from "@/lib/constants";
 import { displayPersonName } from "@/lib/leaderboard";
 import { RankingLive } from "@/app/dashboard/RankingLive";
 import { Accordion } from "@/components/Accordion";
+import { MeldingenBlock } from "@/components/MeldingenBlock";
 import type { getDashboardData } from "@/lib/dashboard-data";
 
 type Data = NonNullable<Awaited<ReturnType<typeof getDashboardData>>>;
@@ -36,9 +37,8 @@ export function ParticipantDashboard({
       {!preview ? (
         <>
           <p className="mt-3 max-w-2xl text-white/75">
-            U blijft ingelogd. Nog eens €2 storten kan met één knop. Klik bovenaan op
-            “Zet meldingen aan” op de pagina Meldingen. Op iPhone: open het icoon op het
-            beginscherm, ga naar Meldingen, tik op de gele knop.
+            U blijft ingelogd. Nog eens €2 storten kan met één knop. Meldingen zet u hieronder
+            aan, op dezelfde pagina.
           </p>
           <div className="mt-6">
             <RepeatDonateButton />
@@ -63,6 +63,12 @@ export function ParticipantDashboard({
         <Card label="Uw punten" value={String(totalPoints)} />
         <Card label="Uw plaats" value={myRank ? `#${myRank}` : "—"} />
       </div>
+
+      {!preview ? (
+        <div className="mt-12">
+          <MeldingenBlock />
+        </div>
+      ) : null}
 
       <div className="mt-12 card-dark p-6">
         <h2 className="font-display text-3xl">Hoe de punten werken</h2>

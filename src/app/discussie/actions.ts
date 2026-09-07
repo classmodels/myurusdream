@@ -31,4 +31,5 @@ export async function hideComment(formData: FormData) {
   await prisma.discussionPost.update({ where: { id }, data: { published: false } });
   revalidatePath("/discussie");
   revalidatePath("/admin");
+  revalidatePath("/admin/instellingen");
 }

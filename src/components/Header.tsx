@@ -20,7 +20,6 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     { href: "/faq", label: "FAQ" },
     { href: "/dashboard", label: "Uw dashboard" },
     { href: "/admin", label: "Admin" },
-    { href: "/meldingen", label: "Meldingen" },
   ];
 
   useEffect(() => {
@@ -44,7 +43,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
   }, []);
 
   const linkClass =
-    "whitespace-nowrap text-xs uppercase tracking-[0.14em] text-white/75 hover:text-yellow";
+    "whitespace-nowrap text-[10px] uppercase tracking-[0.1em] text-white/75 hover:text-yellow";
 
   function go(href: string, e: MouseEvent<HTMLAnchorElement>) {
     setOpen(false);
@@ -80,7 +79,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             {SITE_NAME}
           </span>
         </Link>
-        <nav className="hidden items-center gap-4 xl:flex">
+        <nav className="hidden items-center gap-2.5 xl:flex">
           {links.map((l) => (
             <Link
               key={l.href}
