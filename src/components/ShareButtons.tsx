@@ -27,12 +27,25 @@ export function ShareButtons({
   async function copyAndOpen(href: string, name: string) {
     try {
       await navigator.clipboard.writeText(links.text);
-      setHint(`Tekst gekopieerd — plak in ${name}`);
+      setHint(`Tekst gekopieerd — plak in ${name} (Cmd+V of Ctrl+V)`);
     } catch {
       window.prompt("Kopieer deze tekst", links.text);
     }
     window.open(href, "_blank", "noreferrer");
-    setTimeout(() => setHint(""), 4000);
+    setTimeout(() => setHint(""), 6000);
+  }
+
+  async function shareFacebook() {
+    const payload = { title: shareText, text: shareText, url: links.url };
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share(payload);
+        return;
+      } catch (err) {
+        if ((err as { name?: string }).name === "AbortError") return;
+      }
+    }
+    await copyAndOpen(links.facebook, "Facebook");
   }
 
   return (
@@ -45,7 +58,7 @@ export function ShareButtons({
         <a className="btn-yellow" href={links.whatsapp} target="_blank" rel="noreferrer">
           WhatsApp
         </a>
-        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.facebook, "Facebook")}>
+        <button type="button" className="btn-ghost" onClick={shareFacebook}>
           Facebook
         </button>
         <a className="btn-ghost" href={links.email}>
