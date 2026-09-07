@@ -68,7 +68,7 @@ export function NotificationBell({ loggedIn }: { loggedIn?: boolean }) {
       <button
         type="button"
         onClick={() => (open ? setOpen(false) : openBox())}
-        className="relative text-xs uppercase tracking-[0.14em] text-white/75 hover:text-yellow"
+        className="relative whitespace-nowrap text-[10px] uppercase tracking-[0.1em] text-white/75 hover:text-yellow"
         aria-label="Berichten"
       >
         Berichten

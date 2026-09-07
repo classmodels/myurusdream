@@ -24,11 +24,12 @@ export async function postComment(formData: FormData) {
   revalidatePath("/discussie");
 }
 
-export async function hideComment(formData: FormData) {
+export async function deleteComment(formData: FormData) {
   const admin = await getSessionUser("admin");
   if (!admin) throw new Error("Niet ingelogd als admin.");
   const id = String(formData.get("id") || "");
-  await prisma.discussionPost.update({ where: { id }, data: { published: false } });
+  if (!id) throw new Error("Ongeldig bericht.");
+  await prisma.discussionPost.delete({ where: { id } });
   revalidatePath("/discussie");
   revalidatePath("/admin");
   revalidatePath("/admin/instellingen");

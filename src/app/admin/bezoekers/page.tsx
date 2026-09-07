@@ -1,5 +1,6 @@
 import { requireAdminPage } from "@/lib/admin";
 import { AdminChrome, Kpi } from "@/components/AdminChrome";
+import { Accordion } from "@/components/Accordion";
 import { todayVisitorCount, uniqueVisitorCount, visitorsByDay, onlineVisitorCount } from "@/lib/visitors";
 
 export const dynamic = "force-dynamic";
@@ -21,10 +22,8 @@ export default async function AdminBezoekersPage() {
         <Kpi label="Vandaag" value={String(today)} />
         <Kpi label="Nu live" value={String(online)} />
       </div>
-      <section className="card-dark p-6">
-        <h2 className="font-display text-2xl">Per dag (30 dagen)</h2>
-        <p className="mt-2 text-sm text-muted">Unieke bezoekers per kalenderdag (Brussel).</p>
-        <ul className="mt-6 space-y-2">
+      <Accordion title="Per dag (30 dagen)" compact className="">
+        <ul className="space-y-2 px-4 py-3">
           {days.length ? (
             days.map((d) => (
               <li key={d.day} className="grid grid-cols-[7rem_1fr_3rem] items-center gap-3 text-sm">
@@ -42,7 +41,7 @@ export default async function AdminBezoekersPage() {
             <li className="text-muted">Nog geen dagelijkse data. Die start vanaf deze update.</li>
           )}
         </ul>
-      </section>
+      </Accordion>
     </AdminChrome>
   );
 }

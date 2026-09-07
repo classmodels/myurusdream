@@ -20,15 +20,13 @@ export type LiveCounterStats = {
   onlineVisitors: number;
 };
 
-export function LiveCounter({
-  initial,
-  className,
-  showTitle = true,
-}: {
-  initial: LiveCounterStats;
-  className?: string;
-  showTitle?: boolean;
-}) {
+export type LiveCounterUpdate = {
+  title: string;
+  body: string;
+  createdAt: string;
+};
+
+function useLiveStats(initial: LiveCounterStats) {
   const [stats, setStats] = useState(statsSafe(initial));
 
   useEffect(() => {
@@ -43,43 +41,109 @@ export function LiveCounter({
     return () => clearInterval(t);
   }, []);
 
+  return stats;
+}
+
+function CounterHeadline({
+  stats,
+  showTitle,
+  align = "left",
+  compact = false,
+}: {
+  stats: LiveCounterStats;
+  showTitle?: boolean;
+  align?: "left" | "right";
+  compact?: boolean;
+}) {
+  return (
+    <div className={align === "right" ? "text-right" : undefined}>
+      {showTitle ? (
+        <p className="font-display text-base tracking-[0.22em] text-yellow md:text-lg">
+          Totaal live campagneteller
+        </p>
+      ) : null}
+      <h2
+        className={`${showTitle ? (compact ? "mt-3" : "mt-5") : ""} font-display leading-none ${
+          compact ? "text-4xl md:text-[2.75rem]" : "text-4xl md:text-5xl"
+        }`}
+      >
+        {formatCents(stats.raisedCents)}
+        <span className={`text-white/35 ${compact ? "ml-2" : ""}`}> / {formatCents(stats.goalCents)}</span>
+      </h2>
+      <p className={`text-white/55 ${compact ? "mt-2.5 text-base" : "mt-2 text-sm"}`}>
+        <span>
+          €2{" "}
+          <span className={`text-yellow ${compact ? "ml-2" : ""}`}>
+            {formatCents(stats.contributionCents)}
+          </span>
+        </span>
+        <span className={compact ? "mx-3.5 text-white/25" : "mx-2 text-white/25"}>·</span>
+        <span>
+          Sponsors{" "}
+          <span className={`text-yellow ${compact ? "ml-2" : ""}`}>
+            {formatCents(stats.sponsorCents)}
+          </span>
+        </span>
+        <span className={compact ? "mx-3.5 text-white/25" : "mx-2 text-white/25"}>·</span>
+        <span>
+          Pixels{" "}
+          <span className={`text-yellow ${compact ? "ml-2" : ""}`}>
+            {formatCents(stats.pixelCents)}
+          </span>
+        </span>
+      </p>
+    </div>
+  );
+}
+
+export function LiveCounterHeadline({
+  initial,
+  className,
+}: {
+  initial: LiveCounterStats;
+  className?: string;
+}) {
+  const stats = useLiveStats(initial);
+  return (
+    <div className={className}>
+      <CounterHeadline stats={stats} showTitle align="right" compact />
+    </div>
+  );
+}
+
+export function LiveCounter({
+  initial,
+  className,
+  showTitle = true,
+  latestUpdate,
+  hideHeadlineOnDesktop = false,
+  flushTop = false,
+}: {
+  initial: LiveCounterStats;
+  className?: string;
+  showTitle?: boolean;
+  latestUpdate?: LiveCounterUpdate | null;
+  hideHeadlineOnDesktop?: boolean;
+  flushTop?: boolean;
+}) {
+  const stats = useLiveStats(initial);
   const pct = Math.min(100, stats.percent);
 
   return (
     <section
       id="teller"
-      className={`relative z-0 overflow-x-clip bg-surface pt-8 pb-16 md:pt-10 md:pb-20 ${className ?? ""}`}
+      className={`relative z-0 overflow-x-clip bg-surface ${
+        flushTop ? "pt-0 pb-16 md:pb-20" : "pt-8 pb-16 md:pt-10 md:pb-20"
+      } ${className ?? ""}`}
     >
       <div className="pointer-events-none absolute inset-0 grid-fade opacity-40" />
       <div className="relative mx-auto max-w-7xl px-5">
-        <div>
-          {showTitle ? (
-            <p className="font-display text-base tracking-[0.22em] text-yellow md:text-lg">
-              Totaal live campagneteller
-            </p>
-          ) : null}
-          <h2 className={`${showTitle ? "mt-5" : ""} font-display text-4xl leading-none md:text-5xl`}>
-            {formatCents(stats.raisedCents)}
-            <span className="text-white/35"> / {formatCents(stats.goalCents)}</span>
-          </h2>
-          <p className="mt-2 text-sm text-white/55">
-            <span>
-              €2 <span className="text-yellow">{formatCents(stats.contributionCents)}</span>
-            </span>
-            <span className="mx-2 text-white/25">·</span>
-            <span>
-              Sponsors <span className="text-yellow">{formatCents(stats.sponsorCents)}</span>
-            </span>
-            <span className="mx-2 text-white/25">·</span>
-            <span>
-              Pixels <span className="text-yellow">{formatCents(stats.pixelCents)}</span>
-            </span>
-          </p>
-        </div>
-        <div className="progress-track mt-8">
-          <div className="progress-fill" style={{ width: `${pct}%` }} />
-        </div>
-        <div className="mt-4 flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted">
+        {showTitle || !hideHeadlineOnDesktop ? (
+          <div className={hideHeadlineOnDesktop ? "md:hidden" : undefined}>
+            <CounterHeadline stats={stats} showTitle={showTitle} />
+          </div>
+        ) : null}
+        <div className={`${flushTop ? "mt-4 md:mt-0 md:pt-3" : "mt-8"} flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted`}>
           <span>
             Van het doel{" "}
             <span className="text-yellow">
@@ -89,6 +153,9 @@ export function LiveCounter({
           <span>
             Nog nodig <span className="text-yellow">{formatCents(stats.remainingCents)}</span>
           </span>
+        </div>
+        <div className="progress-track mt-2">
+          <div className="progress-fill" style={{ width: `${pct}%` }} />
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
@@ -108,6 +175,7 @@ export function LiveCounter({
             hint={`${stats.pixelCount.toLocaleString("nl-BE")} storting${stats.pixelCount === 1 ? "" : "en"}`}
           />
           <VisitorStat total={stats.uniqueVisitors} online={stats.onlineVisitors} />
+          {latestUpdate ? <UpdateStat update={latestUpdate} /> : null}
         </div>
 
         <p className="mt-6 text-sm text-muted">
@@ -161,9 +229,25 @@ function Stat({
   );
 }
 
+function UpdateStat({ update }: { update: LiveCounterUpdate }) {
+  const date = new Date(update.createdAt).toLocaleDateString("nl-BE");
+  return (
+    <div className="card-dark col-span-2 min-w-0 overflow-hidden px-3 py-3 sm:px-4">
+      <p className="text-[clamp(0.52rem,2.6vw,0.65rem)] uppercase leading-tight tracking-[0.12em] text-muted sm:tracking-[0.2em]">
+        Update
+      </p>
+      <p className="mt-1.5 font-display text-[clamp(1.05rem,4.6vw,1.35rem)] leading-tight text-yellow md:text-xl">
+        {update.title}
+      </p>
+      <p className="mt-1 text-[clamp(0.62rem,2.4vw,0.75rem)] text-white/40">{date}</p>
+      <p className="mt-1 line-clamp-2 text-[clamp(0.7rem,2.6vw,0.85rem)] text-white/70">{update.body}</p>
+    </div>
+  );
+}
+
 function VisitorStat({ total, online }: { total: number; online: number }) {
   return (
-    <div className="card-dark col-span-2 min-w-0 overflow-hidden px-3 py-3 sm:px-4 lg:col-span-2">
+    <div className="card-dark col-span-2 min-w-0 overflow-hidden px-3 py-3 sm:px-4">
       <p className="text-center text-[clamp(0.52rem,2.6vw,0.65rem)] uppercase leading-tight tracking-[0.12em] text-muted sm:tracking-[0.2em]">
         Bezoekers
       </p>

@@ -19,8 +19,8 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
     { href: "/discussie", label: "Discussie" },
     { href: "/faq", label: "FAQ" },
     { href: "/dashboard", label: "Uw dashboard" },
-    { href: "/admin", label: "Admin" },
   ];
+  const adminLink = { href: "/admin", label: "Admin" };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -66,8 +66,8 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
         scrolled ? "bg-black/85 backdrop-blur-md border-b border-white/10" : "bg-black/25 backdrop-blur-[2px]"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3">
-        <Link href="/" className="flex min-w-0 items-center gap-1">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3">
+        <Link href="/" className="relative z-10 flex min-w-0 items-center gap-1">
           <span className="relative h-9 w-8 shrink-0 overflow-hidden">
             <img
               src="/3.png?v=20260828e"
@@ -79,22 +79,30 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             {SITE_NAME}
           </span>
         </Link>
-        <nav className="hidden items-center gap-2.5 xl:flex">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={linkClass}
-              onClick={(e) => go(l.href, e)}
-            >
-              {l.label}
-            </Link>
-          ))}
-          <NotificationBell loggedIn={loggedIn} />
+        <nav className="pointer-events-none absolute inset-x-5 top-1/2 hidden -translate-y-1/2 xl:flex">
+          <div className="pointer-events-auto mx-auto flex w-full max-w-[600px] items-center">
+            {links.map((l, i) => (
+              <span key={l.href} className="flex items-center">
+                {i > 0 ? <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" /> : null}
+                <Link href={l.href} className={linkClass} onClick={(e) => go(l.href, e)}>
+                  {l.label}
+                </Link>
+              </span>
+            ))}
+            <span className="flex items-center">
+              <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" />
+              <NotificationBell loggedIn={loggedIn} />
+            </span>
+          </div>
+        </nav>
+        <div className="relative z-10 hidden items-center gap-5 xl:flex">
           <Link href={meedoenHref} className="header-cta">
             {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
           </Link>
-        </nav>
+          <Link href={adminLink.href} className={linkClass} onClick={(e) => go(adminLink.href, e)}>
+            {adminLink.label}
+          </Link>
+        </div>
         <div className="xl:hidden">
           <button
             type="button"
@@ -123,6 +131,13 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             <NotificationBell loggedIn={loggedIn} />
             <Link href={meedoenHref} className="header-cta w-fit" onClick={() => setOpen(false)}>
               {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
+            </Link>
+            <Link
+              href={adminLink.href}
+              onClick={(e) => go(adminLink.href, e)}
+              className="uppercase tracking-widest text-sm"
+            >
+              {adminLink.label}
             </Link>
           </div>
         </div>

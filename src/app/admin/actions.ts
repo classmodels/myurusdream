@@ -504,7 +504,7 @@ export async function sendTestMail(formData: FormData) {
   await sendCampaignMail({
     to,
     subject: "Testmail myurusdream.be",
-    body: "Dit is een testmail via dezelfde MailProtect-dienst als ModelPort, met het sjabloon van myurusdream.be.",
+    body: "Dit is een testmail via Brevo, met het sjabloon van myurusdream.be.",
     vars: { firstName: admin.firstName || "", lastName: admin.lastName || "", email: to },
   });
   await audit({ actorId: admin.id, action: "mail.test", entity: "MailCampaign", meta: { to } });
@@ -622,5 +622,48 @@ export async function sendMailCampaign(formData: FormData) {
     entity: "MailCampaign",
     meta: { audience, sentCount, failCount },
   });
+  revalidateAdmin();
+}
+
+export async function deletePayment(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("paymentId") || "");
+  if (!id) throw new Error("Ongeldige betaling.");
+  await prisma.prizeEntry.deleteMany({ where: { paymentId: id } });
+  await prisma.refund.deleteMany({ where: { paymentId: id } });
+  await prisma.referral.updateMany({ where: { paymentId: id }, data: { paymentId: null } });
+  await prisma.payment.delete({ where: { id } });
+  await audit({ actorId: admin.id, action: "payment.delete", entity: "Payment", entityId: id });
+  revalidatePath("/");
+  revalidatePath("/volg-alles");
+  revalidatePath("/sponsors");
+  revalidatePath("/pixels");
+  revalidateAdmin();
+}
+
+export async function deleteMailList(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("listId") || "");
+  if (!id) throw new Error("Ongeldige lijst.");
+  await prisma.mailList.delete({ where: { id } });
+  await audit({ actorId: admin.id, action: "mail.list.delete", entity: "MailList", entityId: id });
+  revalidateAdmin();
+}
+
+export async function deleteMailCampaign(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("id") || "");
+  if (!id) throw new Error("Ongeldige campagne.");
+  await prisma.mailCampaign.delete({ where: { id } });
+  await audit({ actorId: admin.id, action: "mail.campaign.delete", entity: "MailCampaign", entityId: id });
+  revalidateAdmin();
+}
+
+export async function deleteFraudFlag(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("id") || "");
+  if (!id) throw new Error("Ongeldige flag.");
+  await prisma.fraudFlag.delete({ where: { id } });
+  await audit({ actorId: admin.id, action: "fraud.delete", entity: "FraudFlag", entityId: id });
   revalidateAdmin();
 }

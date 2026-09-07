@@ -9,17 +9,17 @@ export function AdminChrome({
   children: ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-5 pb-24 pt-28">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="font-display text-sm tracking-[0.3em] text-yellow">Admin</p>
-          <h1 className="mt-2 font-display text-4xl md:text-5xl">{title}</h1>
-        </div>
-        <a href="/api/admin/logout" className="btn-ghost text-sm">
+    <div className="admin-ui mx-auto max-w-6xl space-y-8 px-5 pb-24 pt-28">
+      <div>
+        <p className="font-display text-sm tracking-[0.3em] text-yellow">Admin</p>
+        <h1 className="mt-2 font-display text-4xl md:text-5xl">{title}</h1>
+      </div>
+      <div className="flex items-start gap-2">
+        <AdminNav />
+        <a href="/api/admin/logout" className="btn-ghost ml-auto shrink-0">
           Uitloggen
         </a>
       </div>
-      <AdminNav />
       {children}
     </div>
   );

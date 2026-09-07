@@ -19,14 +19,14 @@ const ITEMS = [
 export function AdminNav() {
   const path = usePathname();
   return (
-    <nav className="flex flex-wrap gap-2">
+    <nav className="flex min-w-0 flex-1 flex-wrap gap-2">
       {ITEMS.map((item) => {
         const active = item.href === "/admin" ? path === "/admin" : path.startsWith(item.href);
         return (
           <Link
             key={item.href}
             href={item.href}
-            className={`border px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] ${
+            className={`border px-2 py-1 text-[9px] uppercase tracking-[0.12em] ${
               active ? "border-yellow bg-yellow text-black" : "border-yellow/50 text-yellow hover:bg-yellow hover:text-black"
             }`}
           >

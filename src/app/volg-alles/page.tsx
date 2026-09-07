@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { getPublicCampaignView, parseMoneyBreakdown, resolveBreakdown } from "@/lib/campaign";
 import { formatCents } from "@/lib/money";
-import { ActivityFeed } from "@/components/ActivityFeed";
 import { prisma } from "@/lib/prisma";
-import { LiveCounter } from "@/components/LiveCounter";
+import { LiveCounter, LiveCounterHeadline } from "@/components/LiveCounter";
 import { PageHero } from "@/components/PageHero";
 import { uniqueVisitorCount, onlineVisitorCount } from "@/lib/visitors";
 
@@ -37,33 +36,54 @@ export default async function VolgAllesPage() {
       ? Math.round(view.totals.raisedCents / view.totals.participantCount)
       : 0;
 
+  const counterStats = {
+    raisedCents: view.netCents,
+    goalCents: view.campaign.goalCents,
+    participantCount: view.totals.participantCount,
+    targetContributions: view.campaign.targetContributions,
+    remainingCents: view.remainingCents,
+    remainingPeople: view.remainingPeople,
+    percent: view.percent,
+    contributionCents: view.totals.contributionCents,
+    sponsorCents: view.totals.sponsorCents,
+    sponsorCount: view.totals.sponsorCount,
+    pixelCents: view.totals.pixelCents,
+    pixelCount: view.totals.pixelCount,
+    uniqueVisitors: visitors,
+    onlineVisitors,
+  };
+
   return (
     <div className="pb-24">
-      <PageHero kicker="Transparantie" title="Volg alles mee" image="/images/urus-night.png">
-        <p>Alleen bevestigde betalingen tellen. Geen fictieve bedragen.</p>
+      <PageHero
+        kicker="Transparantie"
+        title="Volg alles mee"
+        image="/images/urus-night.png"
+        overlayPlacement="bottom-right"
+        overlay={
+          <LiveCounterHeadline initial={counterStats} />
+        }
+      >
+        <p>Alleen bevestigde betalingen tellen.</p>
         <Link href="/meedoen" className="btn-yellow mt-6">
           Ik doe mee voor €2
         </Link>
       </PageHero>
       <LiveCounter
-        initial={{
-          raisedCents: view.netCents,
-          goalCents: view.campaign.goalCents,
-          participantCount: view.totals.participantCount,
-          targetContributions: view.campaign.targetContributions,
-          remainingCents: view.remainingCents,
-          remainingPeople: view.remainingPeople,
-          percent: view.percent,
-          contributionCents: view.totals.contributionCents,
-          sponsorCents: view.totals.sponsorCents,
-          sponsorCount: view.totals.sponsorCount,
-          pixelCents: view.totals.pixelCents,
-          pixelCount: view.totals.pixelCount,
-          uniqueVisitors: visitors,
-          onlineVisitors,
-        }}
+        hideHeadlineOnDesktop
+        flushTop
+        latestUpdate={
+          updates[0]
+            ? {
+                title: updates[0].title,
+                body: updates[0].body,
+                createdAt: updates[0].createdAt.toISOString(),
+              }
+            : null
+        }
+        initial={counterStats}
       />
-      <div className="mx-auto grid max-w-7xl gap-6 px-5 md:grid-cols-3">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-3 px-5 lg:grid-cols-4">
         <Info label="Gemiddelde bijdrage" value={formatCents(avg || 200)} />
         <Info label="Status" value={view.campaign.liveMode ? "LIVE" : "Test / nog niet live"} />
         <Info
@@ -73,15 +93,6 @@ export default async function VolgAllesPage() {
         <Info
           label="Einddatum"
           value={view.campaign.endDate?.toLocaleDateString("nl-BE") || "Nog niet vastgelegd"}
-        />
-        <Info label="Aankoopstatus" value={view.campaign.purchaseDate ? "Gekocht" : "Nog niet gekocht"} />
-        <Info
-          label="Aankoopprijs"
-          value={
-            view.campaign.purchasePriceCents
-              ? formatCents(view.campaign.purchasePriceCents)
-              : "Nog niet van toepassing"
-          }
         />
       </div>
       <div className="mx-auto mt-16 max-w-7xl px-5">
@@ -95,35 +106,15 @@ export default async function VolgAllesPage() {
           ))}
         </div>
       </div>
-      <div className="mx-auto mt-16 grid max-w-7xl gap-12 px-5 md:grid-cols-2">
-        <div>
-          <h2 className="font-display text-3xl">Updates</h2>
-          <div className="mt-6 space-y-4">
-            {updates.map((u) => (
-              <article key={u.id} className="card-dark p-5">
-                <p className="text-xs text-muted">{u.createdAt.toLocaleDateString("nl-BE")}</p>
-                <h3 className="mt-1 font-display text-2xl">{u.title}</h3>
-                <p className="mt-2 text-white/70">{u.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h2 className="font-display text-3xl">Activiteit</h2>
-          <div className="mt-6">
-            <ActivityFeed />
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="card-dark p-5">
-      <p className="text-xs uppercase tracking-widest text-muted">{label}</p>
-      <p className="mt-2 font-display text-2xl">{value}</p>
+    <div className="card-dark p-3 md:p-4">
+      <p className="text-[10px] uppercase tracking-widest text-muted md:text-xs">{label}</p>
+      <p className="mt-1 font-display text-lg md:text-xl">{value}</p>
     </div>
   );
 }

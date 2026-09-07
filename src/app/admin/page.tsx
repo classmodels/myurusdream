@@ -4,7 +4,8 @@ import { getCampaign, getLiveTotals } from "@/lib/campaign";
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 import { uniqueVisitorCount, todayVisitorCount, onlineVisitorCount } from "@/lib/visitors";
-import { reviewFraud } from "./actions";
+import { reviewFraud, deletePayment, deleteFraudFlag } from "./actions";
+import { Accordion } from "@/components/Accordion";
 
 export const dynamic = "force-dynamic";
 
@@ -49,44 +50,57 @@ export default async function AdminOverviewPage() {
         <Kpi label="Open fraud" value={String(fraudOpen)} />
       </div>
 
-      <section>
-        <h2 className="font-display text-3xl">Recente betalingen</h2>
-        <ul className="mt-4 space-y-2 text-sm">
+      <Accordion title="Recente betalingen" compact className="">
+        <ul className="space-y-2 px-4 py-3 text-sm">
           {payments.length ? (
             payments.map((p) => (
-              <li key={p.id} className="border-b border-white/10 pb-2">
-                {p.status} · {p.kind} · {formatCents(p.amountCents)} · {p.user.email}
+              <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0">
+                <span>
+                  {p.status} · {p.kind} · {formatCents(p.amountCents)} · {p.user.email}
+                </span>
+                <form action={deletePayment}>
+                  <input type="hidden" name="paymentId" value={p.id} />
+                  <button type="submit" className="btn-danger">
+                    Verwijderen
+                  </button>
+                </form>
               </li>
             ))
           ) : (
             <li className="text-muted">Nog geen betalingen.</li>
           )}
         </ul>
-      </section>
+      </Accordion>
 
-      {flags.length ? (
-        <section>
-          <h2 className="font-display text-3xl">Open fraud flags</h2>
-          <ul className="mt-4 space-y-3">
-            {flags.map((f) => (
-              <li key={f.id} className="card-dark p-4 text-sm">
+      <Accordion title="Open fraud flags" compact className="">
+        <ul className="space-y-3 px-4 py-3">
+          {flags.length ? (
+            flags.map((f) => (
+              <li key={f.id} className="border border-white/10 p-3 text-sm">
                 <p>
                   {f.type} · {f.status} · {f.details}
                 </p>
-                <form action={reviewFraud} className="mt-2 flex gap-2">
-                  <input type="hidden" name="id" value={f.id} />
-                  <button name="status" value="reviewed" className="text-yellow">
-                    Bekeken
-                  </button>
-                  <button name="status" value="dismissed" className="text-muted">
-                    Wegcijferen
-                  </button>
-                </form>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  <form action={reviewFraud}>
+                    <input type="hidden" name="id" value={f.id} />
+                    <button name="status" value="reviewed" className="btn-ghost">
+                      Bekeken
+                    </button>
+                  </form>
+                  <form action={deleteFraudFlag}>
+                    <input type="hidden" name="id" value={f.id} />
+                    <button type="submit" className="btn-danger">
+                      Verwijderen
+                    </button>
+                  </form>
+                </div>
               </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+            ))
+          ) : (
+            <li className="text-sm text-muted">Geen open flags.</li>
+          )}
+        </ul>
+      </Accordion>
     </AdminChrome>
   );
 }

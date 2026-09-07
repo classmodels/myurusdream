@@ -4,12 +4,15 @@ import { prisma } from "@/lib/prisma";
 import { getSmtpConfig, smtpReady } from "@/lib/mail";
 import {
   createMailList,
+  deleteMailCampaign,
+  deleteMailList,
   importMailList,
   saveSmtp,
   sendBroadcast,
   sendMailCampaign,
   sendTestMail,
 } from "../actions";
+import { Accordion } from "@/components/Accordion";
 
 export const dynamic = "force-dynamic";
 
@@ -28,21 +31,24 @@ export default async function AdminMailenPage() {
   return (
     <AdminChrome title="Mailen">
       <p className="text-sm text-muted">
-        Zelfde soort dienst als ModelPort: Combell MailProtect (`smtp-auth.mailprotect.be`). Gebruik
-        een mailbox op <strong>myurusdream.be</strong> (niet hello@modelport.be). SPF/DKIM van dit
-        domein moet kloppen. De tekst die u typt gaat in het gele myurusdream-sjabloon.
+        Campagnes gaan via dezelfde dienst als ModelPort: <strong>Brevo</strong> (
+        <code>smtp-relay.brevo.com</code>, poort 587). U typt de mail hier; Brevo is de postbode.
+        Afzender blijft <strong>myurusdream.be &lt;info@myurusdream.be&gt;</strong> — die moet in
+        hetzelfde Brevo-account als afzender staan (niet hello@modelport.be).
+        Wachtwoord = de <strong>SMTP-sleutel</strong> in Brevo (begint vaak met xsmtpsib-), niet het
+        inlogwachtwoord van de mailbox.
       </p>
 
       <section className="card-dark space-y-4 p-6">
-        <h2 className="font-display text-2xl">SMTP</h2>
+        <h2 className="font-display text-2xl">SMTP (Brevo)</h2>
         <p className="text-sm text-muted">
-          {smtpReady(smtp) ? `Klaar · ${smtp.user} · ${smtp.host}` : "Nog niet ingesteld."}
+          {smtpReady(smtp) ? `Klaar · ${smtp.user} · ${smtp.host}` : "Nog niet ingesteld — plak de Brevo SMTP-sleutel."}
         </p>
         <form action={saveSmtp} className="grid gap-3 md:grid-cols-2">
-          <input name="host" defaultValue={smtp.host} placeholder="smtp-auth.mailprotect.be" />
+          <input name="host" defaultValue={smtp.host} placeholder="smtp-relay.brevo.com" />
           <input name="port" defaultValue={String(smtp.port)} placeholder="587" />
-          <input name="user" defaultValue={smtp.user} placeholder="info@myurusdream.be" />
-          <input name="pass" type="password" placeholder={smtp.pass ? "•••• (leeg = behouden)" : "Wachtwoord"} />
+          <input name="user" defaultValue={smtp.user} placeholder="…@smtp-brevo.com" />
+          <input name="pass" type="password" placeholder={smtp.pass ? "•••• (leeg = behouden)" : "Brevo SMTP-sleutel"} />
           <input name="from" defaultValue={smtp.from} className="md:col-span-2" placeholder="myurusdream.be <info@myurusdream.be>" />
           <button className="btn-yellow w-fit">SMTP opslaan</button>
         </form>
@@ -76,14 +82,43 @@ export default async function AdminMailenPage() {
           />
           <button className="btn-yellow w-fit">CSV importeren</button>
         </form>
-        <ul className="text-sm text-white/70">
-          {lists.map((l) => (
-            <li key={l.id}>
-              {l.name} · {l._count.contacts} adressen
-            </li>
-          ))}
-        </ul>
       </section>
+
+      <Accordion title="Lijsten" compact className="">
+        <ul className="space-y-2 px-4 py-3 text-sm">
+          {lists.length ? (
+            lists.map((l) => (
+              <li key={l.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0">
+                <span>
+                  {l.name} · {l._count.contacts} adressen
+                </span>
+                <form action={deleteMailList}>
+                  <input type="hidden" name="listId" value={l.id} />
+                  <button type="submit" className="btn-danger">
+                    Verwijderen
+                  </button>
+                </form>
+              </li>
+            ))
+          ) : (
+            <li className="text-muted">Nog geen lijsten.</li>
+          )}
+        </ul>
+      </Accordion>
+
+      <Accordion title="Voorbeeld van de mail" compact className="">
+        <div className="px-4 py-4">
+          <p className="mb-3 text-sm text-muted">
+            Zo ziet een mail eruit in het gele sjabloon. De tekst die u typt komt in het crème
+            middenstuk.
+          </p>
+          <iframe
+            title="Voorbeeldmail"
+            src="/admin/mailen/voorbeeld"
+            className="h-[520px] w-full border border-white/10 bg-black"
+          />
+        </div>
+      </Accordion>
 
       <section className="card-dark space-y-4 p-6">
         <h2 className="font-display text-2xl">Nieuwe mail</h2>
@@ -117,19 +152,28 @@ export default async function AdminMailenPage() {
         </form>
       </section>
 
-      {campaigns.length ? (
-        <section>
-          <h2 className="font-display text-2xl">Verzonden</h2>
-          <ul className="mt-4 space-y-2 text-sm">
-            {campaigns.map((c) => (
-              <li key={c.id} className="border-b border-white/10 pb-2">
-                {c.subject} · {c.sentCount} ok · {c.failCount} mislukt ·{" "}
-                {c.sentAt?.toLocaleString("nl-BE") || "—"}
+      <Accordion title="Verzonden" compact className="">
+        <ul className="space-y-2 px-4 py-3 text-sm">
+          {campaigns.length ? (
+            campaigns.map((c) => (
+              <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0">
+                <span>
+                  {c.subject} · {c.sentCount} ok · {c.failCount} mislukt ·{" "}
+                  {c.sentAt?.toLocaleString("nl-BE") || "—"}
+                </span>
+                <form action={deleteMailCampaign}>
+                  <input type="hidden" name="id" value={c.id} />
+                  <button type="submit" className="btn-danger">
+                    Verwijderen
+                  </button>
+                </form>
               </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+            ))
+          ) : (
+            <li className="text-muted">Nog geen verzonden mails.</li>
+          )}
+        </ul>
+      </Accordion>
     </AdminChrome>
   );
 }

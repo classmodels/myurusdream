@@ -24,7 +24,7 @@ export async function getSmtpConfig(): Promise<SmtpConfig> {
     }
   }
   return {
-    host: (await getSetting("smtp_host"))?.trim() || process.env.SMTP_HOST?.trim() || "smtp-auth.mailprotect.be",
+    host: (await getSetting("smtp_host"))?.trim() || process.env.SMTP_HOST?.trim() || "smtp-relay.brevo.com",
     port: Number((await getSetting("smtp_port"))?.trim() || process.env.SMTP_PORT || 587) || 587,
     user: (await getSetting("smtp_user"))?.trim() || process.env.SMTP_USER?.trim() || "",
     pass,
@@ -42,7 +42,7 @@ export async function saveSmtpConfig(input: {
   pass: string;
   from: string;
 }) {
-  await setSetting("smtp_host", input.host.trim() || "smtp-auth.mailprotect.be");
+  await setSetting("smtp_host", input.host.trim() || "smtp-relay.brevo.com");
   await setSetting("smtp_port", String(Number(input.port) || 587));
   await setSetting("smtp_user", input.user.trim());
   await setSetting("smtp_from", input.from.trim() || "myurusdream.be <info@myurusdream.be>");
@@ -56,11 +56,13 @@ export function smtpReady(cfg: SmtpConfig) {
 }
 
 function transporter(cfg: SmtpConfig) {
+  const secure = cfg.port === 465;
   return nodemailer.createTransport({
     host: cfg.host,
     port: cfg.port,
-    secure: cfg.port === 465,
-    auth: { user: cfg.user, pass: cfg.pass },
+    secure,
+    requireTLS: !secure,
+    auth: cfg.user ? { user: cfg.user, pass: cfg.pass } : undefined,
   });
 }
 

@@ -15,7 +15,8 @@ import {
   toggleReferralAdmin,
   tryGoLive,
 } from "../actions";
-import { hideComment } from "@/app/discussie/actions";
+import { deleteComment } from "@/app/discussie/actions";
+import { Accordion } from "@/components/Accordion";
 
 export const dynamic = "force-dynamic";
 
@@ -76,33 +77,40 @@ export default async function AdminInstellingenPage() {
             <input type="hidden" name="type" value="luck" />
             <button className="btn-ghost">Interne trekking</button>
           </form>
-          {draws.map((d) => (
-            <p key={d.id} className="text-sm">
-              {d.status} · {d.type} · {d.validEntryCount} · {d.winnerId || "—"}
-            </p>
-          ))}
+          {draws.length ? (
+            draws.map((d) => (
+              <p key={d.id} className="text-sm">
+                {d.status} · {d.type} · {d.validEntryCount} · {d.winnerId || "—"}
+              </p>
+            ))
+          ) : (
+            <p className="text-sm text-muted">Nog geen trekkingen.</p>
+          )}
         </div>
       </section>
 
-      <section>
-        <h2 className="font-display text-2xl">Discussie</h2>
-        <ul className="mt-4 space-y-3">
-          {comments.map((c) => (
-            <li key={c.id} className="card-dark p-4 text-sm">
-              <p className="text-yellow">
-                {c.name} {c.published ? "" : "(verborgen)"}
-              </p>
-              <p className="mt-1 text-white/70">{c.body}</p>
-              {c.published ? (
-                <form action={hideComment} className="mt-2">
+      <Accordion title="Discussie" compact className="">
+        <ul className="space-y-3 px-4 py-3">
+          {comments.length ? (
+            comments.map((c) => (
+              <li key={c.id} className="border border-white/10 p-3 text-sm">
+                <p className="text-yellow">
+                  {c.name} {c.published ? "" : "(verborgen)"}
+                </p>
+                <p className="mt-1 text-white/70">{c.body}</p>
+                <form action={deleteComment} className="mt-2">
                   <input type="hidden" name="id" value={c.id} />
-                  <button className="text-yellow">Verbergen</button>
+                  <button type="submit" className="btn-danger">
+                    Verwijderen
+                  </button>
                 </form>
-              ) : null}
-            </li>
-          ))}
+              </li>
+            ))
+          ) : (
+            <li className="text-sm text-muted">Nog geen berichten.</li>
+          )}
         </ul>
-      </section>
+      </Accordion>
     </AdminChrome>
   );
 }
