@@ -9,6 +9,10 @@ export async function getShareCopy() {
   return { text, subject };
 }
 
+export function facebookCardTitle(text: string) {
+  return text.split(/(?<=[.!?])\s+/)[0]?.trim() || text;
+}
+
 export function shareUrl(referralCode?: string | null) {
   const base = `${publicSiteUrl()}/meedoen`;
   return referralCode ? `${base}/${encodeURIComponent(referralCode)}` : base;

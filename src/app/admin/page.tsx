@@ -150,9 +150,9 @@ export default async function AdminPage() {
       <section className="card-dark p-6 space-y-4">
         <h2 className="font-display text-3xl">Tekst bij doorsturen</h2>
         <p className="text-sm text-muted">
-          Hier past u de tekst aan. Die gaat mee via WhatsApp, e-mail en als titel onder de foto op
-          Facebook. Op de telefoon kunt u Facebook kiezen in het deelmenu; op de computer plakt u de
-          tekst nog even boven de foto (Cmd+V).
+          Hier past u de tekst aan. WhatsApp zet die automatisch in het bericht. Facebook mag dat
+          vak bovenaan niet zelf invullen: na Open Facebook plakt u de tekst in het lege vak boven
+          de foto (Cmd+V).
         </p>
         <form action={saveShareCopy} className="grid gap-3">
           <input

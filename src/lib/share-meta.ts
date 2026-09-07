@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { SITE_NAME } from "./constants";
-import { getShareCopy } from "./share";
+import { facebookCardTitle, getShareCopy } from "./share";
 
 export async function socialShareMetadata(canonicalUrl: string): Promise<Metadata> {
   const copy = await getShareCopy();
+  const title = facebookCardTitle(copy.text);
   return {
     description: copy.text,
     openGraph: {
-      title: copy.text,
+      title,
       description: copy.text,
       url: canonicalUrl,
       siteName: SITE_NAME,
@@ -17,7 +18,7 @@ export async function socialShareMetadata(canonicalUrl: string): Promise<Metadat
     },
     twitter: {
       card: "summary_large_image",
-      title: copy.text,
+      title,
       description: copy.text,
       images: ["/5.png"],
     },
