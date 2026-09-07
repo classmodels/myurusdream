@@ -45,15 +45,33 @@ export default async function AdminMailenPage() {
           {smtpReady(smtp) ? `Klaar · ${smtp.user} · ${smtp.host}` : "Nog niet ingesteld — plak de Brevo SMTP-sleutel."}
         </p>
         <form action={saveSmtp} className="grid gap-3 md:grid-cols-2">
-          <input name="host" defaultValue={smtp.host} placeholder="smtp-relay.brevo.com" />
-          <input name="port" defaultValue={String(smtp.port)} placeholder="587" />
-          <input name="user" defaultValue={smtp.user} placeholder="…@smtp-brevo.com" />
-          <input name="pass" type="password" placeholder={smtp.pass ? "•••• (leeg = behouden)" : "Brevo SMTP-sleutel"} />
-          <input name="from" defaultValue={smtp.from} className="md:col-span-2" placeholder="myurusdream.be <info@myurusdream.be>" />
+          <label className="grid gap-1">
+            Host
+            <input name="host" defaultValue={smtp.host} placeholder="smtp-relay.brevo.com" />
+          </label>
+          <label className="grid gap-1">
+            Poort
+            <input name="port" defaultValue={String(smtp.port)} placeholder="587" />
+          </label>
+          <label className="grid gap-1">
+            Gebruikersnaam
+            <input name="user" defaultValue={smtp.user} placeholder="b6d3b2001@smtp-brevo.com" />
+          </label>
+          <label className="grid gap-1">
+            Wachtwoord
+            <input name="pass" type="password" placeholder={smtp.pass ? "•••• (leeg = behouden)" : "Brevo SMTP-sleutel"} />
+          </label>
+          <label className="grid gap-1 md:col-span-2">
+            Afzender
+            <input name="from" defaultValue={smtp.from} placeholder="myurusdream.be <info@myurusdream.be>" />
+          </label>
           <button className="btn-yellow w-fit">SMTP opslaan</button>
         </form>
-        <form action={sendTestMail} className="flex flex-wrap gap-2">
-          <input name="to" placeholder="test@adres.be" className="max-w-xs" />
+        <form action={sendTestMail} className="flex flex-wrap items-end gap-2">
+          <label className="grid gap-1">
+            Testmail naar
+            <input name="to" placeholder="uw@adres.be" className="max-w-xs" />
+          </label>
           <button className="btn-ghost">Testmail sturen</button>
         </form>
       </section>
