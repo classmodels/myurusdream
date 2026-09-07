@@ -46,8 +46,8 @@ export function LiveCounter({
 
   return (
     <section
-      id={showTitle ? "teller" : undefined}
-      className={`relative z-0 overflow-hidden bg-surface pt-8 pb-16 md:pt-10 md:pb-20 ${className ?? ""}`}
+      id="teller"
+      className={`relative z-0 overflow-x-clip bg-surface pt-8 pb-16 md:pt-10 md:pb-20 ${className ?? ""}`}
     >
       <div className="pointer-events-none absolute inset-0 grid-fade opacity-40" />
       <div className="relative mx-auto max-w-7xl px-5">

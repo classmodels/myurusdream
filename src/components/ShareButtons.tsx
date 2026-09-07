@@ -38,8 +38,8 @@ export function ShareButtons({
   return (
     <div>
       <div
-        className={`${compact ? "share-row-compact" : ""} flex gap-2 ${
-          stacked ? "flex-col" : "flex-wrap items-center"
+        className={`${compact ? "share-row-compact" : ""} ${
+          stacked ? "flex flex-col gap-2" : "share-grid"
         } ${className ?? (stacked ? "" : "justify-center")}`}
       >
         <a className="btn-yellow" href={links.whatsapp} target="_blank" rel="noreferrer">
@@ -60,7 +60,10 @@ export function ShareButtons({
         <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.snapchat, "Snapchat")}>
           Snapchat
         </button>
-        <CopyButton url={links.url} label={copyLabel ?? (referralCode ? "Kopieer mijn link" : "Kopieer campagne")} />
+        <CopyButton
+          url={links.url}
+          label={copyLabel ?? (referralCode ? "Kopieer mijn link" : "Kopieer campagne")}
+        />
       </div>
       {hint ? <p className="mt-2 text-xs text-yellow">{hint}</p> : null}
     </div>

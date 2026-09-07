@@ -37,7 +37,7 @@ export default async function PixelsPage({
             goalFailureText={campaign.goalFailureText}
             mollieReady={await mollieConfigured()}
             initialOccupied={occupied}
-            orderable={false}
+            orderable
             fullBleed
           />
         </div>

@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 
-export function CopyButton({ url, label = "Kopieer link" }: { url: string; label?: string }) {
+export function CopyButton({
+  url,
+  label = "Kopieer link",
+  className,
+}: {
+  url: string;
+  label?: string;
+  className?: string;
+}) {
   const [done, setDone] = useState(false);
 
   return (
     <button
       type="button"
-      className="btn-ghost"
+      className={`btn-ghost ${className ?? ""}`}
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(url);

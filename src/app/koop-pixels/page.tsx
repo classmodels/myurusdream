@@ -47,7 +47,7 @@ export default async function KoopPixelsPage({
   const occupied = withoutTitleReserveAds(live.length ? live : EXAMPLE_PIXELS);
 
   return (
-    <div className="relative isolate min-h-[100svh] overflow-hidden">
+    <div className="relative isolate min-h-[100svh] overflow-x-clip">
       <img src="/images/urus-night.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/78" />
       <div className="relative mx-auto max-w-7xl px-5 pb-24 pt-28">

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { SITE_NAME } from "@/lib/constants";
 import { NotificationBell } from "@/components/NotificationBell";
 import { persistReferralClient, readStoredReferralClient, referralFromPathname } from "@/lib/referral";
@@ -34,11 +34,32 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
       persistReferralClient(stored);
       setMeedoenHref(`/meedoen/${encodeURIComponent(stored)}`);
     }
+    const hash = window.location.hash.replace(/^#/, "");
+    if (hash) {
+      window.setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
+    }
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const linkClass =
     "whitespace-nowrap text-xs uppercase tracking-[0.14em] text-white/75 hover:text-yellow";
+
+  function go(href: string, e: MouseEvent<HTMLAnchorElement>) {
+    setOpen(false);
+    if (!href.includes("#")) return;
+    const hash = href.slice(href.indexOf("#") + 1);
+    const path = href.slice(0, href.indexOf("#")) || "/";
+    const here = window.location.pathname.replace(/\/$/, "") || "/";
+    const target = path.replace(/\/$/, "") || "/";
+    if (here !== target) return;
+    e.preventDefault();
+    window.setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.replaceState(null, "", `${path}#${hash}`);
+    }, 50);
+  }
 
   return (
     <header
@@ -61,7 +82,12 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
         </Link>
         <nav className="hidden items-center gap-4 xl:flex">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className={linkClass}>
+            <Link
+              key={l.href}
+              href={l.href}
+              className={linkClass}
+              onClick={(e) => go(l.href, e)}
+            >
               {l.label}
             </Link>
           ))}
@@ -89,7 +115,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
               <Link
                 key={l.href}
                 href={l.href}
-                onClick={() => setOpen(false)}
+                onClick={(e) => go(l.href, e)}
                 className="uppercase tracking-widest text-sm"
               >
                 {l.label}

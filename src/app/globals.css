@@ -251,6 +251,36 @@ section[id],
   letter-spacing: 0.04em;
 }
 
+.share-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.share-grid > a,
+.share-grid > button {
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .share-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: auto;
+  }
+
+  .share-grid > a,
+  .share-grid > button {
+    width: auto;
+  }
+}
+
 .card-dark {
   background: #111;
   border: 1px solid #2a2a2a;

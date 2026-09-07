@@ -157,7 +157,7 @@ export function PixelWall({
 
   function onWallPointerDown(e: PointerEvent<HTMLDivElement>) {
     if (!orderable) return;
-    if (e.button !== 0 && e.button !== 2) return;
+    if (e.pointerType !== "touch" && e.pointerType !== "pen" && e.button !== 0 && e.button !== 2) return;
     if ((e.target as HTMLElement).closest("[data-pixel-block], [data-pixel-reserve]")) return;
     const cell = cellAt(e);
     if (!cell || cellInTitleReserve(cell)) return;
@@ -220,7 +220,7 @@ export function PixelWall({
       setLogoUrl(data.url);
       setLogoPreview(compressed.dataUrl);
       setLogoName(file.name);
-      setStatus("Logo geplaatst. Sleep op de muur hoe groot het vak moet zijn.");
+      setStatus("Logo geplaatst. Tik of sleep op de muur hoe groot het vak moet zijn.");
     } catch {
       setStatus("Dit bestand kon niet als logo worden gelezen. Probeer JPG of PNG.");
     } finally {
@@ -239,7 +239,7 @@ export function PixelWall({
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!origin) {
-      setStatus("Selecteer eerst vakken op de muur (rechtermuisknop ingedrukt houden en slepen).");
+      setStatus("Selecteer eerst vakken op de muur (tik of klik, houd vast en sleep).");
       return;
     }
     if (!previewOk) {
@@ -314,10 +314,26 @@ export function PixelWall({
 
   return (
     <div className="space-y-8">
-      <div className={`overflow-x-auto border border-white/10 bg-black ${fullBleed ? "p-1 sm:p-2" : "p-2 md:p-3"}`}>
+      <div className="mb-4 flex flex-col items-center gap-3 px-1 text-center md:hidden">
+        {fullBleed ? (
+          <h1 className="pixelwall-title font-display text-4xl leading-none">De Pixelwall</h1>
+        ) : (
+          <p className="pixelwall-title font-display text-4xl leading-none">De Pixelwall</p>
+        )}
+        {orderable ? (
+          <p className="max-w-md text-sm text-white/70">
+            Tik en sleep op de muur om vakken te kiezen. Vanaf {formatCents(PIXEL_CELL_CENTS)} per vak.
+          </p>
+        ) : (
+          <Link href={pixelOrderHref()} className="btn-yellow !px-8 !py-2 !text-[0.7rem]">
+            Koop pixels vanaf {formatCents(PIXEL_CELL_CENTS)}
+          </Link>
+        )}
+      </div>
+      <div className={`overflow-x-clip border border-white/10 bg-black ${fullBleed ? "p-1 sm:p-2" : "p-2 md:p-3"}`}>
         <div
           ref={wallRef}
-          className={`pixel-wall select-none ${fullBleed ? "min-w-[1100px] w-full" : "min-w-[960px]"}`}
+          className={`pixel-wall select-none w-full min-w-0 ${orderable ? "touch-none" : ""}`}
           style={{
             gridTemplateColumns: `repeat(${PIXEL_COLS}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${PIXEL_ROWS}, minmax(0, 1fr))`,
@@ -418,23 +434,23 @@ export function PixelWall({
             }}
           >
             {fullBleed ? (
-              <h1 className="pixelwall-title whitespace-nowrap font-display text-4xl leading-none md:text-6xl">
+              <h1 className="pixelwall-title hidden whitespace-nowrap font-display text-4xl leading-none md:block md:text-6xl">
                 De Pixelwall
               </h1>
             ) : (
-              <p className="pixelwall-title whitespace-nowrap font-display text-4xl leading-none md:text-6xl">
+              <p className="pixelwall-title hidden whitespace-nowrap font-display text-4xl leading-none md:block md:text-6xl">
                 De Pixelwall
               </p>
             )}
             {!orderable ? (
               <Link
                 href={pixelOrderHref()}
-                className="btn-yellow mt-3 shrink-0 !px-8 !py-2 !text-[0.7rem]"
+                className="btn-yellow mt-3 hidden shrink-0 !px-8 !py-2 !text-[0.7rem] md:inline-flex"
               >
                 Koop piksels
               </Link>
             ) : (
-              <span className="btn-yellow mt-3 shrink-0 !px-8 !py-2 !text-[0.7rem]">
+              <span className="btn-yellow mt-3 hidden shrink-0 !px-8 !py-2 !text-[0.7rem] md:inline-flex">
                 Koop piksels
               </span>
             )}
@@ -487,7 +503,7 @@ export function PixelWall({
         {!fullBleed ? (
         <p className="mt-3 px-1 text-[10px] uppercase tracking-wide text-white/45 sm:text-xs sm:tracking-widest">
           vanaf {formatCents(PIXEL_CELL_CENTS)} per vak
-          {orderable ? " · houd de muisknop ingedrukt en selecteer de vakken die u wilt kopen" : ""}
+          {orderable ? " · tik of klik en sleep over de vakken die u wilt kopen" : ""}
         </p>
         ) : null}
       </div>
@@ -581,7 +597,7 @@ export function PixelWall({
             </div>
           ) : (
             <p className="mt-1.5 text-[0.7rem] text-white/60">
-              Nog geen vakken geselecteerd — klik of sleep op de muur
+              Nog geen vakken geselecteerd — tik of sleep op de muur
             </p>
           )}
         </div>
