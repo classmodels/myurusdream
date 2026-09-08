@@ -1,6 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { Reveal } from "@/components/Reveal";
+import { useState, type ReactNode } from "react";
 
 function GoldTitle({ children, as: Tag = "h3" }: { children: ReactNode; as?: "h2" | "h3" }) {
   return (
@@ -18,7 +19,42 @@ function Em({ children }: { children: ReactNode }) {
   return <strong className="font-semibold text-yellow">{children}</strong>;
 }
 
-function StoryBody() {
+function MoreBtn({
+  expanded,
+  onToggle,
+}: {
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="ml-2 inline-flex translate-y-[-1px] items-center whitespace-nowrap border border-yellow/50 bg-yellow/10 px-2.5 py-0.5 font-display text-[0.7rem] uppercase tracking-[0.16em] text-yellow transition hover:bg-yellow hover:text-black"
+      aria-expanded={expanded}
+    >
+      {expanded ? "Minder lezen" : "Meer lezen"}
+    </button>
+  );
+}
+
+function StoryPhoto() {
+  return (
+    <img
+      src="/images/urus-detail.png?v=20260908b"
+      alt="Detail van de Urus"
+      className="story-photo"
+    />
+  );
+}
+
+function StoryPreview({
+  expanded,
+  onToggle,
+}: {
+  expanded: boolean;
+  onToggle: () => void;
+}) {
   return (
     <div className="story-prose space-y-4">
       <P>
@@ -42,10 +78,16 @@ function StoryBody() {
       <P>
         Ik weet natuurlijk perfect wat zo&apos;n wagen kost. Zelf ongeveer €400.000 op tafel leggen
         is voor mij simpelweg niet realistisch. Dus kon ik accepteren dat het altijd een droom zou
-        blijven,{" "}
-        <Em>of één keer in mijn leven iets compleet anders proberen.</Em>
+        blijven, <Em>of één keer in mijn leven iets compleet anders proberen.</Em>
+        {!expanded ? <MoreBtn expanded={false} onToggle={onToggle} /> : null}
       </P>
+    </div>
+  );
+}
 
+function StoryRest({ onCollapse }: { onCollapse: () => void }) {
+  return (
+    <div className="story-prose mt-4 space-y-4">
       <GoldTitle>NIET ÉÉN PERSOON €400.000 VRAGEN, MAAR 200.000 MENSEN €2.</GoldTitle>
 
       <P>
@@ -94,8 +136,11 @@ function StoryBody() {
 
       <P>
         Als de actie slaagt, wil ik de droom ook delen. Zoals u verder op deze website kunt lezen,
-        worden <Em>vier weekends met de Lamborghini Urus weggegeven. Twee weekends worden door het
-        lot bepaald</Em>
+        worden{" "}
+        <Em>
+          vier weekends met de Lamborghini Urus weggegeven. Twee weekends worden door het lot
+          bepaald
+        </Em>
         , waardoor ook iemand die gewoon één keer €2 stort kans maakt om zelf de sleutels in handen
         te krijgen.
       </P>
@@ -129,11 +174,11 @@ function StoryBody() {
       <P>
         Misschien lachen mensen ermee en zeggen ze:{" "}
         <em className="text-white/70">“Die is compleet gek.”</em> Prima. Maar misschien denken ze
-        daarna ook:{" "}
-        <Em>“Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.”</Em> En precies dát kan
-        dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend, tienduizend... Misschien
-        begint het te leven op sociale media, wordt het gedeeld door iemand met een groot bereik en{" "}
-        <Em>haalt dit knotsgekke verhaal op een dag zelfs de media.</Em> Dan kunt u zeggen:{" "}
+        daarna ook: <Em>“Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.”</Em> En precies
+        dát kan dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend, tienduizend...
+        Misschien begint het te leven op sociale media, wordt het gedeeld door iemand met een groot
+        bereik en <Em>haalt dit knotsgekke verhaal op een dag zelfs de media.</Em> Dan kunt u
+        zeggen:{" "}
         <em className="text-white/70">
           “Ik was erbij. Ik heb meegedaan. Ik heb geholpen om dit verhaal aan het rollen te krijgen.”
         </em>{" "}
@@ -178,12 +223,28 @@ function StoryBody() {
 
       <P>
         <Em>Maar daarvoor moet iemand beginnen. Waarom niet u?</Em>
+        <MoreBtn expanded onToggle={onCollapse} />
       </P>
     </div>
   );
 }
 
+function StoryCta() {
+  return (
+    <div className="clear-both pt-8">
+      <Link href="/meedoen" className="btn-yellow">
+        Ik doe mee voor €2
+      </Link>
+      <p className="mt-4 max-w-2xl text-sm text-white/70 md:text-base">
+        <Em>Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.</Em>
+      </p>
+    </div>
+  );
+}
+
 export function HomeStory() {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <section id="verhaal" className="relative overflow-hidden bg-black pt-16 pb-10 md:pt-24 md:pb-14">
       <img
@@ -193,60 +254,17 @@ export function HomeStory() {
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
       />
       <div className="relative mx-auto max-w-7xl px-5">
-        <Reveal>
-          <p className="mb-3 font-display text-[0.75rem] tracking-[0.28em] text-yellow">Verhaal</p>
-          <h2 className="font-display text-3xl leading-[1.15] tracking-tight text-yellow sm:text-4xl md:text-5xl lg:text-6xl">
-            MIJN DROOM.
-            <br />
-            UW €2.
-            <br />
-            ONS VERHAAL.
-          </h2>
-        </Reveal>
+        <p className="mb-3 font-display text-[0.75rem] tracking-[0.28em] text-yellow">Verhaal</p>
+        <h2 className="font-display text-[clamp(1.05rem,2.6vw+0.35rem,3.5rem)] leading-[1.12] tracking-tight text-yellow md:whitespace-nowrap">
+          MIJN DROOM. UW €2. ONS VERHAAL.
+        </h2>
 
-        {/* Mobile: photo + scrollable story */}
-        <div className="mt-8 md:hidden">
-          <div className="aspect-[16/10] overflow-hidden border border-white/10">
-            <img
-              src="/images/urus-detail.png?v=20260908a"
-              alt="Detail van de Urus"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="story-scroll mt-5 max-h-[min(26rem,58vh)] overflow-y-auto overscroll-contain rounded-sm border border-white/10 bg-black/40 px-3 py-4 pr-2">
-            <StoryBody />
-          </div>
-          <div className="mt-5 space-y-3">
-            <Link href="/meedoen" className="btn-yellow w-full text-center">
-              Ik doe mee voor €2
-            </Link>
-            <p className="text-sm text-white/70">
-              <Em>Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.</Em>
-            </p>
-          </div>
-        </div>
-
-        {/* Desktop: story wraps around the photo */}
-        <Reveal className="mt-10 hidden md:block">
-          <article className="story-wrap">
-            <img
-              src="/images/urus-detail.png?v=20260908a"
-              alt="Detail van de Urus"
-              className="story-wrap-photo"
-            />
-            <StoryBody />
-            <div className="clear-both pt-8">
-              <Link href="/meedoen" className="btn-yellow">
-                Ik doe mee voor €2
-              </Link>
-              <p className="mt-4 max-w-2xl text-sm text-white/70 md:text-base">
-                <Em>
-                  Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.
-                </Em>
-              </p>
-            </div>
-          </article>
-        </Reveal>
+        <article className="story-layout mt-8 md:mt-10">
+          <StoryPhoto />
+          <StoryPreview expanded={expanded} onToggle={() => setExpanded(true)} />
+          {expanded ? <StoryRest onCollapse={() => setExpanded(false)} /> : null}
+          <StoryCta />
+        </article>
       </div>
     </section>
   );

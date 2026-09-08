@@ -591,19 +591,33 @@ details[open] > summary .accordion-mark::after {
   content: "−";
 }
 
-.story-wrap-photo {
-  float: right;
-  width: min(42%, 28rem);
-  margin: 0.15rem 0 1.25rem 1.75rem;
+.story-layout {
+  display: flow-root;
+}
+
+.story-photo {
+  display: block;
+  width: 100%;
   aspect-ratio: 16 / 11;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .story-photo {
+    float: left;
+    width: min(44%, 30rem);
+    margin: 0.15rem 1.75rem 1.1rem 0;
+    aspect-ratio: 16 / 11;
+  }
 }
 
 .story-prose h2,
 .story-prose h3 {
   margin-top: 1.35rem;
   margin-bottom: 0.35rem;
+  clear: both;
 }
 
 .story-scroll {
