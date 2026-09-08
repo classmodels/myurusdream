@@ -598,7 +598,7 @@ details[open] > summary .accordion-mark::after {
 .story-photo {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 11;
   object-fit: cover;
   object-position: center 35%;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -608,11 +608,11 @@ details[open] > summary .accordion-mark::after {
 @media (min-width: 768px) {
   .story-photo {
     float: left;
-    width: min(38%, 24rem);
-    max-height: 15.5rem;
-    margin: 0.2rem 1.6rem 0.85rem 0;
-    aspect-ratio: auto;
-    height: 15.5rem;
+    width: min(48%, 34rem);
+    margin: 0.2rem 1.75rem 1rem 0;
+    aspect-ratio: 16 / 11;
+    height: auto;
+    max-height: none;
   }
 }
 
