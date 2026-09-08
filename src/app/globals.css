@@ -598,14 +598,19 @@ details[open] > summary .accordion-mark::after {
 
 .story-heading-fit > h2 {
   margin: 0;
+  display: flex;
   width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.25rem;
   white-space: nowrap;
-  font-size: calc(100cqi / 51.5);
+  font-size: calc(100cqi / 48);
   line-height: 1.2;
 }
 
 .story-heading-aside {
-  margin-left: 0.95em;
+  margin-left: auto;
+  text-align: right;
 }
 
 .story-heading-gap-lg {
