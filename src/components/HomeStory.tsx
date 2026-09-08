@@ -81,7 +81,10 @@ function StoryPreview({
       <P>
         Ik weet natuurlijk perfect wat zo&apos;n wagen kost. Zelf ongeveer €400.000 op tafel leggen
         is voor mij simpelweg niet realistisch. Dus kon ik accepteren dat het altijd een droom zou
-        blijven, <Em>of één keer in mijn leven iets compleet anders proberen.</Em>
+        blijven,{" "}
+        <Em>
+          <span className="mt-2 block">of één keer in mijn leven iets compleet anders proberen.</span>
+        </Em>
       </P>
 
       <P>
