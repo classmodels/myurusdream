@@ -1,13 +1,25 @@
 /**
  * One-shot launch cleanup for Combell serve.
  * - Sets campaign start 9 Sep 2026 and end 31 Oct 2026
+ * - Updates homepage story text
  * - Removes test participants (keeps admins + Van Gyzel Alain)
  * Runs only once (SiteContent flag).
  */
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { PrismaClient } from "@prisma/client";
 
 const FLAG = "launch_cleanup_20260908";
 const prisma = new PrismaClient();
+
+function loadHomeStory() {
+  const root = dirname(fileURLToPath(import.meta.url));
+  const src = readFileSync(join(root, "../src/lib/home-story.ts"), "utf8");
+  const match = src.match(/export const HOME_STORY_PLAIN = `([\s\S]*?)`;/);
+  if (!match) throw new Error("HOME_STORY_PLAIN not found in src/lib/home-story.ts");
+  return match[1];
+}
 
 function keepParticipant(user) {
   if (user.role === "admin") return true;
@@ -63,17 +75,25 @@ async function removeUser(user) {
 }
 
 async function main() {
+  const storyText = loadHomeStory();
+  const campaign = await prisma.campaign.findFirst({ where: { slug: "myurusdream" } });
+  if (!campaign) throw new Error("Campaign myurusdream not found");
+
+  // Always refresh story text so later copy updates land without a new flag.
+  await prisma.campaign.update({
+    where: { id: campaign.id },
+    data: { storyText },
+  });
+  console.log("campaign story text updated");
+
   const done = await prisma.siteContent.findUnique({ where: { key: FLAG } });
   if (done?.value === "1") {
-    console.log("launch cleanup already done — skip");
+    console.log("launch cleanup already done — skip dates/users");
     return;
   }
 
   const startDate = new Date("2026-09-09T00:00:00+02:00");
   const endDate = new Date("2026-10-31T23:59:59+02:00");
-
-  const campaign = await prisma.campaign.findFirst({ where: { slug: "myurusdream" } });
-  if (!campaign) throw new Error("Campaign myurusdream not found");
 
   await prisma.campaign.update({
     where: { id: campaign.id },

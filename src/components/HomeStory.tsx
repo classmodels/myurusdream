@@ -1,0 +1,253 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { Reveal } from "@/components/Reveal";
+
+function GoldTitle({ children, as: Tag = "h3" }: { children: ReactNode; as?: "h2" | "h3" }) {
+  return (
+    <Tag className="font-display text-[1.05rem] leading-snug tracking-[0.06em] text-yellow sm:text-xl md:text-2xl">
+      {children}
+    </Tag>
+  );
+}
+
+function P({ children }: { children: ReactNode }) {
+  return <p className="text-[0.95rem] leading-relaxed text-white/80 md:text-base">{children}</p>;
+}
+
+function Em({ children }: { children: ReactNode }) {
+  return <strong className="font-semibold text-yellow">{children}</strong>;
+}
+
+function StoryBody() {
+  return (
+    <div className="story-prose space-y-4">
+      <P>
+        Ik ga u geen verhaal vertellen over een goed doel en ik ga u ook niet proberen te overtuigen
+        met ziekte, drama of een verzonnen reden waarom ik uw geld zou verdienen.{" "}
+        <Em>
+          Mijn reden is veel eenvoudiger: ik droom al heel mijn leven van een uitzonderlijke wagen
+          en voor mij is dat de Lamborghini Urus.
+        </Em>
+      </P>
+
+      <P>
+        Mijn leven is niet altijd gelopen zoals ik het ooit voor ogen had. Ik ben getrouwd geweest,
+        kreeg twee kinderen en dacht, zoals zoveel mensen, dat ik ongeveer wist hoe mijn toekomst
+        eruit zou zien. Het leven besliste anders. Er zijn mooie maar ook moeilijke jaren geweest,
+        jaren waarin dromen naar de achtergrond verdwenen en andere dingen belangrijker waren:
+        werken, doorgaan, opnieuw beginnen en rijden met de auto&apos;s die op dat moment haalbaar
+        waren. Maar sommige dromen verdwijnen niet, en die Lamborghini Urus is er voor mij zo één.
+      </P>
+
+      <P>
+        Ik weet natuurlijk perfect wat zo&apos;n wagen kost. Zelf ongeveer €400.000 op tafel leggen
+        is voor mij simpelweg niet realistisch. Dus kon ik accepteren dat het altijd een droom zou
+        blijven,{" "}
+        <Em>of één keer in mijn leven iets compleet anders proberen.</Em>
+      </P>
+
+      <GoldTitle>NIET ÉÉN PERSOON €400.000 VRAGEN, MAAR 200.000 MENSEN €2.</GoldTitle>
+
+      <P>
+        Dat is het hele idee achter <Em>My Urus Dream</Em>. Geen grote sponsor, geen miljonair die
+        alles betaalt en geen zielig verhaal, maar heel veel mensen die ieder een piepklein stukje
+        van een bijna onmogelijke droom dragen. <Em>200.000 mensen × €2 = €400.000.</Em> Voor één
+        persoon verandert €2 waarschijnlijk niets, maar 200.000 keer €2 kan iets ongelooflijks
+        mogelijk maken.
+      </P>
+
+      <P>
+        Misschien denkt u:{" "}
+        <em className="text-white/70">
+          “Waarom zou ik €2 geven zodat iemand anders een Lamborghini kan kopen?”
+        </em>{" "}
+        Een terechte vraag. Ik beweer niet dat ik een Lamborghini nodig heb, dat ik hem verdien of
+        dat mijn droom belangrijker is dan die van iemand anders.{" "}
+        <Em>Ik probeer gewoon iets waarvan bijna iedereen zal zeggen: “Dat lukt nooit.”</Em> Maar
+        stel dat het wél lukt? Dat 200.000 gewone mensen, die elkaar niet eens kennen, samen iets
+        realiseren wat voor één gewone persoon totaal onbereikbaar is? Dan gaat dit niet alleen meer
+        over een auto, maar over wat er mogelijk wordt wanneer heel veel mensen allemaal één heel
+        klein ding doen.
+      </P>
+
+      <P>
+        En daar zit meteen de moeilijkheid. Misschien denkt u:{" "}
+        <em className="text-white/70">“Als genoeg andere mensen €2 storten, komt hij er wel.”</em>{" "}
+        <Em>Maar als iedereen denkt dat iemand anders het zal doen, gebeurt er niets.</Em> Het werkt
+        alleen als de persoon die dit nú leest denkt:{" "}
+        <em className="text-white/70">“Ach kom, voor €2 doe ik mee.”</em>
+      </P>
+
+      <P>
+        Veel vraag ik eigenlijk niet: één minuut van uw tijd. Klik op{" "}
+        <Em>‘Ik doe mee voor €2’</Em>, vul uw naam in en scan de QR-code; de betaling verloopt via
+        het officiële betaalsysteem. Klaar. En wat is €2 vandaag nog? Een pintje, frisdrank of
+        koffie kost vaak al meer. Laat één drankje staan en u hebt financieel misschien zelfs nog
+        winst gemaakt, maar hier krijgt u er iets bij:{" "}
+        <Em>
+          u wordt een klein stukje van dit verhaal en kunt, als deze compleet gekke droom
+          werkelijkheid wordt, zeggen: “Ik heb meegedaan.”
+        </Em>
+      </P>
+
+      <GoldTitle>EN MISSCHIEN RIJDT U ZELF WEL MET DE URUS</GoldTitle>
+
+      <P>
+        Als de actie slaagt, wil ik de droom ook delen. Zoals u verder op deze website kunt lezen,
+        worden <Em>vier weekends met de Lamborghini Urus weggegeven. Twee weekends worden door het
+        lot bepaald</Em>
+        , waardoor ook iemand die gewoon één keer €2 stort kans maakt om zelf de sleutels in handen
+        te krijgen.
+      </P>
+
+      <P>
+        <Em>
+          De andere twee weekends laat ik niet alleen aan het geluk over: daar hebt u zelf invloed
+          op.
+        </Em>{" "}
+        U stort zelf maar één keer €2 en kunt daarna andere mensen uitnodigen om ook deel te nemen.
+        Stort iemand via u, dan verdient u punten. En als die persoon het verhaal vervolgens verder
+        verspreidt en er via hem of haar opnieuw mensen deelnemen,{" "}
+        <Em>levert dat u eveneens punten op.</Em> Uw ene deelname kan dus het begin worden van een
+        hele ketting. De twee deelnemers die uiteindelijk de meeste punten verzamelen,{" "}
+        <Em>winnen ieder een weekend met de Lamborghini Urus.</Em>
+      </P>
+
+      <GoldTitle>LAAT HET VERHAAL VIRAAL GAAN</GoldTitle>
+
+      <P>
+        En dat is eigenlijk mijn tweede droom met dit project: niet alleen die Urus realiseren, maar
+        ontdekken <Em>hoe ver we dit verhaal samen kunnen krijgen.</Em> Deel uw persoonlijke link
+        met vrienden, familie en collega&apos;s via WhatsApp, Facebook, Instagram, TikTok of waar u
+        maar wilt. Vertel gewoon:{" "}
+        <em className="text-white/70">
+          “Er is iemand die probeert een Lamborghini Urus te realiseren door 200.000 mensen elk €2
+          te laten bijdragen.”
+        </em>
+      </P>
+
+      <P>
+        Misschien lachen mensen ermee en zeggen ze:{" "}
+        <em className="text-white/70">“Die is compleet gek.”</em> Prima. Maar misschien denken ze
+        daarna ook:{" "}
+        <Em>“Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.”</Em> En precies dát kan
+        dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend, tienduizend... Misschien
+        begint het te leven op sociale media, wordt het gedeeld door iemand met een groot bereik en{" "}
+        <Em>haalt dit knotsgekke verhaal op een dag zelfs de media.</Em> Dan kunt u zeggen:{" "}
+        <em className="text-white/70">
+          “Ik was erbij. Ik heb meegedaan. Ik heb geholpen om dit verhaal aan het rollen te krijgen.”
+        </em>{" "}
+        En wie weet bent u uiteindelijk zelfs één van de vier mensen die daadwerkelijk met de Urus
+        mag rijden.
+      </P>
+
+      <GoldTitle>DUS HEB IK NOG ÉÉN VRAAG AAN U</GoldTitle>
+
+      <P>
+        Als u tot hier gelezen hebt, hebt u waarschijnlijk méér tijd aan mijn droom besteed dan het
+        kost om effectief mee te doen. Denk dus niet:{" "}
+        <Em>“Iemand anders zal die €2 wel storten”</Em>, want die andere persoon denkt misschien
+        precies hetzelfde.
+      </P>
+
+      <P>
+        Het werkt alleen als u denkt: <Em>“Kom. Waarom eigenlijk niet?”</Em> Eén minuut, één kleine
+        betaling, €2. Niet omdat ik u een zielig verhaal heb verteld of beweer dat ik recht heb op
+        een Lamborghini, maar gewoon omdat u het idee misschien even knotsgek, grappig en spannend
+        vindt als ik en benieuwd bent naar het antwoord op één vraag:
+      </P>
+
+      <GoldTitle as="h2">
+        KUNNEN 200.000 MENSEN MET ELK €2 ÉÉN BIJNA ONMOGELIJKE DROOM WAARMAKEN?
+      </GoldTitle>
+
+      <P>
+        Misschien lukt het nooit. Misschien wordt het één grote mislukking waar ik later hartelijk
+        om kan lachen. <Em>Maar misschien lukt het wél.</Em> En als ik ooit voor die Lamborghini
+        Urus sta, zal ik weten dat hij daar niet staat dankzij één rijke schenker, maar dankzij
+        duizenden mensen die allemaal hetzelfde dachten:
+      </P>
+
+      <GoldTitle as="h2">“ACH KOM. VOOR €2 DOE IK MEE.”</GoldTitle>
+
+      <P>
+        Dan hebben heel veel mensen met een piepkleine actie één mens ongelooflijk gelukkig gemaakt.
+        Misschien was u één van hen, misschien hebt u geholpen het verhaal groot te maken en
+        misschien zit u uiteindelijk zelfs zelf achter het stuur.
+      </P>
+
+      <P>
+        <Em>Maar daarvoor moet iemand beginnen. Waarom niet u?</Em>
+      </P>
+    </div>
+  );
+}
+
+export function HomeStory() {
+  return (
+    <section id="verhaal" className="relative overflow-hidden bg-black pt-16 pb-10 md:pt-24 md:pb-14">
+      <img
+        src="/images/urus-dusk.png?v=20260908a"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
+      />
+      <div className="relative mx-auto max-w-7xl px-5">
+        <Reveal>
+          <p className="mb-3 font-display text-[0.75rem] tracking-[0.28em] text-yellow">Verhaal</p>
+          <h2 className="font-display text-3xl leading-[1.15] tracking-tight text-yellow sm:text-4xl md:text-5xl lg:text-6xl">
+            MIJN DROOM.
+            <br />
+            UW €2.
+            <br />
+            ONS VERHAAL.
+          </h2>
+        </Reveal>
+
+        {/* Mobile: photo + scrollable story */}
+        <div className="mt-8 md:hidden">
+          <div className="aspect-[16/10] overflow-hidden border border-white/10">
+            <img
+              src="/images/urus-detail.png?v=20260908a"
+              alt="Detail van de Urus"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="story-scroll mt-5 max-h-[min(26rem,58vh)] overflow-y-auto overscroll-contain rounded-sm border border-white/10 bg-black/40 px-3 py-4 pr-2">
+            <StoryBody />
+          </div>
+          <div className="mt-5 space-y-3">
+            <Link href="/meedoen" className="btn-yellow w-full text-center">
+              Ik doe mee voor €2
+            </Link>
+            <p className="text-sm text-white/70">
+              <Em>Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.</Em>
+            </p>
+          </div>
+        </div>
+
+        {/* Desktop: story wraps around the photo */}
+        <Reveal className="mt-10 hidden md:block">
+          <article className="story-wrap">
+            <img
+              src="/images/urus-detail.png?v=20260908a"
+              alt="Detail van de Urus"
+              className="story-wrap-photo"
+            />
+            <StoryBody />
+            <div className="clear-both pt-8">
+              <Link href="/meedoen" className="btn-yellow">
+                Ik doe mee voor €2
+              </Link>
+              <p className="mt-4 max-w-2xl text-sm text-white/70 md:text-base">
+                <Em>
+                  Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.
+                </Em>
+              </p>
+            </div>
+          </article>
+        </Reveal>
+      </div>
+    </section>
+  );
+}

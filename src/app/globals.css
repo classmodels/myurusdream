@@ -591,18 +591,33 @@ details[open] > summary .accordion-mark::after {
   content: "−";
 }
 
-.story-tail-fit {
-  container-type: inline-size;
-  width: 100%;
+.story-wrap-photo {
+  float: right;
+  width: min(42%, 28rem);
+  margin: 0.15rem 0 1.25rem 1.75rem;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.story-tail-fit > p {
-  margin: 0;
-  width: 100%;
-  overflow: visible;
-  white-space: nowrap;
-  line-height: 1.15;
-  font-size: calc(100cqw / 23.55);
+.story-prose h2,
+.story-prose h3 {
+  margin-top: 1.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.story-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--yellow-dim) rgba(255, 255, 255, 0.06);
+}
+
+.story-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.story-scroll::-webkit-scrollbar-thumb {
+  background: var(--yellow-dim);
+  border-radius: 999px;
 }
 
 .pixel-select-overlay {

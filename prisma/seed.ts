@@ -2,33 +2,12 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { CAMPAIGN_SLUG, DEFAULT_CHECKLIST, GOAL_FAILURE_OPTIONS } from "../src/lib/constants";
 import { DEFAULT_FAQS } from "../src/lib/faq";
+import { HOME_STORY_PLAIN } from "../src/lib/home-story";
 import { EXAMPLE_PIXELS, EXAMPLE_SPONSORS, pixelPriceCents } from "../src/lib/sponsors";
 
 const prisma = new PrismaClient();
 
-const STORY = `Ik ga u geen verhaal vertellen over een goed doel.
-
-En ook niet proberen te overtuigen met een ziekte, een drama of een verzonnen reden.
-
-Mijn reden is veel eenvoudiger.
-
-Ik droom al heel mijn leven van een uitzonderlijke wagen.
-
-Ik heb jarenlang gereden met oudere en gewone auto's en een Lamborghini Urus kopen uit eigen middelen is voor mij simpelweg niet realistisch.
-
-Daarom wil ik één keer iets totaal anders proberen.
-
-Niet één persoon €400.000 vragen.
-
-Maar 200.000 mensen vragen of ze ieder €2 van die droom willen dragen.
-
-Voor één persoon is €2 een klein bedrag.
-
-200.000 keer €2 kan iets ongelooflijks mogelijk maken.
-
-Of het lukt?
-
-Laat ons samen bewijzen dat geen enkel idee te gek is om waar te maken.`;
+const STORY = HOME_STORY_PLAIN;
 
 const MONEY = [
   {
@@ -93,7 +72,7 @@ async function main() {
 
   await prisma.campaign.upsert({
     where: { slug: CAMPAIGN_SLUG },
-    update: { name: "myurusdream.be" },
+    update: { name: "myurusdream.be", storyText: STORY },
     create: {
       slug: CAMPAIGN_SLUG,
       name: "myurusdream.be",

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LiveCounter } from "@/components/LiveCounter";
 import { HowItWorks } from "@/components/HowItWorks";
+import { HomeStory } from "@/components/HomeStory";
 import { DisclaimerStrip } from "@/components/DisclaimerStrip";
 import { Reveal } from "@/components/Reveal";
 import { ShareRow } from "@/components/ShareRow";
@@ -20,12 +21,6 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const view = await getPublicCampaignView();
   const [visitors, onlineVisitors] = await Promise.all([uniqueVisitorCount(), onlineVisitorCount()]);
-  const story = view.campaign.storyText.split("\n").filter(Boolean);
-  const storySplit = story.findIndex((p) => /^of het lukt\?/i.test(p));
-  const storyMain = storySplit === -1 ? story : story.slice(0, storySplit);
-  const storyTail = storySplit === -1 ? [] : story.slice(storySplit);
-  const [tailHeading, ...tailRest] = storyTail;
-  const tailBody = tailRest.filter((p) => !/^ik heb geen idee\.?$/i.test(p.trim()));
   const sponsors = await displaySponsorCards(view.campaign.id);
   const grouped = groupSponsors(sponsors);
   const realHeadlines = grouped.headline.filter((s) => !isExampleSponsor(s.name));
@@ -151,94 +146,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="verhaal" className="relative overflow-hidden bg-black pt-20 pb-8 md:pt-28 md:pb-10">
-        <img
-          src="/images/urus-dusk.png?v=20260908a"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
-        />
-        <div className="relative mx-auto max-w-7xl px-5">
-          <Reveal className="relative">
-            <p className="absolute bottom-full left-0 mb-3 font-display text-[0.8rem] tracking-[0.3em] text-yellow">
-              Waarom deze campagne?
-            </p>
-            <h2 className="font-display text-4xl md:text-6xl">Waarom doe ik dit?</h2>
-          </Reveal>
-          <div className="mt-8 grid items-start gap-12 md:grid-cols-2">
-            <Reveal>
-              <div className="aspect-cinema overflow-hidden border border-white/10">
-                <img
-                  src="/images/urus-detail.png?v=20260908a"
-                  alt="Detail van de Urus"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              {tailHeading ? (
-                <div className="story-tail-fit mt-8">
-                  <p className="font-display text-yellow">
-                    {/^of het lukt\??$/i.test(tailHeading.trim()) ? (
-                      <>
-                        {tailHeading}
-                        <span className="mx-[0.35em] tracking-[0.28em]">...</span>
-                        <span>geen idee</span>
-                        <span className="text-white/50"> wel mijn gekste idee .... ooit!</span>
-                      </>
-                    ) : (
-                      tailHeading
-                    )}
-                  </p>
-                  {tailBody.length ? (
-                    <div className="mt-2 space-y-0 text-white/80">
-                      {tailBody.map((p) => (
-                        <p key={p.slice(0, 24)}>{p}</p>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-            </Reveal>
-            <Reveal>
-              <div className="space-y-2 text-white/80">
-                {storyMain.map((p, i) => {
-                  const next = storyMain[i + 1];
-                  if (
-                    /^mijn reden is veel eenvoudiger/i.test(p) &&
-                    next &&
-                    /^ik droom al heel mijn leven/i.test(next)
-                  ) {
-                    return (
-                      <p
-                        key={p.slice(0, 24)}
-                        className="my-8 font-display text-lg leading-[1.15] text-yellow md:my-10 md:text-xl"
-                      >
-                        {p}
-                        <span className="mt-2 block">{next}</span>
-                      </p>
-                    );
-                  }
-                  if (/^ik droom al heel mijn leven/i.test(p)) return null;
-                  if (/geen verhaal vertellen/i.test(p)) {
-                    return (
-                      <p key={p.slice(0, 24)} className="!mb-0">
-                        {p}
-                      </p>
-                    );
-                  }
-                  if (/overtuigen/i.test(p)) {
-                    return (
-                      <p key={p.slice(0, 24)} className="!mt-0">
-                        {p}
-                      </p>
-                    );
-                  }
-                  return <p key={p.slice(0, 24)}>{p}</p>;
-                })}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      <HomeStory />
 
       <section className="border-b border-white/10 bg-black pt-4 pb-8 md:pt-6 md:pb-10">
         <div className="px-2 sm:px-2.5 md:px-3">
