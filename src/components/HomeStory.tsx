@@ -62,8 +62,10 @@ function StoryPreview({
         Ik ga u geen verhaal vertellen over een goed doel en ik ga u ook niet proberen te overtuigen
         met ziekte, drama of een verzonnen reden waarom ik uw geld zou verdienen.{" "}
         <Em>
-          Mijn reden is veel eenvoudiger: ik droom al heel mijn leven van een uitzonderlijke wagen
-          en voor mij is dat de Lamborghini Urus.
+          <span className="mt-2 block">
+            Mijn reden is veel eenvoudiger: ik droom al heel mijn leven van een uitzonderlijke wagen
+            en voor mij is dat de Lamborghini Urus.
+          </span>
         </Em>
       </P>
 
