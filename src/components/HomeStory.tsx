@@ -27,8 +27,12 @@ function GoldLine({ children }: { children: ReactNode }) {
   );
 }
 
-function Quote({ children }: { children: ReactNode }) {
-  return <em className="mt-1.5 block text-white/70">{children}</em>;
+function Quote({ children, block = false }: { children: ReactNode; block?: boolean }) {
+  return (
+    <em className={block ? "mt-1.5 block text-white/70" : "ml-3 text-white/70"}>
+      {children}
+    </em>
+  );
 }
 
 function Beat({ children }: { children: ReactNode }) {
@@ -221,7 +225,7 @@ function StoryRest({ onCollapse }: { onCollapse: () => void }) {
         <P>
           Deel uw persoonlijke link met vrienden, familie en collega&apos;s via WhatsApp, Facebook,
           Instagram, TikTok of waar u maar wilt. Vertel gewoon:
-          <Quote>
+          <Quote block>
             “Er is iemand die probeert een Lamborghini Urus te realiseren door 200.000 mensen elk €2
             te laten bijdragen.”
           </Quote>
