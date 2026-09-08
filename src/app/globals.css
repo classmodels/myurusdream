@@ -619,16 +619,31 @@ details[open] > summary .accordion-mark::after {
 .story-prose > * + p,
 .story-prose > * + h2,
 .story-prose > * + h3 {
-  margin-top: 1rem;
+  margin-top: 0.85rem;
+}
+
+.story-rest > .story-beat + .story-beat {
+  margin-top: 1.35rem;
 }
 
 .story-rest > h2,
 .story-rest > h3 {
   margin-top: 2rem;
+  margin-bottom: 0.65rem;
+  clear: both;
 }
 
 .story-rest > h2:first-child,
 .story-rest > h3:first-child {
+  margin-top: 0.25rem;
+}
+
+.story-rest > h2 + .story-beat,
+.story-rest > h3 + .story-beat {
+  margin-top: 0.15rem;
+}
+
+.story-beat > p + p {
   margin-top: 0.35rem;
 }
 
