@@ -617,6 +617,13 @@ details[open] > summary .accordion-mark::after {
   container-type: inline-size;
 }
 
+@media (min-width: 768px) {
+  .story-heading-aside {
+    align-self: end;
+    transform: translateY(0.9rem);
+  }
+}
+
 .story-heading-aside-inner {
   display: block;
   width: 100%;

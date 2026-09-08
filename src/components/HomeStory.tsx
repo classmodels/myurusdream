@@ -357,7 +357,7 @@ export function HomeStory() {
           </h2>
         </div>
 
-        <article className="story-layout mt-8 md:mt-10">
+        <article className="story-layout mt-4 md:mt-5">
           <StoryPreview expanded={expanded} onToggle={() => setExpanded(true)} />
           {expanded ? <StoryRest onCollapse={() => setExpanded(false)} /> : null}
           <StoryCta />
