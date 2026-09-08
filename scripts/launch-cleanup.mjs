@@ -2,15 +2,16 @@
  * One-shot launch cleanup for Combell serve.
  * - Sets campaign start 9 Sep 2026 and end 31 Oct 2026
  * - Updates homepage story text
- * - Removes test participants (keeps admins + Van Gyzel Alain)
- * Runs only once (SiteContent flag).
+ * - Removes ALL test participants (keeps admins + Van Gyzel Alain)
+ * - Also removes their paid contributions from the live counter
+ * Runs once per FLAG version.
  */
 import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { PrismaClient } from "@prisma/client";
 
-const FLAG = "launch_cleanup_20260908";
+const FLAG = "launch_cleanup_20260908_v2";
 const prisma = new PrismaClient();
 
 function loadHomeStory() {
@@ -28,50 +29,32 @@ function keepParticipant(user) {
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "");
   const compact = full.replace(/\s+/g, "");
-  const isAlain = full.includes("alain");
+  const email = String(user.email || "").toLowerCase();
+  const isAlain = full.includes("alain") || email.includes("alain");
   const isVanGyzel =
-    full.includes("van gyzel") || compact.includes("vangyzel") || full.includes("gyzel");
+    full.includes("van gyzel") ||
+    compact.includes("vangyzel") ||
+    full.includes("gyzel") ||
+    email.includes("vangyzel") ||
+    email.includes("gyzel");
   return isAlain && isVanGyzel;
 }
 
 async function removeUser(user) {
-  const paid = await prisma.payment.findFirst({
-    where: { userId: user.id, status: "paid" },
-    select: { id: true },
-  });
+  console.log(`removing test user ${user.firstName || ""} ${user.lastName || ""} <${user.email}>`);
 
   await prisma.session.deleteMany({ where: { userId: user.id } });
   await prisma.pushDevice.deleteMany({ where: { userId: user.id } }).catch(() => null);
   await prisma.noticeRead.deleteMany({ where: { userId: user.id } }).catch(() => null);
-
-  if (paid) {
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        blocked: true,
-        email: `deleted-${user.id.slice(0, 8)}@deleted.local`,
-        firstName: null,
-        lastName: null,
-        phone: null,
-        phoneNormalized: null,
-        address: null,
-        companyName: null,
-        vatNumber: null,
-      },
-    });
-    console.log(`anonymized paid user ${user.email}`);
-    return;
-  }
-
   await prisma.referral.deleteMany({
     where: { OR: [{ referrerId: user.id }, { referredUserId: user.id }] },
   });
   await prisma.pointsTransaction.deleteMany({ where: { userId: user.id } });
   await prisma.prizeEntry.deleteMany({ where: { userId: user.id } });
   await prisma.legalAcceptance.deleteMany({ where: { userId: user.id } });
+  // Remove payments so test €2 no longer counts on the live teller.
   await prisma.payment.deleteMany({ where: { userId: user.id } });
   await prisma.user.delete({ where: { id: user.id } });
-  console.log(`deleted user ${user.email}`);
 }
 
 async function main() {
@@ -79,7 +62,6 @@ async function main() {
   const campaign = await prisma.campaign.findFirst({ where: { slug: "myurusdream" } });
   if (!campaign) throw new Error("Campaign myurusdream not found");
 
-  // Always refresh story text so later copy updates land without a new flag.
   await prisma.campaign.update({
     where: { id: campaign.id },
     data: { storyText },
@@ -88,7 +70,7 @@ async function main() {
 
   const done = await prisma.siteContent.findUnique({ where: { key: FLAG } });
   if (done?.value === "1") {
-    console.log("launch cleanup already done — skip dates/users");
+    console.log("launch cleanup v2 already done — skip dates/users");
     return;
   }
 
@@ -117,13 +99,24 @@ async function main() {
     removed += 1;
   }
 
+  // Also clear anonymized leftovers from v1 cleanup (deleted-*.@deleted.local).
+  const leftovers = await prisma.user.findMany({
+    where: { email: { contains: "@deleted.local" } },
+    select: { id: true, email: true, firstName: true, lastName: true, role: true },
+  });
+  for (const user of leftovers) {
+    if (keepParticipant(user)) continue;
+    await removeUser(user);
+    removed += 1;
+  }
+
   await prisma.siteContent.upsert({
     where: { key: FLAG },
     update: { value: "1" },
     create: { key: FLAG, value: "1" },
   });
 
-  console.log(`launch cleanup finished — kept ${kept}, removed ${removed}`);
+  console.log(`launch cleanup v2 finished — kept ${kept}, removed ${removed}`);
 }
 
 main()
