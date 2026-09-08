@@ -11,66 +11,69 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative z-0 -mt-[70px] overflow-hidden py-20 md:py-28">
+    <section id="how-it-works" className="relative z-0 -mt-[70px] mb-16 md:mb-24">
       <span id="hoe" className="absolute top-0" aria-hidden />
-      <div className="absolute inset-0">
-        <img
-          src="/images/urus-night.png?v=20260908a"
-          alt="Urus bij nacht — sfeerbeeld"
-          className="h-full w-full object-cover object-right"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/35" />
-      </div>
-      <div className="relative mx-auto max-w-7xl px-5">
-        <p className="font-display text-5xl italic md:text-7xl">
-          HOE <span className="text-yellow">WERKT HET?</span>
-        </p>
-        <p className="mt-4 max-w-xl text-white/70">
-          Eén kleine, vrijwillige bijdrage — of meerdere, als u wilt. Geen abonnement. Na uw
-          eerste €2 sturen de deelknoppen op de site automatisch uw persoonlijke code mee.
-        </p>
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
-          <div className="space-y-3">
-            {steps.map((s) => (
-              <div
-                key={s.n}
-                className="step-para flex items-center gap-4 border border-yellow/70 bg-black/70 px-6 py-4"
-              >
-                <span className="font-display text-2xl text-yellow">{s.n}</span>
-                <StepIcon name={s.icon} />
-                <p className="font-medium">{s.title}</p>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-col gap-4">
-            <div className="border border-yellow/60 bg-black/70 p-6">
-              <p className="font-display text-2xl text-yellow">UW KANSEN</p>
-              <ul className="mt-3 space-y-2 text-white/80">
-                <li>Elke €2: 5 punten, bijgeteld, plus een extra lotnummer.</li>
-                <li>Wie uw persoonlijke link deelde: +2 bij elke storting via die link.</li>
-                <li>Elke volgende storting in die lijn: +1 voor de eerdere doorstuurders.</li>
-                <li>
-                  Als het doel van €400.000 gehaald is: twee weekends voor de hoogste punten,
-                  twee weekends geloot uit de lotinglijst (meer €2 = meer kansen).
-                </li>
-              </ul>
+      <div className="relative overflow-hidden pt-20 pb-8 md:pt-28 md:pb-10">
+        <div className="absolute inset-0">
+          <img
+            src="/images/urus-night.png?v=20260908a"
+            alt="Urus bij nacht — sfeerbeeld"
+            className="h-full w-full object-cover object-right"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/35" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-5">
+          <p className="font-display text-5xl italic md:text-7xl">
+            HOE <span className="text-yellow">WERKT HET?</span>
+          </p>
+          <p className="mt-4 max-w-xl text-white/70">
+            Eén kleine, vrijwillige bijdrage — of meerdere, als u wilt. Geen abonnement. Na uw
+            eerste €2 sturen de deelknoppen op de site automatisch uw persoonlijke code mee.
+          </p>
+          <div className="mt-12 grid gap-10 lg:grid-cols-2">
+            <div className="space-y-3">
+              {steps.map((s) => (
+                <div
+                  key={s.n}
+                  className="step-para flex items-center gap-4 border border-yellow/70 bg-black/70 px-6 py-4"
+                >
+                  <span className="font-display text-2xl text-yellow">{s.n}</span>
+                  <StepIcon name={s.icon} />
+                  <p className="font-medium">{s.title}</p>
+                </div>
+              ))}
             </div>
-            <div className="border border-yellow/60 bg-black/70 p-6">
-              <p className="font-display text-2xl text-yellow">TRANSPARANTIE</p>
-              <p className="mt-3 text-white/80">
-                Iedereen kan de teller en het opgehaalde bedrag volgen. Uw punten en
-                persoonlijke link staan in uw dashboard.
+            <div className="flex flex-col gap-4">
+              <div className="border border-yellow/60 bg-black/70 p-6">
+                <p className="font-display text-2xl text-yellow">UW KANSEN</p>
+                <ul className="mt-3 space-y-2 text-white/80">
+                  <li>Elke €2: 5 punten, bijgeteld, plus een extra lotnummer.</li>
+                  <li>Wie uw persoonlijke link deelde: +2 bij elke storting via die link.</li>
+                  <li>Elke volgende storting in die lijn: +1 voor de eerdere doorstuurders.</li>
+                  <li>
+                    Als het doel van €400.000 gehaald is: twee weekends voor de hoogste punten,
+                    twee weekends geloot uit de lotinglijst (meer €2 = meer kansen).
+                  </li>
+                </ul>
+              </div>
+              <div className="border border-yellow/60 bg-black/70 p-6">
+                <p className="font-display text-2xl text-yellow">TRANSPARANTIE</p>
+                <p className="mt-3 text-white/80">
+                  Iedereen kan de teller en het opgehaalde bedrag volgen. Uw punten en
+                  persoonlijke link staan in uw dashboard.
+                </p>
+                <Link href="/volg-alles" className="mt-4 inline-block text-sm uppercase tracking-widest text-yellow">
+                  Bekijk de live teller →
+                </Link>
+              </div>
+              <p className="text-center text-sm text-white/60">
+                <span className="text-yellow">♥</span> Vrijwillige steun van €2 — transparant, eenvoudig en
+                zichtbaar
               </p>
-              <Link href="/volg-alles" className="mt-4 inline-block text-sm uppercase tracking-widest text-yellow">
-                Bekijk de live teller →
+              <Link href="/meedoen" className="btn-yellow">
+                Ik doe mee voor €2
               </Link>
             </div>
-            <p className="text-center text-sm text-white/60">
-              <span className="text-yellow">♥</span> Vrijwillige steun van €2 — transparant, eenvoudig en zichtbaar
-            </p>
-            <Link href="/meedoen" className="btn-yellow">
-              Ik doe mee voor €2
-            </Link>
           </div>
         </div>
       </div>
