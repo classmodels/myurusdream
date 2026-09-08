@@ -234,7 +234,7 @@ export default async function HomePage() {
 
       <HowItWorks />
 
-      <section className="relative overflow-hidden bg-black py-20">
+      <section className="relative overflow-hidden bg-black pt-0 pb-20">
         <img
           src="/images/urus-terrace.png?v=20260908a"
           alt=""
@@ -242,7 +242,7 @@ export default async function HomePage() {
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-45"
         />
         <div className="pointer-events-none absolute inset-0 bg-black/25" />
-        <div className="relative mx-auto max-w-7xl px-5">
+        <div className="relative mx-auto max-w-7xl px-5 pt-10 md:pt-12">
           <h2 className="font-display text-4xl">U kan gratis met de Urus rijden</h2>
           <p className="mt-4 font-display text-4xl">
             <span className="text-yellow">4 weekends</span>
