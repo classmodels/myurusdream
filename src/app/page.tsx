@@ -245,8 +245,7 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-7xl px-5 pt-6 md:pt-8">
           <h2 className="font-display text-4xl">U kan gratis met de Urus rijden</h2>
           <p className="mt-4 font-display text-4xl">
-            <span className="text-yellow">4 weekends</span>
-            <br />
+            <span className="mb-3 block text-yellow md:mb-4">4 weekends</span>
             <span className="text-yellow">2</span> via inspanning,
             <br />
             <span className="text-yellow">2</span> via het lot.
