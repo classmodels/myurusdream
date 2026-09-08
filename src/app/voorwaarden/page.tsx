@@ -47,8 +47,7 @@ export default function VoorwaardenPage() {
           </p>
           <p>
             Dit is een open, persoonlijke campagne. Het is geen liefdadigheid, geen
-            investeringsaanbod en geen loterij zolang een winactie niet juridisch is goedgekeurd
-            en publiek geactiveerd.
+            investeringsaanbod en geen loterij of winactie gekoppeld aan de €2-bijdrage.
           </p>
           <p>
             Wat er gebeurt als het doel niet wordt bereikt, moet vóór betaling vastliggen
@@ -56,17 +55,14 @@ export default function VoorwaardenPage() {
             de betaalpagina.
           </p>
           <p>
-            Na een bevestigde €2 krijgt u 5 punten, een lotnummer en een klein dashboard-account.
-            U mag zo vaak extra €2 storten als u wilt: elke storting telt 5 punten bij én geeft
-            een extra lotnummer (tien stortingen = tien kansen in de loting). U blijft ingelogd;
-            extra storten vraagt geen nieuwe gegevens. Inloggen kan met e-mailadres én gsm-nummer.
-            Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw
-            persoonlijke code in de link. Wie via die link stort, houdt 5 punten; u krijgt +2.
-            Elke verdere bevestigde storting in uw lijn: +1 punt. De nieuwe storter krijgt nooit
-            extra punten omdat hij via een link kwam. Nog niet gestort? Delen kan, zonder punten.
-            Als het doel van €400.000 gehaald is, gaan twee weekends naar de hoogste punten
-            (inspanning) en twee weekends naar een live loting uit de lotinglijst. Zonder gehaald
-            doel is er geen trekking en geen weekend.
+            Na een bevestigde €2 krijgt u een klein dashboard-account en een persoonlijke link.
+            Uw €2 is een vrijwillige bijdrage aan het doel van €400.000: u krijgt niets terug —
+            geen prijs, geen loting, geen kans op winst — behalve de dankbaarheid van de
+            organisator. U mag zo vaak extra €2 storten als u wilt; elke storting is opnieuw
+            vrijwillige steun. U blijft ingelogd; extra storten vraagt geen nieuwe gegevens.
+            Inloggen kan met e-mailadres én gsm-nummer. Deelt u na uw storting via WhatsApp,
+            Facebook of e-mail op de site, dan zit uw persoonlijke code in de link zodat meer
+            mensen de campagne kunnen helpen. Delen is geen prijsmechanisme.
           </p>
           <p>
             De teller toont alleen bevestigde betalingen. Er worden geen fictieve bedragen

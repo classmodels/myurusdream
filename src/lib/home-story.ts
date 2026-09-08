@@ -17,17 +17,17 @@ En daar zit meteen de moeilijkheid. Misschien denkt u: “Als genoeg andere mens
 
 Veel vraag ik eigenlijk niet: één minuut van uw tijd. Klik op ‘Ik doe mee voor €2’, vul uw naam in en scan de QR-code; de betaling verloopt via het officiële betaalsysteem. Klaar. En wat is €2 vandaag nog? Een pintje, frisdrank of koffie kost vaak al meer. Laat één drankje staan en u hebt financieel misschien zelfs nog winst gemaakt, maar hier krijgt u er iets bij: u wordt een klein stukje van dit verhaal en kunt, als deze compleet gekke droom werkelijkheid wordt, zeggen: “Ik heb meegedaan.”
 
-EN MISSCHIEN RIJDT U ZELF WEL MET DE URUS
+UW €2 HELPT. NIETS IN RUIL.
 
-Als de actie slaagt, wil ik de droom ook delen. Zoals u verder op deze website kunt lezen, worden vier weekends met de Lamborghini Urus weggegeven. Twee weekends worden door het lot bepaald, waardoor ook iemand die gewoon één keer €2 stort kans maakt om zelf de sleutels in handen te krijgen.
+Ik beloof u geen prijs, geen weekend met de Urus en geen kans om iets te winnen. Dat mag wettelijk ook niet gekoppeld worden aan deze bijdrage. Uw €2 is een vrijwillige gift: u helpt één bijna onmogelijke droom dichterbij te brengen — en krijgt daar niets voor terug, behalve mijn oprechte dankbaarheid.
 
-De andere twee weekends laat ik niet alleen aan het geluk over: daar hebt u zelf invloed op. U stort zelf maar één keer €2 en kunt daarna andere mensen uitnodigen om ook deel te nemen. Stort iemand via u, dan verdient u punten. En als die persoon het verhaal vervolgens verder verspreidt en er via hem of haar opnieuw mensen deelnemen, levert dat u eveneens punten op. Uw ene deelname kan dus het begin worden van een hele ketting. De twee deelnemers die uiteindelijk de meeste punten verzamelen, winnen ieder een weekend met de Lamborghini Urus.
+Als u wilt, mag u daarna anderen uitnodigen. Niet om punten of lotnummers te verzamelen voor een prijs, maar gewoon omdat hoe meer mensen het verhaal zien, hoe dichter we bij €400.000 komen. Delen is helpen. Niet meedoen aan een wedstrijd.
 
 LAAT HET VERHAAL VIRAAL GAAN
 
 En dat is eigenlijk mijn tweede droom met dit project: niet alleen die Urus realiseren, maar ontdekken hoe ver we dit verhaal samen kunnen krijgen. Deel uw persoonlijke link met vrienden, familie en collega's via WhatsApp, Facebook, Instagram, TikTok of waar u maar wilt. Vertel gewoon: “Er is iemand die probeert een Lamborghini Urus te realiseren door 200.000 mensen elk €2 te laten bijdragen.”
 
-Misschien lachen mensen ermee en zeggen ze: “Die is compleet gek.” Prima. Maar misschien denken ze daarna ook: “Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.” En precies dát kan dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend, tienduizend... Misschien begint het te leven op sociale media, wordt het gedeeld door iemand met een groot bereik en haalt dit knotsgekke verhaal op een dag zelfs de media. Dan kunt u zeggen: “Ik was erbij. Ik heb meegedaan. Ik heb geholpen om dit verhaal aan het rollen te krijgen.” En wie weet bent u uiteindelijk zelfs één van de vier mensen die daadwerkelijk met de Urus mag rijden.
+Misschien lachen mensen ermee en zeggen ze: “Die is compleet gek.” Prima. Maar misschien denken ze daarna ook: “Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.” En precies dát kan dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend, tienduizend... Misschien begint het te leven op sociale media, wordt het gedeeld door iemand met een groot bereik en haalt dit knotsgekke verhaal op een dag zelfs de media. Dan kunt u zeggen: “Ik was erbij. Ik heb meegedaan. Ik heb geholpen om dit verhaal aan het rollen te krijgen.” En wie weet mag u ooit zeggen dat u erbij was — niet als winnaar, maar als iemand die hielp.
 
 DUS HEB IK NOG ÉÉN VRAAG AAN U
 
@@ -41,8 +41,8 @@ Misschien lukt het nooit. Misschien wordt het één grote mislukking waar ik lat
 
 “ACH KOM. VOOR €2 DOE IK MEE.”
 
-Dan hebben heel veel mensen met een piepkleine actie één mens ongelooflijk gelukkig gemaakt. Misschien was u één van hen, misschien hebt u geholpen het verhaal groot te maken en misschien zit u uiteindelijk zelfs zelf achter het stuur.
+Dan hebben heel veel mensen met een piepkleine actie één mens ongelooflijk gelukkig gemaakt. Misschien was u één van hen, misschien hebt u geholpen het verhaal groot te maken.
 
 Maar daarvoor moet iemand beginnen. Waarom niet u?
 
-Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.`;
+Doe mee. Deel uw persoonlijke link. Laat het verhaal groeien. Help het doel dichterbij.`;

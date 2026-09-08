@@ -55,11 +55,11 @@ export function RankingLive({
   return (
     <>
       <Accordion
-        title="Puntenrangschikking"
-        description="Punten van alle stortingen bij elkaar. Hoogste score bovenaan. Twee weekends gaan naar deze lijst."
+        title="Overzicht bijdragen"
+        description="Overzicht van bevestigde stortingen. Geen loting, geen prijs — alleen hoe vaak iemand vrijwillig bijdroeg."
       >
         {!ranking.length ? (
-          <p className="px-5 py-4 text-white/70">Nog geen punten. Stort €2 om te starten.</p>
+          <p className="px-5 py-4 text-white/70">Nog geen bijdragen. Stort €2 om te starten.</p>
         ) : (
           <div className="divide-y divide-white/10">
             {ranking.map((row) => (
@@ -76,7 +76,7 @@ export function RankingLive({
                     {row.isYou ? " (u)" : ""}
                   </span>
                   <span className="ml-2 text-sm text-white/45">
-                    {row.tickets} {row.tickets === 1 ? "lot" : "loten"}
+                    {row.tickets} {row.tickets === 1 ? "bijdrage" : "bijdragen"}
                   </span>
                 </p>
                 <p className="font-display text-xl text-yellow">{row.points}</p>
@@ -87,11 +87,11 @@ export function RankingLive({
       </Accordion>
 
       <Accordion
-        title="Lotinglijst"
-        description="Elke €2 is een apart lotnummer. Tien stortingen = tien kansen. Twee weekends worden uit deze lijst geloot."
+        title="Uw stortingen"
+        description="Elke bevestigde €2 helpt het doel. Geen ticket, geen kans op winst — alleen vrijwillige steun."
       >
         {!tickets.length ? (
-          <p className="px-5 py-4 text-white/70">Nog geen lotnummers.</p>
+          <p className="px-5 py-4 text-white/70">Nog geen stortingen.</p>
         ) : (
           <div className="divide-y divide-white/10">
             {tickets.map((row, index) => (

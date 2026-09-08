@@ -20,10 +20,10 @@ export const SPONSOR_TIERS: SponsorTier[] = [
     name: "Hoofdsponsor",
     minCents: 2_500_000,
     priceLabel: "€25.000",
-    placement: "De grootste plek op de site én tijdens de live trekking",
+    placement: "De grootste plek op de site én bij het campagnemoment",
     perks: [
       "Hoofdlogo op de homepage",
-      "Naam in beeld bij de live trekking van de vier weekends",
+      "Naam in beeld wanneer we het doel vieren",
       "Eerste plaats op de sponsorpagina",
       "Vermelding in updates zolang de campagne loopt",
     ],
@@ -33,10 +33,10 @@ export const SPONSOR_TIERS: SponsorTier[] = [
     name: "Gold sponsor",
     minCents: 1_000_000,
     priceLabel: "€10.000",
-    placement: "Grote zichtbaarheid op homepage en live-avond",
+    placement: "Grote zichtbaarheid op homepage en campagnemoment",
     perks: [
       "Groot logo op homepage en sponsorpagina",
-      "Zichtbaar in de stream van de live trekking",
+      "Zichtbaar in de stream van het campagnemoment",
       "Plek in de Gold-rij",
     ],
   },
@@ -49,7 +49,7 @@ export const SPONSOR_TIERS: SponsorTier[] = [
     perks: [
       "Logo op de sponsorpagina",
       "Vermelding op de homepage",
-      "Zichtbaar bij de live trekking",
+      "Zichtbaar bij het campagnemoment",
     ],
   },
   {
@@ -334,7 +334,7 @@ export const EXAMPLE_SPONSORS: {
     url: "https://example.com",
     tier: "headline",
     cents: 2_500_000,
-    tagline: "Hoofdpartner van de live trekking",
+    tagline: "Hoofdpartner van het campagnemoment",
   },
   {
     name: "Atelier Vanhecke",

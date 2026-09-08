@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Sponsors",
   description:
-    "Bedrijven en merken die meesponsoren krijgen een plek op de site — groter naarmate het bedrag groter is. Als het doel gehaald is, gaan twee weekends naar punten en twee naar de live loting.",
+    "Bedrijven en merken die meesponsoren krijgen een plek op de site — groter naarmate het bedrag groter is. Zichtbaarheid voor de campagne, zonder winactie of loting gekoppeld aan €2-bijdragen.",
 };
 
 export default async function SponsorsPage({
@@ -78,16 +78,14 @@ export default async function SponsorsPage({
             <h2 className="font-display text-4xl md:text-5xl">Dit is geen banner. Dit is een verhaal waar mensen voor terugkomen.</h2>
             <p className="text-white/80">
               Tweehonderdduizend mensen die elk €2 storten. Plus elk bedrijf dat durft in te
-              stappen. Als dat doel er is, worden de {LIVE_DRAW.winners} winnaars niet stil
-              getrokken in een achterkamer — ze worden <strong className="text-yellow">live</strong>{" "}
-              getrokken, op {LIVE_DRAW.dateLabel}, op een spectaculaire plek. Gestreamd. Voor
-              iedereen die meedeed.
+              stappen. Als dat doel er is, vieren we het moment{" "}
+              <strong className="text-yellow">live</strong>, op {LIVE_DRAW.dateLabel}, op een
+              spectaculaire plek. Gestreamd. Voor iedereen die meedeed. Geen trekking van
+              winnaars — wel merkzichtbaarheid voor de campagne.
             </p>
             <p className="text-white/80">
               Dat is het moment waarop uw logo geen bijzaak meer is. Iedereen die heeft
               bijgedragen, kijkt.
-              <br />
-              De spanning is hoog.
               <br />
               De camera’s staan aan.
               <br />

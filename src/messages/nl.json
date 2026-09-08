@@ -43,7 +43,7 @@
     "accept": "Oké"
   },
   "footer": {
-    "voluntary": "Vrijwillige bijdrage van €2, zo vaak u wilt. Geen abonnement. Geen winstbelofte.",
+    "voluntary": "Vrijwillige bijdrage van €2, zo vaak u wilt. Geen abonnement. Geen prijs. Geen kans op winst.",
     "everyGift": "Elke bijdrage drijft de droom verder",
     "supportWith": "STEUN DE DROOM MET",
     "smallGift": "KLEINE GIFT, GROTE DROOM",
@@ -59,7 +59,7 @@
     "refund": "Terugbetaling",
     "disclaimer": "Disclaimer",
     "contact": "Contact",
-    "prize": "Winactie",
+    "prize": "Geen winactie",
     "termsLower": "algemene voorwaarden",
     "campaignLower": "campagnevoorwaarden",
     "privacyLower": "privacybeleid"
@@ -79,9 +79,9 @@
     "goalLine": "200.000 mensen × €2 = €400.000",
     "liveCounter": "Totaal live campagneteller",
     "asGoalReached": "Als het doel gehaald wordt",
-    "ride4": "rijden 4 gelukkigen",
-    "weekend": "een weekend",
-    "withUrus": "met de Urus",
+    "ride4": "wordt één droom",
+    "weekend": "op wielen",
+    "withUrus": "werkelijkheid",
     "whyKicker": "Samen naar de droom",
     "whyTitle": "Niet één persoon. Heel veel kleine bijdragen.",
     "togetherScript": "€2 × 200.000",
@@ -90,22 +90,17 @@
     "togetherBody1": "Voor één persoon is €2 iets kleins. Voor mij betekent het iets groots.",
     "togetherBody2": "Dat is het hele idee.",
     "inviteTitle": "Nodig anderen uit",
-    "inviteSub": "Campagne delen, nog zonder punten",
-    "inviteBodyPaid": "U hebt al gestort. WhatsApp, Facebook en e-mail sturen nu uw persoonlijke code mee. Wie via die link stort, levert u punten op.",
-    "pointsLink": "Bekijk uw punten →",
-    "freeRideTitle": "U kan gratis met de Urus rijden",
-    "winnersLink": "Winactievoorwaarden →",
+    "inviteSub": "Deel de campagne — help de droom groeien",
+    "inviteBodyPaid": "U hebt al gestort. WhatsApp, Facebook en e-mail sturen nu uw persoonlijke code mee. Wie via die link ook bijdraagt, helpt het doel sneller dichterbij te brengen.",
+    "pointsLink": "Naar uw dashboard →",
     "pixelKicker": "Zelfstandigen & kleine merken",
     "pixelTitle": "De Pixelwall. Uw reclame, vak voor vak.",
     "pixelBody": "Vanaf €10 koopt u een vak op de Pixelwall, met uw logo en link.",
     "pixelCta": "Naar de Pixelwall",
     "sponsorCta": "Ik wil sponsoren",
-    "freeRideWeekends": "4 weekends",
-    "freeRideEffort": "via inspanning,",
-    "freeRideLot": "via het lot.",
     "pixelBudget": "Geen groot budget nodig.",
-    "inviteSubPaid": "Uw persoonlijke link — punten tellen mee",
-    "inviteExtra": "Elke €2 = 5 punten én een extra lotnummer. U mag zo vaak storten als u wilt.",
+    "inviteSubPaid": "Uw persoonlijke link — deel de droom",
+    "inviteExtra": "Elke €2 helpt het doel van €400.000 dichterbij. U mag zo vaak bijdragen als u wilt. U krijgt niets terug — behalve mijn dankbaarheid.",
     "helpTitle1": "Ik help",
     "helpTitle2": "de droom",
     "helpTitle3": "mee waarmaken",
@@ -113,8 +108,14 @@
     "villaAlt": "Urus in champagne op een donker terras bij schemer — sfeerbeeld",
     "samenLine1": "Samen naar",
     "samenLine2": "de droom",
-    "inviteBodyGuest1": "Nog niet gestort? Deze knoppen delen de campagne zonder punten.",
-    "inviteBodyGuest2": "Na uw €2 sturen dezelfde knoppen automatisch uw persoonlijke code mee."
+    "inviteBodyGuest1": "Nog niet gestort? Deze knoppen delen de campagne, zodat meer mensen de droom kunnen helpen.",
+    "inviteBodyGuest2": "Na uw €2 sturen dezelfde knoppen automatisch uw persoonlijke code mee.",
+    "viralTitle": "Het gekste idee ooit",
+    "viralLine1": "Laat ons samen zien",
+    "viralLine2": "hoe ver dit kan reiken",
+    "viralLine3": "Haalt het de media?",
+    "viralLine4": "Wordt het doel bereikt?",
+    "viralLine5": "Hoe vaak gaat dit rond?"
   },
   "story": {
     "kicker": "Verhaal",
@@ -197,35 +198,23 @@
       },
       {
         "type": "title",
-        "text": "EN MISSCHIEN RIJDT U ZELF WEL MET DE URUS"
+        "text": "UW €2 HELPT. NIETS IN RUIL."
       },
       {
         "type": "p",
-        "text": "Als de actie slaagt, wil ik de droom ook delen. Zoals u verder op deze website kunt lezen:"
+        "text": "Ik beloof u geen prijs, geen weekend met de Urus en geen kans om iets te winnen. Dat mag wettelijk ook niet gekoppeld worden aan deze bijdrage."
       },
       {
         "type": "gold",
-        "text": "vier weekends met de Lamborghini Urus worden weggegeven. Twee weekends worden door het lot bepaald."
+        "text": "Uw €2 is een vrijwillige gift: u helpt één bijna onmogelijke droom dichterbij te brengen — en krijgt daar niets voor terug, behalve mijn oprechte dankbaarheid."
       },
       {
         "type": "p",
-        "text": "Daardoor maakt ook iemand die gewoon één keer €2 stort kans om zelf de sleutels in handen te krijgen."
+        "text": "Als u wilt, mag u daarna anderen uitnodigen. Niet om punten of lotnummers te verzamelen voor een prijs, maar gewoon omdat hoe meer mensen het verhaal zien, hoe dichter we bij €400.000 komen."
       },
       {
         "type": "gold",
-        "text": "De andere twee weekends laat ik niet alleen aan het geluk over: daar hebt u zelf invloed op."
-      },
-      {
-        "type": "p",
-        "text": "U stort zelf maar één keer €2 en kunt daarna andere mensen uitnodigen om ook deel te nemen. Stort iemand via u, dan verdient u punten. En als die persoon het verhaal vervolgens verder verspreidt en er via hem of haar opnieuw mensen deelnemen, levert dat u eveneens punten op."
-      },
-      {
-        "type": "p",
-        "text": "Uw ene deelname kan dus het begin worden van een hele ketting."
-      },
-      {
-        "type": "gold",
-        "text": "De twee deelnemers die uiteindelijk de meeste punten verzamelen, winnen ieder een weekend met de Lamborghini Urus."
+        "text": "Delen is helpen. Niet meedoen aan een wedstrijd."
       },
       {
         "type": "title",
@@ -277,7 +266,7 @@
       },
       {
         "type": "p",
-        "text": "En wie weet bent u uiteindelijk zelfs één van de vier mensen die daadwerkelijk met de Urus mag rijden."
+        "text": "En wie weet mag u ooit zeggen dat u erbij was — niet als winnaar, maar als iemand die hielp."
       },
       {
         "type": "title",
@@ -329,39 +318,39 @@
       },
       {
         "type": "p",
-        "text": "Dan hebben heel veel mensen met een piepkleine actie één mens ongelooflijk gelukkig gemaakt. Misschien was u één van hen, misschien hebt u geholpen het verhaal groot te maken en misschien zit u uiteindelijk zelfs zelf achter het stuur."
+        "text": "Dan hebben heel veel mensen met een piepkleine actie één mens ongelooflijk gelukkig gemaakt. Misschien was u één van hen, misschien hebt u geholpen het verhaal groot te maken."
       },
       {
         "type": "gold",
         "text": "Maar daarvoor moet iemand beginnen. Waarom niet u?"
       }
     ],
-    "ctaLine": "Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.",
+    "ctaLine": "Doe mee. Deel uw persoonlijke link. Laat het verhaal groeien. Help het doel dichterbij.",
     "photoAlt": "Detail van de Urus"
   },
   "how": {
     "titleHoe": "HOE",
     "titleWerkt": "WERKT HET?",
-    "intro": "Eén kleine, vrijwillige bijdrage — of meerdere, als u wilt. Geen abonnement. Na uw eerste €2 sturen de deelknoppen op de site automatisch uw persoonlijke code mee.",
+    "intro": "Eén kleine, vrijwillige bijdrage — of meerdere, als u wilt. Geen abonnement. Geen prijs. Geen kans op winst. Na uw eerste €2 sturen de deelknoppen op de site automatisch uw persoonlijke code mee.",
     "steps": [
-      "Stort €2 — zo vaak u wilt",
-      "Elke storting: 5 punten en een extra lotnummer",
+      "Stort vrijwillig €2 — zo vaak u wilt",
+      "Uw bijdrage telt mee voor het doel van €400.000",
+      "U krijgt niets terug — behalve dankbaarheid",
       "Na uw storting delen WhatsApp, Facebook en e-mail uw code mee",
-      "Wie via uw link stort, krijgt zelf 5 punten. U krijgt +2",
-      "Elke extra storting in uw lijn: +1 punt voor u",
-      "Twee weekends via punten, twee via loting — alleen als het doel gehaald is"
+      "Wie via uw link bijdraagt, helpt het doel sneller dichterbij",
+      "Iedereen kan de teller live volgen — open en transparant"
     ],
-    "chancesTitle": "UW KANSEN",
+    "chancesTitle": "HOE U HELPT",
     "chances": [
-      "Elke €2: 5 punten, bijgeteld, plus een extra lotnummer.",
-      "Wie uw persoonlijke link deelde: +2 bij elke storting via die link.",
-      "Elke volgende storting in die lijn: +1 voor de eerdere doorstuurders.",
-      "Als het doel van €400.000 gehaald is: twee weekends voor de hoogste punten, twee weekends geloot uit de lotinglijst (meer €2 = meer kansen)."
+      "Elke €2 is een vrijwillige bijdrage aan het campagnedoel — geen ticket, geen lot, geen prijs.",
+      "Deel uw persoonlijke link zodat meer mensen de droom kunnen zien en steunen.",
+      "Wie via uw link bijdraagt, helpt het totaal groeien. U wint daarmee niets.",
+      "Transparantie: de live teller toont wat er binnenkomt. Geen verborgen beloftes."
     ],
     "transparencyTitle": "TRANSPARANTIE",
-    "transparencyBody": "Iedereen kan de teller en het opgehaalde bedrag volgen. Uw punten en persoonlijke link staan in uw dashboard.",
+    "transparencyBody": "Iedereen kan de teller en het opgehaalde bedrag volgen. Uw persoonlijke link en stortingen staan in uw dashboard.",
     "transparencyLink": "Bekijk de live teller →",
-    "heart": "Vrijwillige steun van €2 — transparant, eenvoudig en zichtbaar"
+    "heart": "Vrijwillige steun van €2 — geen prijs, wel dankbaarheid"
   },
   "counter": {
     "total": "Totaal van €2",
@@ -381,7 +370,7 @@
   },
   "meedoen": {
     "title": "Ik stort €2",
-    "lead": "Geen account vooraf nodig. Bij uw €2 maken we automatisch een klein dashboard-account. U krijgt 5 punten, een lotnummer en een persoonlijke link. U mag later zo vaak extra €2 storten als u wilt.",
+    "lead": "Geen account vooraf nodig. Bij uw €2 maken we automatisch een klein dashboard-account en een persoonlijke link. Uw €2 is vrijwillig: u helpt het doel van €400.000 dichterbij — u krijgt niets terug, behalve dankbaarheid. U mag later zo vaak extra €2 storten als u wilt.",
     "firstName": "Voornaam",
     "lastName": "Achternaam",
     "email": "E-mail",
@@ -390,14 +379,14 @@
     "busy": "Even geduld…",
     "mollieNote": "U gaat naar de beveiligde checkout van Mollie (Bancontact, kaarten, Apple Pay indien beschikbaar). Wij bewaren geen kaartgegevens.",
     "testMode": "Testmodus: Mollie-sleutel ontbreekt. U kunt de betaling lokaal simuleren.",
-    "invited": "U bent uitgenodigd via iemands persoonlijke link. Bij een bevestigde €2 krijgt u 5 punten — niet meer, niet minder. Wie u uitnodigde krijgt +2.",
+    "invited": "U bent uitgenodigd via iemands persoonlijke link. Bij een bevestigde €2 helpt u het doel dichterbij — u krijgt niets in ruil, behalve dankbaarheid.",
     "simulate": "Simuleer betaling (lokaal)",
     "acceptTerms": "Ik aanvaard de algemene voorwaarden.",
     "acceptPrivacy": "Ik aanvaard het privacybeleid.",
     "acceptCampaign": "Ik aanvaard de campagnevoorwaarden.",
     "thanksLead": "Bedankt om mee te willen doen!",
     "extra": " extra",
-    "loggedInLead": "U bent al ingelogd. Eén knop volstaat — we vragen uw naam, e-mail en gsm niet opnieuw. Elke extra €2 is +5 punten en een extra lotnummer.",
+    "loggedInLead": "U bent al ingelogd. Eén knop volstaat — we vragen uw naam, e-mail en gsm niet opnieuw. Elke extra €2 is opnieuw een vrijwillige bijdrage aan het doel, zonder prijs of kans op winst.",
     "bullet1": "Dit is geen goed doel, investering of belofte op winst.",
     "bullet2": "Dit is een open en transparante persoonlijke campagne.",
     "ifNotReached": "Als het doel niet wordt bereikt",
@@ -433,6 +422,10 @@
         "a": "Omdat €2 voor de meeste mensen een klein, eenmalig bedrag is. Niet één persoon €400.000 vragen, maar 200.000 mensen elk €2 van die droom laten dragen: 200.000 × €2 = €400.000."
       },
       {
+        "q": "Krijg ik iets terug?",
+        "a": "Nee. Uw €2 is een vrijwillige bijdrage om het doel van €400.000 te helpen bereiken. Er is geen contest, geen prijs, geen weekend met de Urus en geen kans om iets te winnen. U krijgt niets in ruil — behalve de dankbaarheid van de organisator."
+      },
+      {
         "q": "Waar gaat het geld naartoe?",
         "a": "Naar deze persoonlijke campagne, met als doel een Lamborghini Urus mogelijk te maken. Het brutodoel van €400.000 is niet automatisch de aankoopprijs van de wagen. De teller toont bruto ontvangen bijdragen minus transactiekosten. De uitsplitsing staat op Volg alles."
       },
@@ -442,7 +435,7 @@
       },
       {
         "q": "Kan ik meer dan €2 bijdragen?",
-        "a": "De persoonlijke bijdrage is telkens €2, maar u mag dat zo vaak herhalen als u wilt. Elke extra storting is +5 punten en een extra lotnummer. Grotere bedragen lopen via sponsoring (vanaf €500) of de Pixelwall (vanaf €10)."
+        "a": "De persoonlijke bijdrage is telkens €2, maar u mag dat zo vaak herhalen als u wilt. Elke storting is opnieuw een vrijwillige gift aan het doel — zonder prijs of kans op winst. Grotere bedragen lopen via sponsoring (vanaf €500) of de Pixelwall (vanaf €10)."
       },
       {
         "q": "Is €2 een abonnement?",
@@ -461,32 +454,12 @@
         "a": "Betalingen lopen via Mollie. myurusdream.be slaat geen kaart- of Bancontactgegevens op. Alleen een bevestigde status via de betaalprovider telt mee voor de teller."
       },
       {
-        "q": "Hoe werkt een eventuele winactie?",
-        "a": "Alleen als het doel van €400.000 gehaald is. Dan zijn er vier weekends met de wagen: twee voor wie het meest deelt (hoogste punten), twee via live loting. Zonder gehaald doel is er geen trekking en geen weekend."
-      },
-      {
-        "q": "Hoe wordt een winnaar aangeduid?",
-        "a": "Twee weekends gaan naar de hoogste punten. De twee andere bepaalt het lot uit de lotinglijst: elke €2 is een apart nummer, tien stortingen is tien kansen. Alles is live te volgen."
-      },
-      {
         "q": "Wie mag deelnemen?",
         "a": "Deelname is bedoeld voor meerderjarigen die de voorwaarden aanvaarden en vrijwillig €2 storten. De precieze regels staan in de algemene voorwaarden."
       },
       {
-        "q": "Welke voorwaarden gelden om met de wagen te rijden?",
-        "a": "Nog niet van toepassing. Eventueel gebruik vereist geldig rijbewijs, verzekering en aparte gebruiksvoorwaarden."
-      },
-      {
-        "q": "Wie betaalt brandstof?",
-        "a": "Nog niet vastgelegd. Dat komt in de gebruiksvoorwaarden van de winactie, mocht het doel gehaald worden."
-      },
-      {
         "q": "Wie betaalt verzekering?",
-        "a": "De organisator is verantwoordelijk voor een wettelijk correcte verzekering van het voertuig, als het wordt aangekocht. Details volgen in de gebruiksvoorwaarden."
-      },
-      {
-        "q": "Wat bij schade?",
-        "a": "Nog niet van toepassing. Schade, franchise en aansprakelijkheid horen in aparte gebruiksvoorwaarden, mocht er een weekend met de wagen plaatsvinden."
+        "a": "De organisator is verantwoordelijk voor een wettelijk correcte verzekering van het voertuig, als het wordt aangekocht. Details volgen in aparte documenten."
       },
       {
         "q": "Wat gebeurt er wanneer de wagen nog niet geleverd is?",
@@ -509,12 +482,8 @@
         "a": "Een muur van kleine vakken. Zelfstandigen kopen vanaf €10 een vak (of een groter blok) met logo, naam en optionele link. Hoe meer vakken, hoe groter de reclame. Het bedrag telt mee voor het campagnedoel."
       },
       {
-        "q": "Wanneer worden de vier weekends verdeeld?",
-        "a": "Alleen als het doel van €400.000 gehaald is: live op zaterdag 31 oktober 2026, op een spectaculaire locatie in België, gestreamd voor iedereen die meedeed. Twee weekends gaan naar de hoogste punten, twee naar de loting. De exacte plek wordt later bekendgemaakt."
-      },
-      {
-        "q": "Hoe werken de punten?",
-        "a": "Elke €2-storting levert 5 punten op, bijgeteld bij u. Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw code in de link: wie dan stort, houdt 5 punten en u krijgt +2. Stort iemand verder in uw lijn: u krijgt +1. Nog niet gestort? Delen kan, maar zonder punten."
+        "q": "Waarom zou ik de campagne delen?",
+        "a": "Omdat delen helpt om meer mensen te bereiken die de droom vrijwillig willen steunen. Delen is geen wedstrijd en levert geen prijs op — het helpt alleen het campagnedoel dichterbij te brengen."
       },
       {
         "q": "Hoe log ik in op mijn dashboard?",
@@ -522,7 +491,7 @@
       },
       {
         "q": "Mag ik meerdere keren €2 storten?",
-        "a": "Ja. Elke extra €2 is vijf punten extra en een extra lotnummer. Tien stortingen is tien kansen bij de live loting. Twee weekends gaan naar de hoogste punten, twee andere worden uit die lotinglijst getrokken — alleen als het doel gehaald is."
+        "a": "Ja. Elke extra €2 is opnieuw een vrijwillige bijdrage aan het campagnedoel. Er is geen loting, geen prijs en geen extra kans gekoppeld aan meer stortingen — u helpt alleen het doel dichterbij."
       }
     ],
     "intro": "Korte antwoorden, in dezelfde taal als de rest van de site. Klik een vraag open."
@@ -560,7 +529,7 @@
   },
   "dashboard": {
     "title": "Uw dashboard",
-    "lead": "Log in om punten, stortingen en uw persoonlijke link te zien. Meldingen aanzetten kan hieronder, ook zonder account.",
+    "lead": "Log in om uw stortingen en persoonlijke link te zien. Meldingen aanzetten kan hieronder, ook zonder account.",
     "login": "Inloggen"
   },
   "discussie": {
@@ -575,7 +544,7 @@
   },
   "bedankt": {
     "title": "Bedankt. U bent deel van de droom.",
-    "lead": "+5 punten en een extra lotnummer.",
+    "lead": "Bedankt dat u helpt. Uw €2 brengt het doel dichterbij — u hebt niets gewonnen, en dat is precies de bedoeling.",
     "kicker": "Bevestiging",
     "waiting": "We wachten op bevestiging.",
     "sponsor": "Bedankt. Uw merk staat straks in beeld.",
@@ -601,12 +570,10 @@
     "refundTitle": "Terugbetalingsbeleid",
     "disclaimerTitle": "Disclaimer",
     "campaignTitle": "Campagnevoorwaarden",
-    "prizeTitle": "Voorwaarden eventuele winactie",
+    "prizeTitle": "Geen winactie gekoppeld aan bijdragen",
     "bodyNote": "Volledige juridische paginateksten kunnen Nederlands blijven tot na controle door een jurist."
   },
   "lamborghini": "Deze onafhankelijke campagne is niet verbonden aan, georganiseerd door of gesponsord door Automobili Lamborghini S.p.A.",
-  "pointsExplain": "Elke €2-storting levert 5 punten op, bijgeteld bij u. Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw code in de link: wie dan stort, houdt 5 punten en u krijgt +2. Stort iemand verder in uw lijn: u krijgt +1. Nog niet gestort? Delen kan, maar zonder punten.",
-  "winnersExplain": "Als het doel van €400.000 gehaald is, zijn er vier weekends met de wagen. Twee gaan naar wie het meest deelt (hoogste punten). De twee andere bepaalt het lot uit de lotinglijst: elke €2 is een apart nummer, tien stortingen is tien kansen. Zonder gehaald doel is er geen trekking en geen weekend.",
   "notifications": {
     "label": "Berichten",
     "close": "Sluiten",
@@ -623,25 +590,25 @@
     "becomeSilver": "Word silver-sponsor",
     "becomeBronze": "Word bronze-sponsor",
     "headlineOfferTitle": "Dit krijgt u als hoofdsponsor",
-    "headlineOfferBody": "Wie €25.000 of meer stort, staat bovenaan — homepage, teller én live trekking. Niemand kan u missen.",
-    "liveDrawWith": "Live trekking i.s.m.",
+    "headlineOfferBody": "Wie €25.000 of meer stort, staat bovenaan — homepage, teller én het moment waarop we het doel vieren. Niemand kan u missen.",
+    "liveDrawWith": "Campagnemoment i.s.m.",
     "chooseSpot": "Kies uw plek",
     "headline": {
       "name": "Hoofdsponsor",
-      "placement": "De grootste plek op de site én tijdens de live trekking",
+      "placement": "De grootste plek op de site én bij het campagnemoment",
       "perks": [
         "Hoofdlogo op de homepage",
-        "Naam in beeld bij de live trekking van de vier weekends",
+        "Naam in beeld wanneer we het doel vieren",
         "Eerste plaats op de sponsorpagina",
         "Vermelding in updates zolang de campagne loopt"
       ]
     },
     "gold": {
       "name": "Gold sponsor",
-      "placement": "Grote zichtbaarheid op homepage en live-avond",
+      "placement": "Grote zichtbaarheid op homepage en campagnemoment",
       "perks": [
         "Groot logo op homepage en sponsorpagina",
-        "Zichtbaar in de stream van de live trekking",
+        "Zichtbaar in de stream van het campagnemoment",
         "Plek in de Gold-rij"
       ]
     },
@@ -651,7 +618,7 @@
       "perks": [
         "Logo op de sponsorpagina",
         "Vermelding op de homepage",
-        "Zichtbaar bij de live trekking"
+        "Zichtbaar bij het campagnemoment"
       ]
     },
     "bronze": {
@@ -662,5 +629,7 @@
         "Meegerekend in het campagnedoel"
       ]
     }
-  }
+  },
+  "noPrizeExplain": "Uw €2 is een vrijwillige bijdrage om het doel van €400.000 te helpen bereiken. Er is geen contest, geen loterij, geen prijs en geen kans om iets te winnen gekoppeld aan deze bijdrage. U krijgt niets in ruil — behalve oprechte dankbaarheid.",
+  "shareExplain": "Deel de campagne zodat meer mensen de droom kunnen helpen. Delen is geen prijsmechanisme: het helpt alleen het verhaal en het doel groeien."
 }

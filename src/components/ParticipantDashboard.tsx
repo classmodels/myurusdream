@@ -3,7 +3,7 @@ import { prettyShareUrl } from "@/lib/share";
 import { formatCents } from "@/lib/money";
 import { ShareRow } from "@/components/ShareRow";
 import { RepeatDonateButton } from "@/components/RepeatDonateButton";
-import { POINTS_EXPLAIN_SHORT, WINNERS_EXPLAIN } from "@/lib/constants";
+import { NO_PRIZE_EXPLAIN, SHARE_EXPLAIN_SHORT } from "@/lib/constants";
 import { displayPersonName } from "@/lib/leaderboard";
 import { RankingLive } from "@/app/dashboard/RankingLive";
 import { Accordion } from "@/components/Accordion";
@@ -60,8 +60,8 @@ export function ParticipantDashboard({
           label="Campagne"
           value={`${formatCents(view.totals.raisedCents)} / ${formatCents(view.campaign.goalCents)}`}
         />
-        <Card label="Uw punten" value={String(totalPoints)} />
-        <Card label="Uw plaats" value={myRank ? `#${myRank}` : "—"} />
+        <Card label="Activiteit" value={String(totalPoints)} />
+        <Card label="In overzicht" value={myRank ? `#${myRank}` : "—"} />
       </div>
 
       {!preview ? (
@@ -71,22 +71,22 @@ export function ParticipantDashboard({
       ) : null}
 
       <div className="mt-12 card-dark p-6">
-        <h2 className="font-display text-3xl">Hoe de punten werken</h2>
-        <p className="mt-3 text-white/75">{POINTS_EXPLAIN_SHORT}</p>
-        <p className="mt-3 text-white/75">{WINNERS_EXPLAIN}</p>
+        <h2 className="font-display text-3xl">Geen prijs. Wel dankbaarheid.</h2>
+        <p className="mt-3 text-white/75">{NO_PRIZE_EXPLAIN}</p>
+        <p className="mt-3 text-white/75">{SHARE_EXPLAIN_SHORT}</p>
         <ul className="mt-4 space-y-2 text-white/80">
-          <li>Elke eigen €2 = 5 punten, bijgeteld op uw totaal.</li>
-          <li>Elke eigen €2 = een nieuw lotnummer in de lotinglijst.</li>
-          <li>Iemand stort via uw link = +2 voor u. Stort die persoon opnieuw = opnieuw +2.</li>
-          <li>Verdere stortingen in uw lijn = +1. WhatsApp, Facebook en e-mail vanaf deze site sturen uw code mee.</li>
+          <li>Elke €2 is een vrijwillige bijdrage aan het doel van €400.000.</li>
+          <li>U krijgt niets terug — geen prijs, geen loting, geen kans op winst.</li>
+          <li>Deel uw persoonlijke link zodat meer mensen de droom kunnen helpen.</li>
+          <li>WhatsApp, Facebook en e-mail vanaf deze site sturen uw code mee.</li>
         </ul>
       </div>
 
       <div className="mt-12 card-dark p-6">
         <h2 className="font-display text-3xl">Uw persoonlijke link</h2>
         <p className="mt-2 text-white/70">
-          Deel via WhatsApp, Facebook of e-mail. Uw code zit in de link, zodat u punten krijgt als
-          zij storten.
+          Deel via WhatsApp, Facebook of e-mail. Uw code zit in de link, zodat wie via u bijdraagt
+          het doel dichterbij brengt — niet voor een prijs, maar om de droom te helpen.
         </p>
         <p className="mt-4 text-lg lowercase text-yellow">{prettyShareUrl(user.referralCode)}</p>
         {!preview ? (
@@ -103,7 +103,7 @@ export function ParticipantDashboard({
       <RankingLive initialRanking={rankingRows} initialTickets={ticketRows} />
 
       {pointRows.length ? (
-        <Accordion title="Uw puntenhistoriek">
+        <Accordion title="Uw activiteit">
           <div className="divide-y divide-white/10">
             {pointRows.map((row) => (
               <div key={row.id} className="flex flex-wrap items-baseline justify-between gap-2 px-5 py-3">
@@ -129,7 +129,7 @@ export function ParticipantDashboard({
                   {displayPersonName(r.referredUser.firstName || "", r.referredUser.lastName || "") ||
                     `Deelnemer #${r.referredUser.participantNumber}`}
                 </span>
-                <span className="text-yellow">+{r.pointsAwarded} voor u</span>
+                <span className="text-yellow">via uw link</span>
               </li>
             ))}
           </ul>

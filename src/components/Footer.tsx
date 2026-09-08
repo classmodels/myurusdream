@@ -12,7 +12,6 @@ export async function Footer() {
     ["/terugbetaling", dict.legalLinks.refund],
     ["/disclaimer", dict.legalLinks.disclaimer],
     ["/contact", dict.legalLinks.contact],
-    ["/winactie-voorwaarden", dict.legalLinks.prize],
   ] as const;
 
   return (

@@ -242,20 +242,25 @@ export default async function HomePage() {
         />
         <div className="pointer-events-none absolute inset-0 bg-black/25" />
         <div className="relative mx-auto max-w-7xl px-5 pt-6 md:pt-8">
-          <h2 className="font-display text-4xl">{h.freeRideTitle}</h2>
-          <p className="mt-4 font-display text-4xl">
-            <span className="mb-3 block text-yellow md:mb-4">{h.freeRideWeekends}</span>
-            <span className="text-yellow">2</span> {h.freeRideEffort}
-            <br />
-            <span className="text-yellow">2</span> {h.freeRideLot}
-          </p>
-          <p className="mt-4 max-w-3xl text-white/75">{dict.winnersExplain}</p>
-          <p className="mt-3 max-w-3xl text-white/75">{dict.pointsExplain}</p>
-          {view.prizePublic ? (
-            <Link href="/winactie-voorwaarden" className="mt-4 inline-block text-sm uppercase tracking-widest text-yellow">
-              {h.winnersLink}
-            </Link>
-          ) : null}
+          <h2 className="font-display text-2xl font-bold uppercase tracking-tight md:text-3xl lg:text-4xl">
+            {h.viralTitle}
+          </h2>
+          <div className="mt-4 max-w-5xl space-y-1 md:space-y-1.5">
+            <div className="-mt-2 mb-5 font-display text-[clamp(0.85rem,1.55vw,1.35rem)] font-bold uppercase leading-[1.15] tracking-tight text-yellow md:mb-6">
+              {h.viralLine1} {h.viralLine2}
+            </div>
+            <div className="font-display text-[clamp(0.85rem,1.55vw,1.35rem)] font-bold uppercase leading-[1.15] tracking-tight text-white">
+              {h.viralLine3}
+            </div>
+            <div className="font-display text-[clamp(0.85rem,1.55vw,1.35rem)] font-bold uppercase leading-[1.15] tracking-tight text-white">
+              {h.viralLine4}
+            </div>
+            <div className="font-display text-[clamp(0.85rem,1.55vw,1.35rem)] font-bold uppercase leading-[1.15] tracking-tight text-yellow">
+              {h.viralLine5}
+            </div>
+          </div>
+          <p className="mt-8 max-w-3xl text-sm text-white/75 md:text-base">{dict.noPrizeExplain}</p>
+          <p className="mt-3 max-w-3xl text-sm text-white/75 md:text-base">{dict.shareExplain}</p>
         </div>
       </section>
 

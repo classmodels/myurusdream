@@ -71,8 +71,13 @@ export const POINTS = {
   furtherLine: 1,
 } as const;
 
+/** Sharing grows the campaign — not a prize mechanism. */
 export const POINTS_EXPLAIN_SHORT =
-  "Elke €2-storting levert 5 punten op, bijgeteld bij u. Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw code in de link: wie dan stort, houdt 5 punten en u krijgt +2. Stort iemand verder in uw lijn: u krijgt +1. Nog niet gestort? Delen kan, maar zonder punten.";
+  "Deel de campagne zodat meer mensen de droom kunnen helpen. Delen is geen prijsmechanisme: het helpt alleen het verhaal en het doel van €400.000 groeien.";
 
+/** Clear legal framing: no contest/prize linked to the €2 contribution. */
 export const WINNERS_EXPLAIN =
-  "Als het doel van €400.000 gehaald is, zijn er vier weekends met de wagen. Twee gaan naar wie het meest deelt (hoogste punten). De twee andere bepaalt het lot uit de lotinglijst: elke €2 is een apart nummer, tien stortingen is tien kansen. Zonder gehaald doel is er geen trekking en geen weekend.";
+  "Uw €2 is een vrijwillige bijdrage om het doel van €400.000 te helpen bereiken. Er is geen contest, geen loterij, geen prijs en geen kans om iets te winnen gekoppeld aan deze bijdrage. U krijgt niets in ruil — behalve oprechte dankbaarheid.";
+
+export const SHARE_EXPLAIN_SHORT = POINTS_EXPLAIN_SHORT;
+export const NO_PRIZE_EXPLAIN = WINNERS_EXPLAIN;

@@ -1,5 +1,3 @@
-import { LIVE_DRAW } from "./constants";
-
 export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[] = [
   {
     question: "Is dit een goed doel?",
@@ -11,6 +9,12 @@ export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[
     question: "Waarom €2?",
     answer:
       "Omdat €2 voor de meeste mensen een klein, eenmalig bedrag is. Niet één persoon €400.000 vragen, maar 200.000 mensen elk €2 van die droom laten dragen: 200.000 × €2 = €400.000.",
+    legal: false,
+  },
+  {
+    question: "Krijg ik iets terug?",
+    answer:
+      "Nee. Uw €2 is een vrijwillige bijdrage om het doel van €400.000 te helpen bereiken. Er is geen contest, geen prijs, geen weekend met de Urus en geen kans om iets te winnen. U krijgt niets in ruil — behalve de dankbaarheid van de organisator.",
     legal: false,
   },
   {
@@ -28,7 +32,7 @@ export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[
   {
     question: "Kan ik meer dan €2 bijdragen?",
     answer:
-      "De persoonlijke bijdrage is telkens €2, maar u mag dat zo vaak herhalen als u wilt. Elke extra storting is +5 punten en een extra lotnummer. Grotere bedragen lopen via sponsoring (vanaf €500) of de Pixelwall (vanaf €10).",
+      "De persoonlijke bijdrage is telkens €2, maar u mag dat zo vaak herhalen als u wilt. Elke storting is opnieuw een vrijwillige gift aan het doel — zonder prijs of kans op winst. Grotere bedragen lopen via sponsoring (vanaf €500) of de Pixelwall (vanaf €10).",
     legal: false,
   },
   {
@@ -56,45 +60,15 @@ export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[
     legal: false,
   },
   {
-    question: "Hoe werkt een eventuele winactie?",
-    answer:
-      "Alleen als het doel van €400.000 gehaald is. Dan zijn er vier weekends met de wagen: twee voor wie het meest deelt (hoogste punten), twee via live loting. Zonder gehaald doel is er geen trekking en geen weekend.",
-    legal: false,
-  },
-  {
-    question: "Hoe wordt een winnaar aangeduid?",
-    answer:
-      "Twee weekends gaan naar de hoogste punten. De twee andere bepaalt het lot uit de lotinglijst: elke €2 is een apart nummer, tien stortingen is tien kansen. Alles is live te volgen.",
-    legal: false,
-  },
-  {
     question: "Wie mag deelnemen?",
     answer:
       "Deelname is bedoeld voor meerderjarigen die de voorwaarden aanvaarden en vrijwillig €2 storten. De precieze regels staan in de algemene voorwaarden.",
     legal: false,
   },
   {
-    question: "Welke voorwaarden gelden om met de wagen te rijden?",
-    answer:
-      "Nog niet van toepassing. Eventueel gebruik vereist geldig rijbewijs, verzekering en aparte gebruiksvoorwaarden.",
-    legal: true,
-  },
-  {
-    question: "Wie betaalt brandstof?",
-    answer:
-      "Nog niet vastgelegd. Dat komt in de gebruiksvoorwaarden van de winactie, mocht het doel gehaald worden.",
-    legal: true,
-  },
-  {
     question: "Wie betaalt verzekering?",
     answer:
-      "De organisator is verantwoordelijk voor een wettelijk correcte verzekering van het voertuig, als het wordt aangekocht. Details volgen in de gebruiksvoorwaarden.",
-    legal: true,
-  },
-  {
-    question: "Wat bij schade?",
-    answer:
-      "Nog niet van toepassing. Schade, franchise en aansprakelijkheid horen in aparte gebruiksvoorwaarden, mocht er een weekend met de wagen plaatsvinden.",
+      "De organisator is verantwoordelijk voor een wettelijk correcte verzekering van het voertuig, als het wordt aangekocht. Details volgen in aparte documenten.",
     legal: true,
   },
   {
@@ -127,14 +101,9 @@ export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[
     legal: false,
   },
   {
-    question: "Wanneer worden de vier weekends verdeeld?",
-    answer: `Alleen als het doel van €400.000 gehaald is: live op ${LIVE_DRAW.dateLabel}, op een spectaculaire locatie in België, gestreamd voor iedereen die meedeed. Twee weekends gaan naar de hoogste punten, twee naar de loting. De exacte plek wordt later bekendgemaakt.`,
-    legal: false,
-  },
-  {
-    question: "Hoe werken de punten?",
+    question: "Waarom zou ik de campagne delen?",
     answer:
-      "Elke €2-storting levert 5 punten op, bijgeteld bij u. Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw code in de link: wie dan stort, houdt 5 punten en u krijgt +2. Stort iemand verder in uw lijn: u krijgt +1. Nog niet gestort? Delen kan, maar zonder punten.",
+      "Omdat delen helpt om meer mensen te bereiken die de droom vrijwillig willen steunen. Delen is geen wedstrijd en levert geen prijs op — het helpt alleen het campagnedoel dichterbij te brengen.",
     legal: false,
   },
   {
@@ -146,7 +115,7 @@ export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[
   {
     question: "Mag ik meerdere keren €2 storten?",
     answer:
-      "Ja. Elke extra €2 is vijf punten extra en een extra lotnummer. Tien stortingen is tien kansen bij de live loting. Twee weekends gaan naar de hoogste punten, twee andere worden uit die lotinglijst getrokken — alleen als het doel gehaald is.",
+      "Ja. Elke extra €2 is opnieuw een vrijwillige bijdrage aan het campagnedoel. Er is geen loting, geen prijs en geen extra kans gekoppeld aan meer stortingen — u helpt alleen het doel dichterbij.",
     legal: false,
   },
 ];
