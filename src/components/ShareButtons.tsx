@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { shareLinks } from "@/lib/share";
 import { CopyButton } from "./CopyButton";
+import { useDict } from "@/lib/i18n/client";
 
 export function ShareButtons({
   referralCode,
@@ -21,15 +22,16 @@ export function ShareButtons({
   compact?: boolean;
   copyLabel?: string;
 }) {
+  const dict = useDict();
   const links = shareLinks(referralCode, { text: shareText, subject: shareSubject });
   const [hint, setHint] = useState("");
 
   async function copyAndOpen(href: string, name: string) {
     try {
       await navigator.clipboard.writeText(links.text);
-      setHint(`Tekst gekopieerd — plak in ${name}`);
+      setHint(dict.share.copiedPaste.replace("{name}", name));
     } catch {
-      window.prompt("Kopieer deze tekst", links.text);
+      window.prompt(dict.share.copy, links.text);
     }
     window.open(href, "_blank", "noreferrer");
     setTimeout(() => setHint(""), 4000);
@@ -43,26 +45,26 @@ export function ShareButtons({
         } ${className ?? (stacked ? "" : "justify-center")}`}
       >
         <a className="btn-yellow" href={links.whatsapp} target="_blank" rel="noreferrer">
-          WhatsApp
+          {dict.share.whatsapp}
         </a>
         <a className="btn-ghost" href={links.facebook} target="_blank" rel="noreferrer">
-          Facebook
+          {dict.share.facebook}
         </a>
         <a className="btn-ghost" href={links.email}>
-          E-mail
+          {dict.share.email}
         </a>
-        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.instagram, "Instagram")}>
-          Instagram
+        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.instagram, dict.share.instagram)}>
+          {dict.share.instagram}
         </button>
-        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.tiktok, "TikTok")}>
-          TikTok
+        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.tiktok, dict.share.tiktok)}>
+          {dict.share.tiktok}
         </button>
-        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.snapchat, "Snapchat")}>
-          Snapchat
+        <button type="button" className="btn-ghost" onClick={() => copyAndOpen(links.snapchat, dict.share.snapchat)}>
+          {dict.share.snapchat}
         </button>
         <CopyButton
           url={links.url}
-          label={copyLabel ?? (referralCode ? "Kopieer mijn link" : "Kopieer campagne")}
+          label={copyLabel ?? (referralCode ? dict.share.copyMine : dict.share.copy)}
         />
       </div>
       {hint ? <p className="mt-2 text-xs text-yellow">{hint}</p> : null}

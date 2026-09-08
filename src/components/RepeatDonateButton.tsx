@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import { readStoredReferralClient } from "@/lib/referral";
+import { useDict } from "@/lib/i18n/client";
 
 export function RepeatDonateButton({
   className,
-  label = "Nog eens €2 storten",
+  label,
 }: {
   className?: string;
   label?: string;
 }) {
+  const dict = useDict();
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const buttonLabel = label ?? dict.meedoen.repeat;
 
   async function donate() {
     setBusy(true);
@@ -24,7 +27,7 @@ export function RepeatDonateButton({
     const data = await res.json();
     if (!res.ok) {
       setBusy(false);
-      setStatus(data.error || "Er ging iets mis.");
+      setStatus(data.error || dict.common.error);
       return;
     }
     if (data.checkoutUrl) {
@@ -43,17 +46,17 @@ export function RepeatDonateButton({
         return;
       }
       setBusy(false);
-      setStatus(simData.error || "Simulatie mislukt.");
+      setStatus(simData.error || dict.common.error);
       return;
     }
     setBusy(false);
-    setStatus("Kon de betaling niet starten.");
+    setStatus(dict.common.error);
   }
 
   return (
     <div className={className}>
       <button type="button" className="btn-yellow" disabled={busy} onClick={donate}>
-        {busy ? "Even geduld…" : label}
+        {busy ? dict.common.loading : buttonLabel}
       </button>
       {status ? <p className="mt-2 text-sm text-yellow">{status}</p> : null}
     </div>

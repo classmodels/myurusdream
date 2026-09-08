@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { formatCents } from "@/lib/money";
+import { useDict, useLocale } from "@/lib/i18n/client";
+import { localeNumberTag } from "@/lib/i18n/config";
 
 export type LiveCounterStats = {
   raisedCents: number;
@@ -55,11 +57,12 @@ function CounterHeadline({
   align?: "left" | "right";
   compact?: boolean;
 }) {
+  const dict = useDict();
   return (
     <div className={align === "right" ? "text-right" : undefined}>
       {showTitle ? (
         <p className="font-display text-base tracking-[0.22em] text-yellow md:text-lg">
-          Totaal live campagneteller
+          {dict.home.liveCounter}
         </p>
       ) : null}
       <h2
@@ -79,14 +82,14 @@ function CounterHeadline({
         </span>
         <span className={compact ? "mx-3.5 text-white/25" : "mx-2 text-white/25"}>·</span>
         <span>
-          Sponsors{" "}
+          {dict.counter.sponsors}{" "}
           <span className={`text-yellow ${compact ? "ml-2" : ""}`}>
             {formatCents(stats.sponsorCents)}
           </span>
         </span>
         <span className={compact ? "mx-3.5 text-white/25" : "mx-2 text-white/25"}>·</span>
         <span>
-          Pixels{" "}
+          {dict.counter.pixels}{" "}
           <span className={`text-yellow ${compact ? "ml-2" : ""}`}>
             {formatCents(stats.pixelCents)}
           </span>
@@ -126,6 +129,9 @@ export function LiveCounter({
   hideHeadlineOnDesktop?: boolean;
   flushTop?: boolean;
 }) {
+  const dict = useDict();
+  const locale = useLocale();
+  const tag = localeNumberTag(locale);
   const stats = useLiveStats(initial);
   const pct = Math.min(100, stats.percent);
 
@@ -145,13 +151,14 @@ export function LiveCounter({
         ) : null}
         <div className={`${flushTop ? "mt-4 md:mt-0 md:pt-3" : "mt-8"} flex flex-wrap gap-x-8 gap-y-1 text-sm text-muted`}>
           <span>
-            Van het doel{" "}
+            {dict.counter.ofGoal}{" "}
             <span className="text-yellow">
-              {pct.toLocaleString("nl-BE", { maximumFractionDigits: 2 })}%
+              {pct.toLocaleString(tag, { maximumFractionDigits: 2 })}%
             </span>
           </span>
           <span>
-            Nog nodig <span className="text-yellow">{formatCents(stats.remainingCents)}</span>
+            {dict.counter.stillNeed}{" "}
+            <span className="text-yellow">{formatCents(stats.remainingCents)}</span>
           </span>
         </div>
         <div className="progress-track mt-2">
@@ -159,28 +166,30 @@ export function LiveCounter({
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
-          <Stat label="Totaal van €2" value={formatCents(stats.contributionCents)} />
+          <Stat label={dict.counter.total} value={formatCents(stats.contributionCents)} />
           <Stat
-            label="Deelnemers / doel"
-            value={`${stats.participantCount.toLocaleString("nl-BE")} / ${stats.targetContributions.toLocaleString("nl-BE")}`}
+            label={dict.counter.participants}
+            value={`${stats.participantCount.toLocaleString(tag)} / ${stats.targetContributions.toLocaleString(tag)}`}
           />
           <Stat
-            label="Sponsors"
+            label={dict.counter.sponsors}
             value={formatCents(stats.sponsorCents)}
-            hint={`${stats.sponsorCount.toLocaleString("nl-BE")} storting${stats.sponsorCount === 1 ? "" : "en"}`}
+            hint={`${stats.sponsorCount.toLocaleString(tag)} ${
+              stats.sponsorCount === 1 ? dict.counter.deposit : dict.counter.deposits
+            }`}
           />
           <Stat
-            label="Pixels"
+            label={dict.counter.pixels}
             value={formatCents(stats.pixelCents)}
-            hint={`${stats.pixelCount.toLocaleString("nl-BE")} storting${stats.pixelCount === 1 ? "" : "en"}`}
+            hint={`${stats.pixelCount.toLocaleString(tag)} ${
+              stats.pixelCount === 1 ? dict.counter.deposit : dict.counter.deposits
+            }`}
           />
           <VisitorStat total={stats.uniqueVisitors} online={stats.onlineVisitors} />
           {latestUpdate ? <UpdateStat update={latestUpdate} /> : null}
         </div>
 
-        <p className="mt-6 text-sm text-muted">
-          Alleen bevestigde betalingen tellen. Het getoonde totaal is bruto minus transactiekosten.
-        </p>
+        <p className="mt-6 text-sm text-muted">{dict.counter.note}</p>
       </div>
     </section>
   );
@@ -230,11 +239,13 @@ function Stat({
 }
 
 function UpdateStat({ update }: { update: LiveCounterUpdate }) {
-  const date = new Date(update.createdAt).toLocaleDateString("nl-BE");
+  const dict = useDict();
+  const locale = useLocale();
+  const date = new Date(update.createdAt).toLocaleDateString(localeNumberTag(locale));
   return (
     <div className="card-dark col-span-2 min-w-0 overflow-hidden px-3 py-3 sm:px-4">
       <p className="text-[clamp(0.52rem,2.6vw,0.65rem)] uppercase leading-tight tracking-[0.12em] text-muted sm:tracking-[0.2em]">
-        Update
+        {dict.counter.update}
       </p>
       <p className="mt-1.5 font-display text-[clamp(1.05rem,4.6vw,1.35rem)] leading-tight text-yellow md:text-xl">
         {update.title}
@@ -246,27 +257,30 @@ function UpdateStat({ update }: { update: LiveCounterUpdate }) {
 }
 
 function VisitorStat({ total, online }: { total: number; online: number }) {
+  const dict = useDict();
+  const locale = useLocale();
+  const tag = localeNumberTag(locale);
   return (
     <div className="card-dark col-span-2 min-w-0 overflow-hidden px-3 py-3 sm:px-4">
       <p className="text-center text-[clamp(0.52rem,2.6vw,0.65rem)] uppercase leading-tight tracking-[0.12em] text-muted sm:tracking-[0.2em]">
-        Bezoekers
+        {dict.counter.visitors}
       </p>
       <div className="mt-1.5 grid grid-cols-2 gap-2 sm:gap-4">
         <div className="min-w-0 text-left">
           <p className="text-[clamp(0.5rem,2.4vw,0.62rem)] uppercase leading-tight tracking-[0.1em] text-white/40">
-            Totaal
+            {dict.counter.totalLabel}
           </p>
           <p className="mt-0.5 font-display text-[clamp(1.15rem,5vw,1.75rem)] leading-none text-yellow">
-            {total.toLocaleString("nl-BE")}
+            {total.toLocaleString(tag)}
           </p>
         </div>
         <div className="min-w-0 text-right">
           <p className="inline-flex items-center justify-end gap-1 text-[clamp(0.5rem,2.4vw,0.62rem)] uppercase leading-tight tracking-[0.1em] text-white/40">
             <span className="online-dot shrink-0" aria-hidden="true" />
-            Nu live
+            {dict.counter.online}
           </p>
           <p className="mt-0.5 font-display text-[clamp(1.15rem,5vw,1.75rem)] leading-none text-yellow">
-            {online.toLocaleString("nl-BE")}
+            {online.toLocaleString(tag)}
           </p>
         </div>
       </div>

@@ -1,10 +1,12 @@
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { deleteComment, postComment } from "./actions";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export const dynamic = "force-dynamic";
 
 export default async function DiscussiePage() {
+  const dict = await getDictionary();
   let comments: { id: string; name: string; body: string; createdAt: Date }[] = [];
   try {
     comments = await prisma.discussionPost.findMany({
@@ -23,13 +25,11 @@ export default async function DiscussiePage() {
   return (
     <div className="px-4 pb-24 pt-24 sm:px-5 sm:pt-28">
       <div className="mx-auto w-full max-w-[600px]">
-      <p className="font-display text-[0.65rem] tracking-[0.28em] text-yellow sm:text-sm">Discussie</p>
+      <p className="font-display text-[0.65rem] tracking-[0.28em] text-yellow sm:text-sm">{dict.discussie.kicker}</p>
       <h1 className="mt-2 w-full whitespace-nowrap font-display text-[clamp(0.72rem,4.2vw,1.5rem)] leading-none tracking-normal">
-        Wat is uw mening over deze campagne?
+        {dict.discussie.title}
       </h1>
-      <p className="mt-3 w-full text-sm text-white/75 sm:text-base">
-        Zeg hier vrij wat u van de campagne vindt. Geen account nodig. Blijf respectvol.
-      </p>
+      <p className="mt-3 w-full text-sm text-white/75 sm:text-base">{dict.discussie.lead}</p>
 
       <form action={postComment} className="compact-form card-dark mt-6 grid w-full gap-2 p-3 sm:p-4">
         <input

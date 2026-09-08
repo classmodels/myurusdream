@@ -5,10 +5,12 @@ import { prisma } from "@/lib/prisma";
 import { LiveCounter, LiveCounterHeadline } from "@/components/LiveCounter";
 import { PageHero } from "@/components/PageHero";
 import { uniqueVisitorCount, onlineVisitorCount } from "@/lib/visitors";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export const dynamic = "force-dynamic";
 
 export default async function VolgAllesPage() {
+  const dict = await getDictionary();
   const view = await getPublicCampaignView();
   const [visitors, onlineVisitors] = await Promise.all([uniqueVisitorCount(), onlineVisitorCount()]);
   const resolved = resolveBreakdown(
@@ -56,17 +58,17 @@ export default async function VolgAllesPage() {
   return (
     <div className="pb-24">
       <PageHero
-        kicker="Transparantie"
-        title="Volg alles mee"
+        kicker={dict.volgAlles.kicker}
+        title={dict.volgAlles.title}
         image="/images/urus-night.png"
         overlayPlacement="bottom-right"
         overlay={
           <LiveCounterHeadline initial={counterStats} />
         }
       >
-        <p>Alleen bevestigde betalingen tellen.</p>
+        <p>{dict.volgAlles.lead}</p>
         <Link href="/meedoen" className="btn-yellow mt-6">
-          Ik doe mee voor €2
+          {dict.common.meedoen}
         </Link>
       </PageHero>
       <LiveCounter

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useDict } from "@/lib/i18n/client";
 
 export function LoginForm() {
+  const dict = useDict();
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -22,7 +24,7 @@ export function LoginForm() {
     const data = await res.json();
     setBusy(false);
     if (!res.ok) {
-      setMessage(data.error || "Inloggen mislukt.");
+      setMessage(data.error || dict.common.error);
       return;
     }
     window.location.href = data.redirect || "/dashboard";
@@ -30,9 +32,9 @@ export function LoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="card-dark space-y-4 p-8">
-      <label htmlFor="email">E-mail van uw bijdrage</label>
+      <label htmlFor="email">{dict.meedoen.email}</label>
       <input id="email" name="email" type="email" required autoComplete="email" />
-      <label htmlFor="phone">GSM-nummer van uw bijdrage</label>
+      <label htmlFor="phone">{dict.meedoen.phone}</label>
       <input
         id="phone"
         name="phone"
@@ -42,7 +44,7 @@ export function LoginForm() {
         inputMode="tel"
       />
       <button className="btn-yellow w-full" disabled={busy}>
-        {busy ? "Even geduld…" : "Open dashboard"}
+        {busy ? dict.common.loading : dict.inloggen.submit}
       </button>
       {message ? <p className="text-sm text-white/70">{message}</p> : null}
     </form>

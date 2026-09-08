@@ -3,23 +3,26 @@
 import Link from "next/link";
 import { useEffect, useState, type MouseEvent } from "react";
 import { NotificationBell } from "@/components/NotificationBell";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { persistReferralClient, readStoredReferralClient, referralFromPathname } from "@/lib/referral";
+import { useDict } from "@/lib/i18n/client";
 
 export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
+  const dict = useDict();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [meedoenHref, setMeedoenHref] = useState("/meedoen");
   const links = [
-    { href: "/#teller", label: "Teller" },
-    { href: "/#verhaal", label: "Verhaal" },
-    { href: "/sponsors", label: "Sponsors" },
-    { href: "/pixels", label: "Pixelwall" },
-    { href: "/volg-alles", label: "Volg alles" },
-    { href: "/discussie", label: "Discussie" },
-    { href: "/faq", label: "FAQ" },
-    { href: "/dashboard", label: "Uw dashboard" },
+    { href: "/#teller", label: dict.nav.teller },
+    { href: "/#verhaal", label: dict.nav.verhaal },
+    { href: "/sponsors", label: dict.nav.sponsors },
+    { href: "/pixels", label: dict.nav.pixelwall },
+    { href: "/volg-alles", label: dict.nav.volgAlles },
+    { href: "/discussie", label: dict.nav.discussie },
+    { href: "/faq", label: dict.nav.faq },
+    { href: "/dashboard", label: dict.nav.dashboard },
   ];
-  const adminLink = { href: "/admin", label: "Admin" };
+  const adminLink = { href: "/admin", label: dict.nav.admin };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -65,55 +68,59 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
         scrolled ? "bg-black/85 backdrop-blur-md border-b border-white/10" : "bg-black/25 backdrop-blur-[2px]"
       }`}
     >
-      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3">
-        <Link href="/" className="relative z-10 flex min-w-0 flex-col items-center justify-center">
+      <div className="absolute left-[30px] top-1/2 z-20 flex -translate-y-1/2">
+        <Link href="/" className="flex min-w-0 flex-col items-center justify-center">
           <span className="whitespace-nowrap font-display text-lg font-bold tracking-[0.12em] text-white sm:text-xl sm:tracking-[0.14em]">
             MY <span className="text-yellow">URUS</span> DREAM
           </span>
           <span className="mt-[2px] flex items-center gap-2">
             <span className="h-px w-3 bg-yellow/70" aria-hidden="true" />
             <span className="whitespace-nowrap font-display text-[0.5rem] tracking-[0.22em] text-white/80">
-              DRIVE YOUR DREAM
+              {dict.brand.drive}
             </span>
             <span className="h-px w-3 bg-yellow/70" aria-hidden="true" />
           </span>
         </Link>
-        <nav className="pointer-events-none absolute inset-x-5 top-1/2 hidden -translate-y-1/2 xl:flex">
-          <div className="pointer-events-auto mx-auto flex w-full max-w-[600px] items-center">
-            {links.map((l, i) => (
-              <span key={l.href} className="flex items-center">
-                {i > 0 ? <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" /> : null}
-                <Link href={l.href} className={linkClass} onClick={(e) => go(l.href, e)}>
-                  {l.label}
-                </Link>
-              </span>
-            ))}
-            <span className="flex items-center">
-              <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" />
-              <NotificationBell loggedIn={loggedIn} />
-            </span>
-          </div>
-        </nav>
-        <div className="relative z-10 hidden items-center gap-5 xl:flex">
-          <Link href={meedoenHref} className="header-cta">
-            {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
-          </Link>
-          <Link href={adminLink.href} className={linkClass} onClick={(e) => go(adminLink.href, e)}>
-            {adminLink.label}
-          </Link>
-        </div>
-        <div className="xl:hidden">
-          <button
-            type="button"
-            className={linkClass}
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-label="Menu"
-          >
-            {open ? "Sluiten" : "Menu"}
-          </button>
-        </div>
       </div>
+      <nav className="pointer-events-none absolute inset-y-0 left-[12.5rem] right-[22rem] top-1/2 z-10 hidden -translate-y-1/2 xl:flex">
+        <div className="pointer-events-auto mx-auto flex max-w-full items-center justify-center overflow-x-auto">
+          {links.map((l, i) => (
+            <span key={l.href} className="flex items-center">
+              {i > 0 ? <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" /> : null}
+              <Link href={l.href} className={linkClass} onClick={(e) => go(l.href, e)}>
+                {l.label}
+              </Link>
+            </span>
+          ))}
+          <span className="flex items-center">
+            <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" />
+            <NotificationBell loggedIn={loggedIn} />
+          </span>
+        </div>
+      </nav>
+      <div className="absolute right-[30px] top-1/2 z-20 flex -translate-y-1/2 items-center gap-3">
+        <Link href={meedoenHref} className="header-cta hidden xl:inline-flex">
+          {loggedIn ? dict.nav.ctaAgain : dict.nav.cta}
+        </Link>
+        <Link
+          href={adminLink.href}
+          className={`${linkClass} hidden xl:inline`}
+          onClick={(e) => go(adminLink.href, e)}
+        >
+          {adminLink.label}
+        </Link>
+        <button
+          type="button"
+          className={`${linkClass} xl:hidden`}
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label={dict.nav.menu}
+        >
+          {open ? dict.nav.close : dict.nav.menu}
+        </button>
+        <LanguageSwitcher />
+      </div>
+      <div className="h-[66px]" aria-hidden="true" />
       {open ? (
         <div className="border-t border-white/10 bg-black px-5 py-5 xl:hidden">
           <div className="flex flex-col gap-4">
@@ -129,7 +136,7 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             ))}
             <NotificationBell loggedIn={loggedIn} />
             <Link href={meedoenHref} className="header-cta w-fit" onClick={() => setOpen(false)}>
-              {loggedIn ? "Nog eens €2" : "Ik doe mee voor €2"}
+              {loggedIn ? dict.nav.ctaAgain : dict.nav.cta}
             </Link>
             <Link
               href={adminLink.href}

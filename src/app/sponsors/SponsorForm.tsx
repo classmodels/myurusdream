@@ -11,6 +11,7 @@ import { formatCents } from "@/lib/money";
 import { compressLogo } from "@/lib/compress-logo";
 import { HeadlineBillboard } from "@/components/SponsorShowcase";
 import { normalizeWebsiteUrl } from "@/lib/website";
+import { useDict } from "@/lib/i18n/client";
 
 type Props = {
   blockedReason: string | null;
@@ -386,23 +387,24 @@ function SponsorLivePreview({
 }
 
 export function LegalChecks() {
+  const dict = useDict();
   return (
     <label className="legal-check legal-check-compact">
       <input type="checkbox" name="acceptLegal" required />
       <span>
-        Ik aanvaard de{" "}
+        {dict.meedoen.acceptPrefix}{" "}
         <Link href="/voorwaarden#algemene-voorwaarden" className="text-yellow">
-          algemene voorwaarden
+          {dict.legalLinks.termsLower}
         </Link>
-        , de{" "}
+        {dict.meedoen.acceptMid1}{" "}
         <Link href="/voorwaarden#campagnevoorwaarden" className="text-yellow">
-          campagnevoorwaarden
+          {dict.legalLinks.campaignLower}
         </Link>{" "}
-        en het{" "}
+        {dict.meedoen.acceptMid2}{" "}
         <Link href="/voorwaarden#privacybeleid" className="text-yellow">
-          privacybeleid
+          {dict.legalLinks.privacyLower}
         </Link>
-        .
+        {dict.meedoen.acceptEnd}
       </span>
     </label>
   );

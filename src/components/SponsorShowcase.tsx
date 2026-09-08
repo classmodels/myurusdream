@@ -1,4 +1,7 @@
+"use client";
+
 import { isExampleSponsor, type SponsorCardData, type SponsorTierId } from "@/lib/sponsors";
+import { useDict } from "@/lib/i18n/client";
 
 export type { SponsorCardData };
 
@@ -42,6 +45,7 @@ export function HeadlineBillboard({
   emptyLabel?: string;
   example?: boolean;
 }) {
+  const dict = useDict();
   const title = name.trim();
   const sub = (tagline || "").trim();
   const titleSize =
@@ -83,7 +87,7 @@ export function HeadlineBillboard({
 
         {example ? (
           <p className="pointer-events-none absolute left-1.5 top-1.5 font-display text-[0.55rem] uppercase tracking-[0.16em] text-white/75">
-            voorbeeld
+            {dict.sponsors.example}
           </p>
         ) : null}
       </div>

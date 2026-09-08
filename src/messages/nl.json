@@ -1,0 +1,666 @@
+{
+  "meta": {
+    "titleSuffix": "My Urus Dream",
+    "tagline": "Kan €2 een droom op wielen waarmaken?"
+  },
+  "lang": {
+    "nl": "Nederlands",
+    "en": "English",
+    "fr": "Français",
+    "label": "Taal"
+  },
+  "nav": {
+    "teller": "Teller",
+    "verhaal": "Verhaal",
+    "sponsors": "Sponsors",
+    "pixelwall": "Pixelwall",
+    "volgAlles": "Volg alles",
+    "discussie": "Discussie",
+    "faq": "FAQ",
+    "dashboard": "Uw dashboard",
+    "admin": "Admin",
+    "menu": "Menu",
+    "close": "Sluiten",
+    "cta": "Ik doe mee voor €2",
+    "ctaAgain": "Nog eens €2",
+    "messages": "Berichten"
+  },
+  "brand": {
+    "drive": "DRIVE YOUR DREAM"
+  },
+  "common": {
+    "meedoen": "Ik doe mee voor €2",
+    "loading": "Even geduld…",
+    "ok": "Oké",
+    "error": "Er ging iets mis.",
+    "back": "Terug",
+    "save": "Opslaan",
+    "required": "Verplicht"
+  },
+  "cookie": {
+    "text": "We gebruiken alleen essentiële cookies voor login, beveiliging en de betaalflow.",
+    "policy": "Cookiebeleid",
+    "accept": "Oké"
+  },
+  "footer": {
+    "voluntary": "Vrijwillige bijdrage van €2, zo vaak u wilt. Geen abonnement. Geen winstbelofte.",
+    "everyGift": "Elke bijdrage drijft de droom verder",
+    "supportWith": "STEUN DE DROOM MET",
+    "smallGift": "KLEINE GIFT, GROTE DROOM",
+    "legal": "Juridisch",
+    "photos": "Foto’s van de Urus zijn sfeerbeelden van de droom, geen partnership.",
+    "copyright": "onafhankelijke persoonlijke campagne"
+  },
+  "legalLinks": {
+    "terms": "Voorwaarden",
+    "campaign": "Campagnevoorwaarden",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "refund": "Terugbetaling",
+    "disclaimer": "Disclaimer",
+    "contact": "Contact",
+    "prize": "Winactie",
+    "termsLower": "algemene voorwaarden",
+    "campaignLower": "campagnevoorwaarden",
+    "privacyLower": "privacybeleid"
+  },
+  "home": {
+    "heroTitle1": "Kan",
+    "heroTitle2": "een",
+    "heroTitle3": "droom op wielen",
+    "heroTitle4": "waarmaken?",
+    "heroLead1": "Geen goed doel.",
+    "heroLead2": "Geen verzonnen verhaal.",
+    "heroLead3": "Gewoon één grote droom en één kleine vraag.",
+    "ctaPrimary": "Ik doe mee voor €2",
+    "ctaSecondary": "Bekijk hoe het werkt",
+    "fineprint": "Eenmalige bijdrage • geen abonnement • transparante teller",
+    "samen": "Samen naar de droom",
+    "goalLine": "200.000 mensen × €2 = €400.000",
+    "liveCounter": "Totaal live campagneteller",
+    "asGoalReached": "Als het doel gehaald wordt",
+    "ride4": "rijden 4 gelukkigen",
+    "weekend": "een weekend",
+    "withUrus": "met de Urus",
+    "whyKicker": "Samen naar de droom",
+    "whyTitle": "Niet één persoon. Heel veel kleine bijdragen.",
+    "togetherScript": "€2 × 200.000",
+    "togetherKicker": "Ik help de droom mee waarmaken",
+    "togetherTitle": "Eenmalig €2. Geen abonnement. Volledig te volgen.",
+    "togetherBody1": "Voor één persoon is €2 iets kleins. Voor mij betekent het iets groots.",
+    "togetherBody2": "Dat is het hele idee.",
+    "inviteTitle": "Nodig anderen uit",
+    "inviteSub": "Campagne delen, nog zonder punten",
+    "inviteBodyPaid": "U hebt al gestort. WhatsApp, Facebook en e-mail sturen nu uw persoonlijke code mee. Wie via die link stort, levert u punten op.",
+    "pointsLink": "Bekijk uw punten →",
+    "freeRideTitle": "U kan gratis met de Urus rijden",
+    "winnersLink": "Winactievoorwaarden →",
+    "pixelKicker": "Zelfstandigen & kleine merken",
+    "pixelTitle": "De Pixelwall. Uw reclame, vak voor vak.",
+    "pixelBody": "Vanaf €10 koopt u een vak op de Pixelwall, met uw logo en link.",
+    "pixelCta": "Naar de Pixelwall",
+    "sponsorCta": "Ik wil sponsoren",
+    "freeRideWeekends": "4 weekends",
+    "freeRideEffort": "via inspanning,",
+    "freeRideLot": "via het lot.",
+    "pixelBudget": "Geen groot budget nodig.",
+    "inviteSubPaid": "Uw persoonlijke link — punten tellen mee",
+    "inviteExtra": "Elke €2 = 5 punten én een extra lotnummer. U mag zo vaak storten als u wilt.",
+    "helpTitle1": "Ik help",
+    "helpTitle2": "de droom",
+    "helpTitle3": "mee waarmaken",
+    "heroAlt": "Lamborghini Urus in champagne — sfeerbeeld van de droom, geen partnership",
+    "villaAlt": "Urus in champagne op een donker terras bij schemer — sfeerbeeld",
+    "samenLine1": "Samen naar",
+    "samenLine2": "de droom",
+    "inviteBodyGuest1": "Nog niet gestort? Deze knoppen delen de campagne zonder punten.",
+    "inviteBodyGuest2": "Na uw €2 sturen dezelfde knoppen automatisch uw persoonlijke code mee."
+  },
+  "story": {
+    "kicker": "Verhaal",
+    "title": "MIJN DROOM. UW €2. ONS VERHAAL.",
+    "aside": {
+      "a": "misschien lukt het,",
+      "b": "misschien niet",
+      "c": "....",
+      "d": "maar mijn gekste idee ooit"
+    },
+    "more": "Meer lezen",
+    "less": "Minder lezen",
+    "p1before": "Ik ga u geen verhaal vertellen over een goed doel en ik ga u ook niet proberen te overtuigen met ziekte, drama of een verzonnen reden waarom ik uw geld zou verdienen.",
+    "p1gold": "Mijn reden is veel eenvoudiger: ik droom al heel mijn leven van een uitzonderlijke wagen en voor mij is dat de Lamborghini Urus.",
+    "p2": "Mijn leven is niet altijd gelopen zoals ik het ooit voor ogen had. Ik ben getrouwd geweest, kreeg twee kinderen en dacht, zoals zoveel mensen, dat ik ongeveer wist hoe mijn toekomst eruit zou zien. Het leven besliste anders. Er zijn mooie maar ook moeilijke jaren geweest, jaren waarin dromen naar de achtergrond verdwenen en andere dingen belangrijker waren: werken, doorgaan, opnieuw beginnen en rijden met de auto's die op dat moment haalbaar waren. Maar sommige dromen verdwijnen niet, en die Lamborghini Urus is er voor mij zo één.",
+    "p3before": "Ik weet natuurlijk perfect wat zo'n wagen kost. Zelf ongeveer €400.000 op tafel leggen is voor mij simpelweg niet realistisch. Dus kon ik accepteren dat het altijd een droom zou blijven,",
+    "p3gold": "of één keer in mijn leven iets compleet anders proberen.",
+    "p4": "Niet één persoon €400.000 vragen, maar 200.000 mensen €2. Dat is het hele idee achter My Urus Dream. Geen grote sponsor, geen miljonair die alles betaalt en geen zielig verhaal, maar heel veel mensen die ieder een piepklein stukje van een bijna onmogelijke droom dragen. 200.000 mensen × €2 = €400.000. Voor één persoon verandert €2 waarschijnlijk niets, maar 200.000 keer €2 kan iets ongelooflijks mogelijk maken.",
+    "h1": "NIET ÉÉN PERSOON €400.000 VRAGEN, MAAR 200.000 MENSEN €2.",
+    "rest": [
+      {
+        "type": "title",
+        "text": "NIET ÉÉN PERSOON €400.000 VRAGEN, MAAR 200.000 MENSEN €2."
+      },
+      {
+        "type": "p",
+        "text": "Misschien denkt u:"
+      },
+      {
+        "type": "quote",
+        "text": "“Waarom zou ik €2 geven zodat iemand anders een Lamborghini kan kopen?”"
+      },
+      {
+        "type": "p",
+        "text": "Een terechte vraag."
+      },
+      {
+        "type": "p",
+        "text": "Ik beweer niet dat ik een Lamborghini nodig heb, dat ik hem verdien of dat mijn droom belangrijker is dan die van iemand anders."
+      },
+      {
+        "type": "gold",
+        "text": "Ik probeer gewoon iets waarvan bijna iedereen zal zeggen: “Dat lukt nooit.”"
+      },
+      {
+        "type": "p",
+        "text": "Maar stel dat het wél lukt? Dat 200.000 gewone mensen, die elkaar niet eens kennen, samen iets realiseren wat voor één gewone persoon totaal onbereikbaar is? Dan gaat dit niet alleen meer over een auto, maar over wat er mogelijk wordt wanneer heel veel mensen allemaal één heel klein ding doen."
+      },
+      {
+        "type": "p",
+        "text": "En daar zit meteen de moeilijkheid. Misschien denkt u:"
+      },
+      {
+        "type": "quote",
+        "text": "“Als genoeg andere mensen €2 storten, komt hij er wel.”"
+      },
+      {
+        "type": "gold",
+        "text": "Maar als iedereen denkt dat iemand anders het zal doen, gebeurt er niets."
+      },
+      {
+        "type": "p",
+        "text": "Het werkt alleen als de persoon die dit nú leest denkt:"
+      },
+      {
+        "type": "quote",
+        "text": "“Ach kom, voor €2 doe ik mee.”"
+      },
+      {
+        "type": "p",
+        "text": "Veel vraag ik eigenlijk niet: één minuut van uw tijd. Klik op ‘Ik doe mee voor €2’, vul uw naam in en scan de QR-code; de betaling verloopt via het officiële betaalsysteem. Klaar."
+      },
+      {
+        "type": "p",
+        "text": "En wat is €2 vandaag nog? Een pintje, frisdrank of koffie kost vaak al meer. Laat één drankje staan en u hebt financieel misschien zelfs nog winst gemaakt, maar hier krijgt u er iets bij:"
+      },
+      {
+        "type": "gold",
+        "text": "u wordt een klein stukje van dit verhaal en kunt, als deze compleet gekke droom werkelijkheid wordt, zeggen: “Ik heb meegedaan.”"
+      },
+      {
+        "type": "title",
+        "text": "EN MISSCHIEN RIJDT U ZELF WEL MET DE URUS"
+      },
+      {
+        "type": "p",
+        "text": "Als de actie slaagt, wil ik de droom ook delen. Zoals u verder op deze website kunt lezen:"
+      },
+      {
+        "type": "gold",
+        "text": "vier weekends met de Lamborghini Urus worden weggegeven. Twee weekends worden door het lot bepaald."
+      },
+      {
+        "type": "p",
+        "text": "Daardoor maakt ook iemand die gewoon één keer €2 stort kans om zelf de sleutels in handen te krijgen."
+      },
+      {
+        "type": "gold",
+        "text": "De andere twee weekends laat ik niet alleen aan het geluk over: daar hebt u zelf invloed op."
+      },
+      {
+        "type": "p",
+        "text": "U stort zelf maar één keer €2 en kunt daarna andere mensen uitnodigen om ook deel te nemen. Stort iemand via u, dan verdient u punten. En als die persoon het verhaal vervolgens verder verspreidt en er via hem of haar opnieuw mensen deelnemen, levert dat u eveneens punten op."
+      },
+      {
+        "type": "p",
+        "text": "Uw ene deelname kan dus het begin worden van een hele ketting."
+      },
+      {
+        "type": "gold",
+        "text": "De twee deelnemers die uiteindelijk de meeste punten verzamelen, winnen ieder een weekend met de Lamborghini Urus."
+      },
+      {
+        "type": "title",
+        "text": "LAAT HET VERHAAL VIRAAL GAAN"
+      },
+      {
+        "type": "p",
+        "text": "En dat is eigenlijk mijn tweede droom met dit project: niet alleen die Urus realiseren, maar ontdekken"
+      },
+      {
+        "type": "gold",
+        "text": "hoe ver we dit verhaal samen kunnen krijgen."
+      },
+      {
+        "type": "p",
+        "text": "Deel uw persoonlijke link met vrienden, familie en collega's via WhatsApp, Facebook, Instagram, TikTok of waar u maar wilt. Vertel gewoon:"
+      },
+      {
+        "type": "quote",
+        "text": "“Er is iemand die probeert een Lamborghini Urus te realiseren door 200.000 mensen elk €2 te laten bijdragen.”"
+      },
+      {
+        "type": "p",
+        "text": "Misschien lachen mensen ermee en zeggen ze:"
+      },
+      {
+        "type": "quote",
+        "text": "“Die is compleet gek.”"
+      },
+      {
+        "type": "p",
+        "text": "Prima. Maar misschien denken ze daarna ook:"
+      },
+      {
+        "type": "gold",
+        "text": "“Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.”"
+      },
+      {
+        "type": "p",
+        "text": "En precies dát kan dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend, tienduizend... Misschien begint het te leven op sociale media, wordt het gedeeld door iemand met een groot bereik en"
+      },
+      {
+        "type": "gold",
+        "text": "haalt dit knotsgekke verhaal op een dag zelfs de media."
+      },
+      {
+        "type": "quote",
+        "text": "“Ik was erbij. Ik heb meegedaan. Ik heb geholpen om dit verhaal aan het rollen te krijgen.”"
+      },
+      {
+        "type": "p",
+        "text": "En wie weet bent u uiteindelijk zelfs één van de vier mensen die daadwerkelijk met de Urus mag rijden."
+      },
+      {
+        "type": "title",
+        "text": "DUS HEB IK NOG ÉÉN VRAAG AAN U"
+      },
+      {
+        "type": "p",
+        "text": "Als u tot hier gelezen hebt, hebt u waarschijnlijk méér tijd aan mijn droom besteed dan het kost om effectief mee te doen. Denk dus niet:"
+      },
+      {
+        "type": "gold",
+        "text": "“Iemand anders zal die €2 wel storten”"
+      },
+      {
+        "type": "p",
+        "text": "want die andere persoon denkt misschien precies hetzelfde."
+      },
+      {
+        "type": "p",
+        "text": "Het werkt alleen als u denkt:"
+      },
+      {
+        "type": "gold",
+        "text": "“Kom. Waarom eigenlijk niet?”"
+      },
+      {
+        "type": "p",
+        "text": "Eén minuut, één kleine betaling, €2. Niet omdat ik u een zielig verhaal heb verteld of beweer dat ik recht heb op een Lamborghini, maar gewoon omdat u het idee misschien even knotsgek, grappig en spannend vindt als ik — en benieuwd bent naar het antwoord op één vraag:"
+      },
+      {
+        "type": "title",
+        "text": "KUNNEN 200.000 MENSEN MET ELK €2 ÉÉN BIJNA ONMOGELIJKE DROOM WAARMAKEN?"
+      },
+      {
+        "type": "p",
+        "text": "Misschien lukt het nooit. Misschien wordt het één grote mislukking waar ik later hartelijk om kan lachen."
+      },
+      {
+        "type": "gold",
+        "text": "Maar misschien lukt het wél."
+      },
+      {
+        "type": "p",
+        "text": "En als ik ooit voor die Lamborghini Urus sta, zal ik weten dat hij daar niet staat dankzij één rijke schenker, maar dankzij duizenden mensen die allemaal hetzelfde dachten:"
+      },
+      {
+        "type": "title",
+        "text": "“ACH KOM. VOOR €2 DOE IK MEE.”"
+      },
+      {
+        "type": "p",
+        "text": "Dan hebben heel veel mensen met een piepkleine actie één mens ongelooflijk gelukkig gemaakt. Misschien was u één van hen, misschien hebt u geholpen het verhaal groot te maken en misschien zit u uiteindelijk zelfs zelf achter het stuur."
+      },
+      {
+        "type": "gold",
+        "text": "Maar daarvoor moet iemand beginnen. Waarom niet u?"
+      }
+    ],
+    "ctaLine": "Doe mee. Deel uw persoonlijke link. Verzamel punten. Laat het verhaal groeien.",
+    "photoAlt": "Detail van de Urus"
+  },
+  "how": {
+    "titleHoe": "HOE",
+    "titleWerkt": "WERKT HET?",
+    "intro": "Eén kleine, vrijwillige bijdrage — of meerdere, als u wilt. Geen abonnement. Na uw eerste €2 sturen de deelknoppen op de site automatisch uw persoonlijke code mee.",
+    "steps": [
+      "Stort €2 — zo vaak u wilt",
+      "Elke storting: 5 punten en een extra lotnummer",
+      "Na uw storting delen WhatsApp, Facebook en e-mail uw code mee",
+      "Wie via uw link stort, krijgt zelf 5 punten. U krijgt +2",
+      "Elke extra storting in uw lijn: +1 punt voor u",
+      "Twee weekends via punten, twee via loting — alleen als het doel gehaald is"
+    ],
+    "chancesTitle": "UW KANSEN",
+    "chances": [
+      "Elke €2: 5 punten, bijgeteld, plus een extra lotnummer.",
+      "Wie uw persoonlijke link deelde: +2 bij elke storting via die link.",
+      "Elke volgende storting in die lijn: +1 voor de eerdere doorstuurders.",
+      "Als het doel van €400.000 gehaald is: twee weekends voor de hoogste punten, twee weekends geloot uit de lotinglijst (meer €2 = meer kansen)."
+    ],
+    "transparencyTitle": "TRANSPARANTIE",
+    "transparencyBody": "Iedereen kan de teller en het opgehaalde bedrag volgen. Uw punten en persoonlijke link staan in uw dashboard.",
+    "transparencyLink": "Bekijk de live teller →",
+    "heart": "Vrijwillige steun van €2 — transparant, eenvoudig en zichtbaar"
+  },
+  "counter": {
+    "total": "Totaal van €2",
+    "participants": "Deelnemers / doel",
+    "sponsors": "Sponsors",
+    "pixels": "Pixels",
+    "visitors": "Bezoekers",
+    "online": "Nu live",
+    "note": "Alleen bevestigde betalingen tellen. Het getoonde totaal is bruto minus transactiekosten.",
+    "contributions": "Bijdragen",
+    "deposits": "stortingen",
+    "ofGoal": "Van het doel",
+    "stillNeed": "Nog nodig",
+    "deposit": "storting",
+    "totalLabel": "Totaal",
+    "update": "Update"
+  },
+  "meedoen": {
+    "title": "Ik stort €2",
+    "lead": "Geen account vooraf nodig. Bij uw €2 maken we automatisch een klein dashboard-account. U krijgt 5 punten, een lotnummer en een persoonlijke link. U mag later zo vaak extra €2 storten als u wilt.",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "email": "E-mail",
+    "phone": "GSM-nummer",
+    "pay": "Betaal €2",
+    "busy": "Even geduld…",
+    "mollieNote": "U gaat naar de beveiligde checkout van Mollie (Bancontact, kaarten, Apple Pay indien beschikbaar). Wij bewaren geen kaartgegevens.",
+    "testMode": "Testmodus: Mollie-sleutel ontbreekt. U kunt de betaling lokaal simuleren.",
+    "invited": "U bent uitgenodigd via iemands persoonlijke link. Bij een bevestigde €2 krijgt u 5 punten — niet meer, niet minder. Wie u uitnodigde krijgt +2.",
+    "simulate": "Simuleer betaling (lokaal)",
+    "acceptTerms": "Ik aanvaard de algemene voorwaarden.",
+    "acceptPrivacy": "Ik aanvaard het privacybeleid.",
+    "acceptCampaign": "Ik aanvaard de campagnevoorwaarden.",
+    "thanksLead": "Bedankt om mee te willen doen!",
+    "extra": " extra",
+    "loggedInLead": "U bent al ingelogd. Eén knop volstaat — we vragen uw naam, e-mail en gsm niet opnieuw. Elke extra €2 is +5 punten en een extra lotnummer.",
+    "bullet1": "Dit is geen goed doel, investering of belofte op winst.",
+    "bullet2": "Dit is een open en transparante persoonlijke campagne.",
+    "ifNotReached": "Als het doel niet wordt bereikt",
+    "ifNotReachedBody": "De campagne kan na de afloopdatum verlengd of stopgezet worden. Uw €2 of sponsorgeld wordt niet terugbetaald. We beloven geen succes — wel dat we open zeggen wat er volgt.",
+    "businessBefore": "Bedrijf of zelfstandige?",
+    "becomeSponsor": "Word sponsor",
+    "or": "of",
+    "buyPixels": "koop pixels vanaf €10",
+    "howWorks": "Bekijk hoe het werkt",
+    "hello": "Hallo {name}",
+    "alreadyPaid": "U hebt al {count} {deposits}. Nog eens €2 is één klik.",
+    "stayLogged": "U blijft ingelogd. Geen extra formulier, geen nieuwe gegevens.",
+    "payClosed": "Betalen staat nog niet open",
+    "backHome": "Terug naar de homepage",
+    "liveCounter": "Bekijk de live teller →",
+    "acceptPrefix": "Ik aanvaard de",
+    "acceptMid1": ", de",
+    "acceptMid2": "en het",
+    "acceptEnd": ".",
+    "titleBefore": "Ik stort",
+    "repeat": "Nog eens €2 storten"
+  },
+  "faq": {
+    "kicker": "Vragen",
+    "title": "FAQ",
+    "items": [
+      {
+        "q": "Is dit een goed doel?",
+        "a": "Nee. Dit is geen goed doel, geen investering en geen belofte op winst. myurusdream.be is een open, persoonlijke campagne: één initiatiefnemer vraagt vrijwillige bijdragen van €2 om een autodroom mogelijk te maken."
+      },
+      {
+        "q": "Waarom €2?",
+        "a": "Omdat €2 voor de meeste mensen een klein, eenmalig bedrag is. Niet één persoon €400.000 vragen, maar 200.000 mensen elk €2 van die droom laten dragen: 200.000 × €2 = €400.000."
+      },
+      {
+        "q": "Waar gaat het geld naartoe?",
+        "a": "Naar deze persoonlijke campagne, met als doel een Lamborghini Urus mogelijk te maken. Het brutodoel van €400.000 is niet automatisch de aankoopprijs van de wagen. De teller toont bruto ontvangen bijdragen minus transactiekosten. De uitsplitsing staat op Volg alles."
+      },
+      {
+        "q": "Wat gebeurt er als €400.000 niet wordt bereikt?",
+        "a": "Er is geen garantie dat het doel gehaald wordt. Wordt het niet gehaald, dan blijft uw steun staan: €2-bijdragen en sponsorgeld worden niet teruggestort. Afhankelijk van het opgehaalde bedrag gaat dat geld naar een ander voertuig. De campagne kan na de afloopdatum verlengd of stopgezet worden."
+      },
+      {
+        "q": "Kan ik meer dan €2 bijdragen?",
+        "a": "De persoonlijke bijdrage is telkens €2, maar u mag dat zo vaak herhalen als u wilt. Elke extra storting is +5 punten en een extra lotnummer. Grotere bedragen lopen via sponsoring (vanaf €500) of de Pixelwall (vanaf €10)."
+      },
+      {
+        "q": "Is €2 een abonnement?",
+        "a": "Nee. Er wordt nooit automatisch opnieuw geïnd. Elke extra €2 doet u zelf, wanneer u wilt."
+      },
+      {
+        "q": "Kan ik mijn betaling annuleren?",
+        "a": "Een bijdrage is een eenmalige, vrijwillige betaling. €2 en sponsorgeld worden in beginsel niet teruggestort. Dubbele betalingen of duidelijke fouten kunnen na controle worden teruggestort. Meer info op de pagina Terugbetaling."
+      },
+      {
+        "q": "Hoe werkt de teller?",
+        "a": "De teller telt alleen bevestigde betalingen. Het getoonde totaal is bruto minus transactiekosten. Er worden geen fictieve bedragen getoond. Iedereen kan de stand volgen op de homepage en op Volg alles."
+      },
+      {
+        "q": "Hoe worden betalingen gecontroleerd?",
+        "a": "Betalingen lopen via Mollie. myurusdream.be slaat geen kaart- of Bancontactgegevens op. Alleen een bevestigde status via de betaalprovider telt mee voor de teller."
+      },
+      {
+        "q": "Hoe werkt een eventuele winactie?",
+        "a": "Alleen als het doel van €400.000 gehaald is. Dan zijn er vier weekends met de wagen: twee voor wie het meest deelt (hoogste punten), twee via live loting. Zonder gehaald doel is er geen trekking en geen weekend."
+      },
+      {
+        "q": "Hoe wordt een winnaar aangeduid?",
+        "a": "Twee weekends gaan naar de hoogste punten. De twee andere bepaalt het lot uit de lotinglijst: elke €2 is een apart nummer, tien stortingen is tien kansen. Alles is live te volgen."
+      },
+      {
+        "q": "Wie mag deelnemen?",
+        "a": "Deelname is bedoeld voor meerderjarigen die de voorwaarden aanvaarden en vrijwillig €2 storten. De precieze regels staan in de algemene voorwaarden."
+      },
+      {
+        "q": "Welke voorwaarden gelden om met de wagen te rijden?",
+        "a": "Nog niet van toepassing. Eventueel gebruik vereist geldig rijbewijs, verzekering en aparte gebruiksvoorwaarden."
+      },
+      {
+        "q": "Wie betaalt brandstof?",
+        "a": "Nog niet vastgelegd. Dat komt in de gebruiksvoorwaarden van de winactie, mocht het doel gehaald worden."
+      },
+      {
+        "q": "Wie betaalt verzekering?",
+        "a": "De organisator is verantwoordelijk voor een wettelijk correcte verzekering van het voertuig, als het wordt aangekocht. Details volgen in de gebruiksvoorwaarden."
+      },
+      {
+        "q": "Wat bij schade?",
+        "a": "Nog niet van toepassing. Schade, franchise en aansprakelijkheid horen in aparte gebruiksvoorwaarden, mocht er een weekend met de wagen plaatsvinden."
+      },
+      {
+        "q": "Wat gebeurt er wanneer de wagen nog niet geleverd is?",
+        "a": "De status van aankoop en levering staat op Volg alles. Er is geen belofte van een leverdatum."
+      },
+      {
+        "q": "Hoe worden persoonsgegevens beschermd?",
+        "a": "We vragen alleen wat nodig is: e-mail, naam, gsm-nummer en betalingsstatus. Betalingen verwerkt Mollie; wij ontvangen geen kaartnummers. Nieuwsbrieven staan nooit vooraf aangevinkt. Zie het privacybeleid."
+      },
+      {
+        "q": "Hoe kan ik contact opnemen?",
+        "a": "Via de contactpagina. Daar staan de gegevens van de organisator."
+      },
+      {
+        "q": "Kunnen bedrijven de campagne sponsoren?",
+        "a": "Ja. Merken storten een bedrag naar keuze, vanaf €500. Hoe groter het bedrag, hoe groter de plek op de site: Bronze €500, Silver €2.500, Gold €10.000, Hoofdsponsor €25.000. Het bedrag telt mee voor het campagnedoel."
+      },
+      {
+        "q": "Wat is de pixelmuur?",
+        "a": "Een muur van kleine vakken. Zelfstandigen kopen vanaf €10 een vak (of een groter blok) met logo, naam en optionele link. Hoe meer vakken, hoe groter de reclame. Het bedrag telt mee voor het campagnedoel."
+      },
+      {
+        "q": "Wanneer worden de vier weekends verdeeld?",
+        "a": "Alleen als het doel van €400.000 gehaald is: live op zaterdag 31 oktober 2026, op een spectaculaire locatie in België, gestreamd voor iedereen die meedeed. Twee weekends gaan naar de hoogste punten, twee naar de loting. De exacte plek wordt later bekendgemaakt."
+      },
+      {
+        "q": "Hoe werken de punten?",
+        "a": "Elke €2-storting levert 5 punten op, bijgeteld bij u. Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw code in de link: wie dan stort, houdt 5 punten en u krijgt +2. Stort iemand verder in uw lijn: u krijgt +1. Nog niet gestort? Delen kan, maar zonder punten."
+      },
+      {
+        "q": "Hoe log ik in op mijn dashboard?",
+        "a": "Na uw storting krijgt u automatisch een klein account en blijft u ingelogd op dat toestel. Bent u uitgelogd, dan opent u het dashboard met hetzelfde e-mailadres én gsm-nummer als bij uw storting. Extra €2 storten vraagt geen nieuwe gegevens."
+      },
+      {
+        "q": "Mag ik meerdere keren €2 storten?",
+        "a": "Ja. Elke extra €2 is vijf punten extra en een extra lotnummer. Tien stortingen is tien kansen bij de live loting. Twee weekends gaan naar de hoogste punten, twee andere worden uit die lotinglijst getrokken — alleen als het doel gehaald is."
+      }
+    ],
+    "intro": "Korte antwoorden, in dezelfde taal als de rest van de site. Klik een vraag open."
+  },
+  "share": {
+    "text": "Ik heb €2 bijgedragen aan misschien wel de gekste eerlijke autocampagne van België. Kijken of 200.000 mensen samen één Lamborghini Urus mogelijk kunnen maken.",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "email": "E-mail",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+    "snapchat": "Snapchat",
+    "copy": "Kopieer campagne",
+    "copied": "Tekst gekopieerd",
+    "subject": "My Urus Dream — €2 voor een droom",
+    "copyMine": "Kopieer mijn link",
+    "copiedPaste": "Tekst gekopieerd — plak in {name}"
+  },
+  "disclaimer": {
+    "strip": "Totaal live campagneteller"
+  },
+  "sponsorsPage": {
+    "title": "Zet uw naam op het moment dat heel de Benelux meekijkt",
+    "lead": "Grote merken, KMO’s, lokale helden: u helpt het doel van €400.000 halen. En krijgt daar een plek voor terug.",
+    "kicker": "Merken & bedrijven"
+  },
+  "pixelsPage": {
+    "title": "De Pixelwall",
+    "lead": "Tik en sleep op de muur om vakken te kiezen. Vanaf €10 per vak."
+  },
+  "volgAlles": {
+    "title": "Volg alles mee",
+    "lead": "Alleen bevestigde betalingen tellen.",
+    "kicker": "Transparantie"
+  },
+  "dashboard": {
+    "title": "Uw dashboard",
+    "lead": "Log in om punten, stortingen en uw persoonlijke link te zien. Meldingen aanzetten kan hieronder, ook zonder account.",
+    "login": "Inloggen"
+  },
+  "discussie": {
+    "title": "Wat is uw mening over deze campagne?",
+    "lead": "Zeg hier vrij wat u van de campagne vindt. Geen account nodig. Blijf respectvol.",
+    "kicker": "Discussie"
+  },
+  "contact": {
+    "title": "Contact en organisator",
+    "lead": "Verantwoordelijke organisator van deze persoonlijke campagne:",
+    "emailLabel": "E-mail"
+  },
+  "bedankt": {
+    "title": "Bedankt. U bent deel van de droom.",
+    "lead": "+5 punten en een extra lotnummer.",
+    "kicker": "Bevestiging",
+    "waiting": "We wachten op bevestiging.",
+    "sponsor": "Bedankt. Uw merk staat straks in beeld.",
+    "pixel": "Bedankt. Uw pixels zijn van u.",
+    "shareLink": "Deel uw persoonlijke link:"
+  },
+  "inloggen": {
+    "title": "Dashboard openen",
+    "lead": "Na uw €2 blijft u ingelogd op dit toestel. Bent u uitgelogd? Open het dashboard opnieuw met hetzelfde e-mailadres én gsm-nummer als bij uw storting.",
+    "submit": "Open dashboard",
+    "kicker": "Deelnemers",
+    "ctaJoin": "Nog niet meegedaan? €2 →",
+    "submitBtn": "Inloggen"
+  },
+  "meldingen": {
+    "title": "Meldingen",
+    "lead": "Via de app ontvangt u een pushbericht bij aanpassingen en updates. Zet myurusdream.be één keer op het beginscherm en zet daarna meldingen aan."
+  },
+  "legal": {
+    "termsTitle": "Algemene voorwaarden",
+    "privacyTitle": "Privacybeleid",
+    "cookiesTitle": "Cookiebeleid",
+    "refundTitle": "Terugbetalingsbeleid",
+    "disclaimerTitle": "Disclaimer",
+    "campaignTitle": "Campagnevoorwaarden",
+    "prizeTitle": "Voorwaarden eventuele winactie",
+    "bodyNote": "Volledige juridische paginateksten kunnen Nederlands blijven tot na controle door een jurist."
+  },
+  "lamborghini": "Deze onafhankelijke campagne is niet verbonden aan, georganiseerd door of gesponsord door Automobili Lamborghini S.p.A.",
+  "pointsExplain": "Elke €2-storting levert 5 punten op, bijgeteld bij u. Deelt u na uw storting via WhatsApp, Facebook of e-mail op de site, dan zit uw code in de link: wie dan stort, houdt 5 punten en u krijgt +2. Stort iemand verder in uw lijn: u krijgt +1. Nog niet gestort? Delen kan, maar zonder punten.",
+  "winnersExplain": "Als het doel van €400.000 gehaald is, zijn er vier weekends met de wagen. Twee gaan naar wie het meest deelt (hoogste punten). De twee andere bepaalt het lot uit de lotinglijst: elke €2 is een apart nummer, tien stortingen is tien kansen. Zonder gehaald doel is er geen trekking en geen weekend.",
+  "notifications": {
+    "label": "Berichten",
+    "close": "Sluiten",
+    "openPage": "Open deze pagina",
+    "clearAll": "Wis alle berichten",
+    "empty": "Geen berichten.",
+    "pageLead": "Campagne-updates en meldingen op één plek."
+  },
+  "sponsors": {
+    "putAdHere": "Zet hier uw reclame",
+    "example": "voorbeeld",
+    "becomeHeadline": "Word hoofdsponsor",
+    "becomeGold": "Word gold-sponsor",
+    "becomeSilver": "Word silver-sponsor",
+    "becomeBronze": "Word bronze-sponsor",
+    "headlineOfferTitle": "Dit krijgt u als hoofdsponsor",
+    "headlineOfferBody": "Wie €25.000 of meer stort, staat bovenaan — homepage, teller én live trekking. Niemand kan u missen.",
+    "liveDrawWith": "Live trekking i.s.m.",
+    "chooseSpot": "Kies uw plek",
+    "headline": {
+      "name": "Hoofdsponsor",
+      "placement": "De grootste plek op de site én tijdens de live trekking",
+      "perks": [
+        "Hoofdlogo op de homepage",
+        "Naam in beeld bij de live trekking van de vier weekends",
+        "Eerste plaats op de sponsorpagina",
+        "Vermelding in updates zolang de campagne loopt"
+      ]
+    },
+    "gold": {
+      "name": "Gold sponsor",
+      "placement": "Grote zichtbaarheid op homepage en live-avond",
+      "perks": [
+        "Groot logo op homepage en sponsorpagina",
+        "Zichtbaar in de stream van de live trekking",
+        "Plek in de Gold-rij"
+      ]
+    },
+    "silver": {
+      "name": "Silver sponsor",
+      "placement": "Duidelijke plek op de site, zichtbaar voor alle deelnemers",
+      "perks": [
+        "Logo op de sponsorpagina",
+        "Vermelding op de homepage",
+        "Zichtbaar bij de live trekking"
+      ]
+    },
+    "bronze": {
+      "name": "Bronze sponsor",
+      "placement": "Vaste plek op de sponsormuur",
+      "perks": [
+        "Logo of naam op de sponsorpagina",
+        "Meegerekend in het campagnedoel"
+      ]
+    }
+  }
+}

@@ -1,21 +1,43 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { getDictionary, getLocale } from "@/lib/i18n/get-dictionary";
 import { LegalStamp } from "@/components/LegalStamp";
 import { PageHero } from "@/components/PageHero";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 export default async function FaqPage() {
-  const faqs = await prisma.faqItem.findMany({
-    where: { published: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  const dict = await getDictionary();
+  const locale = await getLocale();
+  const dbFaqs =
+    locale === "nl"
+      ? await prisma.faqItem.findMany({
+          where: { published: true },
+          orderBy: { sortOrder: "asc" },
+        })
+      : [];
+  const faqs =
+    locale === "nl" && dbFaqs.length > 0
+      ? dbFaqs.map((f) => ({
+          id: String(f.id),
+          question: f.question,
+          answer: f.answer,
+          legalReview: f.legalReview,
+        }))
+      : dict.faq.items.map((f, i) => ({
+          id: `dict-${i}`,
+          question: f.q,
+          answer: f.a,
+          legalReview: false,
+        }));
+
   return (
     <div className="pb-16">
-      <PageHero compact kicker="Vragen" title="FAQ" image="/images/urus-detail.png">
-        <p>Korte antwoorden, in dezelfde taal als de rest van de site. Klik een vraag open.</p>
+      <PageHero compact kicker={dict.faq.kicker} title={dict.faq.title} image="/images/urus-detail.png">
+        <p>{dict.faq.intro}</p>
       </PageHero>
-      <div className="mx-auto max-w-3xl px-5 pt-6">
+      <div className="mx-auto max-w-7xl px-5 pt-6">
+        <div className="max-w-3xl">
         <div className="divide-y divide-white/10 border-y border-white/10">
           {faqs.map((f) => (
             <details key={f.id} className="group py-1.5">
@@ -41,11 +63,12 @@ export default async function FaqPage() {
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/meedoen" className="btn-yellow">
-            Ik doe mee voor €2
+            {dict.common.meedoen}
           </Link>
           <Link href="/voorwaarden" className="btn-ghost">
-            Voorwaarden
+            {dict.legalLinks.terms}
           </Link>
+        </div>
         </div>
       </div>
     </div>

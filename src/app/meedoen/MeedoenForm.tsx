@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { LegalChecks } from "@/app/sponsors/SponsorForm";
 import { persistReferralClient, readStoredReferralClient } from "@/lib/referral";
+import { useDict } from "@/lib/i18n/client";
 
 type Props = {
   blockedReason: string | null;
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props) {
+  const dict = useDict();
+  const m = dict.meedoen;
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [simulateId, setSimulateId] = useState<string | null>(null);
@@ -50,7 +53,7 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
     const data = await res.json();
     setBusy(false);
     if (!res.ok) {
-      setStatus(data.error || "Er ging iets mis.");
+      setStatus(data.error || dict.common.error);
       return;
     }
     if (data.checkoutUrl) {
@@ -75,21 +78,21 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
     if (data.redirect) window.location.href = data.redirect;
     else {
       setBusy(false);
-      setStatus(data.error || "Simulatie mislukt.");
+      setStatus(data.error || dict.common.error);
     }
   }
 
   if (blockedReason) {
     return (
       <div className="card-dark p-8">
-        <p className="font-display text-3xl text-yellow">Betalen staat nog niet open</p>
+        <p className="font-display text-3xl text-yellow">{m.payClosed}</p>
         <p className="mt-4 text-white/75">{blockedReason}</p>
         <div className="mt-8 flex flex-col gap-3">
           <Link href="/" className="btn-ghost">
-            Terug naar de homepage
+            {m.backHome}
           </Link>
           <Link href="/volg-alles" className="text-sm uppercase tracking-widest text-yellow">
-            Bekijk de live teller →
+            {m.liveCounter}
           </Link>
         </div>
       </div>
@@ -100,21 +103,21 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
     <form onSubmit={onSubmit} className="meedoen-form card-dark space-y-3 p-4 sm:p-5">
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor="firstName">Voornaam</label>
+          <label htmlFor="firstName">{m.firstName}</label>
           <input id="firstName" name="firstName" required className="mt-1" autoComplete="given-name" />
         </div>
         <div>
-          <label htmlFor="lastName">Achternaam</label>
+          <label htmlFor="lastName">{m.lastName}</label>
           <input id="lastName" name="lastName" required className="mt-1" autoComplete="family-name" />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor="email">E-mail</label>
+          <label htmlFor="email">{m.email}</label>
           <input id="email" name="email" type="email" required className="mt-1" autoComplete="email" />
         </div>
         <div>
-          <label htmlFor="phone">GSM-nummer</label>
+          <label htmlFor="phone">{m.phone}</label>
           <input
             id="phone"
             name="phone"
@@ -129,33 +132,29 @@ export function MeedoenForm({ blockedReason, mollieReady, referralCode }: Props)
       <input type="hidden" name="referralCode" value={refCode} />
       {refCode ? (
         <p className="border border-yellow/35 bg-yellow/5 p-2.5 text-[0.7rem] leading-snug text-white/75">
-          U bent uitgenodigd via iemands persoonlijke link. Bij een bevestigde €2 krijgt u 5
-          punten — niet meer, niet minder. Wie u uitnodigde krijgt +2.
+          {m.invited}
         </p>
       ) : null}
 
       {!mollieReady ? (
         <p className="border border-yellow/40 p-2.5 text-[0.7rem] leading-snug text-yellow">
-          Testmodus: Mollie-sleutel ontbreekt. U kunt de betaling lokaal simuleren.
+          {m.testMode}
         </p>
       ) : (
-        <p className="text-[0.7rem] leading-snug text-muted">
-          U gaat naar de beveiligde checkout van Mollie (Bancontact, kaarten, Apple Pay indien
-          beschikbaar). Wij bewaren geen kaartgegevens.
-        </p>
+        <p className="text-[0.7rem] leading-snug text-muted">{m.mollieNote}</p>
       )}
 
       <LegalChecks />
 
       <button className="btn-yellow w-full !px-3 !py-2 !text-[0.7rem]" disabled={busy} type="submit">
-        {busy ? "Even geduld…" : "Betaal €2"}
+        {busy ? m.busy : m.pay}
       </button>
 
       {status ? <p className="text-[0.7rem] text-yellow">{status}</p> : null}
 
       {simulateId ? (
         <button type="button" className="btn-ghost w-full !px-3 !py-2 !text-[0.7rem]" onClick={simulate} disabled={busy}>
-          Simuleer betaling (lokaal)
+          {m.simulate}
         </button>
       ) : null}
     </form>

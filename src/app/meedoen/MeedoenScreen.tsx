@@ -10,8 +10,11 @@ import { RepeatDonateButton } from "@/components/RepeatDonateButton";
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { pixelOrderHref, sponsorSignupHref } from "@/lib/sponsors";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
+  const dict = await getDictionary();
+  const m = dict.meedoen;
   const cookieStore = await cookies();
   const fromLink = normalizeReferralCode(invitedBy);
   const ref = fromLink || normalizeReferralCode(cookieStore.get(REF_COOKIE)?.value);
@@ -32,6 +35,7 @@ export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
       })
     : 0;
   const loggedInDonor = Boolean(participant && paidCount > 0);
+  const depositsWord = paidCount === 1 ? dict.counter.deposit : dict.counter.deposits;
 
   return (
     <div className="relative isolate min-h-[100svh] overflow-hidden">
@@ -44,56 +48,49 @@ export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
       <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pb-24 pt-28 md:grid-cols-2">
         <div>
           <p className="font-display text-lg tracking-[0.08em] text-yellow md:text-xl">
-            Bedankt om mee te willen doen!
+            {m.thanksLead}
           </p>
           <h1 className="mt-3 font-display text-3xl leading-[1.2] md:text-4xl">
-            Ik stort <span className="text-yellow">€2</span>
-            {loggedInDonor ? " extra" : ""}
+            {m.titleBefore} <span className="text-yellow">€2</span>
+            {loggedInDonor ? m.extra : ""}
           </h1>
-          <p className="mt-4 text-white/80">
-            {loggedInDonor
-              ? "U bent al ingelogd. Eén knop volstaat — we vragen uw naam, e-mail en gsm niet opnieuw. Elke extra €2 is +5 punten en een extra lotnummer."
-              : "Geen account vooraf nodig. Bij uw €2 maken we automatisch een klein dashboard-account. U krijgt 5 punten, een lotnummer en een persoonlijke link. U mag later zo vaak extra €2 storten als u wilt."}
-          </p>
+          <p className="mt-4 text-white/80">{loggedInDonor ? m.loggedInLead : m.lead}</p>
           <ul className="mt-8 space-y-2 text-yellow">
-            <li>Dit is geen goed doel, investering of belofte op winst.</li>
-            <li className="!text-base">Dit is een open en transparante persoonlijke campagne.</li>
+            <li>{m.bullet1}</li>
+            <li className="!text-base">{m.bullet2}</li>
           </ul>
           <div className="mt-8 border border-yellow/30 bg-[#111] p-4 text-sm text-white/80">
-            <p className="uppercase tracking-widest text-yellow">Als het doel niet wordt bereikt</p>
-            <p className="mt-2">
-              De campagne kan na de afloopdatum verlengd of stopgezet worden. Uw €2 of
-              sponsorgeld wordt niet terugbetaald. We beloven geen succes — wel dat we open
-              zeggen wat er volgt.
-            </p>
+            <p className="uppercase tracking-widest text-yellow">{m.ifNotReached}</p>
+            <p className="mt-2">{m.ifNotReachedBody}</p>
           </div>
           <p className="mt-8 text-white/80">
-            Bedrijf of zelfstandige?{" "}
+            {m.businessBefore}{" "}
             <Link href={sponsorSignupHref("gold")} className="text-yellow">
-              Word sponsor
+              {m.becomeSponsor}
             </Link>{" "}
-            of{" "}
+            {m.or}{" "}
             <Link href={pixelOrderHref()} className="text-yellow">
-              koop pixels vanaf €10
+              {m.buyPixels}
             </Link>
             .
           </p>
           <Link href="/#how-it-works" className="btn-ghost mt-8">
-            Bekijk hoe het werkt
+            {m.howWorks}
           </Link>
         </div>
         {loggedInDonor ? (
           gate.allowed ? (
           <div className="card-dark space-y-4 p-5">
-            <p className="font-display text-2xl">Hallo {participant?.firstName}</p>
+            <p className="font-display text-2xl">
+              {m.hello.replace("{name}", participant?.firstName || "")}
+            </p>
             <p className="text-white/75">
-              U hebt al {paidCount} {paidCount === 1 ? "storting" : "stortingen"}. Nog eens €2
-              is één klik.
+              {m.alreadyPaid
+                .replace("{count}", String(paidCount))
+                .replace("{deposits}", depositsWord)}
             </p>
             <RepeatDonateButton />
-            <p className="text-[0.7rem] text-muted">
-              U blijft ingelogd. Geen extra formulier, geen nieuwe gegevens.
-            </p>
+            <p className="text-[0.7rem] text-muted">{m.stayLogged}</p>
           </div>
           ) : (
             <MeedoenForm blockedReason={gate.reason} mollieReady={await mollieConfigured()} />

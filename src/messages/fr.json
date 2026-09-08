@@ -1,0 +1,666 @@
+{
+  "meta": {
+    "titleSuffix": "My Urus Dream",
+    "tagline": "Est-ce que 2 € peuvent réaliser un rêve sur roues ?"
+  },
+  "lang": {
+    "nl": "Nederlands",
+    "en": "English",
+    "fr": "Français",
+    "label": "Langue"
+  },
+  "nav": {
+    "teller": "Compteur",
+    "verhaal": "Histoire",
+    "sponsors": "Sponsors",
+    "pixelwall": "Pixelwall",
+    "volgAlles": "Tout suivre",
+    "discussie": "Discussion",
+    "faq": "FAQ",
+    "dashboard": "Votre tableau de bord",
+    "admin": "Admin",
+    "menu": "Menu",
+    "close": "Fermer",
+    "cta": "Je participe pour 2 €",
+    "ctaAgain": "Encore 2 €",
+    "messages": "Messages"
+  },
+  "brand": {
+    "drive": "DRIVE YOUR DREAM"
+  },
+  "common": {
+    "meedoen": "Je participe pour 2 €",
+    "loading": "Un instant…",
+    "ok": "OK",
+    "error": "Une erreur s'est produite.",
+    "back": "Retour",
+    "save": "Enregistrer",
+    "required": "Obligatoire"
+  },
+  "cookie": {
+    "text": "Nous utilisons uniquement les cookies essentiels pour la connexion, la sécurité et le flux de paiement.",
+    "policy": "Politique relative aux cookies",
+    "accept": "OK"
+  },
+  "footer": {
+    "voluntary": "Contribution volontaire de 2 €, aussi souvent que vous le souhaitez. Pas d'abonnement. Aucune promesse de gain.",
+    "everyGift": "Chaque contribution fait avancer le rêve",
+    "supportWith": "SOUTENEZ LE RÊVE AVEC",
+    "smallGift": "PETIT DON, GRAND RÊVE",
+    "legal": "Juridique",
+    "photos": "Les photos de l'Urus sont des images d'ambiance du rêve, pas un partenariat.",
+    "copyright": "campagne personnelle indépendante"
+  },
+  "legalLinks": {
+    "terms": "Conditions",
+    "campaign": "Conditions de campagne",
+    "privacy": "Vie privée",
+    "cookies": "Cookies",
+    "refund": "Remboursement",
+    "disclaimer": "Avertissement",
+    "contact": "Contact",
+    "prize": "Action gagnante",
+    "termsLower": "conditions générales",
+    "campaignLower": "conditions de campagne",
+    "privacyLower": "politique de confidentialité"
+  },
+  "home": {
+    "heroTitle1": "Et si",
+    "heroTitle2": "",
+    "heroTitle3": "réalisait un rêve",
+    "heroTitle4": "sur roues ?",
+    "heroLead1": "Pas une œuvre caritative.",
+    "heroLead2": "Pas une histoire inventée.",
+    "heroLead3": "Juste un grand rêve et une petite question.",
+    "ctaPrimary": "Je participe pour 2 €",
+    "ctaSecondary": "Voir comment ça marche",
+    "fineprint": "Contribution unique • pas d'abonnement • compteur transparent",
+    "samen": "Ensemble vers le rêve",
+    "goalLine": "200 000 personnes × 2 € = 400 000 €",
+    "liveCounter": "Compteur live total de la campagne",
+    "asGoalReached": "Si l'objectif est atteint",
+    "ride4": "4 chanceux conduisent",
+    "weekend": "pendant un week-end",
+    "withUrus": "avec l'Urus",
+    "whyKicker": "Ensemble vers le rêve",
+    "whyTitle": "Pas une seule personne. Beaucoup de petites contributions.",
+    "togetherScript": "2 € × 200 000",
+    "togetherKicker": "J'aide à réaliser le rêve",
+    "togetherTitle": "2 € une seule fois. Pas d'abonnement. Tout est visible.",
+    "togetherBody1": "Pour une personne, 2 € est une petite somme. Pour moi, cela représente quelque chose de grand.",
+    "togetherBody2": "C'est toute l'idée.",
+    "inviteTitle": "Invitez d'autres personnes",
+    "inviteSub": "Partager la campagne, encore sans points",
+    "inviteBodyPaid": "Vous avez déjà contribué. WhatsApp, Facebook et l'e-mail incluent maintenant votre code personnel. Toute personne qui contribue via ce lien vous rapporte des points.",
+    "pointsLink": "Voir vos points →",
+    "freeRideTitle": "Vous pouvez conduire l'Urus gratuitement",
+    "winnersLink": "Conditions de l'action gagnante →",
+    "pixelKicker": "Indépendants & petites marques",
+    "pixelTitle": "Le Pixelwall. Votre publicité, case par case.",
+    "pixelBody": "À partir de 10 €, vous achetez une case sur le Pixelwall, avec votre logo et votre lien.",
+    "pixelCta": "Aller au Pixelwall",
+    "sponsorCta": "Je veux sponsoriser",
+    "freeRideWeekends": "4 week-ends",
+    "freeRideEffort": "par l'effort,",
+    "freeRideLot": "par le sort.",
+    "pixelBudget": "Pas besoin d'un gros budget.",
+    "inviteSubPaid": "Votre lien personnel — les points comptent",
+    "inviteExtra": "Chaque €2 = 5 points et un numéro de tirage supplémentaire. Vous pouvez verser aussi souvent que vous voulez.",
+    "helpTitle1": "J'aide",
+    "helpTitle2": "à réaliser",
+    "helpTitle3": "le rêve",
+    "heroAlt": "Lamborghini Urus champagne — ambiance du rêve, pas un partenariat",
+    "villaAlt": "Urus champagne sur une terrasse sombre au crépuscule — image d'ambiance",
+    "samenLine1": "Ensemble vers",
+    "samenLine2": "le rêve",
+    "inviteBodyGuest1": "Pas encore contribué ? Ces boutons partagent la campagne sans points.",
+    "inviteBodyGuest2": "Après vos 2 €, les mêmes boutons incluront automatiquement votre code personnel."
+  },
+  "story": {
+    "kicker": "Histoire",
+    "title": "MON RÊVE. VOS 2 €. NOTRE HISTOIRE.",
+    "aside": {
+      "a": "peut-être que ça marche,",
+      "b": "peut-être pas",
+      "c": "....",
+      "d": "mais mon idée la plus folle"
+    },
+    "more": "Lire plus",
+    "less": "Lire moins",
+    "p1before": "Je ne vais pas vous raconter une histoire d'œuvre caritative, et je ne vais pas essayer de vous convaincre avec une maladie, un drame ou une raison inventée pour laquelle je mériterais votre argent.",
+    "p1gold": "Ma raison est beaucoup plus simple : je rêve depuis toujours d'une voiture exceptionnelle, et pour moi, c'est la Lamborghini Urus.",
+    "p2": "Ma vie ne s'est pas toujours déroulée comme je l'avais imaginé. J'ai été marié, j'ai eu deux enfants et je pensais, comme beaucoup de gens, savoir à peu près à quoi ressemblerait mon avenir. La vie en a décidé autrement. Il y a eu de belles années, mais aussi des années difficiles, des années où les rêves sont passés au second plan et où d'autres choses sont devenues plus importantes : travailler, continuer, recommencer et conduire les voitures qui étaient possibles à ce moment-là. Mais certains rêves ne disparaissent pas, et cette Lamborghini Urus en fait partie pour moi.",
+    "p3before": "Je sais évidemment très bien ce que coûte une telle voiture. Mettre moi-même environ 400 000 € sur la table n'est tout simplement pas réaliste. Je pouvais donc accepter que cela reste toujours un rêve,",
+    "p3gold": "ou essayer une fois dans ma vie quelque chose de complètement différent.",
+    "p4": "Ne pas demander 400 000 € à une seule personne, mais demander 2 € à 200 000 personnes. C'est toute l'idée derrière My Urus Dream. Pas de grand sponsor, pas de millionnaire qui paie tout, pas d'histoire triste, mais beaucoup de personnes qui portent chacune une toute petite partie d'un rêve presque impossible. 200 000 personnes × 2 € = 400 000 €. Pour une personne, 2 € ne change probablement rien, mais 200 000 fois 2 € peuvent rendre quelque chose d'incroyable possible.",
+    "h1": "NE PAS DEMANDER 400 000 € À UNE SEULE PERSONNE, MAIS 2 € À 200 000 PERSONNES.",
+    "rest": [
+      {
+        "type": "title",
+        "text": "NE PAS DEMANDER 400 000 € À UNE SEULE PERSONNE, MAIS 2 € À 200 000 PERSONNES."
+      },
+      {
+        "type": "p",
+        "text": "Vous vous dites peut-être :"
+      },
+      {
+        "type": "quote",
+        "text": "« Pourquoi donnerais-je 2 € pour que quelqu'un d'autre puisse acheter une Lamborghini ? »"
+      },
+      {
+        "type": "p",
+        "text": "C'est une question légitime."
+      },
+      {
+        "type": "p",
+        "text": "Je ne prétends pas avoir besoin d'une Lamborghini, la mériter ou avoir un rêve plus important que celui de quelqu'un d'autre."
+      },
+      {
+        "type": "gold",
+        "text": "J'essaie simplement quelque chose dont presque tout le monde dira : « Ça ne marchera jamais. »"
+      },
+      {
+        "type": "p",
+        "text": "Mais imaginez que ça marche vraiment. Que 200 000 personnes ordinaires, qui ne se connaissent même pas, réalisent ensemble quelque chose qui est totalement hors de portée pour une seule personne ordinaire. Alors il ne s'agit plus seulement d'une voiture, mais de ce qui devient possible quand beaucoup de gens font tous une toute petite chose."
+      },
+      {
+        "type": "p",
+        "text": "Et c'est là que se trouve la difficulté. Peut-être pensez-vous :"
+      },
+      {
+        "type": "quote",
+        "text": "« Si assez d'autres personnes versent 2 €, il y arrivera bien. »"
+      },
+      {
+        "type": "gold",
+        "text": "Mais si tout le monde pense que quelqu'un d'autre le fera, il ne se passe rien."
+      },
+      {
+        "type": "p",
+        "text": "Cela ne fonctionne que si la personne qui lit ceci maintenant se dit :"
+      },
+      {
+        "type": "quote",
+        "text": "« Allez, pour 2 €, je participe. »"
+      },
+      {
+        "type": "p",
+        "text": "Je ne demande pas grand-chose : une minute de votre temps. Cliquez sur « Je participe pour 2 € », indiquez votre nom et scannez le QR code ; le paiement passe par le système de paiement officiel. C'est tout."
+      },
+      {
+        "type": "p",
+        "text": "Et que valent encore 2 € aujourd'hui ? Une bière, un soda ou un café coûtent souvent plus cher. Renoncez à une boisson et vous aurez peut-être même gagné financièrement, mais ici vous recevez aussi quelque chose en plus :"
+      },
+      {
+        "type": "gold",
+        "text": "vous devenez une petite partie de cette histoire et, si ce rêve complètement fou devient réalité, vous pourrez dire : « J'ai participé. »"
+      },
+      {
+        "type": "title",
+        "text": "ET PEUT-ÊTRE CONDUIREZ-VOUS VOUS-MÊME L'URUS"
+      },
+      {
+        "type": "p",
+        "text": "Si l'action réussit, je veux aussi partager le rêve. Comme vous pouvez le lire ailleurs sur ce site :"
+      },
+      {
+        "type": "gold",
+        "text": "quatre week-ends avec la Lamborghini Urus seront offerts. Deux week-ends seront décidés par tirage au sort."
+      },
+      {
+        "type": "p",
+        "text": "Ainsi, même quelqu'un qui ne verse que 2 € une seule fois a une chance d'avoir les clés en main."
+      },
+      {
+        "type": "gold",
+        "text": "Les deux autres week-ends, je ne les laisse pas seulement à la chance : vous pouvez avoir une influence dessus."
+      },
+      {
+        "type": "p",
+        "text": "Vous versez vous-même 2 € une seule fois, puis vous pouvez inviter d'autres personnes à participer. Si quelqu'un contribue via vous, vous gagnez des points. Et si cette personne partage ensuite l'histoire plus loin et que d'autres participent via elle, cela vous rapporte aussi des points."
+      },
+      {
+        "type": "p",
+        "text": "Votre seule participation peut donc devenir le début de toute une chaîne."
+      },
+      {
+        "type": "gold",
+        "text": "Les deux participants qui collectent finalement le plus de points gagnent chacun un week-end avec la Lamborghini Urus."
+      },
+      {
+        "type": "title",
+        "text": "FAITES DEVENIR L'HISTOIRE VIRALE"
+      },
+      {
+        "type": "p",
+        "text": "Et c'est en fait mon deuxième rêve avec ce projet : pas seulement réaliser cette Urus, mais découvrir"
+      },
+      {
+        "type": "gold",
+        "text": "jusqu'où nous pouvons porter cette histoire ensemble."
+      },
+      {
+        "type": "p",
+        "text": "Partagez votre lien personnel avec vos amis, votre famille et vos collègues via WhatsApp, Facebook, Instagram, TikTok ou où vous voulez. Dites simplement :"
+      },
+      {
+        "type": "quote",
+        "text": "« Il y a quelqu'un qui essaie de réaliser une Lamborghini Urus en demandant à 200 000 personnes de contribuer chacune 2 €. »"
+      },
+      {
+        "type": "p",
+        "text": "Peut-être que les gens riront et diront :"
+      },
+      {
+        "type": "quote",
+        "text": "« Il est complètement fou. »"
+      },
+      {
+        "type": "p",
+        "text": "Très bien. Mais peut-être qu'ensuite ils penseront aussi :"
+      },
+      {
+        "type": "gold",
+        "text": "« Tu sais quoi ? Pour 2 €, je veux bien voir s'il y arrive. »"
+      },
+      {
+        "type": "p",
+        "text": "Et c'est précisément cela qui peut rendre cette histoire grande. D'abord dix personnes, puis cent, mille, dix mille... Peut-être que l'histoire commence à vivre sur les réseaux sociaux, qu'elle est partagée par quelqu'un avec une grande audience et"
+      },
+      {
+        "type": "gold",
+        "text": "qu'un jour cette histoire complètement folle arrive même dans les médias."
+      },
+      {
+        "type": "quote",
+        "text": "« J'y étais. J'ai participé. J'ai aidé à lancer cette histoire. »"
+      },
+      {
+        "type": "p",
+        "text": "Et qui sait, vous serez peut-être finalement l'une des quatre personnes qui pourra réellement conduire l'Urus."
+      },
+      {
+        "type": "title",
+        "text": "IL ME RESTE DONC UNE QUESTION À VOUS POSER"
+      },
+      {
+        "type": "p",
+        "text": "Si vous avez lu jusqu'ici, vous avez probablement déjà consacré plus de temps à mon rêve qu'il n'en faut pour participer réellement. Ne pensez donc pas :"
+      },
+      {
+        "type": "gold",
+        "text": "« Quelqu'un d'autre versera bien ces 2 €. »"
+      },
+      {
+        "type": "p",
+        "text": "car cette autre personne pense peut-être exactement la même chose."
+      },
+      {
+        "type": "p",
+        "text": "Cela ne fonctionne que si vous pensez :"
+      },
+      {
+        "type": "gold",
+        "text": "« Allez. Pourquoi pas ? »"
+      },
+      {
+        "type": "p",
+        "text": "Une minute, un petit paiement, 2 €. Pas parce que je vous ai raconté une histoire triste ou que je prétends avoir droit à une Lamborghini, mais simplement parce que l'idée vous semble peut-être aussi folle, amusante et excitante qu'à moi — et parce que vous êtes curieux de connaître la réponse à une question :"
+      },
+      {
+        "type": "title",
+        "text": "200 000 PERSONNES AVEC 2 € CHACUNE PEUVENT-ELLES RÉALISER UN RÊVE PRESQUE IMPOSSIBLE ?"
+      },
+      {
+        "type": "p",
+        "text": "Peut-être que cela ne marchera jamais. Peut-être que ce sera un grand échec dont je rirai plus tard de bon cœur."
+      },
+      {
+        "type": "gold",
+        "text": "Mais peut-être que ça marchera vraiment."
+      },
+      {
+        "type": "p",
+        "text": "Et si un jour je me tiens devant cette Lamborghini Urus, je saurai qu'elle n'est pas là grâce à un seul riche donateur, mais grâce à des milliers de personnes qui ont toutes pensé la même chose :"
+      },
+      {
+        "type": "title",
+        "text": "« ALLEZ. POUR 2 €, JE PARTICIPE. »"
+      },
+      {
+        "type": "p",
+        "text": "Alors beaucoup de gens, avec une toute petite action, auront rendu une personne incroyablement heureuse. Peut-être que vous étiez l'une d'elles, peut-être que vous avez aidé à rendre l'histoire grande, et peut-être que vous finirez même vous-même derrière le volant."
+      },
+      {
+        "type": "gold",
+        "text": "Mais pour cela, quelqu'un doit commencer. Pourquoi pas vous ?"
+      }
+    ],
+    "ctaLine": "Participez. Partagez votre lien personnel. Collectez des points. Faites grandir l'histoire.",
+    "photoAlt": "Détail de l'Urus"
+  },
+  "how": {
+    "titleHoe": "COMMENT",
+    "titleWerkt": "ÇA MARCHE ?",
+    "intro": "Une petite contribution volontaire — ou plusieurs, si vous le souhaitez. Pas d'abonnement. Après vos premiers 2 €, les boutons de partage du site incluent automatiquement votre code personnel.",
+    "steps": [
+      "Versez 2 € — aussi souvent que vous le souhaitez",
+      "Chaque versement : 5 points et un numéro de tirage supplémentaire",
+      "Après votre versement, WhatsApp, Facebook et e-mail partagent votre code",
+      "Celui qui verse via votre lien reçoit 5 points. Vous recevez +2",
+      "Chaque versement supplémentaire dans votre ligne : +1 point pour vous",
+      "Deux week-ends via les points, deux par tirage — seulement si l'objectif est atteint"
+    ],
+    "chancesTitle": "VOS CHANCES",
+    "chances": [
+      "Chaque 2 € : 5 points ajoutés, plus un numéro de tirage supplémentaire.",
+      "Votre lien personnel partagé : +2 à chaque versement via ce lien.",
+      "Chaque versement suivant dans cette ligne : +1 pour les personnes qui ont partagé avant.",
+      "Si l'objectif de 400 000 € est atteint : deux week-ends pour les meilleurs scores, deux week-ends tirés au sort dans la liste (plus de versements de 2 € = plus de chances)."
+    ],
+    "transparencyTitle": "TRANSPARENCE",
+    "transparencyBody": "Tout le monde peut suivre le compteur et le montant récolté. Vos points et votre lien personnel se trouvent dans votre tableau de bord.",
+    "transparencyLink": "Voir le compteur live →",
+    "heart": "Soutien volontaire de 2 € — transparent, simple et visible"
+  },
+  "counter": {
+    "total": "Total des 2 €",
+    "participants": "Participants / objectif",
+    "sponsors": "Sponsors",
+    "pixels": "Pixels",
+    "visitors": "Visiteurs",
+    "online": "En ligne maintenant",
+    "note": "Seuls les paiements confirmés comptent. Le total affiché est le brut moins les frais de transaction.",
+    "contributions": "Contributions",
+    "deposits": "versements",
+    "ofGoal": "De l'objectif",
+    "stillNeed": "Encore besoin",
+    "deposit": "versement",
+    "totalLabel": "Total",
+    "update": "Mise à jour"
+  },
+  "meedoen": {
+    "title": "Je verse 2 €",
+    "lead": "Aucun compte nécessaire à l'avance. Avec vos 2 €, nous créons automatiquement un petit compte tableau de bord. Vous recevez 5 points, un numéro de tirage et un lien personnel. Plus tard, vous pouvez verser 2 € supplémentaires aussi souvent que vous le souhaitez.",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "E-mail",
+    "phone": "Numéro de GSM",
+    "pay": "Payer 2 €",
+    "busy": "Un instant…",
+    "mollieNote": "Vous allez vers le checkout sécurisé de Mollie (Bancontact, cartes, Apple Pay si disponible). Nous ne conservons aucune donnée de carte.",
+    "testMode": "Mode test : la clé Mollie manque. Vous pouvez simuler le paiement localement.",
+    "invited": "Vous avez été invité via le lien personnel de quelqu'un. Avec un paiement confirmé de 2 €, vous recevez 5 points — ni plus, ni moins. La personne qui vous a invité reçoit +2.",
+    "simulate": "Simuler le paiement (local)",
+    "acceptTerms": "J'accepte les conditions générales.",
+    "acceptPrivacy": "J'accepte la politique de confidentialité.",
+    "acceptCampaign": "J'accepte les conditions de campagne.",
+    "thanksLead": "Merci de vouloir participer !",
+    "extra": " en plus",
+    "loggedInLead": "Vous êtes déjà connecté. Un bouton suffit — nous ne redemandons pas votre nom, e-mail ou téléphone. Chaque €2 supplémentaire = +5 points et un numéro de tirage.",
+    "bullet1": "Ce n'est pas une œuvre caritative, un investissement ni une promesse de gain.",
+    "bullet2": "C'est une campagne personnelle ouverte et transparente.",
+    "ifNotReached": "Si l'objectif n'est pas atteint",
+    "ifNotReachedBody": "Après la date de fin, la campagne peut être prolongée ou arrêtée. Vos €2 ou l'argent des sponsors ne sont pas remboursés. Nous ne promettons pas le succès — nous promettons de dire clairement ce qui suit.",
+    "businessBefore": "Entreprise ou indépendant ?",
+    "becomeSponsor": "Devenir sponsor",
+    "or": "ou",
+    "buyPixels": "acheter des pixels dès €10",
+    "howWorks": "Voir comment ça marche",
+    "hello": "Bonjour {name}",
+    "alreadyPaid": "Vous avez déjà {count} {deposits}. Encore €2 en un clic.",
+    "stayLogged": "Vous restez connecté. Pas de formulaire supplémentaire, pas de nouvelles données.",
+    "payClosed": "Les paiements ne sont pas encore ouverts",
+    "backHome": "Retour à l'accueil",
+    "liveCounter": "Voir le compteur en direct →",
+    "acceptPrefix": "J'accepte les",
+    "acceptMid1": ", les",
+    "acceptMid2": "et la",
+    "acceptEnd": ".",
+    "titleBefore": "Je verse",
+    "repeat": "Verser encore 2 €"
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "FAQ",
+    "items": [
+      {
+        "q": "Est-ce une œuvre caritative ?",
+        "a": "Non. Ce n'est pas une œuvre caritative, pas un investissement et pas une promesse de gain. myurusdream.be est une campagne personnelle ouverte : un initiateur demande des contributions volontaires de 2 € pour rendre possible un rêve automobile."
+      },
+      {
+        "q": "Pourquoi 2 € ?",
+        "a": "Parce que 2 € est, pour la plupart des gens, une petite somme unique. Ne pas demander 400 000 € à une seule personne, mais laisser 200 000 personnes porter chacune 2 € de ce rêve : 200 000 × 2 € = 400 000 €."
+      },
+      {
+        "q": "Où va l'argent ?",
+        "a": "Vers cette campagne personnelle, avec pour objectif de rendre possible une Lamborghini Urus. L'objectif brut de 400 000 € n'est pas automatiquement le prix d'achat de la voiture. Le compteur affiche les contributions brutes reçues moins les frais de transaction. Le détail se trouve sur Tout suivre."
+      },
+      {
+        "q": "Que se passe-t-il si 400 000 € ne sont pas atteints ?",
+        "a": "Il n'y a aucune garantie que l'objectif soit atteint. S'il ne l'est pas, votre soutien reste acquis : les contributions de 2 € et l'argent des sponsors ne sont pas remboursés. Selon le montant récolté, cet argent ira vers un autre véhicule. La campagne peut être prolongée ou arrêtée après la date de fin."
+      },
+      {
+        "q": "Puis-je contribuer plus de 2 € ?",
+        "a": "La contribution personnelle est toujours de 2 €, mais vous pouvez la répéter aussi souvent que vous le souhaitez. Chaque versement supplémentaire donne +5 points et un numéro de tirage supplémentaire. Les montants plus importants passent par le sponsoring (à partir de 500 €) ou le Pixelwall (à partir de 10 €)."
+      },
+      {
+        "q": "Les 2 € sont-ils un abonnement ?",
+        "a": "Non. Rien n'est jamais prélevé automatiquement à nouveau. Chaque versement supplémentaire de 2 €, vous le faites vous-même, quand vous le souhaitez."
+      },
+      {
+        "q": "Puis-je annuler mon paiement ?",
+        "a": "Une contribution est un paiement unique et volontaire. Les 2 € et l'argent des sponsors ne sont en principe pas remboursés. Les doubles paiements ou erreurs évidentes peuvent être remboursés après vérification. Plus d'informations sur la page Remboursement."
+      },
+      {
+        "q": "Comment fonctionne le compteur ?",
+        "a": "Le compteur ne compte que les paiements confirmés. Le total affiché est le brut moins les frais de transaction. Aucun montant fictif n'est affiché. Tout le monde peut suivre l'état sur la page d'accueil et sur Tout suivre."
+      },
+      {
+        "q": "Comment les paiements sont-ils contrôlés ?",
+        "a": "Les paiements passent par Mollie. myurusdream.be ne conserve aucune donnée de carte ou de Bancontact. Seul un statut confirmé par le prestataire de paiement compte pour le compteur."
+      },
+      {
+        "q": "Comment fonctionnerait une éventuelle action gagnante ?",
+        "a": "Uniquement si l'objectif de 400 000 € est atteint. Il y aura alors quatre week-ends avec la voiture : deux pour ceux qui partagent le plus (meilleurs points), deux par tirage live. Sans objectif atteint, il n'y a ni tirage ni week-end."
+      },
+      {
+        "q": "Comment un gagnant est-il désigné ?",
+        "a": "Deux week-ends vont aux meilleurs scores. Les deux autres sont déterminés par le hasard dans la liste de tirage : chaque 2 € est un numéro séparé, dix versements donnent dix chances. Tout est à suivre en direct."
+      },
+      {
+        "q": "Qui peut participer ?",
+        "a": "La participation est destinée aux personnes majeures qui acceptent les conditions et versent volontairement 2 €. Les règles précises se trouvent dans les conditions générales."
+      },
+      {
+        "q": "Quelles conditions s'appliquent pour conduire la voiture ?",
+        "a": "Pas encore applicable. Toute utilisation nécessitera un permis de conduire valable, une assurance et des conditions d'utilisation séparées."
+      },
+      {
+        "q": "Qui paie le carburant ?",
+        "a": "Ce n'est pas encore fixé. Cela figurera dans les conditions d'utilisation de l'action gagnante si l'objectif est atteint."
+      },
+      {
+        "q": "Qui paie l'assurance ?",
+        "a": "L'organisateur est responsable d'une assurance légalement correcte du véhicule, s'il est acheté. Les détails suivront dans les conditions d'utilisation."
+      },
+      {
+        "q": "Que se passe-t-il en cas de dommage ?",
+        "a": "Pas encore applicable. Les dommages, la franchise et la responsabilité relèvent de conditions d'utilisation séparées si un week-end avec la voiture a lieu."
+      },
+      {
+        "q": "Que se passe-t-il si la voiture n'est pas encore livrée ?",
+        "a": "Le statut de l'achat et de la livraison se trouve sur Tout suivre. Aucune date de livraison n'est promise."
+      },
+      {
+        "q": "Comment les données personnelles sont-elles protégées ?",
+        "a": "Nous demandons uniquement ce qui est nécessaire : e-mail, nom, numéro de GSM et statut de paiement. Les paiements sont traités par Mollie ; nous ne recevons aucun numéro de carte. Les newsletters ne sont jamais précochées. Voir la politique de confidentialité."
+      },
+      {
+        "q": "Comment puis-je prendre contact ?",
+        "a": "Via la page de contact. Les coordonnées de l'organisateur y sont indiquées."
+      },
+      {
+        "q": "Les entreprises peuvent-elles sponsoriser la campagne ?",
+        "a": "Oui. Les marques versent un montant au choix, à partir de 500 €. Plus le montant est élevé, plus la place sur le site est grande : Bronze 500 €, Silver 2 500 €, Gold 10 000 €, Sponsor principal 25 000 €. Le montant compte pour l'objectif de la campagne."
+      },
+      {
+        "q": "Qu'est-ce que le mur de pixels ?",
+        "a": "Un mur de petites cases. Les indépendants achètent à partir de 10 € une case, ou un bloc plus grand, avec logo, nom et lien optionnel. Plus il y a de cases, plus la publicité est grande. Le montant compte pour l'objectif de la campagne."
+      },
+      {
+        "q": "Quand les quatre week-ends sont-ils attribués ?",
+        "a": "Uniquement si l'objectif de 400 000 € est atteint : en direct le samedi 31 octobre 2026, dans un lieu spectaculaire en Belgique, diffusé pour toutes les personnes ayant participé. Deux week-ends vont aux meilleurs points, deux au tirage. Le lieu exact sera communiqué plus tard."
+      },
+      {
+        "q": "Comment fonctionnent les points ?",
+        "a": "Chaque versement de 2 € donne 5 points, ajoutés à votre total. Si vous partagez après votre versement via WhatsApp, Facebook ou e-mail sur le site, votre code est dans le lien : celui qui verse garde 5 points et vous recevez +2. Si quelqu'un verse plus loin dans votre ligne, vous recevez +1. Pas encore versé ? Vous pouvez partager, mais sans points."
+      },
+      {
+        "q": "Comment me connecter à mon tableau de bord ?",
+        "a": "Après votre versement, vous recevez automatiquement un petit compte et vous restez connecté sur cet appareil. Si vous êtes déconnecté, ouvrez le tableau de bord avec la même adresse e-mail et le même numéro de GSM que lors de votre versement. Verser 2 € supplémentaires ne demande pas de nouvelles données."
+      },
+      {
+        "q": "Puis-je verser 2 € plusieurs fois ?",
+        "a": "Oui. Chaque 2 € supplémentaire donne cinq points de plus et un numéro de tirage supplémentaire. Dix versements donnent dix chances lors du tirage live. Deux week-ends vont aux meilleurs points, deux autres sont tirés de cette liste — seulement si l'objectif est atteint."
+      }
+    ],
+    "intro": "Réponses courtes, dans la même langue que le reste du site. Ouvrez une question."
+  },
+  "share": {
+    "text": "J'ai contribué 2 € à ce qui est peut-être la campagne automobile honnête la plus folle de Belgique. Voyons si 200 000 personnes peuvent ensemble rendre possible une Lamborghini Urus.",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "email": "E-mail",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+    "snapchat": "Snapchat",
+    "copy": "Copier la campagne",
+    "copied": "Texte copié",
+    "subject": "My Urus Dream — €2 pour un rêve",
+    "copyMine": "Copier mon lien",
+    "copiedPaste": "Texte copié — collez dans {name}"
+  },
+  "disclaimer": {
+    "strip": "Compteur live total de la campagne"
+  },
+  "sponsorsPage": {
+    "title": "Mettez votre nom sur le moment que tout le Benelux regarde",
+    "lead": "Grandes marques, PME, héros locaux : vous aidez à atteindre l'objectif de 400 000 €. Et vous recevez une place en retour.",
+    "kicker": "Marques & entreprises"
+  },
+  "pixelsPage": {
+    "title": "Le Pixelwall",
+    "lead": "Touchez et faites glisser sur le mur pour choisir des cases. À partir de 10 € par case."
+  },
+  "volgAlles": {
+    "title": "Tout suivre",
+    "lead": "Seuls les paiements confirmés comptent.",
+    "kicker": "Transparence"
+  },
+  "dashboard": {
+    "title": "Votre tableau de bord",
+    "lead": "Connectez-vous pour voir vos points, vos versements et votre lien personnel. Vous pouvez activer les notifications ci-dessous, même sans compte.",
+    "login": "Connexion"
+  },
+  "discussie": {
+    "title": "Quel est votre avis sur cette campagne ?",
+    "lead": "Dites librement ce que vous pensez de la campagne. Aucun compte nécessaire. Restez respectueux.",
+    "kicker": "Discussion"
+  },
+  "contact": {
+    "title": "Contact et organisateur",
+    "lead": "Organisateur responsable de cette campagne personnelle :",
+    "emailLabel": "E-mail"
+  },
+  "bedankt": {
+    "title": "Merci. Vous faites partie du rêve.",
+    "lead": "+5 points et un numéro de tirage supplémentaire.",
+    "kicker": "Confirmation",
+    "waiting": "Nous attendons la confirmation.",
+    "sponsor": "Merci. Votre marque apparaîtra bientôt.",
+    "pixel": "Merci. Vos pixels sont à vous.",
+    "shareLink": "Partagez votre lien personnel :"
+  },
+  "inloggen": {
+    "title": "Ouvrir le tableau de bord",
+    "lead": "Après vos 2 €, vous restez connecté sur cet appareil. Déconnecté ? Rouvrez le tableau de bord avec la même adresse e-mail et le même numéro de GSM que lors de votre versement.",
+    "submit": "Ouvrir le tableau de bord",
+    "kicker": "Participants",
+    "ctaJoin": "Pas encore participé ? 2 € →",
+    "submitBtn": "Connexion"
+  },
+  "meldingen": {
+    "title": "Notifications",
+    "lead": "Via l'app, vous recevez une notification push en cas de modifications et de mises à jour. Ajoutez myurusdream.be une fois à l'écran d'accueil, puis activez les notifications."
+  },
+  "legal": {
+    "termsTitle": "Conditions générales",
+    "privacyTitle": "Politique de confidentialité",
+    "cookiesTitle": "Politique relative aux cookies",
+    "refundTitle": "Politique de remboursement",
+    "disclaimerTitle": "Avertissement",
+    "campaignTitle": "Conditions de campagne",
+    "prizeTitle": "Conditions de l'éventuelle action gagnante",
+    "bodyNote": "Les textes complets des pages juridiques peuvent rester en néerlandais jusqu'à la révision par un juriste ; cette note est affichée en haut pour l'anglais et le français."
+  },
+  "lamborghini": "Cette campagne indépendante n'est pas liée à, organisée par ou sponsorisée par Automobili Lamborghini S.p.A.",
+  "pointsExplain": "Chaque versement de 2 € donne 5 points, ajoutés à votre total. Si vous partagez après votre versement via WhatsApp, Facebook ou e-mail sur le site, votre code est dans le lien : celui qui verse garde 5 points et vous recevez +2. Si quelqu'un verse plus loin dans votre ligne, vous recevez +1. Pas encore versé ? Vous pouvez partager, mais sans points.",
+  "winnersExplain": "Si l'objectif de 400 000 € est atteint, il y aura quatre week-ends avec la voiture. Deux vont à ceux qui partagent le plus (meilleurs points). Les deux autres sont déterminés par le hasard dans la liste de tirage : chaque 2 € est un numéro séparé, dix versements donnent dix chances. Sans objectif atteint, il n'y a ni tirage ni week-end.",
+  "notifications": {
+    "label": "Messages",
+    "close": "Fermer",
+    "openPage": "Ouvrir cette page",
+    "clearAll": "Effacer tous les messages",
+    "empty": "Aucun message.",
+    "pageLead": "Mises à jour de campagne et avis au même endroit."
+  },
+  "sponsors": {
+    "putAdHere": "Placez votre pub ici",
+    "example": "exemple",
+    "becomeHeadline": "Devenir sponsor principal",
+    "becomeGold": "Devenir sponsor gold",
+    "becomeSilver": "Devenir sponsor silver",
+    "becomeBronze": "Devenir sponsor bronze",
+    "headlineOfferTitle": "Voici ce que vous obtenez en tant que sponsor principal",
+    "headlineOfferBody": "Qui verse 25 000 € ou plus est en tête — page d'accueil, compteur et tirage en direct. Personne ne peut vous manquer.",
+    "liveDrawWith": "Tirage en direct en partenariat avec",
+    "chooseSpot": "Choisissez votre place",
+    "headline": {
+      "name": "Sponsor principal",
+      "placement": "La plus grande place sur le site et pendant le tirage en direct",
+      "perks": [
+        "Logo principal sur la page d'accueil",
+        "Nom à l'écran lors du tirage en direct des quatre week-ends",
+        "Première place sur la page sponsors",
+        "Mention dans les mises à jour tant que la campagne dure"
+      ]
+    },
+    "gold": {
+      "name": "Sponsor gold",
+      "placement": "Grande visibilité sur la page d'accueil et la soirée live",
+      "perks": [
+        "Grand logo sur la page d'accueil et la page sponsors",
+        "Visible dans le stream du tirage en direct",
+        "Une place dans la rangée Gold"
+      ]
+    },
+    "silver": {
+      "name": "Sponsor silver",
+      "placement": "Une place claire sur le site, visible pour tous les participants",
+      "perks": [
+        "Logo sur la page sponsors",
+        "Mention sur la page d'accueil",
+        "Visible lors du tirage en direct"
+      ]
+    },
+    "bronze": {
+      "name": "Sponsor bronze",
+      "placement": "Une place fixe sur le mur des sponsors",
+      "perks": [
+        "Logo ou nom sur la page sponsors",
+        "Comptabilisé dans l'objectif de campagne"
+      ]
+    }
+  }
+}

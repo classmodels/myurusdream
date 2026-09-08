@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useDict } from "@/lib/i18n/client";
 
 export function CookieBanner() {
+  const dict = useDict();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -15,9 +17,9 @@ export function CookieBanner() {
     <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-yellow/30 bg-black/95 p-4">
       <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <p className="text-sm text-white/80">
-          We gebruiken alleen essentiële cookies voor login, beveiliging en de betaalflow.{" "}
+          {dict.cookie.text}{" "}
           <a href="/cookies" className="text-yellow underline">
-            Cookiebeleid
+            {dict.cookie.policy}
           </a>
         </p>
         <button
@@ -27,7 +29,7 @@ export function CookieBanner() {
             setShow(false);
           }}
         >
-          Oké
+          {dict.cookie.accept}
         </button>
       </div>
     </div>

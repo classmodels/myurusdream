@@ -6,6 +6,7 @@ import { fulfillPaidPayment } from "@/lib/payments";
 import { getMollie, mollieConfigured } from "@/lib/mollie";
 import { ShareRow } from "@/components/ShareRow";
 import { RepeatDonateButton } from "@/components/RepeatDonateButton";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ export default async function BedanktPage({
 }: {
   searchParams: Promise<{ pid?: string }>;
 }) {
+  const dict = await getDictionary();
   const { pid } = await searchParams;
   let user = await getSessionUser("participant");
 
@@ -55,29 +57,29 @@ export default async function BedanktPage({
   const kind = paid?.kind || "contribution";
   const thanksTitle =
     kind === "sponsor"
-      ? "Bedankt. Uw merk staat straks in beeld."
+      ? dict.bedankt.sponsor
       : kind === "pixel"
-        ? "Bedankt. Uw pixels zijn van u."
-        : "Bedankt. U bent deel van de droom.";
+        ? dict.bedankt.pixel
+        : dict.bedankt.title;
 
   return (
     <div className="relative isolate min-h-[70svh] overflow-hidden">
       <img src="/images/urus-hero.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/72" />
       <div className="relative mx-auto max-w-xl px-5 pb-24 pt-28 text-center">
-        <p className="font-display text-sm tracking-[0.3em] text-yellow">Bevestiging</p>
+        <p className="font-display text-sm tracking-[0.3em] text-yellow">{dict.bedankt.kicker}</p>
         <h1 className="mt-4 font-display text-4xl md:text-5xl">
-          {confirmed ? thanksTitle : "We wachten op bevestiging."}
+          {confirmed ? thanksTitle : dict.bedankt.waiting}
         </h1>
         {confirmed && pid ? <EnsureSession paymentId={pid} /> : null}
 
         {confirmed && kind === "contribution" ? (
-          <p className="mt-5 text-white/75">+5 punten en een extra lotnummer.</p>
+          <p className="mt-5 text-white/75">{dict.bedankt.lead}</p>
         ) : null}
 
         {confirmed && kind === "contribution" && fullUser ? (
           <div className="mt-8">
-            <p className="mb-4 text-sm text-white/70">Deel uw persoonlijke link:</p>
+            <p className="mb-4 text-sm text-white/70">{dict.bedankt.shareLink}</p>
             <ShareRow compact referralCode={fullUser.referralCode} />
             <div className="mt-6">
               <RepeatDonateButton className="inline-block" />
