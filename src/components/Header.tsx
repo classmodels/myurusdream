@@ -68,9 +68,9 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
         scrolled ? "bg-black/85 backdrop-blur-md border-b border-white/10" : "bg-black/25 backdrop-blur-[2px]"
       }`}
     >
-      <div className="absolute left-[30px] top-1/2 z-20 flex -translate-y-1/2">
-        <Link href="/" className="flex min-w-0 flex-col items-center justify-center">
-          <span className="whitespace-nowrap font-display text-lg font-bold tracking-[0.12em] text-white sm:text-xl sm:tracking-[0.14em]">
+      <div className="relative flex h-[66px] items-center justify-between gap-3 px-4 sm:px-6 xl:px-[30px]">
+        <Link href="/" className="relative z-20 flex min-w-0 shrink flex-col items-start justify-center">
+          <span className="whitespace-nowrap font-display text-base font-bold tracking-[0.1em] text-white sm:text-xl sm:tracking-[0.14em]">
             MY <span className="text-yellow">URUS</span> DREAM
           </span>
           <span className="mt-[2px] flex items-center gap-2">
@@ -81,48 +81,50 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
             <span className="h-px w-3 bg-yellow/70" aria-hidden="true" />
           </span>
         </Link>
-      </div>
-      <nav className="pointer-events-none absolute inset-y-0 left-[12.5rem] right-[22rem] top-1/2 z-10 hidden -translate-y-1/2 xl:flex">
-        <div className="pointer-events-auto mx-auto flex max-w-full items-center justify-center overflow-x-auto">
-          {links.map((l, i) => (
-            <span key={l.href} className="flex items-center">
-              {i > 0 ? <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" /> : null}
-              <Link href={l.href} className={linkClass} onClick={(e) => go(l.href, e)}>
-                {l.label}
-              </Link>
+
+        <nav className="pointer-events-none absolute inset-y-0 left-[11.5rem] right-[20rem] z-10 hidden items-center xl:flex">
+          <div className="pointer-events-auto mx-auto flex max-w-full items-center justify-center overflow-x-auto">
+            {links.map((l, i) => (
+              <span key={l.href} className="flex items-center">
+                {i > 0 ? <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" /> : null}
+                <Link href={l.href} className={linkClass} onClick={(e) => go(l.href, e)}>
+                  {l.label}
+                </Link>
+              </span>
+            ))}
+            <span className="flex items-center">
+              <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" />
+              <NotificationBell loggedIn={loggedIn} />
             </span>
-          ))}
-          <span className="flex items-center">
-            <span className="mx-1.5 h-3 w-px shrink-0 bg-white/30" aria-hidden="true" />
-            <NotificationBell loggedIn={loggedIn} />
-          </span>
+          </div>
+        </nav>
+
+        <div className="relative z-20 flex shrink-0 items-center gap-2 sm:gap-3">
+          <Link href={meedoenHref} className="header-cta hidden xl:inline-flex">
+            {loggedIn ? dict.nav.ctaAgain : dict.nav.cta}
+          </Link>
+          <Link
+            href={adminLink.href}
+            className={`${linkClass} hidden xl:inline`}
+            onClick={(e) => go(adminLink.href, e)}
+          >
+            {adminLink.label}
+          </Link>
+          <button
+            type="button"
+            className={`${linkClass} xl:hidden`}
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={dict.nav.menu}
+          >
+            {open ? dict.nav.close : dict.nav.menu}
+          </button>
+          <LanguageSwitcher />
         </div>
-      </nav>
-      <div className="absolute right-[30px] top-1/2 z-20 flex -translate-y-1/2 items-center gap-3">
-        <Link href={meedoenHref} className="header-cta hidden xl:inline-flex">
-          {loggedIn ? dict.nav.ctaAgain : dict.nav.cta}
-        </Link>
-        <Link
-          href={adminLink.href}
-          className={`${linkClass} hidden xl:inline`}
-          onClick={(e) => go(adminLink.href, e)}
-        >
-          {adminLink.label}
-        </Link>
-        <button
-          type="button"
-          className={`${linkClass} xl:hidden`}
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label={dict.nav.menu}
-        >
-          {open ? dict.nav.close : dict.nav.menu}
-        </button>
-        <LanguageSwitcher />
       </div>
-      <div className="h-[66px]" aria-hidden="true" />
+
       {open ? (
-        <div className="border-t border-white/10 bg-black px-5 py-5 xl:hidden">
+        <div className="relative z-30 max-h-[min(70vh,28rem)] overflow-y-auto border-t border-white/10 bg-black px-4 py-5 sm:px-6 xl:hidden">
           <div className="flex flex-col gap-4">
             {links.map((l) => (
               <Link
@@ -135,7 +137,11 @@ export function Header({ loggedIn = false }: { loggedIn?: boolean }) {
               </Link>
             ))}
             <NotificationBell loggedIn={loggedIn} />
-            <Link href={meedoenHref} className="header-cta w-fit" onClick={() => setOpen(false)}>
+            <Link
+              href={meedoenHref}
+              className="header-cta inline-flex w-fit"
+              onClick={() => setOpen(false)}
+            >
               {loggedIn ? dict.nav.ctaAgain : dict.nav.cta}
             </Link>
             <Link

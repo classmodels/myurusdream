@@ -39,11 +39,11 @@ export default async function HomePage() {
     <>
       <JsonLd />
       <section className="relative w-full overflow-hidden pt-[4.75rem]">
-        <div className="relative mb-[30px]">
+        <div className="relative mb-[30px] min-h-[36rem] sm:min-h-[40rem] md:min-h-0">
           <img
             src="/5.png?v=20260908a"
             alt={h.heroAlt}
-            className="block h-auto w-full"
+            className="block h-[36rem] w-full object-cover object-[70%_center] sm:h-[40rem] md:h-auto md:object-center"
           />
           <div className="hero-scrim pointer-events-none absolute inset-0" />
           <div className="absolute right-4 top-4 z-20 hidden text-right md:right-8 md:top-6 md:block">
@@ -56,8 +56,8 @@ export default async function HomePage() {
               {h.goalLine}
             </p>
           </div>
-          <div className="absolute inset-0 z-10 flex flex-col items-start justify-start pl-4 pr-5 pb-24 pt-4 text-left md:pl-6 md:pb-24 md:pt-6">
-            <h1 className="font-display font-bold text-[2.15rem] leading-[1.28] tracking-tight sm:text-5xl md:text-7xl">
+          <div className="absolute inset-0 z-10 flex flex-col items-start justify-start overflow-hidden pl-4 pr-5 pb-28 pt-4 text-left md:pl-6 md:pb-24 md:pt-6">
+            <h1 className="font-display font-bold text-[1.85rem] leading-[1.25] tracking-tight sm:text-[2.15rem] sm:leading-[1.28] md:text-7xl">
               {h.heroTitle1} <span className="text-yellow">€2</span>
               {h.heroTitle2 ? <> {h.heroTitle2}</> : null}
               <br />
@@ -65,17 +65,17 @@ export default async function HomePage() {
               <br />
               {h.heroTitle4}
             </h1>
-            <p className="mt-8 max-w-xl text-white/80">
+            <p className="mt-4 max-w-xl text-white/80 sm:mt-8">
               {h.heroLead1}
               <br />
               {h.heroLead2}
               <br />
               {h.heroLead3}
             </p>
-            <p className="mt-5 mb-8 max-w-xl font-medium text-yellow">
+            <p className="mt-4 max-w-xl font-medium text-yellow sm:mt-5 sm:mb-8">
               {h.heroLeadNonRefundable}
             </p>
-            <div className="mt-auto translate-y-[30px] pt-10">
+            <div className="mt-auto translate-y-[30px] pt-6 sm:pt-10">
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link href="/meedoen" className="btn-yellow">
                   {h.ctaPrimary}

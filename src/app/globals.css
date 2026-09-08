@@ -299,7 +299,6 @@ section[id],
   font-size: 0.7rem;
   padding: 0.35rem 0.7rem;
   border-radius: 3px;
-  display: inline-flex;
   align-items: center;
   white-space: nowrap;
 }
