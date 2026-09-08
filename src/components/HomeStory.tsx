@@ -56,7 +56,8 @@ function StoryPreview({
   onToggle: () => void;
 }) {
   return (
-    <div className="story-prose space-y-4">
+    <div className="story-prose">
+      <StoryPhoto />
       <P>
         Ik ga u geen verhaal vertellen over een goed doel en ik ga u ook niet proberen te overtuigen
         met ziekte, drama of een verzonnen reden waarom ik uw geld zou verdienen.{" "}
@@ -79,6 +80,14 @@ function StoryPreview({
         Ik weet natuurlijk perfect wat zo&apos;n wagen kost. Zelf ongeveer €400.000 op tafel leggen
         is voor mij simpelweg niet realistisch. Dus kon ik accepteren dat het altijd een droom zou
         blijven, <Em>of één keer in mijn leven iets compleet anders proberen.</Em>
+      </P>
+
+      <P>
+        Niet één persoon €400.000 vragen, maar 200.000 mensen €2. Dat is het hele idee achter{" "}
+        <Em>My Urus Dream</Em>. Geen grote sponsor, geen miljonair die alles betaalt en geen zielig
+        verhaal, maar heel veel mensen die ieder een piepklein stukje van een bijna onmogelijke
+        droom dragen. <Em>200.000 mensen × €2 = €400.000.</Em> Voor één persoon verandert €2
+        waarschijnlijk niets, maar 200.000 keer €2 kan iets ongelooflijks mogelijk maken.
         {!expanded ? <MoreBtn expanded={false} onToggle={onToggle} /> : null}
       </P>
     </div>
@@ -87,16 +96,8 @@ function StoryPreview({
 
 function StoryRest({ onCollapse }: { onCollapse: () => void }) {
   return (
-    <div className="story-prose mt-4 space-y-4">
+    <div className="story-prose mt-4">
       <GoldTitle>NIET ÉÉN PERSOON €400.000 VRAGEN, MAAR 200.000 MENSEN €2.</GoldTitle>
-
-      <P>
-        Dat is het hele idee achter <Em>My Urus Dream</Em>. Geen grote sponsor, geen miljonair die
-        alles betaalt en geen zielig verhaal, maar heel veel mensen die ieder een piepklein stukje
-        van een bijna onmogelijke droom dragen. <Em>200.000 mensen × €2 = €400.000.</Em> Voor één
-        persoon verandert €2 waarschijnlijk niets, maar 200.000 keer €2 kan iets ongelooflijks
-        mogelijk maken.
-      </P>
 
       <P>
         Misschien denkt u:{" "}
@@ -260,7 +261,6 @@ export function HomeStory() {
         </h2>
 
         <article className="story-layout mt-8 md:mt-10">
-          <StoryPhoto />
           <StoryPreview expanded={expanded} onToggle={() => setExpanded(true)} />
           {expanded ? <StoryRest onCollapse={() => setExpanded(false)} /> : null}
           <StoryCta />
