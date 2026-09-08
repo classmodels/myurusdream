@@ -53,7 +53,7 @@ function MoreBtn({
 function StoryPhoto() {
   return (
     <img
-      src="/images/urus-detail.png?v=20260908b"
+      src="/images/urus-detail.png?v=20260908c"
       alt="Detail van de Urus"
       className="story-photo"
     />
