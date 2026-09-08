@@ -55,8 +55,8 @@ export function RankingLive({
   return (
     <>
       <Accordion
-        title="Overzicht bijdragen"
-        description="Overzicht van bevestigde stortingen. Geen loting, geen prijs — alleen hoe vaak iemand vrijwillig bijdroeg."
+        title="Ranking — voor de eer"
+        description="Punten uit delen en challenges. Geen prijs, geen loting — alleen zien hoe populair uw link is."
       >
         {!ranking.length ? (
           <p className="px-5 py-4 text-white/70">Nog geen bijdragen. Stort €2 om te starten.</p>

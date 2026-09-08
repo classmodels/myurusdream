@@ -8,6 +8,7 @@ import { displayPersonName } from "@/lib/leaderboard";
 import { RankingLive } from "@/app/dashboard/RankingLive";
 import { Accordion } from "@/components/Accordion";
 import { MeldingenBlock } from "@/components/MeldingenBlock";
+import { DashboardChallenges } from "@/components/DashboardChallenges";
 import type { getDashboardData } from "@/lib/dashboard-data";
 
 type Data = NonNullable<Awaited<ReturnType<typeof getDashboardData>>>;
@@ -71,14 +72,20 @@ export function ParticipantDashboard({
       ) : null}
 
       <div className="mt-12 card-dark p-6">
-        <h2 className="font-display text-3xl">Geen prijs. Wel dankbaarheid.</h2>
+        <h2 className="font-display text-3xl">Geen prijs. Wel dankbaarheid — en eer.</h2>
         <p className="mt-3 text-white/75">{NO_PRIZE_EXPLAIN}</p>
         <p className="mt-3 text-white/75">{SHARE_EXPLAIN_SHORT}</p>
         <ul className="mt-4 space-y-2 text-white/80">
           <li>Elke €2 is een vrijwillige bijdrage aan het doel van €400.000.</li>
           <li>U krijgt niets terug — geen prijs, geen loting, geen kans op winst.</li>
-          <li>Deel uw persoonlijke link zodat meer mensen de droom kunnen helpen.</li>
-          <li>WhatsApp, Facebook en e-mail vanaf deze site sturen uw code mee.</li>
+          <li>
+            Delen via uw link levert eerpunten op in de ranking — puur om te zien hoe populair u
+            bent, niet voor een prijs.
+          </li>
+          <li>
+            Daag vrienden die ook stortten uit tot een challenge: wie verliest, filmt een opdracht.
+            Beide krijgen +10 eerpunten als het filmpje online staat.
+          </li>
         </ul>
       </div>
 
@@ -101,6 +108,8 @@ export function ParticipantDashboard({
       </div>
 
       <RankingLive initialRanking={rankingRows} initialTickets={ticketRows} />
+
+      <DashboardChallenges preview={preview} />
 
       {pointRows.length ? (
         <Accordion title="Uw activiteit">

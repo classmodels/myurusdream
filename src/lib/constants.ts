@@ -69,6 +69,8 @@ export const POINTS = {
   own: 5,
   directSharer: 2,
   furtherLine: 1,
+  /** Both challenger and challenged get this when a dare video is uploaded. Honor only — not a prize. */
+  challengeComplete: 10,
 } as const;
 
 /** Sharing grows the campaign — not a prize mechanism. */

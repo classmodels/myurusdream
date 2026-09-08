@@ -39,8 +39,42 @@ model User {
   pushDevices        PushDevice[]
   notices            Notice[]
   noticeReads        NoticeRead[]
+  challengesSent     Challenge[] @relation("ChallengeChallenger")
+  challengesReceived Challenge[] @relation("ChallengeChallenged")
+  challengesLost     Challenge[] @relation("ChallengeLoser")
 
   @@index([phoneNormalized])
+}
+
+model Challenge {
+  id             String    @id @default(cuid())
+  challengerId   String
+  challenger     User      @relation("ChallengeChallenger", fields: [challengerId], references: [id])
+  challengedId   String
+  challenged     User      @relation("ChallengeChallenged", fields: [challengedId], references: [id])
+  /** What you're competing on (invite race / honor). */
+  title          String
+  /** What the loser must film / do. */
+  stake          String    @db.Text
+  /** "date" | "counter" */
+  endMode        String
+  endsAt         DateTime?
+  targetCents    Int?
+  /** pending | active | awaiting_video | completed | declined | cancelled */
+  status         String    @default("pending")
+  acceptedAt     DateTime?
+  loserId        String?
+  loser          User?     @relation("ChallengeLoser", fields: [loserId], references: [id])
+  videoUrl       String?
+  videoUploadedAt DateTime?
+  pointsAwarded  Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([status])
+  @@index([challengerId])
+  @@index([challengedId])
+  @@index([createdAt])
 }
 
 model Session {

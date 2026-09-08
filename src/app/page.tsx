@@ -72,6 +72,9 @@ export default async function HomePage() {
               <br />
               {h.heroLead3}
             </p>
+            <p className="mt-5 mb-8 max-w-xl font-medium text-yellow">
+              {h.heroLeadNonRefundable}
+            </p>
             <div className="mt-auto translate-y-[30px] pt-10">
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link href="/meedoen" className="btn-yellow">
@@ -125,7 +128,7 @@ export default async function HomePage() {
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 w-[70%] bg-gradient-to-r from-black/55 via-black/25 to-transparent md:w-1/2 md:from-black/45 md:via-black/15" />
           <div className="pointer-events-none absolute inset-0">
-            <div className="flex h-full items-start pl-4 pt-[6%] md:pl-6 md:pt-[5%]">
+            <div className="flex h-full flex-col justify-between pl-4 py-[6%] md:pl-6 md:py-[5%]">
               <p className="font-display font-bold text-[1.55rem] leading-[1.12] tracking-tight text-white sm:text-4xl md:text-6xl lg:text-7xl">
                 <span className="mb-10 block whitespace-normal md:mb-16 md:whitespace-nowrap">
                   {h.asGoalReached}
@@ -137,6 +140,9 @@ export default async function HomePage() {
                   <br />
                   <span className="whitespace-normal text-yellow md:whitespace-nowrap">{h.withUrus}</span>
                 </span>
+              </p>
+              <p className="max-w-xl text-sm leading-relaxed text-yellow md:text-base">
+                {h.goalEventLine}
               </p>
             </div>
           </div>
