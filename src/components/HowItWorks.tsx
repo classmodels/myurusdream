@@ -13,7 +13,7 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="relative z-0 -mt-[70px] bg-black">
       <span id="hoe" className="absolute top-0" aria-hidden />
-      <div className="relative overflow-hidden pt-20 pb-8 md:pt-28 md:pb-10">
+      <div className="relative overflow-hidden pt-20 pb-4 md:pt-28 md:pb-5">
         <div className="absolute inset-0">
           <img
             src="/images/urus-night.png?v=20260908a"

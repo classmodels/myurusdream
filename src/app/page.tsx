@@ -242,7 +242,7 @@ export default async function HomePage() {
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-45"
         />
         <div className="pointer-events-none absolute inset-0 bg-black/25" />
-        <div className="relative mx-auto max-w-7xl px-5 pt-10 md:pt-12">
+        <div className="relative mx-auto max-w-7xl px-5 pt-5 md:pt-6">
           <h2 className="font-display text-4xl">U kan gratis met de Urus rijden</h2>
           <p className="mt-4 font-display text-4xl">
             <span className="text-yellow">4 weekends</span>
