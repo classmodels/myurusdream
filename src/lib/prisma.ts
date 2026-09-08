@@ -8,14 +8,13 @@ function createPrisma() {
   });
 }
 
-/** After `prisma generate`, drop a stale singleton that lacks new models. */
-if (
-  process.env.NODE_ENV !== "production" &&
-  globalForPrisma.prisma &&
-  !("challenge" in globalForPrisma.prisma)
-) {
-  void globalForPrisma.prisma.$disconnect();
-  globalForPrisma.prisma = undefined;
+/** After `prisma generate`, drop a stale singleton that lacks new models (dev only). */
+if (process.env.NODE_ENV !== "production" && globalForPrisma.prisma) {
+  const stale = globalForPrisma.prisma as PrismaClient & { challenge?: unknown };
+  if (!stale.challenge) {
+    void stale.$disconnect();
+    globalForPrisma.prisma = undefined;
+  }
 }
 
 export const prisma = globalForPrisma.prisma ?? createPrisma();
