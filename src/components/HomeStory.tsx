@@ -19,6 +19,18 @@ function Em({ children }: { children: ReactNode }) {
   return <strong className="font-semibold text-yellow">{children}</strong>;
 }
 
+function GoldLine({ children }: { children: ReactNode }) {
+  return (
+    <Em>
+      <span className="mt-2 block">{children}</span>
+    </Em>
+  );
+}
+
+function Quote({ children }: { children: ReactNode }) {
+  return <em className="mt-2 block text-white/70">{children}</em>;
+}
+
 function MoreBtn({
   expanded,
   onToggle,
@@ -101,93 +113,129 @@ function StoryPreview({
 
 function StoryRest({ onCollapse }: { onCollapse: () => void }) {
   return (
-    <div className="story-prose mt-4">
+    <div className="story-prose story-rest mt-6">
       <GoldTitle>NIET ÉÉN PERSOON €400.000 VRAGEN, MAAR 200.000 MENSEN €2.</GoldTitle>
 
       <P>
-        Misschien denkt u:{" "}
-        <em className="text-white/70">
-          “Waarom zou ik €2 geven zodat iemand anders een Lamborghini kan kopen?”
-        </em>{" "}
-        Een terechte vraag. Ik beweer niet dat ik een Lamborghini nodig heb, dat ik hem verdien of
-        dat mijn droom belangrijker is dan die van iemand anders.{" "}
-        <Em>Ik probeer gewoon iets waarvan bijna iedereen zal zeggen: “Dat lukt nooit.”</Em> Maar
-        stel dat het wél lukt? Dat 200.000 gewone mensen, die elkaar niet eens kennen, samen iets
-        realiseren wat voor één gewone persoon totaal onbereikbaar is? Dan gaat dit niet alleen meer
-        over een auto, maar over wat er mogelijk wordt wanneer heel veel mensen allemaal één heel
-        klein ding doen.
+        Misschien denkt u:
+        <Quote>“Waarom zou ik €2 geven zodat iemand anders een Lamborghini kan kopen?”</Quote>
+      </P>
+      <P>Een terechte vraag.</P>
+      <P>
+        Ik beweer niet dat ik een Lamborghini nodig heb, dat ik hem verdien of dat mijn droom
+        belangrijker is dan die van iemand anders.
+        <GoldLine>Ik probeer gewoon iets waarvan bijna iedereen zal zeggen: “Dat lukt nooit.”</GoldLine>
+      </P>
+      <P>
+        Maar stel dat het wél lukt? Dat 200.000 gewone mensen, die elkaar niet eens kennen, samen
+        iets realiseren wat voor één gewone persoon totaal onbereikbaar is?
+      </P>
+      <P>
+        Dan gaat dit niet alleen meer over een auto, maar over wat er mogelijk wordt wanneer heel
+        veel mensen allemaal één heel klein ding doen.
       </P>
 
       <P>
-        En daar zit meteen de moeilijkheid. Misschien denkt u:{" "}
-        <em className="text-white/70">“Als genoeg andere mensen €2 storten, komt hij er wel.”</em>{" "}
-        <Em>Maar als iedereen denkt dat iemand anders het zal doen, gebeurt er niets.</Em> Het werkt
-        alleen als de persoon die dit nú leest denkt:{" "}
-        <em className="text-white/70">“Ach kom, voor €2 doe ik mee.”</em>
+        En daar zit meteen de moeilijkheid. Misschien denkt u:
+        <Quote>“Als genoeg andere mensen €2 storten, komt hij er wel.”</Quote>
+        <GoldLine>Maar als iedereen denkt dat iemand anders het zal doen, gebeurt er niets.</GoldLine>
+      </P>
+      <P>
+        Het werkt alleen als de persoon die dit nú leest denkt:
+        <Quote>“Ach kom, voor €2 doe ik mee.”</Quote>
       </P>
 
       <P>
-        Veel vraag ik eigenlijk niet: één minuut van uw tijd. Klik op{" "}
-        <Em>‘Ik doe mee voor €2’</Em>, vul uw naam in en scan de QR-code; de betaling verloopt via
-        het officiële betaalsysteem. Klaar. En wat is €2 vandaag nog? Een pintje, frisdrank of
-        koffie kost vaak al meer. Laat één drankje staan en u hebt financieel misschien zelfs nog
-        winst gemaakt, maar hier krijgt u er iets bij:{" "}
-        <Em>
+        Veel vraag ik eigenlijk niet: één minuut van uw tijd. Klik op <Em>‘Ik doe mee voor €2’</Em>,
+        vul uw naam in en scan de QR-code; de betaling verloopt via het officiële betaalsysteem.
+        Klaar.
+      </P>
+      <P>
+        En wat is €2 vandaag nog? Een pintje, frisdrank of koffie kost vaak al meer. Laat één
+        drankje staan en u hebt financieel misschien zelfs nog winst gemaakt, maar hier krijgt u er
+        iets bij:
+        <GoldLine>
           u wordt een klein stukje van dit verhaal en kunt, als deze compleet gekke droom
           werkelijkheid wordt, zeggen: “Ik heb meegedaan.”
-        </Em>
+        </GoldLine>
       </P>
 
       <GoldTitle>EN MISSCHIEN RIJDT U ZELF WEL MET DE URUS</GoldTitle>
 
+      <P>Als de actie slaagt, wil ik de droom ook delen. Zoals u verder op deze website kunt lezen:</P>
       <P>
-        Als de actie slaagt, wil ik de droom ook delen. Zoals u verder op deze website kunt lezen,
-        worden{" "}
-        <Em>
-          vier weekends met de Lamborghini Urus weggegeven. Twee weekends worden door het lot
-          bepaald
-        </Em>
-        , waardoor ook iemand die gewoon één keer €2 stort kans maakt om zelf de sleutels in handen
-        te krijgen.
+        <GoldLine>
+          vier weekends met de Lamborghini Urus worden weggegeven. Twee weekends worden door het lot
+          bepaald.
+        </GoldLine>
+      </P>
+      <P>
+        Daardoor maakt ook iemand die gewoon één keer €2 stort kans om zelf de sleutels in handen te
+        krijgen.
       </P>
 
       <P>
-        <Em>
+        <GoldLine>
           De andere twee weekends laat ik niet alleen aan het geluk over: daar hebt u zelf invloed
           op.
-        </Em>{" "}
+        </GoldLine>
+      </P>
+      <P>
         U stort zelf maar één keer €2 en kunt daarna andere mensen uitnodigen om ook deel te nemen.
-        Stort iemand via u, dan verdient u punten. En als die persoon het verhaal vervolgens verder
-        verspreidt en er via hem of haar opnieuw mensen deelnemen,{" "}
-        <Em>levert dat u eveneens punten op.</Em> Uw ene deelname kan dus het begin worden van een
-        hele ketting. De twee deelnemers die uiteindelijk de meeste punten verzamelen,{" "}
-        <Em>winnen ieder een weekend met de Lamborghini Urus.</Em>
+        Stort iemand via u, dan verdient u punten.
+      </P>
+      <P>
+        En als die persoon het verhaal vervolgens verder verspreidt en er via hem of haar opnieuw
+        mensen deelnemen, <Em>levert dat u eveneens punten op.</Em>
+      </P>
+      <P>
+        Uw ene deelname kan dus het begin worden van een hele ketting.
+        <GoldLine>
+          De twee deelnemers die uiteindelijk de meeste punten verzamelen, winnen ieder een weekend
+          met de Lamborghini Urus.
+        </GoldLine>
       </P>
 
       <GoldTitle>LAAT HET VERHAAL VIRAAL GAAN</GoldTitle>
 
       <P>
         En dat is eigenlijk mijn tweede droom met dit project: niet alleen die Urus realiseren, maar
-        ontdekken <Em>hoe ver we dit verhaal samen kunnen krijgen.</Em> Deel uw persoonlijke link
-        met vrienden, familie en collega&apos;s via WhatsApp, Facebook, Instagram, TikTok of waar u
-        maar wilt. Vertel gewoon:{" "}
-        <em className="text-white/70">
+        ontdekken
+        <GoldLine>hoe ver we dit verhaal samen kunnen krijgen.</GoldLine>
+      </P>
+      <P>
+        Deel uw persoonlijke link met vrienden, familie en collega&apos;s via WhatsApp, Facebook,
+        Instagram, TikTok of waar u maar wilt. Vertel gewoon:
+        <Quote>
           “Er is iemand die probeert een Lamborghini Urus te realiseren door 200.000 mensen elk €2
           te laten bijdragen.”
-        </em>
+        </Quote>
       </P>
 
       <P>
-        Misschien lachen mensen ermee en zeggen ze:{" "}
-        <em className="text-white/70">“Die is compleet gek.”</em> Prima. Maar misschien denken ze
-        daarna ook: <Em>“Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.”</Em> En precies
-        dát kan dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend, tienduizend...
+        Misschien lachen mensen ermee en zeggen ze:
+        <Quote>“Die is compleet gek.”</Quote>
+      </P>
+      <P>Prima. Maar misschien denken ze daarna ook:</P>
+      <P>
+        <GoldLine>“Weet je wat? Voor €2 wil ik wel eens zien of het hem lukt.”</GoldLine>
+      </P>
+      <P>
+        En precies dát kan dit verhaal groot maken. Eerst tien mensen, dan honderd, duizend,
+        tienduizend...
+      </P>
+      <P>
         Misschien begint het te leven op sociale media, wordt het gedeeld door iemand met een groot
-        bereik en <Em>haalt dit knotsgekke verhaal op een dag zelfs de media.</Em> Dan kunt u
-        zeggen:{" "}
-        <em className="text-white/70">
+        bereik en
+        <GoldLine>haalt dit knotsgekke verhaal op een dag zelfs de media.</GoldLine>
+      </P>
+      <P>
+        Dan kunt u zeggen:
+        <Quote>
           “Ik was erbij. Ik heb meegedaan. Ik heb geholpen om dit verhaal aan het rollen te krijgen.”
-        </em>{" "}
+        </Quote>
+      </P>
+      <P>
         En wie weet bent u uiteindelijk zelfs één van de vier mensen die daadwerkelijk met de Urus
         mag rijden.
       </P>
@@ -196,16 +244,22 @@ function StoryRest({ onCollapse }: { onCollapse: () => void }) {
 
       <P>
         Als u tot hier gelezen hebt, hebt u waarschijnlijk méér tijd aan mijn droom besteed dan het
-        kost om effectief mee te doen. Denk dus niet:{" "}
-        <Em>“Iemand anders zal die €2 wel storten”</Em>, want die andere persoon denkt misschien
-        precies hetzelfde.
+        kost om effectief mee te doen.
       </P>
+      <P>
+        Denk dus niet:
+        <GoldLine>“Iemand anders zal die €2 wel storten”</GoldLine>
+      </P>
+      <P>want die andere persoon denkt misschien precies hetzelfde.</P>
 
       <P>
-        Het werkt alleen als u denkt: <Em>“Kom. Waarom eigenlijk niet?”</Em> Eén minuut, één kleine
-        betaling, €2. Niet omdat ik u een zielig verhaal heb verteld of beweer dat ik recht heb op
-        een Lamborghini, maar gewoon omdat u het idee misschien even knotsgek, grappig en spannend
-        vindt als ik en benieuwd bent naar het antwoord op één vraag:
+        Het werkt alleen als u denkt:
+        <GoldLine>“Kom. Waarom eigenlijk niet?”</GoldLine>
+      </P>
+      <P>
+        Eén minuut, één kleine betaling, €2. Niet omdat ik u een zielig verhaal heb verteld of
+        beweer dat ik recht heb op een Lamborghini, maar gewoon omdat u het idee misschien even
+        knotsgek, grappig en spannend vindt als ik — en benieuwd bent naar het antwoord op één vraag:
       </P>
 
       <GoldTitle as="h2">
@@ -214,9 +268,12 @@ function StoryRest({ onCollapse }: { onCollapse: () => void }) {
 
       <P>
         Misschien lukt het nooit. Misschien wordt het één grote mislukking waar ik later hartelijk
-        om kan lachen. <Em>Maar misschien lukt het wél.</Em> En als ik ooit voor die Lamborghini
-        Urus sta, zal ik weten dat hij daar niet staat dankzij één rijke schenker, maar dankzij
-        duizenden mensen die allemaal hetzelfde dachten:
+        om kan lachen.
+        <GoldLine>Maar misschien lukt het wél.</GoldLine>
+      </P>
+      <P>
+        En als ik ooit voor die Lamborghini Urus sta, zal ik weten dat hij daar niet staat dankzij
+        één rijke schenker, maar dankzij duizenden mensen die allemaal hetzelfde dachten:
       </P>
 
       <GoldTitle as="h2">“ACH KOM. VOOR €2 DOE IK MEE.”</GoldTitle>
@@ -228,7 +285,7 @@ function StoryRest({ onCollapse }: { onCollapse: () => void }) {
       </P>
 
       <P>
-        <Em>Maar daarvoor moet iemand beginnen. Waarom niet u?</Em>
+        <GoldLine>Maar daarvoor moet iemand beginnen. Waarom niet u?</GoldLine>
         <MoreBtn expanded onToggle={onCollapse} />
       </P>
     </div>
