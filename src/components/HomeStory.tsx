@@ -345,12 +345,14 @@ export function HomeStory() {
         <p className="mb-3 font-display text-[0.75rem] tracking-[0.28em] text-yellow">Verhaal</p>
         <div className="story-heading-fit">
           <h2 className="font-display leading-[1.12] tracking-tight">
-            <span className="text-yellow">MIJN DROOM. UW €2. ONS VERHAAL.</span>
+            <span className="story-heading-main text-yellow">MIJN DROOM. UW €2. ONS VERHAAL.</span>
             <span className="story-heading-aside text-white/40">
-              misschien lukt het,
-              <span className="story-heading-gap-lg">misschien niet</span>
-              <span className="story-heading-gap-sm">....</span>
-              <span className="story-heading-gap-lg">maar mijn gekste idee ooit</span>
+              <span className="story-heading-aside-inner">
+                misschien lukt het,
+                <span className="story-heading-gap-lg">misschien niet</span>
+                <span className="story-heading-gap-sm">....</span>
+                <span className="story-heading-gap-lg">maar mijn gekste idee ooit</span>
+              </span>
             </span>
           </h2>
         </div>
