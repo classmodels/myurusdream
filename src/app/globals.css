@@ -599,15 +599,21 @@ details[open] > summary .accordion-mark::after {
 .story-heading-fit > h2 {
   margin: 0;
   width: 100%;
-  font-size: clamp(0.95rem, 4.6cqi, 1.35rem);
+  white-space: nowrap;
+  font-size: calc(100cqi / 51.5);
   line-height: 1.2;
 }
 
-@media (min-width: 768px) {
-  .story-heading-fit > h2 {
-    white-space: nowrap;
-    font-size: calc(100cqi / 54);
-  }
+.story-heading-aside {
+  margin-left: 0.95em;
+}
+
+.story-heading-gap-lg {
+  margin-left: 0.7em;
+}
+
+.story-heading-gap-sm {
+  margin-left: 0.35em;
 }
 
 .story-layout {
