@@ -50,7 +50,7 @@ function MoreBtn({
     <button
       type="button"
       onClick={onToggle}
-      className="ml-2 inline-flex translate-y-[-1px] items-center whitespace-nowrap border border-yellow/50 bg-yellow/10 px-2.5 py-0.5 font-display text-[0.7rem] uppercase tracking-[0.16em] text-yellow transition hover:bg-yellow hover:text-black"
+      className="ml-4 inline align-baseline font-display text-[0.75rem] uppercase tracking-[0.14em] text-white/40 transition hover:text-white/70"
       aria-expanded={expanded}
     >
       {expanded ? "Minder lezen" : "Meer lezen"}
@@ -309,7 +309,7 @@ function StoryRest({ onCollapse }: { onCollapse: () => void }) {
           en misschien zit u uiteindelijk zelfs zelf achter het stuur.
         </P>
         <P>
-          <GoldLine>Maar daarvoor moet iemand beginnen. Waarom niet u?</GoldLine>
+          <Em>Maar daarvoor moet iemand beginnen. Waarom niet u?</Em>
           <MoreBtn expanded onToggle={onCollapse} />
         </P>
       </Beat>
