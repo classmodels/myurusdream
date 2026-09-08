@@ -128,8 +128,8 @@ function StoryRest({ onCollapse }: { onCollapse: () => void }) {
         <P>
           Misschien denkt u:
           <Quote>“Waarom zou ik €2 geven zodat iemand anders een Lamborghini kan kopen?”</Quote>
+          <span className="ml-3">Een terechte vraag.</span>
         </P>
-        <P>Een terechte vraag.</P>
         <P>
           Ik beweer niet dat ik een Lamborghini nodig heb, dat ik hem verdien of dat mijn droom
           belangrijker is dan die van iemand anders.
@@ -249,7 +249,7 @@ function StoryRest({ onCollapse }: { onCollapse: () => void }) {
         </P>
         <P>
           Dan kunt u zeggen:
-          <Quote>
+          <Quote block>
             “Ik was erbij. Ik heb meegedaan. Ik heb geholpen om dit verhaal aan het rollen te
             krijgen.”
           </Quote>
