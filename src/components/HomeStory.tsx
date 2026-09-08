@@ -343,9 +343,15 @@ export function HomeStory() {
       />
       <div className="relative mx-auto max-w-7xl px-5">
         <p className="mb-3 font-display text-[0.75rem] tracking-[0.28em] text-yellow">Verhaal</p>
-        <h2 className="font-display text-[clamp(1.05rem,2.6vw+0.35rem,3.5rem)] leading-[1.12] tracking-tight text-yellow md:whitespace-nowrap">
-          MIJN DROOM. UW €2. ONS VERHAAL.
-        </h2>
+        <div className="story-heading-fit">
+          <h2 className="font-display leading-[1.12] tracking-tight">
+            <span className="text-yellow">MIJN DROOM. UW €2. ONS VERHAAL.</span>
+            <span className="text-white/40">
+              {" "}
+              misschien lukt het, misschien niet.... maar mijn gekste idee ooit
+            </span>
+          </h2>
+        </div>
 
         <article className="story-layout mt-8 md:mt-10">
           <StoryPreview expanded={expanded} onToggle={() => setExpanded(true)} />
