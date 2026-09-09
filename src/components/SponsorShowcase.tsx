@@ -54,8 +54,6 @@ export function HeadlineBillboard({
   const title = name.trim();
   const sub = (tagline || "").trim();
   const showLogo = Boolean(logo) && !logoFailed;
-  const titleSize =
-    size === "preview" ? "text-sm sm:text-base" : size === "home" ? "text-sm sm:text-lg md:text-xl" : "text-base sm:text-xl md:text-2xl";
   const subSize = size === "preview" ? "text-[0.65rem] sm:text-xs" : "text-[0.65rem] sm:text-sm";
   const fillName =
     size === "preview" ? "text-2xl sm:text-3xl" : tier === "headline" ? "text-4xl sm:text-6xl md:text-7xl" : "text-2xl sm:text-4xl";
@@ -82,14 +80,7 @@ export function HeadlineBillboard({
           </div>
         )}
 
-        {showLogo && title ? (
-          <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/55 to-transparent px-3 py-2">
-            <p className={`truncate text-center font-display leading-none tracking-tight text-white ${titleSize}`}>
-              {title}
-            </p>
-          </div>
-        ) : null}
-
+        {/* Alleen optionele ondertitel over het logo — geen bedrijfsnaam eroverheen. */}
         {showLogo && sub ? (
           <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-3 py-2">
             <p className={`truncate text-center font-medium leading-none text-white/90 ${subSize}`}>{sub}</p>
