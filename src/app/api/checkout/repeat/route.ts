@@ -26,14 +26,18 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json().catch(() => ({} as { referralCode?: string }));
-  const refCode =
-    String(body.referralCode || "").trim() || parseRefCookie(req.headers.get("cookie"));
+  let refCode =
+    String(body.referralCode || "").trim() || parseRefCookie(req.headers.get("cookie")) || "";
+  if (user.referralCode && refCode === user.referralCode) {
+    refCode = "";
+  }
   if (refCode) {
     await attachReferral({
       userId: user.id,
       email: user.email,
       phoneNormalized: user.phoneNormalized,
       refCode,
+      payerIp: ip,
     });
   }
 

@@ -49,6 +49,11 @@ export function refCookieSet(code: string, secure = false) {
   return `${REF_COOKIE}=${encodeURIComponent(code)}; Path=/; Max-Age=${REF_MAX_AGE}; SameSite=Lax${extra}`;
 }
 
+export function refCookieClear(secure = false) {
+  const extra = secure ? "; Secure" : "";
+  return `${REF_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax${extra}`;
+}
+
 export function persistReferralClient(code: string) {
   const normalized = normalizeReferralCode(code);
   if (!normalized || typeof document === "undefined") return;
@@ -56,6 +61,17 @@ export function persistReferralClient(code: string) {
   document.cookie = refCookieSet(normalized, secure);
   try {
     localStorage.setItem(REF_STORAGE, normalized);
+  } catch {
+    /* private mode */
+  }
+}
+
+export function clearReferralClient() {
+  if (typeof document === "undefined") return;
+  const secure = window.location.protocol === "https:";
+  document.cookie = refCookieClear(secure);
+  try {
+    localStorage.removeItem(REF_STORAGE);
   } catch {
     /* private mode */
   }

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { LoginForm } from "./LoginForm";
 import { getSessionUser } from "@/lib/auth";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { ResetReferralClient } from "@/components/ResetReferralClient";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,7 @@ export default async function InloggenPage() {
   if (user) redirect("/dashboard");
   return (
     <div className="relative isolate min-h-[100svh] overflow-hidden">
+      <ResetReferralClient />
       <img src="/images/urus-villa.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/72" />
       <div className="relative mx-auto max-w-md px-5 pb-24 pt-28">

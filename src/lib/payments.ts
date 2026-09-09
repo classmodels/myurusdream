@@ -76,6 +76,7 @@ export async function fulfillPaidPayment(paymentId: string) {
       email: paid.user.email,
       phoneNormalized: paid.user.phoneNormalized,
       refCode: paid.referralCode,
+      payerIp: paid.ipAddress,
     });
     referral = await prisma.referral.findUnique({
       where: { referredUserId: paid.userId },
@@ -88,8 +89,9 @@ export async function fulfillPaidPayment(paymentId: string) {
     });
     const referrer = await prisma.user.findUnique({ where: { id: referral.referrerId } });
     const self = isSelfReferral(referrer || { id: "", email: "" }, paid.user);
+    const sameIp = samePublicIp(paid.ipAddress, referrerPaid?.ipAddress);
 
-    if (self || !referrerPaid) {
+    if (self || !referrerPaid || sameIp) {
       if (!referral.verifiedPayment) {
         await prisma.referral.update({
           where: { id: referral.id },
@@ -97,24 +99,17 @@ export async function fulfillPaidPayment(paymentId: string) {
         });
       }
       await flagFraud({
-        type: self ? "self_referral" : "unpaid_referrer",
+        type: self ? "self_referral" : sameIp ? "same_ip_referral" : "unpaid_referrer",
         details: self
           ? "Self-referral geblokkeerd bij betalingsbevestiging."
-          : "Verwijzing genegeerd: de doorstuurder heeft zelf nog niet gestort.",
+          : sameIp
+            ? "Zelfde IP als de doorstuurder — geen referralpunten."
+            : "Verwijzing genegeerd: de doorstuurder heeft zelf nog niet gestort.",
         userId: paid.userId,
         paymentId: paid.id,
         referralId: referral.id,
       });
     } else {
-      if (samePublicIp(paid.ipAddress, referrerPaid.ipAddress)) {
-        await flagFraud({
-          type: "same_ip_referral",
-          details: "Storting vanaf hetzelfde publieke IP als de doorstuurder — punten blijven wel tellen.",
-          userId: paid.userId,
-          paymentId: paid.id,
-          referralId: referral.id,
-        });
-      }
       const lineage = await loadShareLineage(referral.referrerId, paid.userId);
       const awards = computeShareAwards({
         payerId: paid.userId,

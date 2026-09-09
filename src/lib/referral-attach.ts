@@ -2,12 +2,19 @@ import { prisma } from "./prisma";
 import { flagFraud } from "./fraud";
 import { isSelfReferral } from "./referral-rules";
 import { normalizeReferralCode } from "./referral";
+import { isRoutablePublicIp } from "./phone";
+
+function samePublicIp(a: string | null | undefined, b: string | null | undefined) {
+  if (!a || !b || a !== b) return false;
+  return isRoutablePublicIp(a);
+}
 
 export async function attachReferral(input: {
   userId: string;
   email: string;
   phoneNormalized?: string | null;
   refCode?: string | null;
+  payerIp?: string | null;
 }) {
   const code = normalizeReferralCode(input.refCode);
   if (!code) return null;
@@ -29,7 +36,8 @@ export async function attachReferral(input: {
 
   const referrerPaid = await prisma.payment.findFirst({
     where: { userId: referrer.id, status: "paid", kind: "contribution" },
-    select: { id: true },
+    select: { id: true, ipAddress: true },
+    orderBy: { paidAt: "desc" },
   });
   if (!referrerPaid) {
     await flagFraud({
@@ -40,12 +48,26 @@ export async function attachReferral(input: {
     return null;
   }
 
+  // Zelfde netwerk/toestel als de doorstuurder → geen referral (voorkomt valse “via u”-meldingen bij testen).
+  if (
+    samePublicIp(input.payerIp, referrerPaid.ipAddress) ||
+    samePublicIp(input.payerIp, referrer.lastIp)
+  ) {
+    await flagFraud({
+      type: "same_ip_referral",
+      details: "Zelfde IP als de doorstuurder — geen referralpunten.",
+      userId: input.userId,
+    });
+    return null;
+  }
+
   if (input.phoneNormalized && referrer.phoneNormalized && input.phoneNormalized === referrer.phoneNormalized) {
     await flagFraud({
       type: "same_phone_referral",
-      details: "Zelfde gsm als de doorstuurder — punten blijven wel tellen.",
+      details: "Zelfde gsm als de doorstuurder — geen referralpunten.",
       userId: input.userId,
     });
+    return null;
   }
 
   return prisma.referral.create({

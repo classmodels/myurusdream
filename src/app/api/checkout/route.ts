@@ -11,6 +11,7 @@ import { parseRefCookie } from "@/lib/referral";
 import { attachReferral } from "@/lib/referral-attach";
 import { isLikelyPhone, normalizePhone } from "@/lib/phone";
 import { contributionCheckoutResponse, createContributionPayment } from "@/lib/contribution-checkout";
+import { getSessionUser } from "@/lib/auth";
 
 const schema = z.object({
   email: z.string().email(),
@@ -60,8 +61,14 @@ export async function POST(req: Request) {
   const lastName = parsed.data.lastName.trim();
   const phone = parsed.data.phone.trim();
   const phoneNormalized = normalizePhone(phone);
-  const refCode =
-    parsed.data.referralCode?.trim() || parseRefCookie(req.headers.get("cookie"));
+  let refCode =
+    parsed.data.referralCode?.trim() || parseRefCookie(req.headers.get("cookie")) || "";
+
+  // Eigen link-cookie telt niet als uitnodiging (typisch bij testen op hetzelfde toestel).
+  const sessionUser = await getSessionUser("participant");
+  if (sessionUser?.referralCode && refCode === sessionUser.referralCode) {
+    refCode = "";
+  }
 
   if (!isLikelyPhone(phoneNormalized)) {
     return NextResponse.json({ error: "Vul een geldig gsm-nummer in." }, { status: 400 });
@@ -103,6 +110,7 @@ export async function POST(req: Request) {
       email,
       phoneNormalized,
       refCode,
+      payerIp: ip,
     });
   }
 

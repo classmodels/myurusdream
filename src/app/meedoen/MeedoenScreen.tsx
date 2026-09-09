@@ -17,16 +17,21 @@ export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
   const m = dict.meedoen;
   const cookieStore = await cookies();
   const fromLink = normalizeReferralCode(invitedBy);
-  const ref = fromLink || normalizeReferralCode(cookieStore.get(REF_COOKIE)?.value);
+  let ref = fromLink || normalizeReferralCode(cookieStore.get(REF_COOKIE)?.value);
   const campaign = await getCampaign();
   const gate = paymentsAllowed(campaign);
   const participant = await getSessionUser("participant");
+  // Eigen code in cookie/link telt niet als uitnodiging.
+  if (participant?.referralCode && ref === participant.referralCode) {
+    ref = "";
+  }
   if (participant && ref) {
     await attachReferral({
       userId: participant.id,
       email: participant.email,
       phoneNormalized: participant.phoneNormalized,
       refCode: ref,
+      payerIp: null,
     });
   }
   const paidCount = participant
