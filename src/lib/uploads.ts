@@ -1,6 +1,7 @@
-import { mkdir, writeFile, readFile, access } from "node:fs/promises";
+import { mkdir, writeFile, readFile, access, unlink } from "node:fs/promises";
 import path from "node:path";
 import { constants as fsConstants } from "node:fs";
+import { prisma } from "@/lib/prisma";
 
 /**
  * Upload root outside the git deploy tree when possible, so Autogit/Combell
@@ -8,7 +9,7 @@ import { constants as fsConstants } from "node:fs";
  *
  * Set UPLOAD_DIR in Combell to an absolute path outside the app folder.
  * Default: sibling folder `../myurusdream-uploads` next to the app.
- * If that path is not writable, we fall back to `public/uploads`.
+ * Disk is best-effort; MySQL StoredUpload is the source of truth.
  */
 export function uploadsRoot() {
   const fromEnv = process.env.UPLOAD_DIR?.trim();
@@ -21,22 +22,7 @@ export function publicUploadsFallbackRoot() {
 }
 
 function candidateRoots() {
-  const roots = [uploadsRoot(), publicUploadsFallbackRoot()];
-  return [...new Set(roots)];
-}
-
-export async function ensureUploadDir(...parts: string[]) {
-  let lastErr: unknown;
-  for (const root of candidateRoots()) {
-    try {
-      const dir = path.join(root, ...parts);
-      await mkdir(dir, { recursive: true });
-      return dir;
-    } catch (err) {
-      lastErr = err;
-    }
-  }
-  throw lastErr instanceof Error ? lastErr : new Error("Uploadmap kon niet worden aangemaakt.");
+  return [...new Set([uploadsRoot(), publicUploadsFallbackRoot()])];
 }
 
 async function writeToRoot(root: string, folder: string, filename: string, buffer: Buffer) {
@@ -47,39 +33,34 @@ async function writeToRoot(root: string, folder: string, filename: string, buffe
   return full;
 }
 
+function mimeForFilename(filename: string) {
+  return mediaContentType(filename);
+}
+
 export async function saveUpload(
   folder: "pixels" | "challenges",
   filename: string,
   buffer: Buffer,
 ) {
-  const roots = candidateRoots();
-  let written: string | null = null;
-  let lastErr: unknown;
+  const key = `${folder}/${filename}`;
+  // Source of truth: database (survives Combell Autogit redeploys).
+  await prisma.storedUpload.upsert({
+    where: { id: key },
+    create: { id: key, mime: mimeForFilename(filename), bytes: buffer },
+    update: { mime: mimeForFilename(filename), bytes: buffer },
+  });
 
-  for (const root of roots) {
+  let written: string | null = null;
+  for (const root of candidateRoots()) {
     try {
       written = await writeToRoot(root, folder, filename, buffer);
-      break;
-    } catch (err) {
-      lastErr = err;
-    }
-  }
-
-  if (!written) {
-    throw lastErr instanceof Error ? lastErr : new Error("Logo kon niet worden opgeslagen.");
-  }
-
-  // Mirror to every other root so /api/media and static /uploads both work.
-  for (const root of roots) {
-    try {
-      await writeToRoot(root, folder, filename, buffer);
     } catch {
-      /* best effort */
+      /* disk optional */
     }
   }
 
   return {
-    absolutePath: written,
+    absolutePath: written || key,
     publicUrl: `/api/media/${folder}/${filename}`,
   };
 }
@@ -93,8 +74,8 @@ export function safeUploadRelative(parts: string[]) {
 }
 
 export async function readUpload(relativePosix: string): Promise<Buffer | null> {
-  const candidates = candidateRoots().map((root) => path.join(root, ...relativePosix.split("/")));
-  for (const full of candidates) {
+  for (const root of candidateRoots()) {
+    const full = path.join(root, ...relativePosix.split("/"));
     try {
       await access(full, fsConstants.R_OK);
       return await readFile(full);
@@ -102,7 +83,39 @@ export async function readUpload(relativePosix: string): Promise<Buffer | null> 
       /* try next */
     }
   }
+
+  try {
+    const row = await prisma.storedUpload.findUnique({ where: { id: relativePosix } });
+    if (row?.bytes) return Buffer.from(row.bytes);
+  } catch {
+    /* table may not exist yet before db push */
+  }
   return null;
+}
+
+export async function deleteUploadByRelative(relativePosix: string) {
+  for (const root of candidateRoots()) {
+    const full = path.join(root, ...relativePosix.split("/"));
+    try {
+      await unlink(full);
+    } catch {
+      /* ignore missing */
+    }
+  }
+  try {
+    await prisma.storedUpload.delete({ where: { id: relativePosix } });
+  } catch {
+    /* ignore missing */
+  }
+}
+
+/** Accepts `/api/media/pixels/x.jpg` or `/uploads/pixels/x.jpg`. */
+export async function deleteUploadByPublicUrl(url: string | null | undefined) {
+  if (!url) return;
+  const cleaned = url.trim().split("?")[0];
+  const match = cleaned.match(/^\/(?:api\/media|uploads)\/(pixels|challenges)\/([a-zA-Z0-9._-]+)$/i);
+  if (!match) return;
+  await deleteUploadByRelative(`${match[1]}/${match[2]}`);
 }
 
 export function mediaContentType(filename: string) {

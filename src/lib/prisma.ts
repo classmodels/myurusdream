@@ -10,8 +10,11 @@ function createPrisma() {
 
 /** After `prisma generate`, drop a stale singleton that lacks new models (dev only). */
 if (process.env.NODE_ENV !== "production" && globalForPrisma.prisma) {
-  const stale = globalForPrisma.prisma as PrismaClient & { challenge?: unknown };
-  if (!stale.challenge) {
+  const stale = globalForPrisma.prisma as PrismaClient & {
+    challenge?: unknown;
+    storedUpload?: unknown;
+  };
+  if (!stale.challenge || !stale.storedUpload) {
     void stale.$disconnect();
     globalForPrisma.prisma = undefined;
   }

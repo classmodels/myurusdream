@@ -636,16 +636,57 @@ export async function deletePayment(formData: FormData) {
   const admin = await requireAdmin();
   const id = String(formData.get("paymentId") || "");
   if (!id) throw new Error("Ongeldige betaling.");
+
+  const payment = await prisma.payment.findUnique({ where: { id } });
+  if (!payment) throw new Error("Betaling niet gevonden.");
+
+  const { deleteUploadByPublicUrl } = await import("@/lib/uploads");
+  await deleteUploadByPublicUrl(payment.pixelImage);
+
   await prisma.prizeEntry.deleteMany({ where: { paymentId: id } });
   await prisma.refund.deleteMany({ where: { paymentId: id } });
   await prisma.referral.updateMany({ where: { paymentId: id }, data: { paymentId: null } });
   await prisma.sponsorOutboundClick.deleteMany({ where: { paymentId: id } }).catch(() => null);
+  await prisma.pointsTransaction.deleteMany({ where: { paymentId: id } }).catch(() => null);
   await prisma.payment.delete({ where: { id } });
-  await audit({ actorId: admin.id, action: "payment.delete", entity: "Payment", entityId: id });
+
+  // If this was a test sponsor-only account, remove the user too.
+  const remaining = await prisma.payment.count({ where: { userId: payment.userId } });
+  if (remaining === 0) {
+    const user = await prisma.user.findUnique({ where: { id: payment.userId } });
+    if (user && user.role !== "admin") {
+      await prisma.session.deleteMany({ where: { userId: user.id } });
+      await prisma.legalAcceptance.deleteMany({ where: { userId: user.id } }).catch(() => null);
+      await prisma.pushDevice.deleteMany({ where: { userId: user.id } }).catch(() => null);
+      await prisma.noticeRead.deleteMany({ where: { userId: user.id } }).catch(() => null);
+      await prisma.pointsTransaction.deleteMany({ where: { userId: user.id } }).catch(() => null);
+      await prisma.prizeEntry.deleteMany({ where: { userId: user.id } }).catch(() => null);
+      await prisma.referral.deleteMany({
+        where: { OR: [{ referrerId: user.id }, { referredUserId: user.id }] },
+      }).catch(() => null);
+      await prisma.challenge
+        .deleteMany({
+          where: {
+            OR: [{ challengerId: user.id }, { challengedId: user.id }, { loserId: user.id }],
+          },
+        })
+        .catch(() => null);
+      await prisma.user.delete({ where: { id: user.id } }).catch(() => null);
+    }
+  }
+
+  await audit({
+    actorId: admin.id,
+    action: "payment.delete",
+    entity: "Payment",
+    entityId: id,
+    meta: { kind: payment.kind, amountCents: payment.amountCents },
+  });
   revalidatePath("/");
   revalidatePath("/volg-alles");
   revalidatePath("/sponsors");
   revalidatePath("/pixels");
+  revalidatePath("/admin/sponsors");
   revalidateAdmin();
 }
 
@@ -668,6 +709,11 @@ export async function updateSponsorPlacement(formData: FormData) {
   const { isSafePixelImageUrl } = await import("@/lib/pixel-image");
   if (pixelImage && !clearLogo && !isSafePixelImageUrl(pixelImage)) {
     throw new Error("Ongeldig logo. Upload opnieuw via de kies-knop.");
+  }
+
+  if (clearLogo || (pixelImage && pixelImage !== payment.pixelImage)) {
+    const { deleteUploadByPublicUrl } = await import("@/lib/uploads");
+    await deleteUploadByPublicUrl(payment.pixelImage);
   }
 
   await prisma.payment.update({

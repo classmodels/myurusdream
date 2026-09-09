@@ -301,6 +301,15 @@ model SiteContent {
   value String @db.Text
 }
 
+/** Logo/video bytes survive Autogit wipes (disk is best-effort only). */
+model StoredUpload {
+  id        String   @id // e.g. "pixels/abc.jpg"
+  mime      String
+  bytes     Bytes    @db.LongBlob
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model UniqueVisitor {
   id           String   @id @default(cuid())
   token        String   @unique @db.VarChar(64)

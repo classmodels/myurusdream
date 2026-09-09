@@ -18,8 +18,9 @@ export default async function AdminSponsorsPage() {
   return (
     <AdminChrome title="Sponsors">
       <p className="text-sm text-muted">
-        Betaalde sponsors. Als een logo ontbreekt (bijv. na een oude pipeline), upload hier een nieuw
-        bestand en klik Opslaan — of verwijder de sponsor volledig.
+        Betaalde sponsors. Upload hier een logo en klik Opslaan, of wis de sponsor volledig (logo +
+        bedrag uit de teller + account). Logos blijven nu in de database bewaard, ook na een
+        pipeline.
       </p>
       <Accordion title="Sponsors bewerken" compact className="mt-4">
         <div className="divide-y divide-white/10">

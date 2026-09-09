@@ -141,10 +141,21 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
         <button type="button" className="btn-ghost" disabled={pending} onClick={() => save(true)}>
           Logo wissen
         </button>
-        <form action={deletePayment}>
+        <form
+          action={deletePayment}
+          onSubmit={(e) => {
+            if (
+              !confirm(
+                "Sponsor volledig wissen?\n\n• Logo-bestand\n• Bedrag uit de teller\n• Account (als er geen andere betalingen zijn)",
+              )
+            ) {
+              e.preventDefault();
+            }
+          }}
+        >
           <input type="hidden" name="paymentId" value={row.id} />
           <button type="submit" className="btn-danger">
-            Sponsor verwijderen
+            Sponsor volledig wissen
           </button>
         </form>
       </div>
