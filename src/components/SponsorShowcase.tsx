@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isExampleSponsor, type SponsorCardData, type SponsorTierId } from "@/lib/sponsors";
 import { useDict } from "@/lib/i18n/client";
 
@@ -48,6 +48,9 @@ export function HeadlineBillboard({
 }) {
   const dict = useDict();
   const [logoFailed, setLogoFailed] = useState(false);
+  useEffect(() => {
+    setLogoFailed(false);
+  }, [logo]);
   const title = name.trim();
   const sub = (tagline || "").trim();
   const showLogo = Boolean(logo) && !logoFailed;

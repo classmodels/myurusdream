@@ -41,7 +41,16 @@ export async function POST(req: Request) {
   }
 
   const filename = `${randomBytes(12).toString("hex")}.${ext}`;
-  const saved = await saveUpload("pixels", filename, buffer);
+  let saved: { publicUrl: string; absolutePath: string };
+  try {
+    saved = await saveUpload("pixels", filename, buffer);
+  } catch (err) {
+    console.error("logo upload save failed", err);
+    return NextResponse.json(
+      { error: "Logo opslaan mislukte op de server. Probeer opnieuw." },
+      { status: 500 },
+    );
+  }
 
   return NextResponse.json({
     url: saved.publicUrl,

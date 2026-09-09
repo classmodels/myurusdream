@@ -22,6 +22,7 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
   const [url, setUrl] = useState(row.sponsorUrl || "");
   const [label, setLabel] = useState(row.pixelLabel || "");
   const [logo, setLogo] = useState(row.pixelImage || "");
+  const [logoBroken, setLogoBroken] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
@@ -30,6 +31,8 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
     setStatus(null);
     try {
       const compressed = await compressLogo(file);
+      setLogo(compressed.dataUrl);
+      setLogoBroken(false);
       const res = await fetch("/api/pixels/logo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -55,7 +58,10 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
       if (clearLogo) fd.set("clearLogo", "1");
       try {
         await updateSponsorPlacement(fd);
-        if (clearLogo) setLogo("");
+        if (clearLogo) {
+          setLogo("");
+          setLogoBroken(false);
+        }
         setStatus(clearLogo ? "Logo verwijderd." : "Opgeslagen.");
       } catch (err) {
         setStatus(err instanceof Error ? err.message : "Opslaan mislukt");
@@ -74,15 +80,14 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
             {row.email} · {row.phone || "geen gsm"} · {row.companyName || "geen bedrijf"}
           </p>
         </div>
-        {logo ? (
+        {logo && !logoBroken ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
+            key={logo}
             src={logo}
             alt=""
             className="h-16 w-28 border border-white/15 object-cover"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = "none";
-            }}
+            onError={() => setLogoBroken(true)}
           />
         ) : (
           <div className="flex h-16 w-28 items-center justify-center border border-dashed border-white/20 text-[10px] text-white/40">

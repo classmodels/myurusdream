@@ -60,8 +60,11 @@ export function SponsorForm({ blockedReason, initialTier = "gold" }: Props) {
     if (!file) return;
     setBusy(true);
     setStatus(null);
+    setLogoName(file.name);
     try {
       const compressed = await compressLogo(file);
+      // Toon meteen in het voorbeeld, nog vóór de server-upload.
+      setLogoPreview(compressed.dataUrl);
       const res = await fetch("/api/pixels/logo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -69,14 +72,16 @@ export function SponsorForm({ blockedReason, initialTier = "gold" }: Props) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setStatus(data.error || "Logo uploaden mislukte.");
+        setLogoUrl(null);
+        setStatus(data.error || "Logo uploaden mislukte. Het voorbeeld ziet u wel al.");
         return;
       }
       setLogoUrl(data.url);
-      setLogoPreview(compressed.dataUrl);
-      setLogoName(file.name);
     } catch {
-      setStatus("Dit bestand kon niet als logo worden gelezen. Probeer JPG of PNG.");
+      setLogoPreview(null);
+      setLogoUrl(null);
+      setLogoName(null);
+      setStatus("Dit bestand kon niet als logo worden gelezen. Probeer JPG of PNG (geen HEIC).");
     } finally {
       setBusy(false);
     }

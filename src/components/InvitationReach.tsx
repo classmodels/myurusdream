@@ -144,6 +144,7 @@ function SponsorPlacementEditor({
     setStatus(null);
     try {
       const compressed = await compressLogo(file);
+      setLogo(compressed.dataUrl);
       const res = await fetch("/api/pixels/logo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
