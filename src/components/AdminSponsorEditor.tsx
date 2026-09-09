@@ -43,6 +43,7 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
       setLogo(data.url);
       setStatus("Logo geüpload — klik Opslaan.");
     } catch (err) {
+      setLogo(row.pixelImage || "");
       setStatus(err instanceof Error ? err.message : "Upload mislukt");
     }
   }

@@ -8,6 +8,7 @@ import { constants as fsConstants } from "node:fs";
  *
  * Set UPLOAD_DIR in Combell to an absolute path outside the app folder.
  * Default: sibling folder `../myurusdream-uploads` next to the app.
+ * If that path is not writable, we fall back to `public/uploads`.
  */
 export function uploadsRoot() {
   const fromEnv = process.env.UPLOAD_DIR?.trim();
@@ -19,10 +20,31 @@ export function publicUploadsFallbackRoot() {
   return path.join(/*turbopackIgnore: true*/ process.cwd(), "public", "uploads");
 }
 
+function candidateRoots() {
+  const roots = [uploadsRoot(), publicUploadsFallbackRoot()];
+  return [...new Set(roots)];
+}
+
 export async function ensureUploadDir(...parts: string[]) {
-  const dir = path.join(uploadsRoot(), ...parts);
+  let lastErr: unknown;
+  for (const root of candidateRoots()) {
+    try {
+      const dir = path.join(root, ...parts);
+      await mkdir(dir, { recursive: true });
+      return dir;
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error("Uploadmap kon niet worden aangemaakt.");
+}
+
+async function writeToRoot(root: string, folder: string, filename: string, buffer: Buffer) {
+  const dir = path.join(root, folder);
   await mkdir(dir, { recursive: true });
-  return dir;
+  const full = path.join(dir, filename);
+  await writeFile(full, buffer);
+  return full;
 }
 
 export async function saveUpload(
@@ -30,19 +52,34 @@ export async function saveUpload(
   filename: string,
   buffer: Buffer,
 ) {
-  const dir = await ensureUploadDir(folder);
-  const full = path.join(dir, filename);
-  await writeFile(full, buffer);
-  // Best-effort local public copy for local/dev without going through /api/media.
-  try {
-    const pubDir = path.join(publicUploadsFallbackRoot(), folder);
-    await mkdir(pubDir, { recursive: true });
-    await writeFile(path.join(pubDir, filename), buffer);
-  } catch {
-    /* ignore — persistent root is source of truth */
+  const roots = candidateRoots();
+  let written: string | null = null;
+  let lastErr: unknown;
+
+  for (const root of roots) {
+    try {
+      written = await writeToRoot(root, folder, filename, buffer);
+      break;
+    } catch (err) {
+      lastErr = err;
+    }
   }
+
+  if (!written) {
+    throw lastErr instanceof Error ? lastErr : new Error("Logo kon niet worden opgeslagen.");
+  }
+
+  // Mirror to every other root so /api/media and static /uploads both work.
+  for (const root of roots) {
+    try {
+      await writeToRoot(root, folder, filename, buffer);
+    } catch {
+      /* best effort */
+    }
+  }
+
   return {
-    absolutePath: full,
+    absolutePath: written,
     publicUrl: `/api/media/${folder}/${filename}`,
   };
 }
@@ -56,10 +93,7 @@ export function safeUploadRelative(parts: string[]) {
 }
 
 export async function readUpload(relativePosix: string): Promise<Buffer | null> {
-  const candidates = [
-    path.join(uploadsRoot(), ...relativePosix.split("/")),
-    path.join(publicUploadsFallbackRoot(), ...relativePosix.split("/")),
-  ];
+  const candidates = candidateRoots().map((root) => path.join(root, ...relativePosix.split("/")));
   for (const full of candidates) {
     try {
       await access(full, fsConstants.R_OK);

@@ -205,6 +205,7 @@ export function PixelWall({
     if (!file) return;
     setBusy(true);
     setStatus(null);
+    setLogoUrl(null);
     setLogoName(file.name);
     try {
       const compressed = await compressLogo(file);
@@ -215,13 +216,13 @@ export function PixelWall({
         body: JSON.stringify({ dataUrl: compressed.dataUrl }),
       });
       const data = await res.json();
-      if (!res.ok) {
+      if (!res.ok || !data.url) {
         setLogoUrl(null);
-        setStatus(data.error || "Logo uploaden mislukte. Het voorbeeld ziet u wel al.");
+        setStatus(data.error || "Logo uploaden mislukte. Kies opnieuw een JPG of PNG.");
         return;
       }
       setLogoUrl(data.url);
-      setStatus("Logo geplaatst. Tik of sleep op de muur hoe groot het vak moet zijn.");
+      setStatus("Logo opgeslagen. Tik of sleep op de muur hoe groot het vak moet zijn.");
     } catch {
       setLogoPreview(null);
       setLogoUrl(null);
@@ -248,6 +249,10 @@ export function PixelWall({
     }
     if (!previewOk) {
       setStatus("Die plek is te klein of al ingenomen.");
+      return;
+    }
+    if (logoName && !logoUrl) {
+      setStatus("Uw logo is nog niet opgeslagen. Kies het bestand opnieuw en wacht tot het opgeslagen is.");
       return;
     }
     setBusy(true);

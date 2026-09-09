@@ -4,7 +4,7 @@
  */
 import { PrismaClient } from "@prisma/client";
 
-const FLAG = "remove_test_sponsor_modelport_v1";
+const FLAG = "remove_test_sponsor_modelport_v2";
 const prisma = new PrismaClient();
 
 function isTestSponsor(name, email) {

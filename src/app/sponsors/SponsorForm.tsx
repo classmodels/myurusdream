@@ -60,10 +60,11 @@ export function SponsorForm({ blockedReason, initialTier = "gold" }: Props) {
     if (!file) return;
     setBusy(true);
     setStatus(null);
+    setLogoUrl(null);
     setLogoName(file.name);
     try {
       const compressed = await compressLogo(file);
-      // Toon meteen in het voorbeeld, nog vóór de server-upload.
+      // Lokale preview meteen; betalen mag pas na geslaagde server-upload (logoUrl).
       setLogoPreview(compressed.dataUrl);
       const res = await fetch("/api/pixels/logo", {
         method: "POST",
@@ -71,12 +72,13 @@ export function SponsorForm({ blockedReason, initialTier = "gold" }: Props) {
         body: JSON.stringify({ dataUrl: compressed.dataUrl }),
       });
       const data = await res.json();
-      if (!res.ok) {
+      if (!res.ok || !data.url) {
         setLogoUrl(null);
-        setStatus(data.error || "Logo uploaden mislukte. Het voorbeeld ziet u wel al.");
+        setStatus(data.error || "Logo uploaden mislukte. Kies opnieuw een JPG of PNG.");
         return;
       }
       setLogoUrl(data.url);
+      setStatus("Logo opgeslagen — zichtbaar in het voorbeeld.");
     } catch {
       setLogoPreview(null);
       setLogoUrl(null);
@@ -98,6 +100,11 @@ export function SponsorForm({ blockedReason, initialTier = "gold" }: Props) {
     e.preventDefault();
     setBusy(true);
     setStatus(null);
+    if (logoName && !logoUrl) {
+      setBusy(false);
+      setStatus("Uw logo is nog niet opgeslagen op de server. Kies het bestand opnieuw en wacht tot u ‘Logo opgeslagen’ ziet.");
+      return;
+    }
     const website = url.trim() ? normalizeWebsiteUrl(url) : "";
     if (url.trim() && !website) {
       setBusy(false);
@@ -355,8 +362,16 @@ export function SponsorForm({ blockedReason, initialTier = "gold" }: Props) {
 
         <LegalChecks />
 
-        <button className="btn-yellow w-full !px-3 !py-2 !text-[0.7rem]" disabled={busy} type="submit">
-          {busy ? "Even geduld…" : `Betaal ${formatCents(payCents)} als ${selected.name}`}
+        <button
+          className="btn-yellow w-full !px-3 !py-2 !text-[0.7rem]"
+          disabled={busy || Boolean(logoName && !logoUrl)}
+          type="submit"
+        >
+          {busy
+            ? "Even geduld…"
+            : logoName && !logoUrl
+              ? "Wacht tot logo is opgeslagen…"
+              : `Betaal ${formatCents(payCents)} als ${selected.name}`}
         </button>
         {status ? <p className="text-[0.7rem] text-yellow">{status}</p> : null}
         {simulateId ? (

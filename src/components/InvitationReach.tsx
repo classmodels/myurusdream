@@ -155,6 +155,7 @@ function SponsorPlacementEditor({
       setLogo(data.url);
       await save({ pixelImage: data.url });
     } catch (err) {
+      setLogo(placement.pixelImage);
       setStatus(err instanceof Error ? err.message : "Upload mislukt");
     } finally {
       setBusy(false);
