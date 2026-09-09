@@ -3,12 +3,12 @@ import { prettyShareUrl } from "@/lib/share";
 import { formatCents } from "@/lib/money";
 import { ShareRow } from "@/components/ShareRow";
 import { RepeatDonateButton } from "@/components/RepeatDonateButton";
-import { NO_PRIZE_EXPLAIN, SHARE_EXPLAIN_SHORT } from "@/lib/constants";
+import { NO_PRIZE_EXPLAIN, REACH_EXPLAIN, SHARE_EXPLAIN_SHORT, VISITOR_GOAL } from "@/lib/constants";
 import { displayPersonName } from "@/lib/leaderboard";
 import { RankingLive } from "@/app/dashboard/RankingLive";
 import { Accordion } from "@/components/Accordion";
 import { MeldingenBlock } from "@/components/MeldingenBlock";
-import { DashboardChallenges } from "@/components/DashboardChallenges";
+import { InvitationReach, SponsorDashboardPanel } from "@/components/InvitationReach";
 import type { getDashboardData } from "@/lib/dashboard-data";
 
 type Data = NonNullable<Awaited<ReturnType<typeof getDashboardData>>>;
@@ -20,11 +20,23 @@ export function ParticipantDashboard({
   data: Data;
   preview?: boolean;
 }) {
-  const { user, payments, pointRows, referred, view, totalPoints, rankingRows, ticketRows, myRank } =
-    data;
+  const {
+    user,
+    payments,
+    sponsorPlacements,
+    pointRows,
+    referred,
+    view,
+    reach,
+    totalPoints,
+    rankingRows,
+    ticketRows,
+    myRank,
+  } = data;
   const latest = payments[0] || null;
   const myTickets = payments.length;
   const totalPaid = payments.reduce((sum, p) => sum + p.amountCents, 0);
+  const isSponsorOnly = !payments.length && sponsorPlacements.length > 0;
 
   return (
     <div className="mx-auto max-w-5xl px-5 pb-24 pt-28">
@@ -38,12 +50,15 @@ export function ParticipantDashboard({
       {!preview ? (
         <>
           <p className="mt-3 max-w-2xl text-white/75">
-            U blijft ingelogd. Nog eens €2 storten kan met één knop. Meldingen zet u hieronder
-            aan, op dezelfde pagina.
+            {isSponsorOnly
+              ? "Uw sponsoraccount staat klaar: logo wijzigen, kliks volgen, en de populariteitsrace meevolgen."
+              : "U blijft ingelogd. Nog eens €2 storten kan met één knop. Meldingen zet u hieronder aan."}
           </p>
-          <div className="mt-6">
-            <RepeatDonateButton />
-          </div>
+          {!isSponsorOnly ? (
+            <div className="mt-6">
+              <RepeatDonateButton />
+            </div>
+          ) : null}
         </>
       ) : (
         <p className="mt-3 text-white/70">
@@ -51,7 +66,7 @@ export function ParticipantDashboard({
         </p>
       )}
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Card label="Stortingen" value={String(myTickets)} />
+        <Card label="Stortingen €2" value={String(myTickets)} />
         <Card label="Totaal gestort" value={formatCents(totalPaid)} />
         <Card
           label="Laatste storting"
@@ -61,8 +76,8 @@ export function ParticipantDashboard({
           label="Campagne"
           value={`${formatCents(view.totals.raisedCents)} / ${formatCents(view.campaign.goalCents)}`}
         />
-        <Card label="Activiteit" value={String(totalPoints)} />
-        <Card label="In overzicht" value={myRank ? `#${myRank}` : "—"} />
+        <Card label="Eerpunten" value={String(totalPoints)} />
+        <Card label="Ranking" value={myRank ? `#${myRank}` : "—"} />
       </div>
 
       {!preview ? (
@@ -71,20 +86,23 @@ export function ParticipantDashboard({
         </div>
       ) : null}
 
+      <SponsorDashboardPanel placements={sponsorPlacements} preview={preview} />
+
       <div className="mt-12 card-dark p-6">
-        <h2 className="font-display text-3xl">Geen prijs. Wel dankbaarheid — en eer.</h2>
+        <h2 className="font-display text-3xl">Geen prijs. Wel dankbaarheid — en populariteit.</h2>
         <p className="mt-3 text-white/75">{NO_PRIZE_EXPLAIN}</p>
+        <p className="mt-3 text-white/75">{REACH_EXPLAIN}</p>
         <p className="mt-3 text-white/75">{SHARE_EXPLAIN_SHORT}</p>
         <ul className="mt-4 space-y-2 text-white/80">
           <li>Elke €2 is een vrijwillige bijdrage aan het doel van €400.000.</li>
           <li>U krijgt niets terug — geen prijs, geen loting, geen kans op winst.</li>
           <li>
-            Delen via uw link levert eerpunten op in de ranking — puur om te zien hoe populair u
-            bent, niet voor een prijs.
+            Rechtstreekse uitnodiging die stort: +2 eerpunten. Via via in uw lijn: +1. Puur om te zien
+            hoe ver uw uitnodiging reikt.
           </li>
           <li>
-            Daag vrienden die ook stortten uit tot een challenge: wie verliest, filmt een opdracht.
-            Beide krijgen +10 eerpunten als het filmpje online staat.
+            Ambition: {VISITOR_GOAL.toLocaleString("nl-BE")} bezoekers. Bekijk uw populariteit in de
+            ranking.
           </li>
         </ul>
       </div>
@@ -92,8 +110,8 @@ export function ParticipantDashboard({
       <div className="mt-12 card-dark p-6">
         <h2 className="font-display text-3xl">Uw persoonlijke link</h2>
         <p className="mt-2 text-white/70">
-          Deel via WhatsApp, Facebook of e-mail. Uw code zit in de link, zodat wie via u bijdraagt
-          het doel dichterbij brengt — niet voor een prijs, maar om de droom te helpen.
+          Deel via WhatsApp, Facebook of e-mail. Uw code zit in de link — zo meet u hoe ver één
+          uitnodiging komt.
         </p>
         <p className="mt-4 text-lg lowercase text-yellow">{prettyShareUrl(user.referralCode)}</p>
         {!preview ? (
@@ -107,9 +125,9 @@ export function ParticipantDashboard({
         ) : null}
       </div>
 
-      <RankingLive initialRanking={rankingRows} initialTickets={ticketRows} />
+      <InvitationReach reach={reach} referralCode={user.referralCode} preview={preview} />
 
-      <DashboardChallenges preview={preview} />
+      <RankingLive initialRanking={rankingRows} initialTickets={ticketRows} />
 
       {pointRows.length ? (
         <Accordion title="Uw activiteit">
@@ -130,7 +148,7 @@ export function ParticipantDashboard({
       ) : null}
 
       {referred.length ? (
-        <Accordion title="Mensen via uw link">
+        <Accordion title="Mensen via uw link (rechtstreeks)">
           <ul className="divide-y divide-white/10">
             {referred.map((r) => (
               <li key={r.id} className="flex justify-between gap-3 px-5 py-3">

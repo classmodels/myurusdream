@@ -11,12 +11,12 @@ import { constants as fsConstants } from "node:fs";
  */
 export function uploadsRoot() {
   const fromEnv = process.env.UPLOAD_DIR?.trim();
-  if (fromEnv) return path.resolve(fromEnv);
-  return path.resolve(process.cwd(), "..", "myurusdream-uploads");
+  if (fromEnv) return path.resolve(/*turbopackIgnore: true*/ fromEnv);
+  return path.resolve(/*turbopackIgnore: true*/ process.cwd(), "..", "myurusdream-uploads");
 }
 
 export function publicUploadsFallbackRoot() {
-  return path.join(process.cwd(), "public", "uploads");
+  return path.join(/*turbopackIgnore: true*/ process.cwd(), "public", "uploads");
 }
 
 export async function ensureUploadDir(...parts: string[]) {

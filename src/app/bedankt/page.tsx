@@ -77,6 +77,13 @@ export default async function BedanktPage({
           <p className="mt-5 text-white/75">{dict.bedankt.lead}</p>
         ) : null}
 
+        {confirmed && (kind === "sponsor" || kind === "pixel") ? (
+          <p className="mt-5 text-white/75">
+            Uw account staat klaar. Open het dashboard om uw logo te wijzigen en te zien hoeveel
+            bezoekers via uw link naar uw site gingen.
+          </p>
+        ) : null}
+
         {confirmed && kind === "contribution" && fullUser ? (
           <div className="mt-8">
             <p className="mb-4 text-sm text-white/70">{dict.bedankt.shareLink}</p>

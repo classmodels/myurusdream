@@ -47,6 +47,11 @@ function Wrap({
   return <div className={className}>{children}</div>;
 }
 
+function sponsorTrackUrl(sponsor: SponsorCardData) {
+  if (sponsor.id) return `/api/go/sponsor/${sponsor.id}`;
+  return sponsor.url;
+}
+
 function SponsorFrame({
   sponsor,
   size,
@@ -57,7 +62,7 @@ function SponsorFrame({
   tier: SponsorTierId;
 }) {
   return (
-    <Wrap url={sponsor.url} className="block">
+    <Wrap url={sponsorTrackUrl(sponsor)} className="block">
       <HeadlineBillboard
         name={sponsor.name}
         tagline={sponsor.tagline}
@@ -136,7 +141,7 @@ export function HeadlineOfferBar() {
 
 export function CompactHeadlineBar({ sponsor }: { sponsor: SponsorCardData }) {
   return (
-    <Wrap url={sponsor.url} className="block">
+    <Wrap url={sponsorTrackUrl(sponsor)} className="block">
       <HeadlineBillboard
         name={sponsor.name}
         tagline={sponsor.tagline}
@@ -174,7 +179,7 @@ export function HeadlineHomeRow({ sponsor }: { sponsor: SponsorCardData | null }
 
 export function HeadlineSponsor({ sponsor }: { sponsor: SponsorCardData }) {
   return (
-    <Wrap url={sponsor.url} className="block">
+    <Wrap url={sponsorTrackUrl(sponsor)} className="block">
       <HeadlineBillboard
         name={sponsor.name}
         tagline={sponsor.tagline}

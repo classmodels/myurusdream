@@ -162,6 +162,19 @@ model Payment {
   referrals   Referral[]
   refunds     Refund[]
   prizeEntries PrizeEntry[]
+  outboundClicks SponsorOutboundClick[]
+}
+
+model SponsorOutboundClick {
+  id        String   @id @default(cuid())
+  paymentId String
+  payment   Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  ip        String?
+  userAgent String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([paymentId])
+  @@index([createdAt])
 }
 
 model Referral {

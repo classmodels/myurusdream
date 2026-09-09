@@ -123,6 +123,7 @@ export async function displaySponsorCards(campaignId: string) {
     .filter((s) => s.sponsorName)
     .filter((s) => s.sponsorTier !== "starter" && s.amountCents >= SPONSOR_MIN_CENTS)
     .map((s) => ({
+      id: s.id,
       name: s.sponsorName as string,
       url: s.sponsorUrl,
       tier: s.sponsorTier || "bronze",

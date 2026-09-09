@@ -173,9 +173,9 @@ export async function fulfillPaidPayment(paymentId: string) {
       title: "Betaling bevestigd",
       body:
         paid.kind === "sponsor"
-          ? "Uw sponsorbijdrage is bevestigd."
-          : "Uw pixels staan op de muur.",
-      url: paid.kind === "pixel" ? "/pixels" : "/sponsors",
+          ? "Uw sponsorbijdrage is bevestigd. Open uw dashboard om logo en kliks te volgen."
+          : "Uw pixels staan op de muur. Open uw dashboard om logo en kliks te volgen.",
+      url: "/dashboard",
     });
   }
 

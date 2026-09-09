@@ -83,3 +83,9 @@ export const WINNERS_EXPLAIN =
 
 export const SHARE_EXPLAIN_SHORT = POINTS_EXPLAIN_SHORT;
 export const NO_PRIZE_EXPLAIN = WINNERS_EXPLAIN;
+
+/** Ambition for site traffic — honor/popularity framing, not a prize. */
+export const VISITOR_GOAL = 1_000_000;
+
+export const REACH_EXPLAIN =
+  "Bekijk uw populariteit: zie hoe ver één uitnodiging reikt. Wie via uw link bijdraagt, levert +2 eerpunten. Wie via via in uw lijn bijdraagt, +1. Geen prijs — wel zien hoe ver uw netwerk komt. Ons doel: één miljoen bezoekers op de site.";

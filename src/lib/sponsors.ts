@@ -402,6 +402,7 @@ export function isExampleSponsor(name: string | null | undefined) {
 }
 
 export type SponsorCardData = {
+  id?: string;
   name: string;
   url: string | null;
   tier: SponsorTierId | string;

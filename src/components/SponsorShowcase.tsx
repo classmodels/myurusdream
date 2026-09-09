@@ -116,9 +116,13 @@ export function SponsorCard({ sponsor }: { sponsor: SponsorCardData }) {
     />
   );
 
-  if (sponsor.url) {
+  const href = sponsor.id
+    ? `/api/go/sponsor/${sponsor.id}`
+    : sponsor.url || null;
+
+  if (href) {
     return (
-      <a href={sponsor.url} target="_blank" rel="noreferrer" className="block hover:opacity-95">
+      <a href={href} target="_blank" rel="noreferrer" className="block hover:opacity-95">
         {inner}
       </a>
     );
