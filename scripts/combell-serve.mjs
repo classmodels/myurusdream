@@ -57,6 +57,15 @@ if (existsSync("scripts/launch-cleanup.mjs")) {
   }
 }
 
+if (existsSync("scripts/remove-test-sponsor-modelport.mjs")) {
+  console.log("Running one-shot Modelport test-sponsor cleanup…");
+  try {
+    await run("node", ["scripts/remove-test-sponsor-modelport.mjs"]);
+  } catch (error) {
+    console.error("Modelport cleanup failed (continuing serve):", error);
+  }
+}
+
 const nextBin = existsSync("node_modules/next/dist/bin/next")
   ? ["node", ["node_modules/next/dist/bin/next", "start", "--hostname", "0.0.0.0", "--port", process.env.PORT || "3000"]]
   : ["npx", ["next", "start", "--hostname", "0.0.0.0", "--port", process.env.PORT || "3000"]];
