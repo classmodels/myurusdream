@@ -727,8 +727,16 @@ export function PixelWall({
 
             <div className="mt-auto flex flex-col gap-2">
               <LegalChecks />
-              <button className="btn-yellow w-full !px-3 !py-2 !text-[0.7rem]" disabled={busy || !!blockedReason} type="submit">
-                {busy ? "Even geduld…" : `Betaal ${formatCents(cents)} voor ${size.w}×${size.h} pixels`}
+              <button
+                className="btn-yellow w-full !px-3 !py-2 !text-[0.7rem]"
+                disabled={busy || !!blockedReason || Boolean(logoName && !logoUrl)}
+                type="submit"
+              >
+                {busy
+                  ? "Even geduld…"
+                  : logoName && !logoUrl
+                    ? "Wacht tot logo is opgeslagen…"
+                    : `Betaal ${formatCents(cents)} voor ${size.w}×${size.h} pixels`}
               </button>
             </div>
             {status ? <p className="text-[0.7rem] text-yellow">{status}</p> : null}
