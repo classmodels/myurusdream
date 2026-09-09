@@ -43,11 +43,12 @@ export async function saveUpload(
   buffer: Buffer,
 ) {
   const key = `${folder}/${filename}`;
+  const bytes = Uint8Array.from(buffer);
   // Source of truth: database (survives Combell Autogit redeploys).
   await prisma.storedUpload.upsert({
     where: { id: key },
-    create: { id: key, mime: mimeForFilename(filename), bytes: buffer },
-    update: { mime: mimeForFilename(filename), bytes: buffer },
+    create: { id: key, mime: mimeForFilename(filename), bytes },
+    update: { mime: mimeForFilename(filename), bytes },
   });
 
   let written: string | null = null;
