@@ -1,8 +1,7 @@
 import { randomBytes } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { saveUpload } from "@/lib/uploads";
 
 const MAX_BYTES = 900_000;
 const DATA_URL = /^data:image\/(jpeg|jpg|png|webp);base64,([a-zA-Z0-9+/=\s]+)$/;
@@ -20,7 +19,10 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ error: "Ongeldige aanvraag." }, { status: 400 });
   }
-  const dataUrl = typeof body === "object" && body && "dataUrl" in body ? String((body as { dataUrl: string }).dataUrl) : "";
+  const dataUrl =
+    typeof body === "object" && body && "dataUrl" in body
+      ? String((body as { dataUrl: string }).dataUrl)
+      : "";
   const match = DATA_URL.exec(dataUrl.trim());
   if (!match) {
     return NextResponse.json(
@@ -38,13 +40,11 @@ export async function POST(req: Request) {
     );
   }
 
-  const dir = path.join(process.cwd(), "public", "uploads", "pixels");
-  await mkdir(dir, { recursive: true });
   const filename = `${randomBytes(12).toString("hex")}.${ext}`;
-  await writeFile(path.join(dir, filename), buffer);
+  const saved = await saveUpload("pixels", filename, buffer);
 
   return NextResponse.json({
-    url: `/uploads/pixels/${filename}`,
+    url: saved.publicUrl,
     bytes: buffer.length,
   });
 }

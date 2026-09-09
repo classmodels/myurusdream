@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { isExampleSponsor, type SponsorCardData, type SponsorTierId } from "@/lib/sponsors";
 import { useDict } from "@/lib/i18n/client";
 
@@ -46,8 +47,10 @@ export function HeadlineBillboard({
   example?: boolean;
 }) {
   const dict = useDict();
+  const [logoFailed, setLogoFailed] = useState(false);
   const title = name.trim();
   const sub = (tagline || "").trim();
+  const showLogo = Boolean(logo) && !logoFailed;
   const titleSize =
     size === "preview" ? "text-sm sm:text-base" : size === "home" ? "text-sm sm:text-lg md:text-xl" : "text-base sm:text-xl md:text-2xl";
   const subSize = size === "preview" ? "text-[0.65rem] sm:text-xs" : "text-[0.65rem] sm:text-sm";
@@ -57,9 +60,14 @@ export function HeadlineBillboard({
   return (
     <div className={bleed ? "w-full" : sponsorShellClass(tier)}>
       <div className={`relative w-full overflow-hidden bg-black ${SPONSOR_ASPECT[tier] || SPONSOR_ASPECT.gold}`}>
-        {logo ? (
+        {showLogo ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={logo} alt={title || ""} className="absolute inset-0 h-full w-full object-cover" />
+          <img
+            src={logo!}
+            alt={title || ""}
+            className="absolute inset-0 h-full w-full object-cover"
+            onError={() => setLogoFailed(true)}
+          />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black px-3 text-center">
             <p className={`font-display leading-none tracking-tight text-yellow ${fillName}`}>
@@ -71,7 +79,7 @@ export function HeadlineBillboard({
           </div>
         )}
 
-        {logo && title ? (
+        {showLogo && title ? (
           <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/55 to-transparent px-3 py-2">
             <p className={`truncate text-center font-display leading-none tracking-tight text-white ${titleSize}`}>
               {title}
@@ -79,7 +87,7 @@ export function HeadlineBillboard({
           </div>
         ) : null}
 
-        {logo && sub ? (
+        {showLogo && sub ? (
           <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-3 py-2">
             <p className={`truncate text-center font-medium leading-none text-white/90 ${subSize}`}>{sub}</p>
           </div>

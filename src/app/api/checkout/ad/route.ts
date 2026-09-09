@@ -45,7 +45,7 @@ const schema = z.object({
     .regex(/^#[0-9a-fA-F]{6}$/)
     .optional(),
   pixelLabel: z.string().max(80).optional(),
-  pixelImage: z.string().max(220).optional(),
+  pixelImage: z.string().max(500).optional(),
   phone: z.string().max(24).optional(),
   vatNumber: z.string().max(32).optional(),
   invoiceCompany: z.string().max(80).optional(),

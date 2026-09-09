@@ -1,10 +1,9 @@
 import { randomBytes } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
 import { uploadChallengeVideo } from "@/lib/challenges";
 import { clientIp, rateLimit } from "@/lib/rate-limit";
+import { saveUpload } from "@/lib/uploads";
 
 export const dynamic = "force-dynamic";
 
@@ -46,15 +45,12 @@ export async function POST(req: Request, ctx: Ctx) {
 
   const ext =
     file.type === "video/webm" ? "webm" : file.type === "video/quicktime" ? "mov" : "mp4";
-  const dir = path.join(process.cwd(), "public", "uploads", "challenges");
-  await mkdir(dir, { recursive: true });
   const filename = `${randomBytes(12).toString("hex")}.${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(path.join(dir, filename), buffer);
-  const videoUrl = `/uploads/challenges/${filename}`;
+  const saved = await saveUpload("challenges", filename, buffer);
 
   try {
-    const challenge = await uploadChallengeVideo(id, user.id, videoUrl);
+    const challenge = await uploadChallengeVideo(id, user.id, saved.publicUrl);
     return NextResponse.json({ challenge });
   } catch (err) {
     return NextResponse.json(

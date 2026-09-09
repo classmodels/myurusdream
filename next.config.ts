@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  async rewrites() {
+    // Old logo URLs under /uploads/... → durable media API (files live outside Autogit).
+    return [{ source: "/uploads/:path*", destination: "/api/media/:path*" }];
+  },
   async headers() {
     return [
       {
