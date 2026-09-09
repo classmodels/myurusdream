@@ -74,6 +74,15 @@ export function safeUploadRelative(parts: string[]) {
   return parts.join("/");
 }
 
+/** `/api/media/pixels/x.jpg` or `/uploads/pixels/x.jpg` → `pixels/x.jpg` */
+export function publicUrlToRelative(url: string | null | undefined): string | null {
+  if (!url) return null;
+  const cleaned = url.trim().split("?")[0];
+  const match = cleaned.match(/^\/(?:api\/media|uploads)\/(pixels|challenges)\/([a-zA-Z0-9._-]+)$/i);
+  if (!match) return null;
+  return `${match[1]}/${match[2]}`;
+}
+
 export async function readUpload(relativePosix: string): Promise<Buffer | null> {
   for (const root of candidateRoots()) {
     const full = path.join(root, ...relativePosix.split("/"));
@@ -94,6 +103,21 @@ export async function readUpload(relativePosix: string): Promise<Buffer | null> 
   return null;
 }
 
+/**
+ * Turn a stored logo into a data-URL for HTML, or null if the file is gone.
+ * Avoids Safari showing a disk-cached image while Firefox gets a 404.
+ */
+export async function resolveLogoForDisplay(url: string | null | undefined): Promise<string | null> {
+  if (!url) return null;
+  if (url.startsWith("data:image/")) return url;
+  const relative = publicUrlToRelative(url);
+  if (!relative) return null;
+  const buf = await readUpload(relative);
+  if (!buf?.length) return null;
+  const filename = relative.split("/").pop() || "logo.jpg";
+  return `data:${mediaContentType(filename)};base64,${buf.toString("base64")}`;
+}
+
 export async function deleteUploadByRelative(relativePosix: string) {
   for (const root of candidateRoots()) {
     const full = path.join(root, ...relativePosix.split("/"));
@@ -112,11 +136,9 @@ export async function deleteUploadByRelative(relativePosix: string) {
 
 /** Accepts `/api/media/pixels/x.jpg` or `/uploads/pixels/x.jpg`. */
 export async function deleteUploadByPublicUrl(url: string | null | undefined) {
-  if (!url) return;
-  const cleaned = url.trim().split("?")[0];
-  const match = cleaned.match(/^\/(?:api\/media|uploads)\/(pixels|challenges)\/([a-zA-Z0-9._-]+)$/i);
-  if (!match) return;
-  await deleteUploadByRelative(`${match[1]}/${match[2]}`);
+  const relative = publicUrlToRelative(url);
+  if (!relative) return;
+  await deleteUploadByRelative(relative);
 }
 
 export function mediaContentType(filename: string) {

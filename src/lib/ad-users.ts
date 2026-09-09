@@ -75,29 +75,31 @@ export async function occupiedPixels(campaignId: string): Promise<OccupiedPixel[
       sponsorUrl: true,
     },
   });
-  return withoutTitleReserveAds(
+  const { resolveLogoForDisplay } = await import("@/lib/uploads");
+  const mapped = await Promise.all(
     paid
-    .filter((p) => p.pixelX != null && p.pixelY != null && p.pixelW && p.pixelH)
-    .map((p) => {
-      const title = p.sponsorName || p.pixelLabel || "Pixel";
-      const caption =
-        p.pixelLabel && p.pixelLabel !== p.sponsorName ? p.pixelLabel : null;
-      const example = EXAMPLE_PIXELS.find(
-        (e) => e.label === p.sponsorName || e.label === p.pixelLabel,
-      );
-      return {
-        x: p.pixelX as number,
-        y: p.pixelY as number,
-        w: p.pixelW as number,
-        h: p.pixelH as number,
-        label: title,
-        caption: caption || example?.caption || null,
-        color: p.pixelColor || "#d4ab7e",
-        url: p.sponsorUrl,
-        image: example?.image || p.pixelImage || null,
-      };
-    }),
+      .filter((p) => p.pixelX != null && p.pixelY != null && p.pixelW && p.pixelH)
+      .map(async (p) => {
+        const title = p.sponsorName || p.pixelLabel || "Pixel";
+        const caption =
+          p.pixelLabel && p.pixelLabel !== p.sponsorName ? p.pixelLabel : null;
+        const example = EXAMPLE_PIXELS.find(
+          (e) => e.label === p.sponsorName || e.label === p.pixelLabel,
+        );
+        return {
+          x: p.pixelX as number,
+          y: p.pixelY as number,
+          w: p.pixelW as number,
+          h: p.pixelH as number,
+          label: title,
+          caption: caption || example?.caption || null,
+          color: p.pixelColor || "#d4ab7e",
+          url: p.sponsorUrl,
+          image: example?.image || (await resolveLogoForDisplay(p.pixelImage)),
+        };
+      }),
   );
+  return withoutTitleReserveAds(mapped);
 }
 
 export async function paidSponsors(campaignId: string) {
@@ -119,18 +121,22 @@ export async function paidSponsors(campaignId: string) {
 
 export async function displaySponsorCards(campaignId: string) {
   const live = await paidSponsors(campaignId);
-  return live
-    .filter((s) => s.sponsorName)
-    .filter((s) => s.sponsorTier !== "starter" && s.amountCents >= SPONSOR_MIN_CENTS)
-    .map((s) => ({
-      id: s.id,
-      name: s.sponsorName as string,
-      url: s.sponsorUrl,
-      tier: s.sponsorTier || "bronze",
-      cents: s.amountCents,
-      tagline: s.pixelLabel || undefined,
-      logo: s.pixelImage || null,
-    }))
-    .filter((s) => !isExampleSponsor(s.name))
-    .sort((a, b) => b.cents - a.cents);
+  const { resolveLogoForDisplay } = await import("@/lib/uploads");
+  const cards = await Promise.all(
+    live
+      .filter((s) => s.sponsorName)
+      .filter((s) => s.sponsorTier !== "starter" && s.amountCents >= SPONSOR_MIN_CENTS)
+      .filter((s) => !isExampleSponsor(s.sponsorName as string))
+      .map(async (s) => ({
+        id: s.id,
+        name: s.sponsorName as string,
+        url: s.sponsorUrl,
+        tier: s.sponsorTier || "bronze",
+        cents: s.amountCents,
+        tagline: s.pixelLabel || undefined,
+        // Inline bytes when present; null when file is gone (no Safari cache vs Firefox 404).
+        logo: await resolveLogoForDisplay(s.pixelImage),
+      })),
+  );
+  return cards.sort((a, b) => b.cents - a.cents);
 }

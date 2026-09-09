@@ -15,6 +15,7 @@ type Row = {
   email: string;
   phone: string | null;
   companyName: string | null;
+  logoMissing?: boolean;
 };
 
 export function AdminSponsorEditor({ row }: { row: Row }) {
@@ -81,7 +82,7 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
             {row.email} · {row.phone || "geen gsm"} · {row.companyName || "geen bedrijf"}
           </p>
         </div>
-        {logo && !logoBroken ? (
+        {logo && !logoBroken && !row.logoMissing ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={logo}
@@ -91,8 +92,8 @@ export function AdminSponsorEditor({ row }: { row: Row }) {
             onError={() => setLogoBroken(true)}
           />
         ) : (
-          <div className="flex h-16 w-28 items-center justify-center border border-dashed border-white/20 text-[10px] text-white/40">
-            Geen / kapot logo
+          <div className="flex h-16 w-28 flex-col items-center justify-center border border-dashed border-red-400/50 px-1 text-center text-[10px] text-red-300">
+            {row.logoMissing ? "Logo weg — opnieuw uploaden" : "Geen / kapot logo"}
           </div>
         )}
       </div>

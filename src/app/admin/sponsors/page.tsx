@@ -15,16 +15,24 @@ export default async function AdminSponsorsPage() {
     include: { user: true },
   });
 
+  const { publicUrlToRelative, readUpload } = await import("@/lib/uploads");
+  const withLogoState = await Promise.all(
+    rows.map(async (p) => {
+      const relative = publicUrlToRelative(p.pixelImage);
+      const logoOk = relative ? Boolean(await readUpload(relative)) : false;
+      return { p, logoOk, logoMissing: Boolean(p.pixelImage) && !logoOk };
+    }),
+  );
+
   return (
     <AdminChrome title="Sponsors">
       <p className="text-sm text-muted">
-        Betaalde sponsors. Upload hier een logo en klik Opslaan, of wis de sponsor volledig (logo +
-        bedrag uit de teller + account). Logos blijven nu in de database bewaard, ook na een
-        pipeline.
+        Betaalde sponsors. Ontbreekt een logo (rood), upload opnieuw en klik Opslaan — dan staat
+        het in alle browsers gelijk. Of wis de sponsor volledig (logo + bedrag + account).
       </p>
       <Accordion title="Sponsors bewerken" compact className="mt-4">
         <div className="divide-y divide-white/10">
-          {rows.map((p) => (
+          {withLogoState.map(({ p, logoMissing }) => (
             <AdminSponsorEditor
               key={p.id}
               row={{
@@ -38,6 +46,7 @@ export default async function AdminSponsorsPage() {
                 email: p.user.email,
                 phone: p.user.phone,
                 companyName: p.user.companyName,
+                logoMissing,
               }}
             />
           ))}
