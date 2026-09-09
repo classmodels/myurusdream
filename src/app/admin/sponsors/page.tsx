@@ -3,7 +3,7 @@ import { AdminChrome } from "@/components/AdminChrome";
 import { Accordion } from "@/components/Accordion";
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
-import { deletePayment } from "../actions";
+import { AdminSponsorEditor } from "@/components/AdminSponsorEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -17,61 +17,32 @@ export default async function AdminSponsorsPage() {
 
   return (
     <AdminChrome title="Sponsors">
-      <p className="text-sm text-muted">Betaalde sponsors met hun gegevens.</p>
-      <Accordion title="Sponsors" compact className="">
-        <div className="overflow-x-auto px-4 py-3">
-          <table className="w-full text-left text-sm">
-            <thead className="text-muted">
-              <tr>
-                <th className="p-2">Naam</th>
-                <th className="p-2">Bedrijf</th>
-                <th className="p-2">E-mail</th>
-                <th className="p-2">GSM</th>
-                <th className="p-2">Niveau</th>
-                <th className="p-2">Bedrag</th>
-                <th className="p-2">Website</th>
-                <th className="p-2"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((p) => (
-                <tr key={p.id} className="border-t border-white/10">
-                  <td className="p-2">
-                    {p.sponsorName || [p.user.firstName, p.user.lastName].filter(Boolean).join(" ") || "—"}
-                  </td>
-                  <td className="p-2">{p.user.companyName || "—"}</td>
-                  <td className="p-2">{p.user.email}</td>
-                  <td className="p-2">{p.user.phone || "—"}</td>
-                  <td className="p-2">{p.sponsorTier || "—"}</td>
-                  <td className="p-2">{formatCents(p.amountCents)}</td>
-                  <td className="p-2">
-                    {p.sponsorUrl ? (
-                      <a href={p.sponsorUrl} className="text-yellow" target="_blank" rel="noreferrer">
-                        {p.sponsorUrl}
-                      </a>
-                    ) : (
-                      "—"
-                    )}
-                  </td>
-                  <td className="p-2">
-                    <form action={deletePayment}>
-                      <input type="hidden" name="paymentId" value={p.id} />
-                      <button type="submit" className="btn-danger">
-                        Verwijderen
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              ))}
-              {rows.length === 0 ? (
-                <tr>
-                  <td className="p-2 text-muted" colSpan={8}>
-                    Nog geen sponsors.
-                  </td>
-                </tr>
-              ) : null}
-            </tbody>
-          </table>
+      <p className="text-sm text-muted">
+        Betaalde sponsors. Als een logo ontbreekt (bijv. na een oude pipeline), upload hier een nieuw
+        bestand en klik Opslaan — of verwijder de sponsor volledig.
+      </p>
+      <Accordion title="Sponsors bewerken" compact className="mt-4">
+        <div className="divide-y divide-white/10">
+          {rows.map((p) => (
+            <AdminSponsorEditor
+              key={p.id}
+              row={{
+                id: p.id,
+                sponsorName: p.sponsorName,
+                sponsorUrl: p.sponsorUrl,
+                sponsorTier: p.sponsorTier,
+                pixelImage: p.pixelImage,
+                pixelLabel: p.pixelLabel,
+                amountLabel: formatCents(p.amountCents),
+                email: p.user.email,
+                phone: p.user.phone,
+                companyName: p.user.companyName,
+              }}
+            />
+          ))}
+          {rows.length === 0 ? (
+            <p className="px-4 py-3 text-sm text-muted">Nog geen sponsors.</p>
+          ) : null}
         </div>
       </Accordion>
     </AdminChrome>

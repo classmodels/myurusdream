@@ -639,12 +639,58 @@ export async function deletePayment(formData: FormData) {
   await prisma.prizeEntry.deleteMany({ where: { paymentId: id } });
   await prisma.refund.deleteMany({ where: { paymentId: id } });
   await prisma.referral.updateMany({ where: { paymentId: id }, data: { paymentId: null } });
+  await prisma.sponsorOutboundClick.deleteMany({ where: { paymentId: id } }).catch(() => null);
   await prisma.payment.delete({ where: { id } });
   await audit({ actorId: admin.id, action: "payment.delete", entity: "Payment", entityId: id });
   revalidatePath("/");
   revalidatePath("/volg-alles");
   revalidatePath("/sponsors");
   revalidatePath("/pixels");
+  revalidateAdmin();
+}
+
+export async function updateSponsorPlacement(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("paymentId") || "");
+  if (!id) throw new Error("Ongeldige sponsor.");
+
+  const payment = await prisma.payment.findFirst({
+    where: { id, kind: { in: ["sponsor", "pixel"] }, status: "paid" },
+  });
+  if (!payment) throw new Error("Sponsorplaats niet gevonden.");
+
+  const sponsorName = String(formData.get("sponsorName") || "").trim().slice(0, 80);
+  const sponsorUrl = String(formData.get("sponsorUrl") || "").trim().slice(0, 200);
+  const pixelLabel = String(formData.get("pixelLabel") || "").trim().slice(0, 80);
+  const pixelImage = String(formData.get("pixelImage") || "").trim();
+  const clearLogo = String(formData.get("clearLogo") || "") === "1";
+
+  const { isSafePixelImageUrl } = await import("@/lib/pixel-image");
+  if (pixelImage && !clearLogo && !isSafePixelImageUrl(pixelImage)) {
+    throw new Error("Ongeldig logo. Upload opnieuw via de kies-knop.");
+  }
+
+  await prisma.payment.update({
+    where: { id },
+    data: {
+      sponsorName: sponsorName || payment.sponsorName,
+      sponsorUrl: sponsorUrl || null,
+      pixelLabel: pixelLabel || null,
+      pixelImage: clearLogo ? null : pixelImage || payment.pixelImage,
+    },
+  });
+
+  await audit({
+    actorId: admin.id,
+    action: "sponsor.update",
+    entity: "Payment",
+    entityId: id,
+    meta: { sponsorName, clearLogo },
+  });
+  revalidatePath("/");
+  revalidatePath("/sponsors");
+  revalidatePath("/volg-alles");
+  revalidatePath("/admin/sponsors");
   revalidateAdmin();
 }
 
