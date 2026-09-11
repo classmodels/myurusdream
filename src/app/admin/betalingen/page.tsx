@@ -8,6 +8,7 @@ import { maskSecret } from "@/lib/secret-box";
 import { GOAL_FAILURE_OPTIONS } from "@/lib/constants";
 import { saveMollie, setGoalFailure, togglePaymentsPaused, deletePayment } from "../actions";
 import { Accordion } from "@/components/Accordion";
+import { AdminManualPaymentForm } from "@/components/AdminManualPaymentForm";
 
 export const dynamic = "force-dynamic";
 
@@ -66,13 +67,21 @@ export default async function AdminBetalingenPage() {
         </div>
       </Accordion>
 
+      <Accordion title="Handmatig bedrag toevoegen (zonder Mollie)" compact className="">
+        <div className="px-4 py-4">
+          <AdminManualPaymentForm defaultKind="contribution" />
+        </div>
+      </Accordion>
+
       <Accordion title="Recente betalingen" compact className="">
         <ul className="space-y-2 px-4 py-3 text-sm">
           {payments.length ? (
             payments.map((p) => (
               <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0">
                 <span>
-                  {p.status} · {p.kind} · {formatCents(p.amountCents)} · {p.user.email}
+                  {p.status} · {p.kind}
+                  {p.method === "admin_manual" ? " · handmatig" : ""} · {formatCents(p.amountCents)} ·{" "}
+                  {p.user.email}
                 </span>
                 <form action={deletePayment}>
                   <input type="hidden" name="paymentId" value={p.id} />

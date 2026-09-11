@@ -16,7 +16,10 @@ import {
 } from "@/lib/constants";
 import { audit } from "@/lib/audit";
 import { hashEntries, fulfillPaidPayment } from "@/lib/payments";
-import { randomSecureIndex } from "@/lib/auth";
+import { randomSecureIndex, generateReferralCode, nextParticipantNumber } from "@/lib/auth";
+import { tierForAmount } from "@/lib/sponsors";
+import { normalizeWebsiteUrl } from "@/lib/website";
+import { randomBytes } from "crypto";
 import { encryptSecret } from "@/lib/secret-box";
 import { getSetting, setSetting } from "@/lib/settings";
 import { isMollieKey, siteUrl } from "@/lib/mollie";
@@ -498,6 +501,106 @@ export async function saveSmtp(formData: FormData) {
 }
 
 export type TestMailState = { ok?: string; error?: string };
+export type ManualPaymentState = { ok?: string; error?: string };
+
+/** Admin: sponsor of bijdrage toevoegen zonder Mollie (meteen als betaald). */
+export async function createManualPayment(
+  _prev: ManualPaymentState,
+  formData: FormData,
+): Promise<ManualPaymentState> {
+  try {
+    const admin = await requireAdmin();
+    const kindRaw = String(formData.get("kind") || "sponsor");
+    const kind = kindRaw === "contribution" ? "contribution" : "sponsor";
+    const name = String(formData.get("name") || "").trim().slice(0, 80);
+    const eurosRaw = String(formData.get("amount") || "").trim().replace(",", ".");
+    const amountCents = Math.round(Number(eurosRaw) * 100);
+    const emailRaw = String(formData.get("email") || "").trim().toLowerCase();
+    const urlRaw = String(formData.get("url") || "").trim();
+
+    if (!name) return { error: "Naam is verplicht." };
+    if (!Number.isFinite(amountCents) || amountCents < 1) {
+      return { error: "Vul een geldig bedrag in (minstens €0,01)." };
+    }
+
+    const campaign = await getCampaign();
+    let email = emailRaw;
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return { error: "Ongeldig e-mailadres." };
+    }
+    if (!email) {
+      email = `manual-${Date.now()}-${randomBytes(3).toString("hex")}@myurusdream.local`;
+    }
+
+    let user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          email,
+          firstName: name,
+          lastName: null,
+          companyName: kind === "sponsor" ? name : null,
+          participantNumber: await nextParticipantNumber(),
+          referralCode: generateReferralCode(),
+        },
+      });
+    } else if (kind === "sponsor") {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { companyName: name, firstName: user.firstName || name },
+      });
+    }
+
+    let sponsorUrl: string | null = null;
+    let sponsorTier: string | null = null;
+    if (kind === "sponsor") {
+      sponsorTier = tierForAmount(amountCents).id;
+      if (urlRaw) {
+        sponsorUrl = normalizeWebsiteUrl(urlRaw);
+        if (!sponsorUrl) return { error: "Ongeldige website. Bijv. www.bedrijf.be" };
+      }
+    }
+
+    const payment = await prisma.payment.create({
+      data: {
+        userId: user.id,
+        campaignId: campaign.id,
+        amountCents,
+        status: "pending",
+        kind,
+        method: "admin_manual",
+        sponsorName: kind === "sponsor" ? name : null,
+        sponsorUrl,
+        sponsorTier,
+      },
+    });
+
+    await fulfillPaidPayment(payment.id);
+
+    await audit({
+      actorId: admin.id,
+      action: "payment.manual_create",
+      entity: "Payment",
+      entityId: payment.id,
+      meta: { kind, amountCents, name },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/volg-alles");
+    revalidatePath("/sponsors");
+    revalidatePath("/pixels");
+    revalidatePath("/dashboard");
+    revalidateAdmin();
+
+    const label =
+      kind === "sponsor"
+        ? `Sponsor «${name}» toegevoegd`
+        : `Bijdrage van «${name}» toegevoegd`;
+    return { ok: `${label} — ${(amountCents / 100).toFixed(2).replace(".", ",")} €.` };
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Toevoegen mislukt." };
+  }
+}
 
 export async function sendTestMail(_prev: TestMailState, formData: FormData): Promise<TestMailState> {
   try {

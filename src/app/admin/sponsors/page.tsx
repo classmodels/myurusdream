@@ -4,6 +4,7 @@ import { Accordion } from "@/components/Accordion";
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 import { AdminSponsorEditor } from "@/components/AdminSponsorEditor";
+import { AdminManualPaymentForm } from "@/components/AdminManualPaymentForm";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,11 @@ export default async function AdminSponsorsPage() {
         Betaalde sponsors. Ontbreekt een logo (rood), upload opnieuw en klik Opslaan — dan staat
         het in alle browsers gelijk. Of wis de sponsor volledig (logo + bedrag + account).
       </p>
+      <Accordion title="Sponsor handmatig toevoegen (zonder Mollie)" compact className="mt-4">
+        <div className="px-4 py-4">
+          <AdminManualPaymentForm defaultKind="sponsor" />
+        </div>
+      </Accordion>
       <Accordion title="Sponsors bewerken" compact className="mt-4">
         <div className="divide-y divide-white/10">
           {withLogoState.map(({ p, logoMissing }) => (
