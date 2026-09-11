@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import {
+  exampleSponsorCards,
   groupSponsors,
   isExampleSponsor,
   sponsorSignupHref,
@@ -61,16 +62,26 @@ function SponsorFrame({
   size: "preview" | "home" | "page";
   tier: SponsorTierId;
 }) {
+  const inner = (
+    <HeadlineBillboard
+      name={sponsor.name}
+      tagline={sponsor.tagline}
+      logo={sponsor.logo}
+      size={size}
+      tier={tier}
+      example={isExampleSponsor(sponsor.name) || !sponsor.id}
+    />
+  );
+  if (!sponsor.id) {
+    return (
+      <Link href={sponsorSignupHref(tier)} className="block h-full">
+        {inner}
+      </Link>
+    );
+  }
   return (
     <Wrap url={sponsorTrackUrl(sponsor)} className="block">
-      <HeadlineBillboard
-        name={sponsor.name}
-        tagline={sponsor.tagline}
-        logo={sponsor.logo}
-        size={size}
-        tier={tier}
-        example={isExampleSponsor(sponsor.name)}
-      />
+      {inner}
     </Wrap>
   );
 }
@@ -82,10 +93,10 @@ function EmptySponsorFrame({ tier }: { tier: SponsorTierId }) {
   const copy = tierCopy(dict, tier);
 
   return (
-    <Link href={sponsorSignupHref(tier)} className="block h-full">
-      <div className={sponsorShellClass(tier, "@container h-full")}>
+    <Link href={sponsorSignupHref(tier)} className="block">
+      <div className={sponsorShellClass(tier, "@container")}>
         <div
-          className={`flex h-full w-full flex-col items-center justify-center bg-black px-[5cqi] text-center ${SPONSOR_ASPECT[tier]}`}
+          className={`flex w-full flex-col items-center justify-center bg-black px-[5cqi] text-center ${SPONSOR_ASPECT[tier]}`}
         >
           <p className="font-display text-[length:clamp(0.45rem,5.6cqi,0.95rem)] leading-none tracking-wide text-yellow">
             {copy.name}
@@ -103,6 +114,13 @@ function EmptySponsorFrame({ tier }: { tier: SponsorTierId }) {
       </div>
     </Link>
   );
+}
+
+function placeholdersFor(tier: SponsorTierId, needed: number): SponsorCardData[] {
+  return exampleSponsorCards()
+    .filter((s) => s.tier === tier)
+    .slice(0, needed)
+    .map((s) => ({ ...s, id: undefined, url: null }));
 }
 
 function EmptyFrame({ tier }: { tier: SponsorTierId }) {
@@ -198,8 +216,9 @@ export function GoldHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
   const tier = SPONSOR_TIERS.find((t) => t.id === "gold");
   if (!tier) return null;
 
-  const left = real[0];
-  const right = real[1];
+  const demos = placeholdersFor("gold", 2);
+  const left = real[0] ?? demos[0];
+  const right = real[1] ?? demos[1];
   const extra = real.slice(2);
 
   return (
@@ -214,7 +233,7 @@ export function GoldHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
       {extra.length ? (
         <div className="mt-4 grid gap-4 md:grid-cols-2 md:gap-6">
           {extra.map((s) => (
-            <SponsorFrame key={`gh-${s.name}`} sponsor={s} size="home" tier="gold" />
+            <SponsorFrame key={`gh-${s.id || s.name}`} sponsor={s} size="home" tier="gold" />
           ))}
         </div>
       ) : null}
@@ -232,7 +251,8 @@ export function SilverHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
   const real = sponsors.filter((s) => !isExampleSponsor(s.name));
   const tier = SPONSOR_TIERS.find((t) => t.id === "silver");
   if (!tier) return null;
-  const slots = fillRow(real, 4);
+  const filled = [...real, ...placeholdersFor("silver", Math.max(0, 4 - real.length))].slice(0, Math.max(4, real.length));
+  const slots = fillRow(filled, 4);
 
   return (
     <div>
@@ -242,7 +262,7 @@ export function SilverHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
       <div className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
         {slots.map((s, i) =>
           s ? (
-            <SponsorFrame key={`sh-${s.name}`} sponsor={s} size="home" tier="silver" />
+            <SponsorFrame key={`sh-${s.id || s.name}-${i}`} sponsor={s} size="home" tier="silver" />
           ) : (
             <EmptyFrame key={`se-${i}`} tier="silver" />
           ),
@@ -257,7 +277,8 @@ export function BronzeHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
   const real = sponsors.filter((s) => !isExampleSponsor(s.name));
   const tier = SPONSOR_TIERS.find((t) => t.id === "bronze");
   if (!tier) return null;
-  const slots = fillRow(real, 4);
+  const filled = [...real, ...placeholdersFor("bronze", Math.max(0, 4 - real.length))].slice(0, Math.max(4, real.length));
+  const slots = fillRow(filled, 4);
 
   return (
     <div>
@@ -267,7 +288,7 @@ export function BronzeHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
       <div className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-3">
         {slots.map((s, i) =>
           s ? (
-            <SponsorFrame key={`bh-${s.name}`} sponsor={s} size="home" tier="bronze" />
+            <SponsorFrame key={`bh-${s.id || s.name}-${i}`} sponsor={s} size="home" tier="bronze" />
           ) : (
             <EmptyFrame key={`be-${i}`} tier="bronze" />
           ),
