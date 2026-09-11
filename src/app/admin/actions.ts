@@ -768,149 +768,176 @@ export async function deleteMailContact(formData: FormData) {
   revalidatePath(`/admin/mailen/lijst/${listId}`);
 }
 
-export async function sendMailCampaign(formData: FormData) {
-  const admin = await requireAdmin();
-  const cfg = await getSmtpConfig();
-  if (!smtpReady(cfg)) throw new Error("SMTP is nog niet ingesteld.");
-  const subject = String(formData.get("subject") || "").trim();
-  const body = String(formData.get("body") || "").trim();
-  if (!subject || !body) throw new Error("Onderwerp en tekst zijn verplicht.");
+export type SendMailState = { error?: string };
 
-  const listIds = formData.getAll("listIds").map(String).filter(Boolean);
-  const contactIds = formData.getAll("contactIds").map(String).filter(Boolean);
-  const includeAccounts = formData.get("accounts") === "on";
-  const fallbackAudience = String(formData.get("audience") || "");
+export async function sendMailCampaign(_prev: SendMailState, formData: FormData): Promise<SendMailState> {
+  try {
+    const admin = await requireAdmin();
+    const cfg = await getSmtpConfig();
+    if (!smtpReady(cfg)) {
+      return { error: "SMTP is nog niet ingesteld. Vul host, gebruiker en wachtwoord in onder Mailen." };
+    }
+    const subject = String(formData.get("subject") || "").trim();
+    const body = String(formData.get("body") || "").trim();
+    if (!subject || !body) return { error: "Onderwerp en tekst zijn verplicht." };
 
-  type Target = { email: string; firstName: string; lastName: string; company: string };
-  let targets: Target[] = [];
-  const audienceParts: string[] = [];
+    const listIds = formData.getAll("listIds").map(String).filter(Boolean);
+    const contactIds = formData.getAll("contactIds").map(String).filter(Boolean);
+    const includeAccounts = formData.get("accounts") === "on";
+    const fallbackAudience = String(formData.get("audience") || "");
 
-  if (includeAccounts || fallbackAudience === "accounts") {
-    const users = await prisma.user.findMany({
-      where: {
-        role: "participant",
-        blocked: false,
-        NOT: { email: { startsWith: "deleted-" } },
-      },
-      select: { email: true, firstName: true, lastName: true, companyName: true },
-    });
-    targets.push(
-      ...users.map((u) => ({
-        email: u.email,
-        firstName: u.firstName || "",
-        lastName: u.lastName || "",
-        company: u.companyName || "",
-      })),
-    );
-    audienceParts.push("Alle accounts");
-  }
+    type Target = { email: string; firstName: string; lastName: string; company: string };
+    let targets: Target[] = [];
+    const audienceParts: string[] = [];
 
-  const resolvedListIds = [...listIds];
-  if (fallbackAudience.startsWith("list:")) resolvedListIds.push(fallbackAudience.slice(5));
-  const singleListId = String(formData.get("listId") || "").trim();
-  if (singleListId) resolvedListIds.push(singleListId);
-
-  if (contactIds.length) {
-    const contacts = await prisma.mailContact.findMany({
-      where: { id: { in: contactIds }, unsubscribed: false },
-    });
-    targets.push(
-      ...contacts.map((c) => ({
-        email: c.email,
-        firstName: c.firstName,
-        lastName: c.lastName,
-        company: c.company,
-      })),
-    );
-    audienceParts.push(`${contacts.length} geselecteerde adressen`);
-  } else if (resolvedListIds.length) {
-    const lists = await prisma.mailList.findMany({
-      where: { id: { in: [...new Set(resolvedListIds)] } },
-      include: { contacts: { where: { unsubscribed: false } } },
-    });
-    for (const list of lists) {
+    if (includeAccounts || fallbackAudience === "accounts") {
+      const users = await prisma.user.findMany({
+        where: {
+          role: "participant",
+          blocked: false,
+          NOT: { email: { startsWith: "deleted-" } },
+        },
+        select: { email: true, firstName: true, lastName: true, companyName: true },
+      });
       targets.push(
-        ...list.contacts.map((c) => ({
+        ...users.map((u) => ({
+          email: u.email,
+          firstName: u.firstName || "",
+          lastName: u.lastName || "",
+          company: u.companyName || "",
+        })),
+      );
+      audienceParts.push("Alle accounts");
+    }
+
+    const resolvedListIds = [...listIds];
+    if (fallbackAudience.startsWith("list:")) resolvedListIds.push(fallbackAudience.slice(5));
+    const singleListId = String(formData.get("listId") || "").trim();
+    if (singleListId) resolvedListIds.push(singleListId);
+
+    if (contactIds.length) {
+      const contacts = await prisma.mailContact.findMany({
+        where: { id: { in: contactIds }, unsubscribed: false },
+      });
+      targets.push(
+        ...contacts.map((c) => ({
           email: c.email,
           firstName: c.firstName,
           lastName: c.lastName,
           company: c.company,
         })),
       );
-      audienceParts.push(list.name);
+      audienceParts.push(`${contacts.length} geselecteerde adressen`);
+    } else if (resolvedListIds.length) {
+      const lists = await prisma.mailList.findMany({
+        where: { id: { in: [...new Set(resolvedListIds)] } },
+        include: { contacts: { where: { unsubscribed: false } } },
+      });
+      for (const list of lists) {
+        targets.push(
+          ...list.contacts.map((c) => ({
+            email: c.email,
+            firstName: c.firstName,
+            lastName: c.lastName,
+            company: c.company,
+          })),
+        );
+        audienceParts.push(list.name);
+      }
     }
-  }
 
-  const unique = [...new Map(targets.map((t) => [t.email.toLowerCase(), t])).values()];
-  if (!unique.length) throw new Error("Geen ontvangers gevonden. Selecteer een lijst of adressen.");
+    const unique = [...new Map(targets.map((t) => [t.email.toLowerCase(), t])).values()];
+    if (!unique.length) {
+      return { error: "Geen ontvangers gevonden. Selecteer een lijst of adressen, of vink ‘Alle accounts’ aan." };
+    }
 
-  const campaign = await prisma.mailCampaign.create({
-    data: {
-      subject,
-      body,
-      audience: audienceParts.join(" · ") || "lijst",
-      sentAt: new Date(),
-    },
-  });
-
-  let sentCount = 0;
-  let failCount = 0;
-  for (const target of unique) {
-    const token = randomBytes(16).toString("hex");
-    const row = await prisma.mailSend.create({
+    const campaign = await prisma.mailCampaign.create({
       data: {
-        campaignId: campaign.id,
-        email: target.email,
-        firstName: target.firstName,
-        lastName: target.lastName,
-        company: target.company,
-        token,
-        status: "pending",
-      },
-    });
-    try {
-      await sendCampaignMail({
-        to: target.email,
         subject,
         body,
-        vars: {
-          firstName: target.firstName,
-          lastName: target.lastName,
-          email: target.email,
-          company: target.company,
-        },
-        trackToken: token,
-      });
-      sentCount += 1;
-      await prisma.mailSend.update({
-        where: { id: row.id },
-        data: { status: "sent", sentAt: new Date() },
-      });
-    } catch (error) {
-      failCount += 1;
-      await prisma.mailSend.update({
-        where: { id: row.id },
-        data: {
-          status: "failed",
-          error: error instanceof Error ? error.message : "Verzenden mislukt",
-        },
-      });
+        audience: audienceParts.join(" · ") || "lijst",
+        sentAt: new Date(),
+      },
+    });
+
+    let sentCount = 0;
+    let failCount = 0;
+    let lastError = "";
+    for (const target of unique) {
+      const token = randomBytes(16).toString("hex");
+      let sendId: string | null = null;
+      try {
+        const row = await prisma.mailSend.create({
+          data: {
+            campaignId: campaign.id,
+            email: target.email,
+            firstName: target.firstName,
+            lastName: target.lastName,
+            company: target.company,
+            token,
+            status: "pending",
+          },
+        });
+        sendId = row.id;
+      } catch {
+        /* tracking table may not exist yet */
+      }
+      try {
+        await sendCampaignMail({
+          to: target.email,
+          subject,
+          body,
+          vars: {
+            firstName: target.firstName,
+            lastName: target.lastName,
+            email: target.email,
+            company: target.company,
+          },
+          trackToken: sendId ? token : undefined,
+        });
+        sentCount += 1;
+        if (sendId) {
+          await prisma.mailSend.update({
+            where: { id: sendId },
+            data: { status: "sent", sentAt: new Date() },
+          }).catch(() => null);
+        }
+      } catch (error) {
+        failCount += 1;
+        lastError = error instanceof Error ? error.message : "Verzenden mislukt";
+        if (sendId) {
+          await prisma.mailSend.update({
+            where: { id: sendId },
+            data: { status: "failed", error: lastError },
+          }).catch(() => null);
+        }
+      }
     }
+    await prisma.mailCampaign.update({
+      where: { id: campaign.id },
+      data: { sentCount, failCount, sentAt: new Date() },
+    });
+    await audit({
+      actorId: admin.id,
+      action: "mail.send",
+      entity: "MailCampaign",
+      entityId: campaign.id,
+      meta: { audience: campaign.audience, sentCount, failCount },
+    });
+    revalidateAdmin();
+    revalidatePath(`/admin/mailen/campagne/${campaign.id}`);
+    if (!sentCount && lastError) {
+      return { error: `Geen mail verzonden. ${lastError}` };
+    }
+    redirect(`/admin/mailen/campagne/${campaign.id}`);
+  } catch (error) {
+    const digest =
+      typeof error === "object" && error && "digest" in error
+        ? String((error as { digest?: string }).digest || "")
+        : "";
+    if (digest.startsWith("NEXT_REDIRECT")) throw error;
+    return { error: error instanceof Error ? error.message : "Verzenden is mislukt." };
   }
-  await prisma.mailCampaign.update({
-    where: { id: campaign.id },
-    data: { sentCount, failCount, sentAt: new Date() },
-  });
-  await audit({
-    actorId: admin.id,
-    action: "mail.send",
-    entity: "MailCampaign",
-    entityId: campaign.id,
-    meta: { audience: campaign.audience, sentCount, failCount },
-  });
-  revalidateAdmin();
-  revalidatePath(`/admin/mailen/campagne/${campaign.id}`);
-  redirect(`/admin/mailen/campagne/${campaign.id}`);
 }
 
 export async function deletePayment(formData: FormData) {

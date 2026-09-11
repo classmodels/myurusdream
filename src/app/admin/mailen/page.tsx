@@ -3,11 +3,11 @@ import { requireAdminPage } from "@/lib/admin";
 import { AdminChrome } from "@/components/AdminChrome";
 import { prisma } from "@/lib/prisma";
 import { getSmtpConfig, smtpReady } from "@/lib/mail";
-import { createMailList, deleteMailCampaign, deleteMailList, saveSmtp, sendBroadcast, sendMailCampaign } from "../actions";
+import { createMailList, deleteMailCampaign, deleteMailList, saveSmtp, sendBroadcast } from "../actions";
 import { Accordion } from "@/components/Accordion";
 import { TestMailForm } from "./TestMailForm";
 import { MailCsvImportForm } from "@/components/MailCsvImportForm";
-import { MailSelectAll } from "@/components/MailSelectAll";
+import { MailComposeForm } from "@/components/MailComposeForm";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -133,25 +133,10 @@ export default async function AdminMailenPage() {
           Placeholders: {"{{voornaam}}"} {"{{naam}}"} {"{{volledige_naam}}"} {"{{bedrijf}}"} {"{{email}}"}{" "}
           {"{{aanhef}}"}
         </p>
-        <form action={sendMailCampaign} className="grid gap-3">
-          <div className="space-y-2 border border-white/10 p-3">
-            <MailSelectAll checkboxName="listIds" label="Alles selecteren" />
-            <label className="flex items-center gap-2 text-sm normal-case tracking-normal">
-              <input type="checkbox" name="accounts" className="w-auto" />
-              Alle accounts op de site
-            </label>
-            {lists.map((l) => (
-              <label key={l.id} className="flex items-center gap-2 text-sm normal-case tracking-normal">
-                <input type="checkbox" name="listIds" value={l.id} defaultChecked className="w-auto" />
-                {l.name} ({l._count.contacts})
-              </label>
-            ))}
-            {!lists.length ? <p className="text-sm text-muted">Nog geen lijsten om te selecteren.</p> : null}
-          </div>
-          <input name="subject" placeholder="Onderwerp" required />
-          <textarea name="body" rows={8} placeholder="Typ hier de tekst. Die komt in het myurusdream-sjabloon." required />
-          <button className="btn-yellow w-fit">Versturen</button>
-        </form>
+        <MailComposeForm
+          showAccounts
+          lists={lists.map((l) => ({ id: l.id, name: l.name, count: l._count.contacts }))}
+        />
       </section>
 
       <section className="card-dark space-y-4 p-6">

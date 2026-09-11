@@ -3,10 +3,9 @@ import { notFound } from "next/navigation";
 import { requireAdminPage } from "@/lib/admin";
 import { AdminChrome } from "@/components/AdminChrome";
 import { prisma } from "@/lib/prisma";
-import { deleteMailContact, sendMailCampaign } from "../../../actions";
 import { MailAddContactForm } from "@/components/MailAddContactForm";
 import { MailCsvImportForm } from "@/components/MailCsvImportForm";
-import { MailSelectAll } from "@/components/MailSelectAll";
+import { MailComposeForm } from "@/components/MailComposeForm";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -60,53 +59,16 @@ export default async function AdminMailListPage({
       </section>
 
       <section className="card-dark space-y-4 p-6">
-        <h2 className="font-display text-2xl">Adressen</h2>
+        <h2 className="font-display text-2xl">Mail versturen</h2>
         {list.contacts.length ? (
-          <div className="space-y-4">
-            <form id="send-list-mail" action={sendMailCampaign} className="space-y-4">
-              <input type="hidden" name="listId" value={list.id} />
-              <MailSelectAll checkboxName="contactIds" label="Alles selecteren" />
-            </form>
-            <ul className="max-h-[28rem] space-y-1 overflow-auto text-sm">
-              {list.contacts.map((c) => (
-                <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 py-2">
-                  <label className="flex min-w-0 flex-1 items-center gap-2 normal-case tracking-normal">
-                    <input
-                      form="send-list-mail"
-                      type="checkbox"
-                      name="contactIds"
-                      value={c.id}
-                      defaultChecked
-                      className="w-auto"
-                    />
-                    <span className="truncate">
-                      {c.company || [c.firstName, c.lastName].filter(Boolean).join(" ") || "—"} · {c.email}
-                    </span>
-                  </label>
-                  <form action={deleteMailContact}>
-                    <input type="hidden" name="listId" value={list.id} />
-                    <input type="hidden" name="contactId" value={c.id} />
-                    <button type="submit" className="btn-danger">
-                      Weg
-                    </button>
-                  </form>
-                </li>
-              ))}
-            </ul>
-            <div className="grid gap-3">
-              <input form="send-list-mail" name="subject" placeholder="Onderwerp" required />
-              <textarea
-                form="send-list-mail"
-                name="body"
-                rows={6}
-                placeholder="Typ de mail. Placeholders: {{voornaam}} {{bedrijf}} {{email}}"
-                required
-              />
-              <button form="send-list-mail" className="btn-yellow w-fit">
-                Mail naar selectie versturen
-              </button>
-            </div>
-          </div>
+          <MailComposeForm
+            listId={list.id}
+            contacts={list.contacts.map((c) => ({
+              id: c.id,
+              email: c.email,
+              label: `${c.company || [c.firstName, c.lastName].filter(Boolean).join(" ") || "—"} · ${c.email}`,
+            }))}
+          />
         ) : (
           <p className="text-sm text-muted">Nog geen adressen. Voeg er één toe of importeer een CSV.</p>
         )}
