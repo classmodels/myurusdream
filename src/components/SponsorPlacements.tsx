@@ -3,7 +3,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import {
-  exampleSponsorCards,
   groupSponsors,
   isExampleSponsor,
   sponsorSignupHref,
@@ -62,30 +61,21 @@ function SponsorFrame({
   size: "preview" | "home" | "page";
   tier: SponsorTierId;
 }) {
-  const inner = (
-    <HeadlineBillboard
-      name={sponsor.name}
-      tagline={sponsor.tagline}
-      logo={sponsor.logo}
-      size={size}
-      tier={tier}
-      example={isExampleSponsor(sponsor.name) || !sponsor.id}
-    />
-  );
-  if (!sponsor.id) {
-    return (
-      <Link href={sponsorSignupHref(tier)} className="block h-full">
-        {inner}
-      </Link>
-    );
-  }
   return (
     <Wrap url={sponsorTrackUrl(sponsor)} className="block">
-      {inner}
+      <HeadlineBillboard
+        name={sponsor.name}
+        tagline={sponsor.tagline}
+        logo={sponsor.logo}
+        size={size}
+        tier={tier}
+        example={isExampleSponsor(sponsor.name)}
+      />
     </Wrap>
   );
 }
 
+/** Lege plek: tier + prijs + knop om in te schrijven. Geen nep-reclame. */
 function EmptySponsorFrame({ tier }: { tier: SponsorTierId }) {
   const dict = useDict();
   const meta = SPONSOR_TIERS.find((t) => t.id === tier);
@@ -114,13 +104,6 @@ function EmptySponsorFrame({ tier }: { tier: SponsorTierId }) {
       </div>
     </Link>
   );
-}
-
-function placeholdersFor(tier: SponsorTierId, needed: number): SponsorCardData[] {
-  return exampleSponsorCards()
-    .filter((s) => s.tier === tier)
-    .slice(0, needed)
-    .map((s) => ({ ...s, id: undefined, url: null }));
 }
 
 function EmptyFrame({ tier }: { tier: SponsorTierId }) {
@@ -216,9 +199,8 @@ export function GoldHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
   const tier = SPONSOR_TIERS.find((t) => t.id === "gold");
   if (!tier) return null;
 
-  const demos = placeholdersFor("gold", 2);
-  const left = real[0] ?? demos[0];
-  const right = real[1] ?? demos[1];
+  const left = real[0];
+  const right = real[1];
   const extra = real.slice(2);
 
   return (
@@ -251,8 +233,7 @@ export function SilverHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
   const real = sponsors.filter((s) => !isExampleSponsor(s.name));
   const tier = SPONSOR_TIERS.find((t) => t.id === "silver");
   if (!tier) return null;
-  const filled = [...real, ...placeholdersFor("silver", Math.max(0, 4 - real.length))].slice(0, Math.max(4, real.length));
-  const slots = fillRow(filled, 4);
+  const slots = fillRow(real, 4);
 
   return (
     <div>
@@ -277,8 +258,7 @@ export function BronzeHomeRow({ sponsors }: { sponsors: SponsorCardData[] }) {
   const real = sponsors.filter((s) => !isExampleSponsor(s.name));
   const tier = SPONSOR_TIERS.find((t) => t.id === "bronze");
   if (!tier) return null;
-  const filled = [...real, ...placeholdersFor("bronze", Math.max(0, 4 - real.length))].slice(0, Math.max(4, real.length));
-  const slots = fillRow(filled, 4);
+  const slots = fillRow(real, 4);
 
   return (
     <div>
