@@ -30,41 +30,10 @@ function prismaArgs(args) {
   return ["npx", ["--yes", "prisma@6.19.3", ...args]];
 }
 
-function tsxArgs(args) {
-  if (existsSync("node_modules/tsx/dist/cli.mjs")) {
-    return ["node", ["node_modules/tsx/dist/cli.mjs", ...args]];
-  }
-  return ["npx", ["tsx", ...args]];
-}
-
-const [prismaCmd, prismaCmdArgs] = prismaArgs([
-  "db",
-  "push",
-  "--skip-generate",
-  "--accept-data-loss",
-]);
+// Add new columns/tables only. Never --accept-data-loss: that dropped live
+// payments/sponsors on every Combell restart when Prisma saw a type mismatch.
+const [prismaCmd, prismaCmdArgs] = prismaArgs(["db", "push", "--skip-generate"]);
 await run(prismaCmd, prismaCmdArgs);
-
-const [tsxCmd, tsxCmdArgs] = tsxArgs(["prisma/seed.ts"]);
-await run(tsxCmd, tsxCmdArgs);
-
-if (existsSync("scripts/launch-cleanup.mjs")) {
-  console.log("Running one-shot launch cleanup…");
-  try {
-    await run("node", ["scripts/launch-cleanup.mjs"]);
-  } catch (error) {
-    console.error("launch cleanup failed (continuing serve):", error);
-  }
-}
-
-if (existsSync("scripts/remove-test-sponsor-modelport.mjs")) {
-  console.log("Running one-shot Modelport test-sponsor cleanup…");
-  try {
-    await run("node", ["scripts/remove-test-sponsor-modelport.mjs"]);
-  } catch (error) {
-    console.error("Modelport cleanup failed (continuing serve):", error);
-  }
-}
 
 const nextBin = existsSync("node_modules/next/dist/bin/next")
   ? ["node", ["node_modules/next/dist/bin/next", "start", "--hostname", "0.0.0.0", "--port", process.env.PORT || "3000"]]
