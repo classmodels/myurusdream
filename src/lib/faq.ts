@@ -20,7 +20,7 @@ export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[
   {
     question: "Waar gaat het geld naartoe?",
     answer:
-      "Naar deze persoonlijke campagne, met als doel een Lamborghini Urus mogelijk te maken. Het brutodoel van €400.000 is niet automatisch de aankoopprijs van de wagen. De teller toont bruto ontvangen bijdragen minus transactiekosten. De uitsplitsing staat op Volg alles.",
+      "Naar deze persoonlijke campagne, met als doel een Lamborghini Urus mogelijk te maken. Het brutodoel van €400.000 is niet automatisch de aankoopprijs van de wagen. De teller toont bevestigde bijdragen. Transactiekosten worden alleen afgetrokken als dat is aangezet. De uitsplitsing staat op Volg alles.",
     legal: false,
   },
   {
@@ -50,7 +50,7 @@ export const DEFAULT_FAQS: { question: string; answer: string; legal: boolean }[
   {
     question: "Hoe werkt de teller?",
     answer:
-      "De teller telt alleen bevestigde betalingen. Het getoonde totaal is bruto minus transactiekosten. Er worden geen fictieve bedragen getoond. Iedereen kan de stand volgen op de homepage en op Volg alles.",
+      "De teller telt alleen bevestigde betalingen. Standaard is dat het brutototaal. Transactiekosten gaan er alleen af als dat in het adminpaneel is aangezet — dan geldt dat ook voor eerdere betalingen. Er worden geen fictieve bedragen getoond. Iedereen kan de stand volgen op de homepage en op Volg alles.",
     legal: false,
   },
   {

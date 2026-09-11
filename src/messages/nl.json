@@ -361,7 +361,8 @@
     "pixels": "Pixels",
     "visitors": "Bezoekers",
     "online": "Nu live",
-    "note": "Alleen bevestigde betalingen tellen. Het getoonde totaal is bruto minus transactiekosten.",
+    "note": "Alleen bevestigde betalingen tellen. Het getoonde totaal is het brutobedrag.",
+    "noteNet": "Alleen bevestigde betalingen tellen. Het getoonde totaal is bruto minus transactiekosten.",
     "contributions": "Bijdragen",
     "deposits": "stortingen",
     "ofGoal": "Van het doel",
@@ -429,7 +430,7 @@
       },
       {
         "q": "Waar gaat het geld naartoe?",
-        "a": "Naar deze persoonlijke campagne, met als doel een Lamborghini Urus mogelijk te maken. Het brutodoel van €400.000 is niet automatisch de aankoopprijs van de wagen. De teller toont bruto ontvangen bijdragen minus transactiekosten. De uitsplitsing staat op Volg alles."
+        "a": "Naar deze persoonlijke campagne, met als doel een Lamborghini Urus mogelijk te maken. Het brutodoel van €400.000 is niet automatisch de aankoopprijs van de wagen. De teller toont bevestigde bijdragen. Transactiekosten worden alleen afgetrokken als dat is aangezet. De uitsplitsing staat op Volg alles."
       },
       {
         "q": "Wat gebeurt er als €400.000 niet wordt bereikt?",
@@ -449,7 +450,7 @@
       },
       {
         "q": "Hoe werkt de teller?",
-        "a": "De teller telt alleen bevestigde betalingen. Het getoonde totaal is bruto minus transactiekosten. Er worden geen fictieve bedragen getoond. Iedereen kan de stand volgen op de homepage en op Volg alles."
+        "a": "De teller telt alleen bevestigde betalingen. Standaard is dat het brutototaal. Transactiekosten gaan er alleen af als dat in het adminpaneel is aangezet — dan geldt dat ook voor eerdere betalingen. Er worden geen fictieve bedragen getoond. Iedereen kan de stand volgen op de homepage en op Volg alles."
       },
       {
         "q": "Hoe worden betalingen gecontroleerd?",

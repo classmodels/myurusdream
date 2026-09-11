@@ -5,7 +5,7 @@ import { getCampaign } from "@/lib/campaign";
 import { paymentsAllowed } from "@/lib/flags";
 import { mollieConfigured } from "@/lib/mollie";
 import { occupiedPixels } from "@/lib/ad-users";
-import { EXAMPLE_PIXELS, pixelOrderHref, withoutTitleReserveAds } from "@/lib/sponsors";
+import { pixelOrderHref, withoutTitleReserveAds } from "@/lib/sponsors";
 
 export const dynamic = "force-dynamic";
 
@@ -25,8 +25,7 @@ export default async function PixelsPage({
 
   const campaign = await getCampaign();
   const gate = paymentsAllowed(campaign);
-  const live = await occupiedPixels(campaign.id);
-  const occupied = withoutTitleReserveAds(live.length ? live : EXAMPLE_PIXELS);
+  const occupied = withoutTitleReserveAds(await occupiedPixels(campaign.id));
 
   return (
     <div className="bg-black pb-16 pt-24">

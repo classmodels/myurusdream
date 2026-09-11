@@ -53,6 +53,7 @@ export default async function VolgAllesPage() {
     pixelCount: view.totals.pixelCount,
     uniqueVisitors: visitors,
     onlineVisitors,
+    deductFees: view.deductFees,
   };
 
   return (

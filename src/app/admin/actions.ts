@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/auth";
-import { getCampaign, type MoneyLine } from "@/lib/campaign";
+import { getCampaign, parseMoneyBreakdown, type MoneyLine } from "@/lib/campaign";
 import { canSwitchLive, parseChecklist } from "@/lib/flags";
 import { revalidateAdmin } from "@/lib/admin";
 import { getSmtpConfig, parseEmailCsv, saveSmtpConfig, sendCampaignMail, smtpReady } from "@/lib/mail";
@@ -162,6 +162,7 @@ export async function saveMoneyBreakdown(formData: FormData) {
   const euros = formData.getAll("euros").map(String);
   const notes = formData.getAll("note").map(String);
   const dynamics = formData.getAll("dynamic").map(String);
+  const deductFees = formData.get("deductFeesOnFrontend") === "on";
   const lines: MoneyLine[] = [];
   for (let i = 0; i < keys.length; i++) {
     const label = (labels[i] || "").trim();
@@ -172,7 +173,14 @@ export async function saveMoneyBreakdown(formData: FormData) {
       ? 0
       : Math.max(0, Math.round(Number(String(euros[i] || "0").replace(",", ".")) * 100) || 0);
     const note = (notes[i] || "").trim();
-    lines.push({ key, label, cents, ...(note ? { note } : {}), ...(dynamic ? { dynamic: true } : {}) });
+    lines.push({
+      key,
+      label,
+      cents,
+      ...(note ? { note } : {}),
+      ...(dynamic ? { dynamic: true } : {}),
+      ...(key === "fees" ? { deductOnFrontend: deductFees } : {}),
+    });
   }
   const extraLabel = String(formData.get("newLabel") || "").trim();
   if (extraLabel) {
@@ -202,6 +210,41 @@ export async function saveMoneyBreakdown(formData: FormData) {
   });
   revalidatePath("/");
   revalidatePath("/volg-alles");
+  revalidateAdmin();
+}
+
+export async function saveTransactionFees(formData: FormData) {
+  const admin = await requireAdmin();
+  const campaign = await getCampaign();
+  const cents = Math.max(
+    0,
+    Math.round(Number(String(formData.get("euros") || "0").replace(",", ".")) * 100) || 0,
+  );
+  const deductOnFrontend = formData.get("deductFeesOnFrontend") === "on";
+  const lines = parseMoneyBreakdown(campaign.moneyBreakdownJson);
+  const idx = lines.findIndex((l) => l.key === "fees");
+  const next: MoneyLine = {
+    key: "fees",
+    label: idx >= 0 ? lines[idx].label : "Transactiekosten",
+    cents,
+    deductOnFrontend,
+    ...(idx >= 0 && lines[idx].note ? { note: lines[idx].note } : {}),
+  };
+  if (idx >= 0) lines[idx] = { ...lines[idx], ...next };
+  else lines.push(next);
+  await prisma.campaign.update({
+    where: { id: campaign.id },
+    data: { moneyBreakdownJson: JSON.stringify(lines) },
+  });
+  await audit({
+    actorId: admin.id,
+    action: "campaign.fees",
+    entity: "Campaign",
+    entityId: campaign.id,
+  });
+  revalidatePath("/");
+  revalidatePath("/volg-alles");
+  revalidatePath("/pixels");
   revalidateAdmin();
 }
 

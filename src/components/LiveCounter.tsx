@@ -20,6 +20,7 @@ export type LiveCounterStats = {
   pixelCount: number;
   uniqueVisitors: number;
   onlineVisitors: number;
+  deductFees?: boolean;
 };
 
 export type LiveCounterUpdate = {
@@ -189,7 +190,9 @@ export function LiveCounter({
           {latestUpdate ? <UpdateStat update={latestUpdate} /> : null}
         </div>
 
-        <p className="mt-6 text-sm text-muted">{dict.counter.note}</p>
+        <p className="mt-6 text-sm text-muted">
+          {stats.deductFees ? dict.counter.noteNet : dict.counter.note}
+        </p>
       </div>
     </section>
   );
@@ -211,6 +214,7 @@ function statsSafe(s: Partial<LiveCounterStats>): LiveCounterStats {
     pixelCount: s.pixelCount ?? 0,
     uniqueVisitors: s.uniqueVisitors ?? 0,
     onlineVisitors: s.onlineVisitors ?? 0,
+    deductFees: s.deductFees ?? false,
   };
 }
 

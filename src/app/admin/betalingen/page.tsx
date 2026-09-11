@@ -1,12 +1,13 @@
 import { requireAdminPage } from "@/lib/admin";
 import { AdminChrome } from "@/components/AdminChrome";
-import { getCampaign } from "@/lib/campaign";
+import { feesDeductOnFrontend, getCampaign, parseMoneyBreakdown, transactionFeeCents } from "@/lib/campaign";
 import { prisma } from "@/lib/prisma";
 import { formatCents } from "@/lib/money";
 import { getMollieApiKey, getMollieWebhookUrl, isMollieKey } from "@/lib/mollie";
 import { maskSecret } from "@/lib/secret-box";
 import { GOAL_FAILURE_OPTIONS } from "@/lib/constants";
 import { saveMollie, setGoalFailure, togglePaymentsPaused, deletePayment } from "../actions";
+import { AdminTransactionFeesForm } from "@/components/AdminTransactionFeesForm";
 import { Accordion } from "@/components/Accordion";
 import { AdminManualPaymentForm } from "@/components/AdminManualPaymentForm";
 
@@ -64,6 +65,20 @@ export default async function AdminBetalingenPage() {
             <button className="btn-ghost md:col-span-2">Regeling bij niet-behalen doel</button>
           </form>
           <p className="text-sm text-muted">{GOAL_FAILURE_OPTIONS.A}</p>
+        </div>
+      </Accordion>
+
+      <Accordion title="Transactiekosten" compact className="">
+        <div className="space-y-3 px-4 py-4">
+          <p className="text-sm text-muted">
+            Vul het bedrag in dat Mollie (of een andere provider) aan kosten heeft genomen. Vink
+            aan of dat bedrag van de live teller mag gaan. Uitgevinkt blijft de teller het bruto
+            totaal van alle bevestigde betalingen tonen.
+          </p>
+          <AdminTransactionFeesForm
+            euros={(transactionFeeCents(parseMoneyBreakdown(campaign.moneyBreakdownJson)) / 100).toFixed(2)}
+            deductOnFrontend={feesDeductOnFrontend(parseMoneyBreakdown(campaign.moneyBreakdownJson))}
+          />
         </div>
       </Accordion>
 

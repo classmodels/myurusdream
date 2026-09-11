@@ -111,7 +111,7 @@ export function PixelWall({
     fetch("/api/pixels")
       .then((r) => r.json())
       .then((d) => {
-        if (Array.isArray(d.occupied) && d.occupied.length) {
+        if (Array.isArray(d.occupied)) {
           setOccupied(withoutTitleReserveAds(d.occupied));
         }
       })

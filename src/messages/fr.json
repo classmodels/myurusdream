@@ -361,7 +361,8 @@
     "pixels": "Pixels",
     "visitors": "Visiteurs",
     "online": "En ligne maintenant",
-    "note": "Seuls les paiements confirmés comptent. Le total affiché est le brut moins les frais de transaction.",
+    "note": "Seuls les paiements confirmés comptent. Le total affiché est le montant brut.",
+    "noteNet": "Seuls les paiements confirmés comptent. Le total affiché est le brut moins les frais de transaction.",
     "contributions": "Contributions",
     "deposits": "versements",
     "ofGoal": "De l'objectif",
@@ -429,7 +430,7 @@
       },
       {
         "q": "Où va l'argent ?",
-        "a": "Vers cette campagne personnelle, avec pour objectif de rendre possible une Lamborghini Urus. L'objectif brut de 400 000 € n'est pas automatiquement le prix d'achat de la voiture. Le compteur affiche les contributions brutes reçues moins les frais de transaction. Le détail se trouve sur Tout suivre."
+        "a": "Vers cette campagne personnelle, avec pour objectif de rendre possible une Lamborghini Urus. L'objectif brut de 400 000 € n'est pas automatiquement le prix d'achat de la voiture. Le compteur affiche les contributions confirmées. Les frais de transaction n'en sont déduits que si cela est activé. Le détail se trouve sur Tout suivre."
       },
       {
         "q": "Que se passe-t-il si 400 000 € ne sont pas atteints ?",
@@ -449,7 +450,7 @@
       },
       {
         "q": "Comment fonctionne le compteur ?",
-        "a": "Le compteur ne compte que les paiements confirmés. Le total affiché est le brut moins les frais de transaction. Aucun montant fictif n'est affiché. Tout le monde peut suivre l'état sur la page d'accueil et sur Tout suivre."
+        "a": "Le compteur ne compte que les paiements confirmés. Par défaut, c'est le total brut. Les frais de transaction n'en sont déduits que si cela est activé dans l'administration — cela vaut alors aussi pour les paiements antérieurs. Aucun montant fictif n'est affiché. Tout le monde peut suivre l'état sur la page d'accueil et sur Tout suivre."
       },
       {
         "q": "Comment les paiements sont-ils contrôlés ?",

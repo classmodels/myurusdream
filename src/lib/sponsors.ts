@@ -401,6 +401,11 @@ export function isExampleSponsor(name: string | null | undefined) {
   return EXAMPLE_SPONSOR_NAMES.includes(name);
 }
 
+export function isExamplePixel(label: string | null | undefined) {
+  if (!label) return false;
+  return EXAMPLE_PIXELS.some((p) => p.label === label);
+}
+
 export type SponsorCardData = {
   id?: string;
   name: string;

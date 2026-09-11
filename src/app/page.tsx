@@ -110,6 +110,7 @@ export default async function HomePage() {
           pixelCount: view.totals.pixelCount,
           uniqueVisitors: visitors,
           onlineVisitors,
+          deductFees: view.deductFees,
         }}
       />
 

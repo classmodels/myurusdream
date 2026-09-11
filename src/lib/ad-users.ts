@@ -1,7 +1,7 @@
 import { prisma } from "./prisma";
 import { generateReferralCode, nextParticipantNumber } from "./auth";
 import { LEGAL_DOC_VERSION } from "./constants";
-import { EXAMPLE_PIXELS, isExampleSponsor, SPONSOR_MIN_CENTS, withoutTitleReserveAds, type OccupiedPixel } from "./sponsors";
+import { isExamplePixel, isExampleSponsor, SPONSOR_MIN_CENTS, withoutTitleReserveAds, type OccupiedPixel } from "./sponsors";
 import { normalizePhone } from "./phone";
 
 export async function ensurePayerUser(input: {
@@ -79,23 +79,21 @@ export async function occupiedPixels(campaignId: string): Promise<OccupiedPixel[
   const mapped = await Promise.all(
     paid
       .filter((p) => p.pixelX != null && p.pixelY != null && p.pixelW && p.pixelH)
+      .filter((p) => !isExamplePixel(p.sponsorName) && !isExamplePixel(p.pixelLabel))
       .map(async (p) => {
         const title = p.sponsorName || p.pixelLabel || "Pixel";
         const caption =
           p.pixelLabel && p.pixelLabel !== p.sponsorName ? p.pixelLabel : null;
-        const example = EXAMPLE_PIXELS.find(
-          (e) => e.label === p.sponsorName || e.label === p.pixelLabel,
-        );
         return {
           x: p.pixelX as number,
           y: p.pixelY as number,
           w: p.pixelW as number,
           h: p.pixelH as number,
           label: title,
-          caption: caption || example?.caption || null,
+          caption,
           color: p.pixelColor || "#d4ab7e",
           url: p.sponsorUrl,
-          image: example?.image || (await resolveLogoForDisplay(p.pixelImage)),
+          image: await resolveLogoForDisplay(p.pixelImage),
         };
       }),
   );

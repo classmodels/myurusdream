@@ -4,7 +4,7 @@ import { getCampaign } from "@/lib/campaign";
 import { paymentsAllowed } from "@/lib/flags";
 import { getMollie, mollieConfigured } from "@/lib/mollie";
 import { occupiedPixels } from "@/lib/ad-users";
-import { EXAMPLE_PIXELS, withoutTitleReserveAds } from "@/lib/sponsors";
+import { withoutTitleReserveAds } from "@/lib/sponsors";
 import { prisma } from "@/lib/prisma";
 import { fulfillPaidPayment } from "@/lib/payments";
 
@@ -43,8 +43,7 @@ export default async function KoopPixelsPage({
     }
   }
 
-  const live = await occupiedPixels(campaign.id);
-  const occupied = withoutTitleReserveAds(live.length ? live : EXAMPLE_PIXELS);
+  const occupied = withoutTitleReserveAds(await occupiedPixels(campaign.id));
 
   return (
     <div className="relative isolate min-h-[100svh] overflow-x-clip">

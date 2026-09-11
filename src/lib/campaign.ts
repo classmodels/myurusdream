@@ -47,6 +47,7 @@ export type MoneyLine = {
   cents: number;
   note?: string;
   dynamic?: boolean;
+  deductOnFrontend?: boolean;
 };
 
 export function parseMoneyBreakdown(json: string): MoneyLine[] {
@@ -62,11 +63,17 @@ export function transactionFeeCents(lines: MoneyLine[]): number {
   return Math.max(0, lines.find((l) => l.key === "fees")?.cents ?? 0);
 }
 
+export function feesDeductOnFrontend(lines: MoneyLine[]): boolean {
+  return lines.find((l) => l.key === "fees")?.deductOnFrontend === true;
+}
+
 export async function getPublicCampaignView() {
   const campaign = await getCampaign();
   const totals = await getLiveTotals(campaign.id);
-  const feeCents = transactionFeeCents(parseMoneyBreakdown(campaign.moneyBreakdownJson));
-  const netCents = Math.max(0, totals.raisedCents - feeCents);
+  const lines = parseMoneyBreakdown(campaign.moneyBreakdownJson);
+  const feeCents = transactionFeeCents(lines);
+  const deductFees = feesDeductOnFrontend(lines);
+  const netCents = deductFees ? Math.max(0, totals.raisedCents - feeCents) : totals.raisedCents;
   const remainingCents = Math.max(0, campaign.goalCents - netCents);
   const remainingPeople = Math.max(
     0,
@@ -78,6 +85,7 @@ export async function getPublicCampaignView() {
     campaign,
     totals,
     feeCents,
+    deductFees,
     netCents,
     remainingCents,
     remainingPeople,

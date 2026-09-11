@@ -1,7 +1,7 @@
 import { requireAdminPage } from "@/lib/admin";
 import { AdminChrome } from "@/components/AdminChrome";
 import { Accordion } from "@/components/Accordion";
-import { getCampaign, parseMoneyBreakdown } from "@/lib/campaign";
+import { feesDeductOnFrontend, getCampaign, parseMoneyBreakdown } from "@/lib/campaign";
 import { getShareCopy } from "@/lib/share";
 import { SHARE_TEXT, SITE_NAME } from "@/lib/constants";
 import { createUpdate, saveMoneyBreakdown, saveOrganizer, saveShareCopy } from "../actions";
@@ -50,6 +50,18 @@ export default async function AdminCampagnePage() {
                 {line.dynamic ? <p className="text-xs text-muted md:col-span-3">Deze lijn wordt automatisch berekend.</p> : null}
               </div>
             ))}
+            <label className="flex items-start gap-2 normal-case tracking-normal">
+              <input
+                type="checkbox"
+                name="deductFeesOnFrontend"
+                defaultChecked={feesDeductOnFrontend(lines)}
+                className="mt-1 w-auto"
+              />
+              <span>
+                Trek transactiekosten af van het brutobedrag op de live teller (ook voor eerdere
+                betalingen).
+              </span>
+            </label>
             <div className="grid gap-2 border border-dashed border-yellow/40 p-3 md:grid-cols-3">
               <input name="newLabel" placeholder="Nieuwe post" />
               <input name="newEuros" placeholder="Bedrag in €" />

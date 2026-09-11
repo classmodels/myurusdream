@@ -25,6 +25,7 @@ export async function GET() {
       pixelCount: view.totals.pixelCount,
       uniqueVisitors: await uniqueVisitorCount(),
       onlineVisitors: await onlineVisitorCount(),
+      deductFees: view.deductFees,
       liveMode: view.campaign.liveMode,
       status: view.campaign.status,
     },

@@ -361,7 +361,8 @@
     "pixels": "Pixels",
     "visitors": "Visitors",
     "online": "Live now",
-    "note": "Only confirmed payments count. The total shown is gross minus transaction costs.",
+    "note": "Only confirmed payments count. The total shown is the gross amount.",
+    "noteNet": "Only confirmed payments count. The total shown is gross minus transaction costs.",
     "contributions": "Contributions",
     "deposits": "deposits",
     "ofGoal": "Of the goal",
@@ -429,7 +430,7 @@
       },
       {
         "q": "Where does the money go?",
-        "a": "To this personal campaign, with the goal of making a Lamborghini Urus possible. The gross goal of €400,000 is not automatically the purchase price of the car. The counter shows gross received contributions minus transaction costs. The breakdown is on Follow everything."
+        "a": "To this personal campaign, with the goal of making a Lamborghini Urus possible. The gross goal of €400,000 is not automatically the purchase price of the car. The counter shows confirmed contributions. Transaction costs are subtracted only if that is enabled. The breakdown is on Follow everything."
       },
       {
         "q": "What happens if €400,000 is not reached?",
@@ -449,7 +450,7 @@
       },
       {
         "q": "How does the counter work?",
-        "a": "The counter only counts confirmed payments. The total shown is gross minus transaction costs. No fictional amounts are shown. Everyone can follow the status on the homepage and on Follow everything."
+        "a": "The counter only counts confirmed payments. By default that is the gross total. Transaction costs are subtracted only if that is enabled in the admin panel — then it also applies to earlier payments. No fictional amounts are shown. Everyone can follow the status on the homepage and on Follow everything."
       },
       {
         "q": "How are payments checked?",
