@@ -1,20 +1,16 @@
+import Link from "next/link";
 import { requireAdminPage } from "@/lib/admin";
 import { AdminChrome } from "@/components/AdminChrome";
 import { prisma } from "@/lib/prisma";
 import { getSmtpConfig, smtpReady } from "@/lib/mail";
-import {
-  createMailList,
-  deleteMailCampaign,
-  deleteMailList,
-  importMailList,
-  saveSmtp,
-  sendBroadcast,
-  sendMailCampaign,
-} from "../actions";
+import { createMailList, deleteMailCampaign, deleteMailList, saveSmtp, sendBroadcast, sendMailCampaign } from "../actions";
 import { Accordion } from "@/components/Accordion";
 import { TestMailForm } from "./TestMailForm";
+import { MailCsvImportForm } from "@/components/MailCsvImportForm";
+import { MailSelectAll } from "@/components/MailSelectAll";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 300;
 
 export default async function AdminMailenPage() {
   await requireAdminPage();
@@ -25,8 +21,18 @@ export default async function AdminMailenPage() {
   });
   const campaigns = await prisma.mailCampaign.findMany({
     orderBy: { createdAt: "desc" },
-    take: 12,
+    take: 20,
+    include: { _count: { select: { sends: true } } },
   });
+  const campaignStats = await Promise.all(
+    campaigns.map(async (c) => {
+      const [opened, read] = await Promise.all([
+        prisma.mailSend.count({ where: { campaignId: c.id, openedAt: { not: null } } }),
+        prisma.mailSend.count({ where: { campaignId: c.id, readAt: { not: null } } }),
+      ]);
+      return { ...c, opened, read };
+    }),
+  );
 
   return (
     <AdminChrome title="Mailen">
@@ -76,34 +82,23 @@ export default async function AdminMailenPage() {
           <input name="name" placeholder="Naam van de lijst" required />
           <button className="btn-ghost">Lijst maken</button>
         </form>
-        <form action={importMailList} className="grid gap-3">
-          <select name="listId">
-            <option value="">Nieuwe lijst</option>
-            {lists.map((l) => (
-              <option key={l.id} value={l.id}>
-                {l.name} ({l._count.contacts})
-              </option>
-            ))}
-          </select>
-          <input name="newName" placeholder="Naam als u een nieuwe lijst maakt" />
-          <textarea
-            name="csv"
-            rows={6}
-            placeholder={"email;voornaam;naam\njan@voorbeeld.be;Jan;Peeters"}
-            required
-          />
-          <button className="btn-yellow w-fit">CSV importeren</button>
-        </form>
+        <MailCsvImportForm
+          lists={lists.map((l) => ({ id: l.id, name: l.name, count: l._count.contacts }))}
+        />
       </section>
 
-      <Accordion title="Lijsten" compact className="">
-        <ul className="space-y-2 px-4 py-3 text-sm">
-          {lists.length ? (
-            lists.map((l) => (
-              <li key={l.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0">
-                <span>
-                  {l.name} · {l._count.contacts} adressen
-                </span>
+      <section className="card-dark space-y-4 p-6">
+        <h2 className="font-display text-2xl">Lijsten</h2>
+        {lists.length ? (
+          <ul className="space-y-2 text-sm">
+            {lists.map((l) => (
+              <li
+                key={l.id}
+                className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0"
+              >
+                <Link href={`/admin/mailen/lijst/${l.id}`} className="hover:text-yellow">
+                  {l.name} · {l._count.contacts} adressen — openen
+                </Link>
                 <form action={deleteMailList}>
                   <input type="hidden" name="listId" value={l.id} />
                   <button type="submit" className="btn-danger">
@@ -111,12 +106,12 @@ export default async function AdminMailenPage() {
                   </button>
                 </form>
               </li>
-            ))
-          ) : (
-            <li className="text-muted">Nog geen lijsten.</li>
-          )}
-        </ul>
-      </Accordion>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted">Nog geen lijsten. Maak er een of importeer een CSV.</p>
+        )}
+      </section>
 
       <Accordion title="Voorbeeld van de mail" compact className="">
         <div className="px-4 py-4">
@@ -135,19 +130,24 @@ export default async function AdminMailenPage() {
       <section className="card-dark space-y-4 p-6">
         <h2 className="font-display text-2xl">Nieuwe mail</h2>
         <p className="text-sm text-muted">
-          Placeholders: {"{{voornaam}}"} {"{{naam}}"} {"{{volledige_naam}}"} {"{{email}}"} {"{{aanhef}}"}
+          Placeholders: {"{{voornaam}}"} {"{{naam}}"} {"{{volledige_naam}}"} {"{{bedrijf}}"} {"{{email}}"}{" "}
+          {"{{aanhef}}"}
         </p>
         <form action={sendMailCampaign} className="grid gap-3">
-          <select name="audience" required>
-            <option value="accounts">Alle accounts</option>
+          <div className="space-y-2 border border-white/10 p-3">
+            <MailSelectAll checkboxName="listIds" label="Alles selecteren" />
+            <label className="flex items-center gap-2 text-sm normal-case tracking-normal">
+              <input type="checkbox" name="accounts" className="w-auto" />
+              Alle accounts op de site
+            </label>
             {lists.map((l) => (
-              <option key={l.id} value={`list:${l.id}`}>
-                Lijst: {l.name}
-              </option>
+              <label key={l.id} className="flex items-center gap-2 text-sm normal-case tracking-normal">
+                <input type="checkbox" name="listIds" value={l.id} defaultChecked className="w-auto" />
+                {l.name} ({l._count.contacts})
+              </label>
             ))}
-            <option value="manual">Plak adressen / CSV</option>
-          </select>
-          <textarea name="manual" rows={3} placeholder="Alleen nodig bij ‘Plak adressen’" />
+            {!lists.length ? <p className="text-sm text-muted">Nog geen lijsten om te selecteren.</p> : null}
+          </div>
           <input name="subject" placeholder="Onderwerp" required />
           <textarea name="body" rows={8} placeholder="Typ hier de tekst. Die komt in het myurusdream-sjabloon." required />
           <button className="btn-yellow w-fit">Versturen</button>
@@ -164,15 +164,19 @@ export default async function AdminMailenPage() {
         </form>
       </section>
 
-      <Accordion title="Verzonden" compact className="">
-        <ul className="space-y-2 px-4 py-3 text-sm">
-          {campaigns.length ? (
-            campaigns.map((c) => (
-              <li key={c.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0">
-                <span>
-                  {c.subject} · {c.sentCount} ok · {c.failCount} mislukt ·{" "}
-                  {c.sentAt?.toLocaleString("nl-BE") || "—"}
-                </span>
+      <section className="card-dark space-y-4 p-6">
+        <h2 className="font-display text-2xl">Verzonden</h2>
+        {campaignStats.length ? (
+          <ul className="space-y-2 text-sm">
+            {campaignStats.map((c) => (
+              <li
+                key={c.id}
+                className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2 last:border-0 last:pb-0"
+              >
+                <Link href={`/admin/mailen/campagne/${c.id}`} className="hover:text-yellow">
+                  {c.subject} · {c.sentCount} ontvangen · {c.opened} geopend · {c.read} gelezen ·{" "}
+                  {c.failCount} mislukt · {c.sentAt?.toLocaleString("nl-BE") || "—"}
+                </Link>
                 <form action={deleteMailCampaign}>
                   <input type="hidden" name="id" value={c.id} />
                   <button type="submit" className="btn-danger">
@@ -180,12 +184,12 @@ export default async function AdminMailenPage() {
                   </button>
                 </form>
               </li>
-            ))
-          ) : (
-            <li className="text-muted">Nog geen verzonden mails.</li>
-          )}
-        </ul>
-      </Accordion>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted">Nog geen verzonden mails.</p>
+        )}
+      </section>
     </AdminChrome>
   );
 }

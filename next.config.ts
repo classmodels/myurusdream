@@ -3,6 +3,11 @@ import path from "node:path";
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ["@prisma/client", "prisma", "mysql2", "bcryptjs", "@mollie/api-client", "web-push", "nodemailer"],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "15mb",
+    },
+  },
   turbopack: {
     root: path.resolve(__dirname),
   },

@@ -341,6 +341,7 @@ model MailContact {
   email         String
   firstName     String   @default("")
   lastName      String   @default("")
+  company       String   @default("")
   unsubscribed  Boolean  @default(false)
   createdAt     DateTime @default(now())
 
@@ -356,6 +357,27 @@ model MailCampaign {
   sentCount Int       @default(0)
   failCount Int       @default(0)
   createdAt DateTime  @default(now())
+  sends     MailSend[]
+}
+
+model MailSend {
+  id         String    @id @default(cuid())
+  campaignId String
+  campaign   MailCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  email      String
+  firstName  String    @default("")
+  lastName   String    @default("")
+  company    String    @default("")
+  status     String    @default("failed")
+  error      String?   @db.Text
+  token      String    @unique
+  sentAt     DateTime?
+  openedAt   DateTime?
+  readAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([campaignId])
+  @@index([email])
 }
 
 model PushDevice {

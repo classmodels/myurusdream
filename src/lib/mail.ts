@@ -75,16 +75,26 @@ export async function sendCampaignMail(options: {
   subject: string;
   body: string;
   vars?: MailVars;
+  trackToken?: string;
 }) {
   const cfg = await getSmtpConfig();
   if (!smtpReady(cfg)) {
     throw new Error("SMTP is nog niet ingesteld. Vul host, gebruiker en wachtwoord in onder Mailen.");
   }
+  const base = siteUrl();
+  const track =
+    options.trackToken && base
+      ? {
+          trackOpenUrl: `${base}/api/mail/open/${options.trackToken}`,
+          trackClickUrl: `${base}/api/mail/click/${options.trackToken}`,
+        }
+      : {};
   const html = campaignHtml({
     subject: options.subject,
     body: options.body,
-    base: siteUrl(),
+    base,
     vars: { ...options.vars, email: options.to },
+    ...track,
   });
   try {
     await transporter(cfg).sendMail({
@@ -111,32 +121,112 @@ function smtpErrorMessage(error: unknown) {
   return err.message || "Verzenden via Brevo is mislukt.";
 }
 
-export function parseEmailCsv(text: string) {
-  const lines = text
-    .replace(/^\uFEFF/, "")
-    .split(/\r?\n/)
-    .map((l) => l.trim())
-    .filter(Boolean);
-  if (!lines.length) return [];
-  const first = lines[0].toLowerCase();
-  const sep = first.includes(";") ? ";" : ",";
-  const split = (row: string) =>
-    row.split(sep).map((c) => c.trim().replace(/^"|"$/g, "").replace(/""/g, '"'));
-  const header = split(first);
-  const emailIdx = header.findIndex((c) => /e-?mail/.test(c));
-  const firstIdx = header.findIndex((c) => /voornaam|first/.test(c));
-  const lastIdx = header.findIndex((c) => /^(naam|last|achternaam)$/.test(c) || c.includes("last name"));
-  const hasHeader = emailIdx >= 0;
-  const rows = hasHeader ? lines.slice(1) : lines;
-  const out: { email: string; firstName: string; lastName: string }[] = [];
-  for (const row of rows) {
-    const cols = split(row);
-    const email = (hasHeader ? cols[emailIdx] : cols[0] || "").trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) continue;
+export type ParsedMailRow = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  company: string;
+};
+
+function detectSep(header: string) {
+  const counts = {
+    ";": (header.match(/;/g) || []).length,
+    ",": (header.match(/,/g) || []).length,
+    "\t": (header.match(/\t/g) || []).length,
+  };
+  return (Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || ";") as string;
+}
+
+function parseCsvTable(text: string): string[][] {
+  const src = text.replace(/^\uFEFF/, "");
+  const firstLine = src.split(/\r?\n/, 1)[0] || "";
+  const sep = detectSep(firstLine);
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let cell = "";
+  let inQuotes = false;
+  for (let i = 0; i < src.length; i++) {
+    const ch = src[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (src[i + 1] === '"') {
+          cell += '"';
+          i += 1;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        cell += ch;
+      }
+      continue;
+    }
+    if (ch === '"') {
+      inQuotes = true;
+      continue;
+    }
+    if (ch === sep) {
+      row.push(cell.trim());
+      cell = "";
+      continue;
+    }
+    if (ch === "\n" || (ch === "\r" && src[i + 1] === "\n")) {
+      if (ch === "\r") i += 1;
+      row.push(cell.trim());
+      cell = "";
+      if (row.some((c) => c)) rows.push(row);
+      row = [];
+      continue;
+    }
+    if (ch === "\r") {
+      row.push(cell.trim());
+      cell = "";
+      if (row.some((c) => c)) rows.push(row);
+      row = [];
+      continue;
+    }
+    cell += ch;
+  }
+  row.push(cell.trim());
+  if (row.some((c) => c)) rows.push(row);
+  return rows;
+}
+
+function looksLikeEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim().toLowerCase());
+}
+
+function headerIndex(header: string[], pattern: RegExp) {
+  return header.findIndex((c) => pattern.test(c));
+}
+
+export function parseEmailCsv(text: string): ParsedMailRow[] {
+  const table = parseCsvTable(text);
+  if (!table.length) return [];
+  const rawHeader = table[0].map((c) => c.toLowerCase());
+  let emailIdx = headerIndex(rawHeader, /e-?mail|mailadres|^mail$/);
+  const firstIdx = headerIndex(rawHeader, /voornaam|first\s*name|^first$/);
+  const lastIdx = headerIndex(rawHeader, /achternaam|last\s*name|^last$|^naam$/);
+  const companyIdx = headerIndex(rawHeader, /bedrijf|company|firma|onderneming|organisatie|zaak|bedrijfsnaam/);
+  const hasHeader = emailIdx >= 0 || companyIdx >= 0 || firstIdx >= 0 || lastIdx >= 0;
+  const data = hasHeader ? table.slice(1) : table;
+  if (emailIdx < 0 && hasHeader) {
+    /* header without explicit email column — scan first data row */
+  }
+  const out: ParsedMailRow[] = [];
+  const seen = new Set<string>();
+  for (const cols of data) {
+    let email = "";
+    if (emailIdx >= 0) email = (cols[emailIdx] || "").trim().toLowerCase();
+    if (!looksLikeEmail(email)) {
+      email = (cols.find((c) => looksLikeEmail(c)) || "").trim().toLowerCase();
+    }
+    if (!looksLikeEmail(email) || seen.has(email)) continue;
+    seen.add(email);
     out.push({
       email,
-      firstName: hasHeader && firstIdx >= 0 ? cols[firstIdx] || "" : "",
-      lastName: hasHeader && lastIdx >= 0 ? cols[lastIdx] || "" : "",
+      firstName: firstIdx >= 0 ? cols[firstIdx] || "" : "",
+      lastName: lastIdx >= 0 ? cols[lastIdx] || "" : "",
+      company: companyIdx >= 0 ? cols[companyIdx] || "" : "",
     });
   }
   return out;

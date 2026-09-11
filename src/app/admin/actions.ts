@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/auth";
 import { getCampaign, parseMoneyBreakdown, type MoneyLine } from "@/lib/campaign";
@@ -667,32 +668,52 @@ export async function createMailList(formData: FormData) {
   const admin = await requireAdmin();
   const name = String(formData.get("name") || "").trim();
   if (!name) throw new Error("Naam van de lijst is verplicht.");
-  await prisma.mailList.create({ data: { name } });
-  await audit({ actorId: admin.id, action: "mail.list.create", entity: "MailList" });
+  const list = await prisma.mailList.create({ data: { name } });
+  await audit({ actorId: admin.id, action: "mail.list.create", entity: "MailList", entityId: list.id });
   revalidateAdmin();
+  redirect(`/admin/mailen/lijst/${list.id}`);
 }
 
-export async function importMailList(formData: FormData) {
+export type ImportMailState = { error?: string };
+
+async function csvTextFromForm(formData: FormData) {
+  const file = formData.get("file");
+  if (file instanceof File && file.size > 0) {
+    return await file.text();
+  }
+  return String(formData.get("csv") || "");
+}
+
+export async function importMailList(_prev: ImportMailState, formData: FormData): Promise<ImportMailState> {
   const admin = await requireAdmin();
   let listId = String(formData.get("listId") || "").trim();
   const newName = String(formData.get("newName") || "").trim();
-  const csv = String(formData.get("csv") || "");
+  const csv = await csvTextFromForm(formData);
   const rows = parseEmailCsv(csv);
-  if (!rows.length) throw new Error("Geen geldige e-mailadressen in de CSV.");
+  if (!rows.length) {
+    return {
+      error:
+        "Geen geldige e-mailadressen gevonden. Kies een CSV-bestand (email, voornaam, naam of bedrijf).",
+    };
+  }
   if (!listId) {
-    const list = await prisma.mailList.create({ data: { name: newName || `Lijst ${new Date().toLocaleDateString("nl-BE")}` } });
+    const list = await prisma.mailList.create({
+      data: { name: newName || `Lijst ${new Date().toLocaleDateString("nl-BE")}` },
+    });
     listId = list.id;
   }
   let added = 0;
-  for (const row of rows) {
-    try {
-      await prisma.mailContact.create({
-        data: { listId, email: row.email, firstName: row.firstName, lastName: row.lastName },
-      });
-      added += 1;
-    } catch {
-      /* duplicate */
-    }
+  const chunk = 400;
+  for (let i = 0; i < rows.length; i += chunk) {
+    const slice = rows.slice(i, i + chunk).map((row) => ({
+      listId,
+      email: row.email,
+      firstName: row.firstName,
+      lastName: row.lastName,
+      company: row.company,
+    }));
+    const result = await prisma.mailContact.createMany({ data: slice, skipDuplicates: true });
+    added += result.count;
   }
   await audit({
     actorId: admin.id,
@@ -702,6 +723,49 @@ export async function importMailList(formData: FormData) {
     meta: { added, total: rows.length },
   });
   revalidateAdmin();
+  revalidatePath(`/admin/mailen/lijst/${listId}`);
+  redirect(`/admin/mailen/lijst/${listId}?imported=${added}&total=${rows.length}`);
+}
+
+export type AddContactState = { error?: string; ok?: string };
+
+export async function addMailContact(_prev: AddContactState, formData: FormData): Promise<AddContactState> {
+  const admin = await requireAdmin();
+  const listId = String(formData.get("listId") || "").trim();
+  const email = String(formData.get("email") || "").trim().toLowerCase();
+  const firstName = String(formData.get("firstName") || "").trim();
+  const lastName = String(formData.get("lastName") || "").trim();
+  const company = String(formData.get("company") || "").trim();
+  if (!listId) return { error: "Lijst ontbreekt." };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "Vul een geldig e-mailadres in." };
+  try {
+    await prisma.mailContact.create({
+      data: { listId, email, firstName, lastName, company },
+    });
+  } catch {
+    return { error: "Dit adres staat al in de lijst." };
+  }
+  await audit({
+    actorId: admin.id,
+    action: "mail.contact.add",
+    entity: "MailList",
+    entityId: listId,
+    meta: { email },
+  });
+  revalidateAdmin();
+  revalidatePath(`/admin/mailen/lijst/${listId}`);
+  return { ok: `${email} toegevoegd.` };
+}
+
+export async function deleteMailContact(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("contactId") || "");
+  const listId = String(formData.get("listId") || "");
+  if (!id) throw new Error("Ongeldig adres.");
+  await prisma.mailContact.delete({ where: { id } });
+  await audit({ actorId: admin.id, action: "mail.contact.delete", entity: "MailContact", entityId: id });
+  revalidateAdmin();
+  revalidatePath(`/admin/mailen/lijst/${listId}`);
 }
 
 export async function sendMailCampaign(formData: FormData) {
@@ -710,72 +774,143 @@ export async function sendMailCampaign(formData: FormData) {
   if (!smtpReady(cfg)) throw new Error("SMTP is nog niet ingesteld.");
   const subject = String(formData.get("subject") || "").trim();
   const body = String(formData.get("body") || "").trim();
-  const audience = String(formData.get("audience") || "accounts");
-  const manual = String(formData.get("manual") || "");
   if (!subject || !body) throw new Error("Onderwerp en tekst zijn verplicht.");
 
-  type Target = { email: string; firstName: string; lastName: string };
+  const listIds = formData.getAll("listIds").map(String).filter(Boolean);
+  const contactIds = formData.getAll("contactIds").map(String).filter(Boolean);
+  const includeAccounts = formData.get("accounts") === "on";
+  const fallbackAudience = String(formData.get("audience") || "");
+
+  type Target = { email: string; firstName: string; lastName: string; company: string };
   let targets: Target[] = [];
-  if (audience === "accounts") {
+  const audienceParts: string[] = [];
+
+  if (includeAccounts || fallbackAudience === "accounts") {
     const users = await prisma.user.findMany({
       where: {
         role: "participant",
         blocked: false,
         NOT: { email: { startsWith: "deleted-" } },
       },
-      select: { email: true, firstName: true, lastName: true },
+      select: { email: true, firstName: true, lastName: true, companyName: true },
     });
-    targets = users.map((u) => ({
-      email: u.email,
-      firstName: u.firstName || "",
-      lastName: u.lastName || "",
-    }));
-  } else if (audience.startsWith("list:")) {
-    const listId = audience.slice(5);
+    targets.push(
+      ...users.map((u) => ({
+        email: u.email,
+        firstName: u.firstName || "",
+        lastName: u.lastName || "",
+        company: u.companyName || "",
+      })),
+    );
+    audienceParts.push("Alle accounts");
+  }
+
+  const resolvedListIds = [...listIds];
+  if (fallbackAudience.startsWith("list:")) resolvedListIds.push(fallbackAudience.slice(5));
+  const singleListId = String(formData.get("listId") || "").trim();
+  if (singleListId) resolvedListIds.push(singleListId);
+
+  if (contactIds.length) {
     const contacts = await prisma.mailContact.findMany({
-      where: { listId, unsubscribed: false },
+      where: { id: { in: contactIds }, unsubscribed: false },
     });
-    targets = contacts.map((c) => ({ email: c.email, firstName: c.firstName, lastName: c.lastName }));
-  } else if (audience === "manual") {
-    targets = parseEmailCsv(manual.includes("@") && !manual.includes(",") && !manual.includes(";")
-      ? manual.split(/\s+/).filter(Boolean).join("\n")
-      : manual);
-    if (!targets.length) {
-      targets = manual
-        .split(/[\s,;]+/)
-        .map((email) => email.trim().toLowerCase())
-        .filter((email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-        .map((email) => ({ email, firstName: "", lastName: "" }));
+    targets.push(
+      ...contacts.map((c) => ({
+        email: c.email,
+        firstName: c.firstName,
+        lastName: c.lastName,
+        company: c.company,
+      })),
+    );
+    audienceParts.push(`${contacts.length} geselecteerde adressen`);
+  } else if (resolvedListIds.length) {
+    const lists = await prisma.mailList.findMany({
+      where: { id: { in: [...new Set(resolvedListIds)] } },
+      include: { contacts: { where: { unsubscribed: false } } },
+    });
+    for (const list of lists) {
+      targets.push(
+        ...list.contacts.map((c) => ({
+          email: c.email,
+          firstName: c.firstName,
+          lastName: c.lastName,
+          company: c.company,
+        })),
+      );
+      audienceParts.push(list.name);
     }
   }
+
   const unique = [...new Map(targets.map((t) => [t.email.toLowerCase(), t])).values()];
-  if (!unique.length) throw new Error("Geen ontvangers gevonden.");
+  if (!unique.length) throw new Error("Geen ontvangers gevonden. Selecteer een lijst of adressen.");
+
+  const campaign = await prisma.mailCampaign.create({
+    data: {
+      subject,
+      body,
+      audience: audienceParts.join(" · ") || "lijst",
+      sentAt: new Date(),
+    },
+  });
 
   let sentCount = 0;
   let failCount = 0;
   for (const target of unique) {
+    const token = randomBytes(16).toString("hex");
+    const row = await prisma.mailSend.create({
+      data: {
+        campaignId: campaign.id,
+        email: target.email,
+        firstName: target.firstName,
+        lastName: target.lastName,
+        company: target.company,
+        token,
+        status: "pending",
+      },
+    });
     try {
       await sendCampaignMail({
         to: target.email,
         subject,
         body,
-        vars: { firstName: target.firstName, lastName: target.lastName, email: target.email },
+        vars: {
+          firstName: target.firstName,
+          lastName: target.lastName,
+          email: target.email,
+          company: target.company,
+        },
+        trackToken: token,
       });
       sentCount += 1;
-    } catch {
+      await prisma.mailSend.update({
+        where: { id: row.id },
+        data: { status: "sent", sentAt: new Date() },
+      });
+    } catch (error) {
       failCount += 1;
+      await prisma.mailSend.update({
+        where: { id: row.id },
+        data: {
+          status: "failed",
+          error: error instanceof Error ? error.message : "Verzenden mislukt",
+        },
+      });
     }
   }
-  await prisma.mailCampaign.create({
-    data: { subject, body, audience, sentAt: new Date(), sentCount, failCount },
+  await prisma.mailCampaign.update({
+    where: { id: campaign.id },
+    data: { sentCount, failCount, sentAt: new Date() },
   });
   await audit({
     actorId: admin.id,
     action: "mail.send",
     entity: "MailCampaign",
-    meta: { audience, sentCount, failCount },
+    entityId: campaign.id,
+    meta: { audience: campaign.audience, sentCount, failCount },
   });
   revalidateAdmin();
+  revalidatePath(`/admin/mailen/campagne/${campaign.id}`);
+  redirect(`/admin/mailen/campagne/${campaign.id}`);
 }
 
 export async function deletePayment(formData: FormData) {
@@ -893,6 +1028,8 @@ export async function deleteMailList(formData: FormData) {
   await prisma.mailList.delete({ where: { id } });
   await audit({ actorId: admin.id, action: "mail.list.delete", entity: "MailList", entityId: id });
   revalidateAdmin();
+  revalidatePath("/admin/mailen");
+  revalidatePath("/admin/mailen", "layout");
 }
 
 export async function deleteMailCampaign(formData: FormData) {
