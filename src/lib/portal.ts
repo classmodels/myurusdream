@@ -159,7 +159,7 @@ export function createDefaultPortalState(email: string): PortalState {
         parentId: null,
       },
     ],
-    previewUrl: "",
+    previewUrl: PORTAL_DEMO.liveSitePath,
     changeRequests: [],
     timeEntries: [],
     activeTimer: null,
@@ -183,6 +183,7 @@ export function normalizePortalState(raw: Partial<PortalState> & { email: string
     files: raw.files ?? [],
     completedSteps: asStepIds(raw.completedSteps),
     activeTimer: raw.activeTimer ?? null,
+    previewUrl: raw.previewUrl || PORTAL_DEMO.liveSitePath,
   };
 }
 

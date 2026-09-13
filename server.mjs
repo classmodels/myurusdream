@@ -54,10 +54,28 @@ async function main() {
     prefix: site.prefix,
     handle: site.app.getRequestHandler(),
   }));
+  const shortAliases = loadSites()
+    .map((site) => {
+      const slug = String(site.slug || "").replace(/^\/+|\/+$/g, "");
+      const prefix = sitePrefix(site);
+      if (!slug || prefix === `/${slug}`) return null;
+      return { from: `/${slug}`, to: prefix };
+    })
+    .filter(Boolean);
 
   createServer((req, res) => {
     const parsed = parse(req.url || "/", true);
     const pathname = parsed.pathname || "/";
+    const alias = shortAliases.find(
+      (row) => pathname === row.from || pathname.startsWith(`${row.from}/`),
+    );
+    if (alias) {
+      const rest = pathname.slice(alias.from.length);
+      const search = parsed.search || "";
+      res.writeHead(302, { Location: `${alias.to}${rest}${search}` });
+      res.end();
+      return;
+    }
     const match = siteHandles.find(
       (site) => pathname === site.prefix || pathname.startsWith(`${site.prefix}/`),
     );

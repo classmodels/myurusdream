@@ -11,13 +11,21 @@ export function brusselsDay(at = new Date()) {
 }
 
 export async function uniqueVisitorCount() {
-  return prisma.uniqueVisitor.count();
+  try {
+    return await prisma.uniqueVisitor.count();
+  } catch {
+    return 0;
+  }
 }
 
 export async function onlineVisitorCount() {
-  return prisma.uniqueVisitor.count({
-    where: { lastSeenUnix: { gte: nowUnix() - ONLINE_WINDOW_SEC } },
-  });
+  try {
+    return await prisma.uniqueVisitor.count({
+      where: { lastSeenUnix: { gte: nowUnix() - ONLINE_WINDOW_SEC } },
+    });
+  } catch {
+    return 0;
+  }
 }
 
 export async function rememberVisitor(token: string) {

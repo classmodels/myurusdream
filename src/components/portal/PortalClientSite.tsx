@@ -47,7 +47,10 @@ export function PortalClientSite() {
           ) : null}
         </div>
         <p className="mt-2 text-sm text-ink-soft">
-          Dit is de site waaraan SiteButler voor u werkt.
+          Dit is de site waaraan SiteButler voor u werkt.{" "}
+          <Link href="/portaal/project" className="font-semibold text-teal hover:underline">
+            Naar het stappenplan
+          </Link>
         </p>
         {liveHref ? (
           <div className="mt-6 overflow-hidden rounded-tr-2xl ring-1 ring-line">

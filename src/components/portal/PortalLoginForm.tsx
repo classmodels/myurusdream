@@ -13,7 +13,7 @@ import {
 
 export function PortalLoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState<string>(PORTAL_DEMO.email);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -54,7 +54,16 @@ export function PortalLoginForm() {
       if (!existing || existing.email !== PORTAL_DEMO.email) {
         savePortalState(createDefaultPortalState(PORTAL_DEMO.email));
       }
-      router.push("/portaal/project");
+      saveClientSiteSession({
+        slug: "demo",
+        publicSlug: "myurusdream",
+        liveSitePath: PORTAL_DEMO.liveSitePath,
+        title: "Myurusdream",
+        previewUrl: PORTAL_DEMO.liveSitePath,
+        progress: 70,
+        accessCode: "",
+      });
+      router.push("/portaal/mijn-site");
     } catch {
       setError("Geen verbinding.");
     } finally {
@@ -73,6 +82,7 @@ export function PortalLoginForm() {
           onChange={(e) => setEmail(e.target.value)}
           className="input-field mt-1.5"
           autoComplete="username"
+          placeholder="klant@bedrijf.be"
         />
       </label>
       <label className="mt-4 block text-sm font-semibold text-ink-on-light">
@@ -91,10 +101,10 @@ export function PortalLoginForm() {
         Inloggen
       </button>
       <p className="mt-4 rounded-lg bg-[#f4f7fb] px-3 py-2 text-xs text-muted-on-light">
-        Demo van het stappenplan: <strong className="text-ink-on-light">{PORTAL_DEMO.email}</strong> /{" "}
-        <strong className="text-ink-on-light">{PORTAL_DEMO.password}</strong>
+        Klantlogin komt uit beheer (e-mail, wachtwoord en welke site). Daarna ziet u de website.
         <br />
-        Echte klanten krijgen van u een eigen login. U kiest in beheer welke live site zij zien.
+        Demo van alleen het stappenplan: <strong className="text-ink-on-light">{PORTAL_DEMO.email}</strong> /{" "}
+        <strong className="text-ink-on-light">{PORTAL_DEMO.password}</strong>
       </p>
     </form>
   );

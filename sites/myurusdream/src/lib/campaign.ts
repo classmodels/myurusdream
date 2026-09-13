@@ -67,7 +67,50 @@ export function feesDeductOnFrontend(lines: MoneyLine[]): boolean {
   return lines.find((l) => l.key === "fees")?.deductOnFrontend === true;
 }
 
+function emptyTotals() {
+  return {
+    raisedCents: 0,
+    participantCount: 0,
+    contributionCents: 0,
+    sponsorCents: 0,
+    sponsorCount: 0,
+    pixelCents: 0,
+    pixelCount: 0,
+  };
+}
+
 export async function getPublicCampaignView() {
+  try {
+    return await loadPublicCampaignView();
+  } catch (error) {
+    console.error("Myurusdream database niet bereikbaar, toon de site zonder live cijfers.", error);
+    const campaign = {
+      id: "offline",
+      slug: CAMPAIGN_SLUG,
+      goalCents: 40_000_000,
+      targetContributions: 200_000,
+      checklistJson: JSON.stringify(DEFAULT_CHECKLIST),
+      prizeFeatureEnabled: false,
+      referralPublicEnabled: false,
+    } as Awaited<ReturnType<typeof getCampaign>>;
+    const totals = emptyTotals();
+    return {
+      campaign,
+      totals,
+      feeCents: 0,
+      deductFees: false,
+      netCents: 0,
+      remainingCents: campaign.goalCents,
+      remainingPeople: campaign.targetContributions,
+      percent: 0,
+      checklist: parseChecklist(campaign.checklistJson),
+      prizePublic: false,
+      referralPublic: false,
+    };
+  }
+}
+
+async function loadPublicCampaignView() {
   const campaign = await getCampaign();
   const totals = await getLiveTotals(campaign.id);
   const lines = parseMoneyBreakdown(campaign.moneyBreakdownJson);

@@ -419,16 +419,32 @@ export function PortalDashboard() {
             <button type="button" onClick={logout} className="btn-secondary !px-3 !py-2 text-xs">
               Uitloggen
             </button>
-            {state.previewUrl ? (
-              <Link href={state.previewUrl} className="btn-soft !px-3 !py-2 text-xs">
-                Bekijk uw website
-              </Link>
-            ) : null}
+            <a href={state.previewUrl || PORTAL_DEMO.liveSitePath} className="btn-soft !px-3 !py-2 text-xs">
+              Bekijk uw website
+            </a>
           </div>
         </div>
       </div>
 
       <div className="container-x py-8 md:py-10">
+        <div className="mb-8 overflow-hidden rounded-xl border border-line bg-[#121a2b]">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-3">
+            <div>
+              <p className="text-xs font-bold tracking-wide text-teal uppercase">Uw website</p>
+              <p className="mt-0.5 text-sm text-ink-soft">
+                Dit is de live site. Het stappenplan eronder is alleen de projectopvolging.
+              </p>
+            </div>
+            <a href={state.previewUrl || PORTAL_DEMO.liveSitePath} className="btn-soft !px-3 !py-2 text-xs">
+              Open in nieuw tabblad
+            </a>
+          </div>
+          <iframe
+            title="Uw website"
+            src={state.previewUrl || PORTAL_DEMO.liveSitePath}
+            className="h-[70vh] w-full bg-white"
+          />
+        </div>
         {/* Progress */}
         <div className="mb-8 rounded-xl border border-line bg-[#121a2b] p-5 md:p-6">
           <div className="mb-3 flex items-end justify-between gap-3">

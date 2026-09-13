@@ -61,7 +61,7 @@ export const viewport: Viewport = {
 export const dynamic = "force-dynamic";
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const participant = await getSessionUser("participant");
+  const participant = await getSessionUser("participant").catch(() => null);
   const locale = await getLocale();
   const dict = await getDictionary(locale);
   return (

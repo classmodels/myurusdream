@@ -22,7 +22,7 @@ export default async function HomePage() {
   const h = dict.home;
   const view = await getPublicCampaignView();
   const [visitors, onlineVisitors] = await Promise.all([uniqueVisitorCount(), onlineVisitorCount()]);
-  const sponsors = await displaySponsorCards(view.campaign.id);
+  const sponsors = await displaySponsorCards(view.campaign.id).catch(() => []);
   const grouped = groupSponsors(sponsors);
   const realHeadlines = grouped.headline.filter((s) => !isExampleSponsor(s.name));
   const realHeadline = realHeadlines.find((s) => s.logo) || realHeadlines[0] || null;
