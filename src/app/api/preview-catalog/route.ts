@@ -15,6 +15,7 @@ import {
   RESERVED_PUBLIC_SLUGS,
   type PreviewProject,
 } from "@/lib/previews";
+import { listHostedSites } from "@/lib/hosted-sites";
 
 export const runtime = "nodejs";
 
@@ -91,9 +92,12 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as {
       manageCode?: string;
-      action?: "add" | "update" | "delete" | "unlock" | "clear";
+      action?: "add" | "update" | "delete" | "unlock" | "clear" | "link-client";
       project?: Partial<PreviewProject>;
       slug?: string;
+      email?: string;
+      password?: string;
+      liveSiteSlug?: string;
     };
 
     if (String(body.manageCode || "") !== PREVIEW_MANAGE_CODE) {
@@ -105,6 +109,60 @@ export async function POST(request: Request) {
       return NextResponse.json({
         ok: true,
         ...studioPayload(await listTestSlots(), await listExtraPreviews()),
+        sites: listHostedSites().map((s) => ({ slug: s.slug, basePath: s.basePath })),
+      });
+    }
+
+    if (action === "link-client") {
+      const email = String(body.email || "").trim().toLowerCase();
+      const password = String(body.password || "").trim();
+      const liveSiteSlug = String(body.liveSiteSlug || "").trim().toLowerCase();
+      if (!email || !password || !liveSiteSlug) {
+        return NextResponse.json(
+          { error: "E-mail, wachtwoord en site zijn verplicht." },
+          { status: 400 },
+        );
+      }
+      const hosted = listHostedSites().find((s) => s.slug === liveSiteSlug);
+      if (!hosted) {
+        return NextResponse.json({ error: "Die live site bestaat niet." }, { status: 400 });
+      }
+
+      const slots = await listTestSlots();
+      const extras = await listExtraPreviews();
+      const current = [...slots, ...extras].find((p) => p.portalEmail === email);
+      const free = slots.find((p) => !p.portalEmail);
+      const base = current || free;
+      if (!base) {
+        return NextResponse.json(
+          { error: "Geen vrije plek meer. Verwijder eerst een oude koppeling." },
+          { status: 400 },
+        );
+      }
+
+      const catalog = await readCatalog();
+      const parsed = asProject(
+        {
+          ...base,
+          title: hosted.slug,
+          clientLabel: email,
+          portalEmail: email,
+          portalPassword: password,
+          liveSiteSlug,
+          published: true,
+          accessCode: base.accessCode || randomAccessCode(base.slot || 1),
+        },
+        base.slug,
+      );
+      if (!parsed) {
+        return NextResponse.json({ error: "Koppelen mislukt." }, { status: 400 });
+      }
+      await writeCatalog([...catalog.filter((p) => p.slug !== parsed.slug), parsed]);
+      return NextResponse.json({
+        ok: true,
+        project: parsed,
+        ...studioPayload(await listTestSlots(), await listExtraPreviews()),
+        sites: listHostedSites().map((s) => ({ slug: s.slug, basePath: s.basePath })),
       });
     }
 

@@ -101,10 +101,13 @@ export function PortalLoginForm() {
         Inloggen
       </button>
       <p className="mt-4 rounded-lg bg-[#f4f7fb] px-3 py-2 text-xs text-muted-on-light">
-        Klantlogin komt uit beheer (e-mail, wachtwoord en welke site). Daarna ziet u de website.
-        <br />
-        Demo van alleen het stappenplan: <strong className="text-ink-on-light">{PORTAL_DEMO.email}</strong> /{" "}
-        <strong className="text-ink-on-light">{PORTAL_DEMO.password}</strong>
+        Na inloggen ziet u alleen de website die bij uw login hoort.
+      </p>
+      <p className="mt-3 text-center text-xs text-muted-on-light">
+        SiteButler:{" "}
+        <a href="/portaal/koppelen" className="font-semibold text-ink-on-light underline">
+          klant aan een site koppelen
+        </a>
       </p>
     </form>
   );
