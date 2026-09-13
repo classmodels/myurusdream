@@ -419,6 +419,11 @@ export function PortalDashboard() {
             <button type="button" onClick={logout} className="btn-secondary !px-3 !py-2 text-xs">
               Uitloggen
             </button>
+            {state.previewUrl ? (
+              <Link href={state.previewUrl} className="btn-soft !px-3 !py-2 text-xs">
+                Bekijk uw website
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>
@@ -701,7 +706,7 @@ export function PortalDashboard() {
                     value={state.previewUrl}
                     onChange={(e) => update({ previewUrl: e.target.value })}
                     className="input-field mt-1.5"
-                    placeholder="https://preview.uwproject.be"
+                    placeholder="/portaal/myurusdream"
                   />
                 </label>
                 <div className="mb-5 flex flex-nowrap items-center gap-1.5 overflow-x-auto">
@@ -740,7 +745,7 @@ export function PortalDashboard() {
                           );
                           return {
                             ...prev,
-                            previewUrl: prev.previewUrl || "https://www.class-models.be",
+                            previewUrl: prev.previewUrl || PORTAL_DEMO.liveSitePath,
                             completedSteps: withoutLater,
                             activeStep: "feedback",
                           };

@@ -75,6 +75,7 @@ function asProject(raw: Partial<PreviewProject>, fallbackSlug: string): PreviewP
     })(),
     portalEmail: String(raw.portalEmail || "").trim().toLowerCase(),
     portalPassword: String(raw.portalPassword || "").trim(),
+    liveSiteSlug: String(raw.liveSiteSlug || "").trim().toLowerCase(),
   };
 }
 

@@ -21,6 +21,7 @@ const blank: Partial<PreviewProject> = {
   accent: "#2563eb",
   accent2: "#0f766e",
   published: true,
+  liveSiteSlug: "",
 };
 
 export function PreviewStudio() {
@@ -34,6 +35,9 @@ export function PreviewStudio() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
+  const [hostedSites, setHostedSites] = useState<{ slug: string; basePath: string; label: string }[]>(
+    [],
+  );
 
   const current = active ? slots.find((s) => s.slot === active) : null;
 
@@ -74,6 +78,13 @@ export function PreviewStudio() {
     setError("");
     try {
       await post({ action: "unlock" });
+      const hosted = await fetch("/api/hosted-sites");
+      if (hosted.ok) {
+        const data = (await hosted.json()) as {
+          sites?: { slug: string; basePath: string; label: string }[];
+        };
+        setHostedSites(data.sites || []);
+      }
       setUnlocked(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Mislukt.");
@@ -429,6 +440,27 @@ export function PreviewStudio() {
                 onChange={(e) => setField("portalPassword", e.target.value)}
                 placeholder="Kies een wachtwoord voor de klant"
               />
+            </div>
+            <div className="md:col-span-2">
+              <label className="label" htmlFor="t-live">
+                Welke live site mag deze klant zien?
+              </label>
+              <select
+                id="t-live"
+                className="input-field"
+                value={form.liveSiteSlug || ""}
+                onChange={(e) => setField("liveSiteSlug", e.target.value)}
+              >
+                <option value="">Nog niet gekozen</option>
+                {hostedSites.map((site) => (
+                  <option key={site.slug} value={site.slug}>
+                    {site.label}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-xs text-ink-soft">
+                Na inloggen in het klantenportaal ziet de klant alleen deze site.
+              </p>
             </div>
             <div>
               <label className="label" htmlFor="t-code">

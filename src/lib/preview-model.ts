@@ -29,6 +29,8 @@ export type PreviewProject = {
   publicSlug?: string;
   portalEmail?: string;
   portalPassword?: string;
+  /** Live Next-site onder /portaal/… die deze klant mag zien */
+  liveSiteSlug?: string;
 };
 
 export const PREVIEW_MANAGE_CODE = "butler2026";
@@ -69,6 +71,7 @@ export function makeEmptySlot(n: number): PreviewProject {
     publicSlug: "",
     portalEmail: "",
     portalPassword: "",
+    liveSiteSlug: "",
   };
 }
 

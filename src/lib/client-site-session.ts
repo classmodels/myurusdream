@@ -3,6 +3,7 @@ const KEY = "sitebutler-client-site";
 export type ClientSiteSession = {
   slug: string;
   publicSlug: string;
+  liveSitePath: string;
   title: string;
   previewUrl: string;
   progress: number;

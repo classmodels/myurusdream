@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PreviewRoom } from "@/components/PreviewRoom";
 import { loadClientSiteSession } from "@/lib/client-site-session";
 
 export function PortalClientSite() {
@@ -31,24 +30,35 @@ export function PortalClientSite() {
     );
   }
 
+  const liveHref = session.liveSitePath;
+
   return (
     <section className="mesh-hero">
-      <div className="container-x py-10 md:py-14">
-        <p className="eyebrow">Uw account</p>
-        <h1 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-extrabold text-ink md:text-4xl">
-          {session.title}
-        </h1>
-        <p className="mt-3 max-w-2xl text-ink-soft">
-          Hier volgt u de website terwijl SiteButler eraan werkt. Live adres:{" "}
-          <Link href={`/portaal/${session.publicSlug}`} className="font-semibold text-teal hover:underline">
-            /portaal/{session.publicSlug}
-          </Link>
-        </p>
-        <div className="mt-8">
-          <PreviewRoom slug={session.slug} title={session.title} initialCode={session.accessCode} />
+      <div className="container-x py-8 md:py-10">
+        <p className="eyebrow">Uw website</p>
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-ink">
+            {session.title}
+          </h1>
+          {liveHref ? (
+            <a href={liveHref} className="btn-soft !px-4 !py-2 text-sm">
+              Open in nieuw tabblad
+            </a>
+          ) : null}
         </div>
+        <p className="mt-2 text-sm text-ink-soft">
+          Dit is de site waaraan SiteButler voor u werkt.
+        </p>
+        {liveHref ? (
+          <div className="mt-6 overflow-hidden rounded-tr-2xl ring-1 ring-line">
+            <iframe title={session.title} src={liveHref} className="h-[80vh] w-full bg-white" />
+          </div>
+        ) : (
+          <p className="mt-6 rounded-xl border border-line bg-white p-5 text-sm text-ink-soft">
+            Er is nog geen live site aan uw login gekoppeld. SiteButler zet dit zo voor u klaar.
+          </p>
+        )}
       </div>
     </section>
   );
 }
-

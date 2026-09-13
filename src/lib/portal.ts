@@ -7,6 +7,7 @@ export const PORTAL_DEMO = {
   carePlan: "Butler Care Basis",
   includedMinutes: 30,
   extraRateLabel: "€75 / uur excl. btw",
+  liveSitePath: "/portaal/myurusdream",
 } as const;
 
 export const portalSteps = [

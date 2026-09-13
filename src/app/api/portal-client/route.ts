@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { hostedPathForSlug } from "@/lib/hosted-sites";
 import { listExtraPreviews, listTestSlots } from "@/lib/previews";
 
 export const runtime = "nodejs";
@@ -23,10 +24,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Onjuiste login." }, { status: 401 });
     }
 
+    const liveSlug = String(match.liveSiteSlug || "").trim();
     return NextResponse.json({
       ok: true,
       slug: match.slug,
       publicSlug: match.publicSlug || match.slug,
+      liveSitePath: liveSlug ? hostedPathForSlug(liveSlug) : "",
       title: match.title,
       previewUrl: match.previewUrl,
       progress: match.progress,

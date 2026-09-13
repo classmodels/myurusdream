@@ -33,6 +33,7 @@ export function PortalLoginForm() {
         const data = (await res.json()) as {
           slug: string;
           publicSlug: string;
+          liveSitePath: string;
           title: string;
           previewUrl: string;
           progress: number;
@@ -93,7 +94,7 @@ export function PortalLoginForm() {
         Demo van het stappenplan: <strong className="text-ink-on-light">{PORTAL_DEMO.email}</strong> /{" "}
         <strong className="text-ink-on-light">{PORTAL_DEMO.password}</strong>
         <br />
-        Echte klanten krijgen van SiteButler een eigen login en zien dan hun website.
+        Echte klanten krijgen van u een eigen login. U kiest in beheer welke live site zij zien.
       </p>
     </form>
   );
