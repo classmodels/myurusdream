@@ -144,11 +144,10 @@ export function PortalDashboard() {
       return;
     }
     const saved = loadPortalState();
-    const initial =
+    const initial: PortalState =
       saved && saved.email === session
         ? {
             ...saved,
-            // Bewaar gekozen stap; vul alleen in als die ontbreekt
             activeStep: saved.activeStep || nextOpenStep(saved),
           }
         : createDefaultPortalState(session);
@@ -200,7 +199,7 @@ export function PortalDashboard() {
   function completeStep(id: PortalStepId) {
     setState((prev) => {
       if (!prev) return prev;
-      const completed = prev.completedSteps.includes(id)
+      const completed: PortalStepId[] = prev.completedSteps.includes(id)
         ? prev.completedSteps
         : [...prev.completedSteps, id];
       const next = { ...prev, completedSteps: completed };
@@ -733,12 +732,11 @@ export function PortalDashboard() {
                       onClick={() => {
                         setState((prev) => {
                           if (!prev) return prev;
-                          const completed = prev.completedSteps.includes("ontwerp")
+                          const completed: PortalStepId[] = prev.completedSteps.includes("ontwerp")
                             ? prev.completedSteps
                             : [...prev.completedSteps, "ontwerp"];
-                          // Feedback opnieuw openen (niet naar Live springen)
                           const withoutLater = completed.filter(
-                            (id) => id !== "feedback" && id !== "live",
+                            (id): id is PortalStepId => id !== "feedback" && id !== "live",
                           );
                           return {
                             ...prev,

@@ -50,6 +50,13 @@ export const portalSteps = [
 
 export type PortalStepId = (typeof portalSteps)[number]["id"];
 
+const STEP_IDS: readonly PortalStepId[] = portalSteps.map((s) => s.id);
+
+export function asStepIds(ids: string[] | undefined): PortalStepId[] {
+  if (!ids) return [];
+  return ids.filter((id): id is PortalStepId => (STEP_IDS as readonly string[]).includes(id));
+}
+
 export type StepStatus = "done" | "current" | "upcoming" | "waiting";
 
 export type PortalComment = {
@@ -173,7 +180,7 @@ export function normalizePortalState(raw: Partial<PortalState> & { email: string
       parentId: c.parentId ?? null,
     })),
     files: raw.files ?? [],
-    completedSteps: raw.completedSteps ?? [],
+    completedSteps: asStepIds(raw.completedSteps),
     activeTimer: raw.activeTimer ?? null,
   };
 }
