@@ -1,67 +1,44 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { loadClientSiteSession } from "@/lib/client-site-session";
+import { useRouter } from "next/navigation";
+import { clearClientSiteSession, loadClientSiteSession } from "@/lib/client-site-session";
 
 export function PortalClientSite() {
+  const router = useRouter();
   const [session, setSession] = useState<ReturnType<typeof loadClientSiteSession>>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setSession(loadClientSiteSession());
+    const current = loadClientSiteSession();
+    setSession(current);
     setReady(true);
-  }, []);
+    if (!current?.liveSitePath) {
+      router.replace("/portaal");
+    }
+  }, [router]);
 
-  if (!ready) return null;
+  if (!ready || !session?.liveSitePath) return null;
 
-  if (!session) {
-    return (
-      <section className="mesh-hero">
-        <div className="container-x py-16">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-ink">
-            Meld u aan om uw website te zien
-          </h1>
-          <Link href="/portaal" className="btn-primary mt-6 inline-flex text-sm">
-            Inloggen
-          </Link>
-        </div>
-      </section>
-    );
+  function logout() {
+    clearClientSiteSession();
+    router.replace("/portaal");
   }
 
-  const liveHref = session.liveSitePath;
-
   return (
-    <section className="mesh-hero">
-      <div className="container-x py-8 md:py-10">
-        <p className="eyebrow">Uw portaal</p>
-        <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-ink">
-            {session.title}
-          </h1>
-          <div className="flex flex-wrap gap-2">
-            {liveHref ? (
-              <a href={liveHref} className="btn-soft !px-4 !py-2 text-sm">
-                Open in nieuw tabblad
-              </a>
-            ) : null}
-            <Link href="/portaal" className="btn-ghost !px-4 !py-2 text-sm">
-              Uitloggen
-            </Link>
+    <div className="bg-bg">
+      <div className="border-b border-line bg-bg-alt">
+        <div className="container-x flex flex-wrap items-center justify-between gap-3 py-3">
+          <div>
+            <p className="text-[0.7rem] font-bold tracking-[0.14em] text-teal uppercase">Uw portaal</p>
+            <h1 className="font-[family-name:var(--font-display)] text-xl font-bold text-ink">{session.title}</h1>
           </div>
+          <button type="button" onClick={logout} className="btn-secondary !px-3 !py-2 text-xs">
+            Uitloggen
+          </button>
         </div>
-        <p className="mt-2 text-sm text-ink-soft">Dit is uw website.</p>
-        {liveHref ? (
-          <div className="mt-6 overflow-hidden rounded-tr-2xl ring-1 ring-line">
-            <iframe title={session.title} src={liveHref} className="h-[80vh] w-full bg-white" />
-          </div>
-        ) : (
-          <p className="mt-6 rounded-xl border border-line bg-white p-5 text-sm text-ink-soft">
-            Er is nog geen website aan dit account gekoppeld. SiteButler zet dat in beheer voor u klaar.
-          </p>
-        )}
       </div>
-    </section>
+      <iframe title={session.title} src={session.liveSitePath} className="h-[calc(100dvh-4.5rem)] w-full bg-white" />
+    </div>
   );
 }

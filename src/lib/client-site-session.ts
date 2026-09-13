@@ -11,14 +11,18 @@ export type ClientSiteSession = {
 };
 
 export function saveClientSiteSession(data: ClientSiteSession) {
-  sessionStorage.setItem(KEY, JSON.stringify(data));
+  localStorage.setItem(KEY, JSON.stringify(data));
 }
 
 export function loadClientSiteSession(): ClientSiteSession | null {
   try {
-    const raw = sessionStorage.getItem(KEY);
+    const raw = localStorage.getItem(KEY);
     return raw ? (JSON.parse(raw) as ClientSiteSession) : null;
   } catch {
     return null;
   }
+}
+
+export function clearClientSiteSession() {
+  localStorage.removeItem(KEY);
 }

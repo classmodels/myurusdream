@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         destination: "/portaal/myurusdream/:path*",
         permanent: false,
       },
+      {
+        source: "/portaal/project",
+        destination: "/portaal/mijn-site",
+        permanent: false,
+      },
     ];
   },
 };

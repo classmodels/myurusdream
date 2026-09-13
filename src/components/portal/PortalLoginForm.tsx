@@ -40,6 +40,10 @@ export function PortalLoginForm() {
           accessCode: string;
         };
         saveClientSiteSession(data);
+        if (!data.liveSitePath) {
+          setError("Er is nog geen website aan dit account gekoppeld.");
+          return;
+        }
         router.push("/portaal/mijn-site");
         return;
       }
