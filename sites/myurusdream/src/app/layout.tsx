@@ -12,6 +12,7 @@ import { getSessionUser } from "@/lib/auth";
 import { campaignShareMetadata } from "@/lib/share-meta";
 import { getDictionary, getLocale } from "@/lib/i18n/get-dictionary";
 import { localeHtmlLang } from "@/lib/i18n/config";
+import { I18nProvider } from "@/lib/i18n/client";
 import { PatchBasePath } from "@/components/PatchBasePath";
 import "./globals.css";
 

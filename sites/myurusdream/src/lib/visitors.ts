@@ -51,8 +51,8 @@ export async function visitorsByDay(days = 30) {
     _count: { _all: true },
     orderBy: { day: "desc" },
   });
-  return rows.map((row: { day: Date; _count: { _all: number } }) => ({
-    day: row.day,
+  return rows.map((row) => ({
+    day: String(row.day),
     count: row._count._all,
   }));
 }
