@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope, Source_Sans_3 } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -16,13 +16,19 @@ const body = Source_Sans_3({
   weight: ["400", "500", "600", "700"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.sitebutler.be"),
   title: {
-    default: "SitePilot | Professionele websites voor elke branche",
-    template: "%s | SitePilot",
+    default: "SiteButler | Professionele websites voor elke branche",
+    template: "%s | SiteButler",
   },
   description:
-    "SitePilot ontwikkelt professionele websites voor KMO's en organisaties. Inclusief logo, teksten, fotografie en video. Offerte binnen 24 uur. Vanaf €1.250.",
+    "SiteButler ontwikkelt professionele websites voor KMO's en organisaties. Inclusief logo, teksten, fotografie en video. Offerte binnen 24 uur. Vanaf €1.250.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

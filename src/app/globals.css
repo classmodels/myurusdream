@@ -55,13 +55,26 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+}
 
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body), sans-serif;
   min-height: 100vh;
+  overflow-x: clip;
+}
+
+/* Gsm: alles proportioneel kleiner (rem-schaal) */
+@media (max-width: 767px) {
+  html { font-size: 81.25%; }
+}
+@media (max-width: 389px) {
+  html { font-size: 75%; }
 }
 
 ::selection {
@@ -82,7 +95,7 @@ body {
 /* Eén hoek afgerond — niet alle hoeken */
 .hero-shell {
   position: relative;
-  border-radius: 0 0 0 3.5rem;
+  border-radius: 0 0 0 2.25rem;
   overflow: hidden;
 }
 @media (min-width: 768px) {
@@ -98,14 +111,17 @@ body {
 
 .pill-media {
   position: relative;
-  min-height: 400px;
-  border-radius: 0 2rem 0 0; /* enkel rechtsboven */
+  min-height: 18rem;
+  border-radius: 0 1.35rem 0 0; /* enkel rechtsboven */
   overflow: hidden;
   isolation: isolate;
   box-shadow: 0 20px 44px rgba(0, 0, 0, 0.32);
 }
 @media (min-width: 768px) {
-  .pill-media { min-height: 480px; }
+  .pill-media {
+    min-height: 480px;
+    border-radius: 0 2rem 0 0;
+  }
 }
 
 .tile-tall {
@@ -142,11 +158,14 @@ body {
   background: #fff;
   color: var(--blue-deep);
   font-weight: 700;
-  padding: 0.9rem 1.5rem;
+  padding: 0.7rem 1.15rem;
   border-radius: 0.55rem;
   border: 2px solid var(--blue);
   box-shadow: 0 10px 24px rgba(59, 130, 246, 0.22);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+@media (min-width: 768px) {
+  .btn-soft { padding: 0.9rem 1.5rem; }
 }
 .btn-soft:hover {
   transform: translateY(-2px);
@@ -163,7 +182,10 @@ body {
 }
 .info-rail > div {
   background: var(--bg-alt);
-  padding: 1.35rem 1.25rem;
+  padding: 1rem 1rem;
+}
+@media (min-width: 768px) {
+  .info-rail > div { padding: 1.35rem 1.25rem; }
 }
 
 /* Ronde boodschap die deels buiten het kader valt */
@@ -272,9 +294,12 @@ body {
   color: white;
   font-weight: 650;
   letter-spacing: 0.01em;
-  padding: 0.85rem 1.35rem;
+  padding: 0.7rem 1.1rem;
   border-radius: 0.55rem;
   transition: background 0.2s ease, transform 0.2s ease;
+}
+@media (min-width: 768px) {
+  .btn-primary { padding: 0.85rem 1.35rem; }
 }
 
 .btn-primary:hover {
@@ -290,9 +315,12 @@ body {
   background: var(--teal);
   color: #042f2e;
   font-weight: 700;
-  padding: 0.85rem 1.35rem;
+  padding: 0.7rem 1.1rem;
   border-radius: 0.55rem;
   transition: filter 0.2s ease, transform 0.2s ease;
+}
+@media (min-width: 768px) {
+  .btn-secondary { padding: 0.85rem 1.35rem; }
 }
 
 .btn-secondary:hover {
@@ -308,10 +336,13 @@ body {
   background: transparent;
   color: var(--ink);
   font-weight: 600;
-  padding: 0.85rem 1.35rem;
+  padding: 0.7rem 1.1rem;
   border-radius: 0.55rem;
   border: 1px solid var(--line-strong);
   transition: background 0.2s ease, border-color 0.2s ease;
+}
+@media (min-width: 768px) {
+  .btn-ghost { padding: 0.85rem 1.35rem; }
 }
 
 .btn-ghost:hover {
@@ -324,14 +355,14 @@ body {
 .chip-green { background: var(--green-soft); color: #166534; }
 .chip-coral { background: var(--coral-soft); color: #b91c1c; }
 
-.section { padding: 4.5rem 0; }
+.section { padding: 2.75rem 0; }
 @media (min-width: 768px) { .section { padding: 5.75rem 0; } }
 
 .container-x {
   margin-inline: auto;
   width: 100%;
   max-width: 72rem;
-  padding-inline: 1.25rem;
+  padding-inline: 1rem;
 }
 @media (min-width: 768px) {
   .container-x { padding-inline: 2rem; }

@@ -1,8 +1,8 @@
 export const brand = {
-  name: "SitePilot",
-  tagline: "Premium websites. Persoonlijk beheerd.",
+  name: "SiteButler",
+  tagline: "Uw website, onze zorg.",
   phone: "+32 (0)470 00 00 00",
-  email: "hallo@sitepilot.be",
+  email: "hallo@sitebutler.be",
 } as const;
 
 export const navLinks = [
@@ -72,7 +72,7 @@ export const packages = [
 export const carePackages = [
   {
     id: "care-basis",
-    name: "Pilot Care Basis",
+    name: "Butler Care Basis",
     price: "€299",
     period: "/ jaar",
     tag: "Hosting & beheer",
@@ -84,13 +84,13 @@ export const carePackages = [
       "Professionele e-mailkoppeling (via Combell)",
       "Monitoring & snelle herstart bij problemen",
       "Tot 30 min. kleine wijzigingen / maand",
-      "Persoonlijk aanspreekpunt bij SitePilot",
+      "Persoonlijk aanspreekpunt bij SiteButler",
     ],
     highlight: false,
   },
   {
     id: "care-plus",
-    name: "Pilot Care Plus",
+    name: "Butler Care Plus",
     price: "€499",
     period: "/ jaar",
     tag: "Hosting, beheer & groei",
@@ -151,7 +151,7 @@ export const services = [
       "Responsive ontwerp voor desktop en mobiel",
       "Contactformulieren, analytics en basis-SEO",
       "Livegang met korte toelichting",
-      "Optioneel: Pilot Care voor hosting & beheer",
+      "Optioneel: Butler Care voor hosting & beheer",
     ],
     ctaTitle: "Klaar voor een website die werkt?",
   },
@@ -245,13 +245,13 @@ export const services = [
   },
   {
     slug: "support",
-    menuLabel: "Pilot Care",
+    menuLabel: "Butler Care",
     title: "Support & onderhoud",
     color: "teal",
     summary:
       "Na oplevering blijft u niet alleen. Snelle ondersteuning bij vragen, updates en spoedgevallen — 24/7.",
     intro:
-      "Met Pilot Care blijft uw site veilig online: hosting, domein, mail en een vast aanspreekpunt voor kleine wijzigingen.",
+      "Met Butler Care blijft uw site veilig online: hosting, domein, mail en een vast aanspreekpunt voor kleine wijzigingen.",
     points: [
       "Bereikbaarheid buiten kantooruren",
       "Kleine wijzigingen en technische fixes",
@@ -419,7 +419,7 @@ export const reviews = [
     name: "Marc Peeters",
     role: "Zaakvoerder · Bakkerij De Korst",
     quote:
-      "SitePilot leverde website, teksten én fotografie. Het resultaat oogt professioneel en levert meetbaar meer bestellingen op.",
+      "SiteButler leverde website, teksten én fotografie. Het resultaat oogt professioneel en levert meetbaar meer bestellingen op.",
     score: 5,
   },
   {
@@ -440,7 +440,7 @@ export const reviews = [
     name: "Pieter Van Acker",
     role: "Marketingverantwoordelijke · Horizon Group",
     quote:
-      "Van lokale sites tot ons corporate platform: SitePilot werkt gestructureerd, denkt mee en levert op tijd.",
+      "Van lokale sites tot ons corporate platform: SiteButler werkt gestructureerd, denkt mee en levert op tijd.",
     score: 5,
   },
 ] as const;

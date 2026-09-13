@@ -26,19 +26,19 @@ export default function HomePage() {
         <div className="glow-blob -left-20 top-10 h-72 w-72 bg-[#007aff]/30" />
         <div className="glow-blob right-10 top-24 h-64 w-64 bg-[#14b8a6]/25" />
 
-        <div className="container-x relative grid items-center gap-10 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 md:py-24">
+        <div className="container-x relative grid items-center gap-7 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 md:py-24 md:gap-10">
           <div>
             <p className="eyebrow">Website laten maken · Alle branches</p>
-            <h1 className="mt-4 font-[family-name:var(--font-display)] text-4xl leading-[1.08] font-extrabold tracking-tight text-ink sm:text-5xl md:text-[3.35rem]">
+            <h1 className="mt-3 font-[family-name:var(--font-display)] text-[1.85rem] leading-[1.12] font-extrabold tracking-tight text-ink sm:text-5xl md:mt-4 md:text-[3.35rem]">
               Professionele websites die{" "}
               <span className="text-blue">uw bedrijf vooruithelpen</span>.
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
-              SitePilot bouwt complete websites voor bakkers tot grote organisaties —
+            <p className="mt-4 max-w-xl text-[0.95rem] leading-relaxed text-ink-soft md:mt-5 md:text-lg">
+              SiteButler bouwt complete websites voor bakkers tot grote organisaties —
               desgewenst inclusief logo, teksten, fotografie en video. Offerte binnen 24 uur,
               eerste ontwerp binnen 48 uur.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
               <Link href="/offerte" className="btn-soft">
                 Offerte aanvragen
               </Link>
@@ -53,14 +53,14 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="pill-media bg-gradient-to-br from-[#007aff] via-[#14b8a6] to-[#12b76a] p-7 md:p-9">
+          <div className="pill-media bg-gradient-to-br from-[#007aff] via-[#14b8a6] to-[#12b76a] p-5 md:p-9">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.22),transparent_45%)]" />
-            <div className="relative flex h-full min-h-[360px] flex-col justify-between md:min-h-[430px]">
+            <div className="relative flex h-full min-h-[14.5rem] flex-col justify-between md:min-h-[430px]">
               <div>
                 <p className="text-xs font-bold tracking-[0.18em] text-white/80 uppercase">
-                  SitePilot in cijfers
+                  SiteButler in cijfers
                 </p>
-                <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold text-white md:text-4xl">
+                <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold text-white md:text-4xl">
                   Zakelijk. Compleet.
                   <br />
                   Resultaatgericht.
@@ -102,7 +102,7 @@ export default function HomePage() {
         <div className="container-x">
           <div className="mb-10 max-w-2xl">
             <p className="eyebrow">Diensten</p>
-            <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
+            <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-4xl">
               Meer dan enkel een <span className="text-teal">website</span>
             </h2>
             <p className="mt-3 text-ink-soft">
@@ -152,7 +152,7 @@ export default function HomePage() {
         <div className="container-x">
           <div className="mb-10">
             <p className="eyebrow">Content onder één dak</p>
-            <h2 className="mt-3 whitespace-nowrap font-[family-name:var(--font-display)] text-2xl font-bold text-ink sm:text-3xl md:text-4xl">
+            <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold text-ink sm:whitespace-nowrap sm:text-3xl md:text-4xl">
               Logo, teksten, foto &amp; video — <span className="text-coral">apart of samen</span>
             </h2>
           </div>
@@ -187,7 +187,7 @@ export default function HomePage() {
         <div className="container-x">
           <div className="mb-8 max-w-2xl">
             <p className="eyebrow">Sectoren</p>
-            <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
+            <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-4xl">
               Ervaring in <span className="text-blue">uiteenlopende markten</span>
             </h2>
           </div>
@@ -218,14 +218,14 @@ export default function HomePage() {
           <div className="grid gap-10 overflow-visible lg:grid-cols-[1.35fr_0.65fr] lg:gap-8">
             <div className="relative overflow-visible lg:sticky lg:top-28 lg:self-start">
               {/* Gradient: stopt ±60px onder de tekst */}
-              <div className="relative z-0 w-[calc(100%+80px)] bg-gradient-to-br from-[#007aff] via-[#0d9488] to-[#16a34a] px-7 pb-[90px] pt-10 md:px-9 md:pt-12">
+              <div className="relative z-0 w-full bg-gradient-to-br from-[#007aff] via-[#0d9488] to-[#16a34a] px-5 pb-[72px] pt-8 md:px-9 md:pt-12 md:pb-[90px] lg:w-[calc(100%+80px)]">
                 <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-2xl" />
                 <div className="pointer-events-none absolute bottom-0 left-10 h-36 w-36 rounded-full bg-[#ef4444]/25 blur-2xl" />
 
                 <p className="relative text-xs font-bold tracking-[0.16em] text-white/85 uppercase">
                   Werkwijze
                 </p>
-                <h2 className="relative mt-6 font-[family-name:var(--font-display)] text-4xl font-extrabold leading-[1.08] tracking-[0.04em] text-white uppercase md:text-5xl lg:text-6xl [text-shadow:0.5px_0_0_currentColor,-0.5px_0_0_currentColor,0_0.5px_0_currentColor,0_-0.5px_0_currentColor]">
+                <h2 className="relative mt-4 font-[family-name:var(--font-display)] text-3xl font-extrabold leading-[1.08] tracking-[0.04em] text-white uppercase md:mt-6 md:text-5xl lg:text-6xl [text-shadow:0.5px_0_0_currentColor,-0.5px_0_0_currentColor,0_0.5px_0_currentColor,0_-0.5px_0_currentColor]">
                   <span className="block">Van intake</span>
                   <span className="mt-2 block">Tot live</span>
                   <span className="mt-2 block text-white/95">Helder proces</span>
@@ -237,7 +237,7 @@ export default function HomePage() {
               </div>
 
               {/* Rode box BUITEN de gradient — hangt eronderuit */}
-              <div className="relative z-10 -mt-[62px] -mr-[152px] ml-auto flex w-[min(100%,28rem)] flex-col rounded-tr-3xl rounded-br-3xl rounded-bl-3xl bg-coral px-7 py-6 text-base leading-snug text-white md:-mr-[232px] md:w-[30rem] md:px-8 md:py-7 md:text-lg">
+              <div className="relative z-10 -mt-[48px] mr-0 ml-auto flex w-[min(100%,20.5rem)] flex-col rounded-tr-3xl rounded-br-3xl rounded-bl-3xl bg-coral px-5 py-5 text-sm leading-snug text-white md:-mt-[62px] md:px-8 md:py-7 md:text-lg lg:-mr-[232px] lg:w-[30rem]">
                 <p>
                   Écht maatwerk maakt van een &lsquo;gewone website&rsquo; een{" "}
                   <strong>professionele website!</strong>
@@ -251,8 +251,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="relative z-20 flex justify-end lg:-mt-[76px] lg:self-start">
-              <div className="w-full max-w-[21rem] border border-line bg-[#121a2b] shadow-[0_16px_40px_rgba(0,0,0,0.35)] lg:max-w-[24rem]">
+            <div className="relative z-20 flex lg:-mt-[76px] lg:justify-end lg:self-start">
+              <div className="w-full border border-line bg-[#121a2b] shadow-[0_16px_40px_rgba(0,0,0,0.35)] lg:max-w-[24rem]">
               {processSteps.map((step, i) => {
                 const accents = [
                   "text-[#60a5fa]",
@@ -295,7 +295,7 @@ export default function HomePage() {
           <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-xl">
               <p className="eyebrow">Referenties</p>
-              <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
+              <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-4xl">
                 Cases met <span className="text-coral">meetbaar resultaat</span>
               </h2>
             </div>
@@ -348,7 +348,7 @@ export default function HomePage() {
         <div className="container-x grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           <div>
             <p className="eyebrow">Klantfeedback</p>
-            <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
+            <h2 className="mt-3 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-4xl">
               Wat opdrachtgevers zeggen
             </h2>
             <div className="mt-8 grid gap-4">

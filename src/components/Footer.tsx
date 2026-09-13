@@ -5,15 +5,15 @@ import { brand, navLinks } from "@/lib/content";
 export function Footer() {
   return (
     <footer className="mt-auto border-t border-line bg-[#070d16]">
-      <div className="container-x grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="container-x grid gap-8 py-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:py-14">
         <div>
           <div className="mb-4">
             <Image
-              src="/logo.png"
+              src="/2.png"
               alt={brand.name}
-              width={180}
-              height={56}
-              className="h-10 w-auto"
+              width={2043}
+              height={770}
+              className="h-16 w-auto"
             />
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-ink-soft">

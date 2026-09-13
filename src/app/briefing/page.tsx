@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 export default function BriefingPage() {
   return (
     <section className="mesh-hero">
-      <div className="container-x py-14 md:py-20">
-        <div className="mb-10 max-w-2xl">
+      <div className="container-x py-10 md:py-20">
+        <div className="mb-8 max-w-2xl md:mb-10">
           <p className="eyebrow">Briefingportaal</p>
-          <h1 className="mt-3 font-[family-name:var(--font-display)] text-4xl font-extrabold text-ink md:text-5xl">
+          <h1 className="mt-3 font-[family-name:var(--font-display)] text-[1.85rem] font-extrabold text-ink md:text-5xl">
             Lever projectmateriaal centraal aan.
           </h1>
           <p className="mt-4 text-lg text-ink-soft">

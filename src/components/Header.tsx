@@ -14,15 +14,15 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-[rgba(10,17,28,0.92)] backdrop-blur-xl">
-      <div className="container-x flex items-center justify-between gap-4 py-3">
+      <div className="container-x flex items-center justify-between gap-3 py-2.5 md:py-3">
         <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
           <Image
-            src="/logo.png"
+            src="/2.png"
             alt={`${brand.name} — ${brand.tagline}`}
-            width={200}
-            height={62}
+            width={2043}
+            height={770}
             priority
-            className="h-10 w-auto sm:h-11"
+            className="h-14 w-auto sm:h-[4.5rem]"
           />
         </Link>
 
@@ -47,10 +47,10 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href="/portaal" className="btn-ghost hidden !px-4 !py-2.5 text-sm sm:inline-flex">
+          <Link href="/portaal" className="btn-ghost !hidden !px-4 !py-2.5 text-sm sm:!inline-flex">
             Portaal
           </Link>
-          <Link href="/offerte" className="btn-soft hidden !px-4 !py-2.5 text-sm sm:inline-flex">
+          <Link href="/offerte" className="btn-soft !hidden !px-4 !py-2.5 text-sm sm:!inline-flex">
             Offerte aanvragen
           </Link>
           <button

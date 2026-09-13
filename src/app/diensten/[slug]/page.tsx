@@ -82,7 +82,7 @@ export default async function DienstDetailPage({ params }: Props) {
   const careBlock =
     slug === "support" ? (
       <div className="mt-10">
-        <p className="eyebrow">Pilot Care</p>
+        <p className="eyebrow">Butler Care</p>
         <h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-3xl">
           Hosting &amp; beheer na livegang
         </h2>

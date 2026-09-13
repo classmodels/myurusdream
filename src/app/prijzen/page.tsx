@@ -6,7 +6,7 @@ import { carePackages, contentPackages, packages } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Prijzen",
   description:
-    "Websitepakketten vanaf €1.250, plus Pilot Care hosting & beheer en optionele contentmodules.",
+    "Websitepakketten vanaf €1.250, plus Butler Care hosting & beheer en optionele contentmodules.",
 };
 
 export default function PrijzenPage() {
@@ -24,11 +24,11 @@ export default function PrijzenPage() {
         <div className="container-x">
           <div className="mb-8 max-w-2xl">
             <p className="eyebrow">Eenmalig — website bouwen</p>
-            <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-bold text-ink">
+            <h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-3xl">
               Kies uw websitepakket
             </h2>
             <p className="mt-2 text-ink-soft">
-              Duidelijke scope, vaste prijs. Hosting &amp; beheer regelen we apart via Pilot Care.
+              Duidelijke scope, vaste prijs. Hosting &amp; beheer regelen we apart via Butler Care.
             </p>
           </div>
           <div className="grid gap-5 lg:grid-cols-3">
@@ -58,11 +58,11 @@ export default function PrijzenPage() {
                         </span>
                       )}
                     </div>
-                    <div className="flex flex-1 flex-col rounded-b-xl p-7">
-                      <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink-on-light">
+                    <div className="flex flex-1 flex-col rounded-b-xl p-5 md:p-7">
+                      <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold text-ink-on-light md:text-3xl">
                         {pkg.name}
                       </h3>
-                      <p className="mt-4 text-4xl font-extrabold text-blue-deep">
+                      <p className="mt-4 text-3xl font-extrabold text-blue-deep md:text-4xl">
                         {pkg.price}
                         {pkg.price.startsWith("€") && (
                           <span className="ml-1 text-sm font-semibold text-muted-on-light">excl. btw</span>
@@ -95,8 +95,8 @@ export default function PrijzenPage() {
         <div className="container-x">
           <div className="mb-8 max-w-2xl">
             <p className="eyebrow">Doorlopend — hosting &amp; beheer</p>
-            <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-bold text-ink">
-              Pilot Care
+            <h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-3xl">
+              Butler Care
             </h2>
             <p className="mt-2 text-ink-soft">
               Site online, domein &amp; mail geregeld, én een aanspreekpunt voor aanpassingen.
@@ -128,11 +128,11 @@ export default function PrijzenPage() {
                         </span>
                       )}
                     </div>
-                    <div className="flex flex-1 flex-col rounded-b-xl p-7">
-                      <h3 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink-on-light">
+                    <div className="flex flex-1 flex-col rounded-b-xl p-5 md:p-7">
+                      <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold text-ink-on-light md:text-3xl">
                         {pkg.name}
                       </h3>
-                      <p className="mt-4 text-4xl font-extrabold text-blue-deep">
+                      <p className="mt-4 text-3xl font-extrabold text-blue-deep md:text-4xl">
                         {pkg.price}
                         <span className="ml-1 text-sm font-semibold text-muted-on-light">
                           {pkg.period} excl. btw
@@ -167,7 +167,7 @@ export default function PrijzenPage() {
 
       <section className="section -mt-6 bg-bg-alt pt-0 md:-mt-10">
         <div className="container-x">
-          <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink">
+          <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-3xl">
             Optionele contentmodules
           </h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">

@@ -6,7 +6,7 @@ import { ServiceOverviewCards } from "@/components/ServicePageShell";
 export const metadata: Metadata = {
   title: "Diensten",
   description:
-    "Websites, logo, teksten, fotografie, video en Pilot Care — kies wat u nodig heeft bij SitePilot.",
+    "Websites, logo, teksten, fotografie, video en Butler Care — kies wat u nodig heeft bij SiteButler.",
 };
 
 export default function DienstenPage() {
@@ -26,7 +26,7 @@ export default function DienstenPage() {
         <div className="container-x">
           <div className="mb-8 max-w-2xl">
             <p className="eyebrow">Overzicht</p>
-            <h2 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-bold text-ink">
+            <h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-bold text-ink md:text-3xl">
               Wat wij voor u doen
             </h2>
             <p className="mt-2 text-ink-soft">

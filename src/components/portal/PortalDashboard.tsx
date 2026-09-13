@@ -306,7 +306,7 @@ export function PortalDashboard() {
     const nextTotal = care.total + minutes;
     const entry: TimeEntry = {
       id: crypto.randomUUID(),
-      label: label.trim() || "Werkzaamheden SitePilot",
+      label: label.trim() || "Werkzaamheden SiteButler",
       minutes,
       billable: nextTotal > state.includedMinutes,
       createdAt: new Date().toISOString(),
@@ -367,7 +367,7 @@ export function PortalDashboard() {
         timeEntries,
         activeTimer: {
           startedAt: now,
-          label: label.trim() || "Werkzaamheden SitePilot",
+          label: label.trim() || "Werkzaamheden SiteButler",
           requestId,
         },
         changeRequests: requests,
@@ -412,7 +412,7 @@ export function PortalDashboard() {
           </div>
           <div className="flex items-center gap-2">
             <Link href="/" className="btn-ghost !px-3 !py-2 text-xs">
-              SitePilot
+              SiteButler
             </Link>
             <button type="button" onClick={resetPortal} className="btn-ghost !px-3 !py-2 text-xs">
               Reset demo
@@ -573,9 +573,9 @@ export function PortalDashboard() {
                 <div className="max-h-40 overflow-y-auto rounded-lg border border-[#d7e3f2] bg-[#f8fafc] p-4 text-xs leading-relaxed text-muted-on-light">
                   <p className="mb-2 font-bold text-ink-on-light">Overeenkomst websiteontwikkeling (samenvatting)</p>
                   <p>
-                    SitePilot levert het overeengekomen websitepakket. De klant levert tijdig content aan.
+                    SiteButler levert het overeengekomen websitepakket. De klant levert tijdig content aan.
                     Betaling volgens offerte. Intellectuele eigendom van het eindresultaat gaat na volledige
-                    betaling over naar de klant. SitePilot mag het project als referentie tonen tenzij anders
+                    betaling over naar de klant. SiteButler mag het project als referentie tonen tenzij anders
                     afgesproken. Digitaal ondertekenen geldt als aanvaarding van deze voorwaarden.
                   </p>
                 </div>
@@ -697,7 +697,7 @@ export function PortalDashboard() {
                   Zodra het ontwerp klaar is, verschijnt hier een preview. Open fullscreen voor een duidelijk overzicht.
                 </p>
                 <label className="block text-sm font-semibold text-ink-on-light">
-                  Preview-URL (invulbaar door SitePilot)
+                  Preview-URL (invulbaar door SiteButler)
                   <input
                     value={state.previewUrl}
                     onChange={(e) => update({ previewUrl: e.target.value })}
@@ -775,7 +775,7 @@ export function PortalDashboard() {
                   <p className="text-sm font-bold uppercase tracking-wide text-white/80">Livegang</p>
                   <p className="mt-2 text-lg font-bold">Uw site is klaar om live te gaan.</p>
                   <p className="mt-1 text-sm text-white/90">
-                    Domein, SSL en eventuele Pilot Care regelen we samen bij oplevering.
+                    Domein, SSL en eventuele Butler Care regelen we samen bij oplevering.
                   </p>
                 </div>
                 {!state.completedSteps.includes("live") && (
@@ -914,12 +914,12 @@ export function PortalDashboard() {
                                 type="button"
                                 className="btn-secondary w-full text-xs"
                                 onClick={() => {
-                                  addComment("builder", replyText, "SitePilot", c.id);
+                                  addComment("builder", replyText, "SiteButler", c.id);
                                   setReplyText("");
                                   setReplyToId(null);
                                 }}
                               >
-                                Reply als SitePilot
+                                Reply als SiteButler
                               </button>
                             </div>
                           </div>
@@ -952,7 +952,7 @@ export function PortalDashboard() {
               Iets aanpassen aan de site?
             </h2>
             <p className="mt-1 text-sm text-muted-on-light">
-              U vraagt hier aan. SitePilot voert uit in Cursor op uw project en boekt de minuten op uw Care-tegoed.
+              U vraagt hier aan. SiteButler voert uit in Cursor op uw project en boekt de minuten op uw Care-tegoed.
             </p>
 
             <div className="mt-4 space-y-3">

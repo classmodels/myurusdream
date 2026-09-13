@@ -51,7 +51,7 @@ export function ServicePageShell({
               <div className={`px-7 py-3.5 ${headerStyles[service.color]}`}>
                 <p className="text-xs font-bold tracking-wide text-white uppercase">Wat u krijgt</p>
               </div>
-              <div className="p-7 md:p-9">
+              <div className="p-5 md:p-9">
                 <p className="text-base leading-relaxed text-ink-on-light">{service.intro}</p>
                 <ul className="mt-6 space-y-2.5">
                   {service.includes.map((item) => (

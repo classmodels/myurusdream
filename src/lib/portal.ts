@@ -1,10 +1,10 @@
 export const PORTAL_DEMO = {
-  email: "demo@sitepilot.be",
+  email: "demo@sitebutler.be",
   password: "demo123",
   clientName: "Demo Bakkerij",
   projectName: "Nieuwe bedrijfswebsite",
   packageName: "Compleet",
-  carePlan: "Pilot Care Basis",
+  carePlan: "Butler Care Basis",
   includedMinutes: 30,
   extraRateLabel: "€75 / uur excl. btw",
 } as const;
@@ -44,7 +44,7 @@ export const portalSteps = [
     id: "live",
     title: "Livegang",
     short: "Live",
-    description: "Uw website gaat live. Nazorg via Pilot Care indien gewenst.",
+    description: "Uw website gaat live. Nazorg via Butler Care indien gewenst.",
   },
 ] as const;
 
@@ -145,7 +145,7 @@ export function createDefaultPortalState(email: string): PortalState {
       {
         id: "c1",
         author: "builder",
-        name: "SitePilot",
+        name: "SiteButler",
         text: "Welkom in uw projectportaal. Zodra offerte en contract rond zijn, kunt u materiaal uploaden. Na livegang volgt u hier ook wijzigingen en uw Care-minuten op.",
         createdAt: new Date().toISOString(),
         parentId: null,
@@ -231,14 +231,17 @@ export function formatTimerClock(startedAt: string, now = Date.now()) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-const STORAGE_KEY = "sitepilot-portal-v2";
-const SESSION_KEY = "sitepilot-portal-session";
+const STORAGE_KEY = "sitebutler-portal-v2";
+const SESSION_KEY = "sitebutler-portal-session";
 
 export function loadPortalState(): PortalState | null {
   if (typeof window === "undefined") return null;
   try {
     const raw =
-      localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem("sitepilot-portal-v1");
+      localStorage.getItem(STORAGE_KEY) ??
+      localStorage.getItem("sitebutler-portal-v1") ??
+      localStorage.getItem("sitepilot-portal-v2") ??
+      localStorage.getItem("sitepilot-portal-v1");
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<PortalState> & { email: string };
     return normalizePortalState(parsed);

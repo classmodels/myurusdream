@@ -56,7 +56,7 @@ export async function POST(request: Request) {
       message:
         type === "briefing"
           ? "Briefing ontvangen. We bekijken uw bestanden en koppelen dit aan uw project."
-          : "Offerteaanvraag ontvangen. U krijgt binnen 24 uur een reactie van SitePilot.",
+          : "Offerteaanvraag ontvangen. U krijgt binnen 24 uur een reactie van SiteButler.",
       id: folderName,
     });
   } catch (error) {

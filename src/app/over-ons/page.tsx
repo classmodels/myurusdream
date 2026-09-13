@@ -5,20 +5,20 @@ import { faqs } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Over ons",
-  description: "SitePilot: professionele websiteontwikkeling met optionele contentproductie.",
+  description: "SiteButler: professionele websiteontwikkeling met optionele contentproductie.",
 };
 
 export default function OverOnsPage() {
   return (
     <>
       <section className="mesh-hero">
-        <div className="container-x py-16 md:py-20">
-          <p className="eyebrow">Over SitePilot</p>
-          <h1 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-4xl font-extrabold text-ink md:text-5xl">
+        <div className="container-x py-10 md:py-20">
+          <p className="eyebrow">Over SiteButler</p>
+          <h1 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-[1.85rem] font-extrabold text-ink md:text-5xl">
             Wij bouwen websites die zakelijk presteren.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-ink-soft">
-            SitePilot ondersteunt organisaties bij het ontwikkelen van een sterke online
+            SiteButler ondersteunt organisaties bij het ontwikkelen van een sterke online
             aanwezigheid — met focus op duidelijkheid, geloofwaardigheid en resultaat.
           </p>
         </div>

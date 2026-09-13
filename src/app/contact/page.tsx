@@ -4,16 +4,16 @@ import { brand } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Neem contact op met SitePilot voor websiteontwikkeling en content.",
+  description: "Neem contact op met SiteButler voor websiteontwikkeling en content.",
 };
 
 export default function ContactPage() {
   return (
     <section className="mesh-hero">
-      <div className="container-x grid gap-8 py-16 md:grid-cols-2 md:py-24">
+      <div className="container-x grid gap-8 py-10 md:grid-cols-2 md:py-24">
         <div>
           <p className="eyebrow">Contact</p>
-          <h1 className="mt-3 font-[family-name:var(--font-display)] text-4xl font-extrabold text-ink md:text-5xl">
+          <h1 className="mt-3 font-[family-name:var(--font-display)] text-[1.85rem] font-extrabold text-ink md:text-5xl">
             Laten we uw project bespreken.
           </h1>
           <p className="mt-4 text-lg text-ink-soft">

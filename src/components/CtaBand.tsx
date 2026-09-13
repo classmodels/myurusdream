@@ -22,7 +22,7 @@ export function CtaBand({
 
   const band = (
     <div className="container-x">
-        <div className="relative overflow-hidden rounded-tr-[2rem] bg-gradient-to-br from-[#007aff] via-[#14b8a6] to-[#12b76a] px-7 py-7 text-white shadow-[0_18px_40px_rgba(0,0,0,0.35)] md:px-12 md:py-9">
+        <div className="relative overflow-hidden rounded-tr-[1.4rem] bg-gradient-to-br from-[#007aff] via-[#14b8a6] to-[#12b76a] px-5 py-6 text-white shadow-[0_18px_40px_rgba(0,0,0,0.35)] md:rounded-tr-[2rem] md:px-12 md:py-9">
         <div className="absolute -right-10 -top-10 h-56 w-56 rounded-full bg-white/20 blur-2xl" />
         <div className="absolute -bottom-16 left-20 h-40 w-40 rounded-full bg-[#ff5a5f]/35 blur-2xl" />
 
@@ -41,7 +41,7 @@ export function CtaBand({
                 Support 24/7
               </span>
             </div>
-            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold md:text-4xl">
+            <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold md:text-4xl">
               {title}
             </h2>
             <p className="mt-2 text-white/90">{text}</p>

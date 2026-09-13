@@ -50,9 +50,9 @@ export default function WerkwijzePage() {
   return (
     <>
       <section className="mesh-hero">
-        <div className="container-x py-16 md:py-20">
+        <div className="container-x py-10 md:py-20">
           <p className="eyebrow">Werkwijze</p>
-          <h1 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-4xl font-extrabold text-ink md:text-5xl">
+          <h1 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-[1.85rem] font-extrabold text-ink md:text-5xl">
             Een helder proces. Voorspelbare oplevering.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-ink-soft">
