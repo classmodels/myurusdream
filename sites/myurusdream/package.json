@@ -1,0 +1,48 @@
+{
+  "name": "myurusdream",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 3001",
+    "build": "node scripts/combell-build.mjs",
+    "start": "next start --hostname 0.0.0.0 --port 3000",
+    "serve": "node scripts/combell-serve.mjs",
+    "lint": "eslint",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:setup": "prisma db push && tsx prisma/seed.ts",
+    "postinstall": "node scripts/combell-build.mjs --generate-only"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@mollie/api-client": "^4.6.0",
+    "@prisma/client": "6.19.3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "bcryptjs": "^3.0.3",
+    "mysql2": "^3.24.3",
+    "next": "16.3.3",
+    "nodemailer": "^10.0.1",
+    "prisma": "6.19.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.12",
+    "typescript": "^5",
+    "web-push": "^3.6.7",
+    "zod": "^4.4.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/nodemailer": "^8.0.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.3"
+  }
+}

@@ -26,6 +26,18 @@ export default function PortaalLoginPage() {
               <li>✓ Digitaal contract ondertekenen</li>
               <li>✓ Logo, teksten en foto&apos;s uploaden</li>
               <li>✓ Preview + commentaar op het ontwerp</li>
+              <li>
+                ✓ Live klantsite:{" "}
+                <Link href="/portaal/myurusdream" className="font-semibold text-teal hover:underline">
+                  /portaal/myurusdream
+                </Link>
+              </li>
+              <li>
+                ✓{" "}
+                <Link href="/voortgang" className="font-semibold text-teal hover:underline">
+                  Voortgang van sites in ontwikkeling
+                </Link>
+              </li>
             </ul>
             <p className="mt-6 text-sm text-ink-soft">
               Nog geen account?{" "}

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { saveClientSiteSession } from "@/lib/client-site-session";
 import {
   PORTAL_DEMO,
   createDefaultPortalState,
@@ -15,26 +16,53 @@ export function PortalLoginForm() {
   const [email, setEmail] = useState<string>(PORTAL_DEMO.email);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    const ok =
-      email.trim().toLowerCase() === PORTAL_DEMO.email &&
-      password === PORTAL_DEMO.password;
-    if (!ok) {
-      setError("Onjuiste login. Gebruik de demo-gegevens onder het formulier.");
-      return;
+    setError("");
+    setBusy(true);
+    const trimmed = email.trim().toLowerCase();
+    try {
+      const res = await fetch("/api/portal-client", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed, password }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as {
+          slug: string;
+          publicSlug: string;
+          title: string;
+          previewUrl: string;
+          progress: number;
+          accessCode: string;
+        };
+        saveClientSiteSession(data);
+        router.push("/portaal/mijn-site");
+        return;
+      }
+
+      const demoOk = trimmed === PORTAL_DEMO.email && password === PORTAL_DEMO.password;
+      if (!demoOk) {
+        setError("Onjuiste login.");
+        return;
+      }
+      setPortalSession(trimmed);
+      const existing = loadPortalState();
+      if (!existing || existing.email !== PORTAL_DEMO.email) {
+        savePortalState(createDefaultPortalState(PORTAL_DEMO.email));
+      }
+      router.push("/portaal/project");
+    } catch {
+      setError("Geen verbinding.");
+    } finally {
+      setBusy(false);
     }
-    setPortalSession(email.trim().toLowerCase());
-    const existing = loadPortalState();
-    if (!existing || existing.email !== PORTAL_DEMO.email) {
-      savePortalState(createDefaultPortalState(PORTAL_DEMO.email));
-    }
-    router.push("/portaal/project");
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-xl border border-[#d7e3f2] bg-white p-6 shadow-[0_16px_36px_rgba(0,0,0,0.22)] md:p-8">
+    <form onSubmit={(e) => void onSubmit(e)} className="rounded-xl border border-[#d7e3f2] bg-white p-6 shadow-[0_16px_36px_rgba(0,0,0,0.22)] md:p-8">
       <label className="block text-sm font-semibold text-ink-on-light">
         E-mail
         <input
@@ -58,12 +86,14 @@ export function PortalLoginForm() {
         />
       </label>
       {error && <p className="mt-3 text-sm text-coral">{error}</p>}
-      <button type="submit" className="btn-primary mt-6 w-full text-sm">
+      <button type="submit" className="btn-primary mt-6 w-full text-sm" disabled={busy}>
         Inloggen
       </button>
       <p className="mt-4 rounded-lg bg-[#f4f7fb] px-3 py-2 text-xs text-muted-on-light">
-        Demo: <strong className="text-ink-on-light">{PORTAL_DEMO.email}</strong> /{" "}
+        Demo van het stappenplan: <strong className="text-ink-on-light">{PORTAL_DEMO.email}</strong> /{" "}
         <strong className="text-ink-on-light">{PORTAL_DEMO.password}</strong>
+        <br />
+        Echte klanten krijgen van SiteButler een eigen login en zien dan hun website.
       </p>
     </form>
   );

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160">
+  <rect width="320" height="160" fill="#111111"/>
+  <rect x="14" y="14" width="292" height="132" fill="none" stroke="#ffd100" stroke-width="4"/>
+  <circle cx="64" cy="80" r="28" fill="#ffd100"/>
+  <path d="M52 88c8-18 16-18 24 0" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  <path d="M58 78h12M64 70v20" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+  <text x="108" y="74" fill="#ffd100" font-family="Arial Black,Impact,sans-serif" font-size="28">DE KORREL</text>
+  <text x="108" y="104" fill="#ffe14a" font-family="Arial,sans-serif" font-size="13" letter-spacing="3">BAKKERIJ · SINDS 1984</text>
+</svg>

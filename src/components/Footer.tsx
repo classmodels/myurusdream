@@ -33,6 +33,7 @@ export function Footer() {
             <li><Link href="/offerte" className="hover:text-white">Offerte</Link></li>
             <li><Link href="/briefing" className="hover:text-white">Briefing</Link></li>
             <li><Link href="/portaal" className="hover:text-white">Klantportaal</Link></li>
+            <li><Link href="/voortgang" className="hover:text-white">Voortgang / preview</Link></li>
           </ul>
         </div>
 

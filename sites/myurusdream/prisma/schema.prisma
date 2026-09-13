@@ -1,0 +1,431 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  email              String   @unique
+  firstName          String?
+  lastName           String?
+  phone              String?
+  phoneNormalized    String?
+  vatNumber          String?
+  companyName        String?
+  address            String?
+  displayPreference  String   @default("firstname")
+  alias              String?
+  participantNumber  Int      @unique
+  referralCode       String   @unique
+  role               String   @default("participant")
+  passwordHash       String?
+  blocked            Boolean  @default(false)
+  lastIp             String?
+  lastSeenAt         DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  payments           Payment[]
+  referralsMade      Referral[]          @relation("Referrer")
+  referredAs         Referral?           @relation("Referred")
+  pointsTransactions PointsTransaction[]
+  prizeEntries       PrizeEntry[]
+  legalAcceptances   LegalAcceptance[]
+  sessions           Session[]
+  pushDevices        PushDevice[]
+  notices            Notice[]
+  noticeReads        NoticeRead[]
+  challengesSent     Challenge[] @relation("ChallengeChallenger")
+  challengesReceived Challenge[] @relation("ChallengeChallenged")
+  challengesLost     Challenge[] @relation("ChallengeLoser")
+
+  @@index([phoneNormalized])
+}
+
+model Challenge {
+  id             String    @id @default(cuid())
+  challengerId   String
+  challenger     User      @relation("ChallengeChallenger", fields: [challengerId], references: [id])
+  challengedId   String
+  challenged     User      @relation("ChallengeChallenged", fields: [challengedId], references: [id])
+  /** What you're competing on (invite race / honor). */
+  title          String
+  /** What the loser must film / do. */
+  stake          String    @db.Text
+  /** "date" | "counter" */
+  endMode        String
+  endsAt         DateTime?
+  targetCents    Int?
+  /** pending | active | awaiting_video | completed | declined | cancelled */
+  status         String    @default("pending")
+  acceptedAt     DateTime?
+  loserId        String?
+  loser          User?     @relation("ChallengeLoser", fields: [loserId], references: [id])
+  videoUrl       String?
+  videoUploadedAt DateTime?
+  pointsAwarded  Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([status])
+  @@index([challengerId])
+  @@index([challengedId])
+  @@index([createdAt])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  kind      String   @default("participant")
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Campaign {
+  id                      String    @id @default(cuid())
+  slug                    String    @unique
+  name                    String
+  status                  String    @default("draft")
+  goalCents               Int       @default(40000000)
+  contributionCents       Int       @default(200)
+  targetContributions     Int       @default(200000)
+  startDate               DateTime?
+  endDate                 DateTime?
+  goalFailureScenario     String?
+  goalFailureText         String?   @db.Text
+  paymentsEnabled         Boolean   @default(true)
+  paymentsPaused          Boolean   @default(false)
+  referralPublicEnabled   Boolean   @default(false)
+  prizeFeatureEnabled     Boolean   @default(false)
+  multiLevelEnabled       Boolean   @default(false)
+  liveMode                Boolean   @default(false)
+  pointsOwnContribution   Int       @default(5)
+  pointsDirectReferral    Int       @default(2)
+  pointsReferredBonus     Int       @default(0)
+  pointsFurtherLevel      Int       @default(1)
+  moneyBreakdownJson      String    @db.Text
+  storyText               String    @db.Text
+  organizerName           String    @default("")
+  organizerEmail          String    @default("")
+  organizerAddress        String    @default("")
+  organizerCompany        String    @default("")
+  vatNumber               String    @default("")
+  purchaseDate            DateTime?
+  purchasePriceCents      Int?
+  purchasePhotoUrl        String?
+  purchaseProofUrl        String?
+  vehiclePlateMasked      String?
+  checklistJson           String    @db.Text
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  payments                Payment[]
+  updates                 CampaignUpdate[]
+  draws                   Draw[]
+}
+
+model Payment {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  campaignId  String
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  amountCents Int
+  status      String    @default("pending")
+  mollieId    String?   @unique
+  method      String?
+  ipAddress   String?
+  userAgent   String?   @db.Text
+  fingerprint String?
+  paidAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  kind        String    @default("contribution")
+  sponsorName String?
+  sponsorUrl  String?
+  sponsorTier String?
+  pixelX      Int?
+  pixelY      Int?
+  pixelW      Int?
+  pixelH      Int?
+  pixelColor  String?
+  pixelLabel  String?
+  pixelImage  String?   @db.Text
+  referralCode String?
+
+  referrals   Referral[]
+  refunds     Refund[]
+  prizeEntries PrizeEntry[]
+  outboundClicks SponsorOutboundClick[]
+}
+
+model SponsorOutboundClick {
+  id        String   @id @default(cuid())
+  paymentId String
+  payment   Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  ip        String?
+  userAgent String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([paymentId])
+  @@index([createdAt])
+}
+
+model Referral {
+  id              String   @id @default(cuid())
+  referrerId      String
+  referrer        User     @relation("Referrer", fields: [referrerId], references: [id])
+  referredUserId  String   @unique
+  referredUser    User     @relation("Referred", fields: [referredUserId], references: [id])
+  referralCode    String
+  paymentId       String?
+  payment         Payment? @relation(fields: [paymentId], references: [id])
+  verifiedPayment Boolean  @default(false)
+  pointsAwarded   Int      @default(0)
+  source          String?
+  fraudStatus     String   @default("clean")
+  createdAt       DateTime @default(now())
+}
+
+model PointsTransaction {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  amount     Int
+  reason     String
+  source     String
+  paymentId  String?
+  referralId String?
+  createdAt  DateTime @default(now())
+}
+
+model PrizeEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  paymentId   String
+  payment     Payment  @relation(fields: [paymentId], references: [id])
+  entryNumber String   @unique
+  valid       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Draw {
+  id              String    @id @default(cuid())
+  campaignId      String
+  campaign        Campaign  @relation(fields: [campaignId], references: [id])
+  type            String
+  status          String    @default("pending")
+  participantHash String?
+  lockedAt        DateTime?
+  drawnAt         DateTime?
+  randomSeed      String?
+  winnerId        String?
+  validEntryCount Int?
+  auditJson       String?   @db.Text
+  createdAt       DateTime  @default(now())
+}
+
+model FraudFlag {
+  id         String   @id @default(cuid())
+  type       String
+  severity   String   @default("review")
+  userId     String?
+  paymentId  String?
+  referralId String?
+  details    String    @db.Text
+  status     String   @default("open")
+  createdAt  DateTime @default(now())
+}
+
+model Refund {
+  id          String   @id @default(cuid())
+  paymentId   String
+  payment     Payment  @relation(fields: [paymentId], references: [id])
+  amountCents Int
+  status      String
+  reason      String?
+  mollieId    String?
+  createdAt   DateTime @default(now())
+}
+
+model CampaignUpdate {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  title      String
+  body       String    @db.Text
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metaJson  String?   @db.Text
+  ip        String?
+  createdAt DateTime @default(now())
+}
+
+model LegalAcceptance {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  document   String
+  version    String
+  ip         String?
+  acceptedAt DateTime @default(now())
+}
+
+model FaqItem {
+  id          Int     @id @default(autoincrement())
+  question    String  @db.Text
+  answer      String  @db.Text
+  legalReview Boolean @default(true)
+  sortOrder   Int     @default(0)
+  published   Boolean @default(true)
+}
+
+model SiteContent {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String @db.Text
+}
+
+/** Logo/video bytes survive Autogit wipes (disk is best-effort only). */
+model StoredUpload {
+  id        String   @id // e.g. "pixels/abc.jpg"
+  mime      String
+  bytes     Bytes    @db.LongBlob
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UniqueVisitor {
+  id           String   @id @default(cuid())
+  token        String   @unique @db.VarChar(64)
+  createdAt    DateTime @default(now())
+  lastSeenUnix Int      @default(0)
+
+  @@index([lastSeenUnix])
+}
+
+model DailyVisitor {
+  day   String @db.Char(10)
+  token String @db.VarChar(64)
+
+  @@id([day, token])
+  @@index([day])
+}
+
+model MailList {
+  id        String        @id @default(cuid())
+  name      String
+  createdAt DateTime      @default(now())
+  contacts  MailContact[]
+}
+
+model MailContact {
+  id            String   @id @default(cuid())
+  listId        String
+  list          MailList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  email         String
+  firstName     String   @default("")
+  lastName      String   @default("")
+  company       String   @default("")
+  unsubscribed  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@unique([listId, email])
+}
+
+model MailCampaign {
+  id        String    @id @default(cuid())
+  subject   String
+  body      String    @db.Text
+  audience  String
+  sentAt    DateTime?
+  sentCount Int       @default(0)
+  failCount Int       @default(0)
+  createdAt DateTime  @default(now())
+  sends     MailSend[]
+}
+
+model MailSend {
+  id         String    @id @default(cuid())
+  campaignId String
+  campaign   MailCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  email      String
+  firstName  String    @default("")
+  lastName   String    @default("")
+  company    String    @default("")
+  status     String    @default("failed")
+  error      String?   @db.Text
+  token      String    @unique
+  sentAt     DateTime?
+  openedAt   DateTime?
+  readAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([campaignId])
+  @@index([email])
+}
+
+model PushDevice {
+  id           String   @id @default(cuid())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint     String   @db.Text
+  endpointHash String   @unique @db.VarChar(64)
+  p256dh       String
+  auth         String
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Notice {
+  id        String       @id @default(cuid())
+  userId    String?
+  user      User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String       @db.Text
+  url       String?
+  createdAt DateTime     @default(now())
+  reads     NoticeRead[]
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model NoticeRead {
+  noticeId String
+  userId   String
+  notice   Notice  @relation(fields: [noticeId], references: [id], onDelete: Cascade)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  readAt   DateTime @default(now())
+  hidden   Boolean @default(false)
+
+  @@id([noticeId, userId])
+}
+
+model DiscussionPost {
+  id        String   @id @default(cuid())
+  name      String
+  body      String   @db.Text
+  ip        String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("discussion_post")
+}

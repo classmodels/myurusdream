@@ -365,52 +365,169 @@ export const processSteps = [
 
 export const portfolio = [
   {
+    title: "Class-Models",
+    url: "https://www.class-models.be",
+    urlLabel: "class-models.be",
+    sector: "Modellenbureau",
+    result: "Website + 3 portalen + online agenda",
+    summary:
+      "Geen visitekaartje, maar een werkend bureau: gasten boeken een testshoot, modellen beheren hun profiel, merken vragen castings aan.",
+    brief:
+      "Het bureau wou meer dan een mooie homepage. Nieuwe gezichten moesten zelf een gratis testshoot, casting of intake kunnen plannen. Contractmodellen en merken hadden elk een eigen, beveiligde omgeving nodig — zonder alles via mail te laten lopen.",
+    capabilities: [
+      "Online inschrijven en afspraken boeken (testshoot, casting, intake)",
+      "Gastenportaal voor wie model wil worden — zonder ervaring",
+      "Modellenportaal: profiel, opdrachten, portfolio en communicatie",
+      "Klantenportaal: modellen selecteren, casting aanvragen, boekingen",
+      "Publieke wervende site (SEO, mobile, duidelijke calls-to-action)",
+    ],
+    tags: ["Maatwerk", "Portalen", "Booking", "Mobile"],
+    backend:
+      "Het bureau stuurt alles vanuit één beheeromgeving — geen losse mails of Excel.",
+    backendItems: [
+      "Agenda: testshoots, castings en intakes bevestigen of verzetten",
+      "Gasten, contractmodellen en merken in één overzicht",
+      "Boekingen, opdrachten en communicatie opvolgen",
+      "Profielen, foto’s en status (nieuw / actief / geboekt) beheren",
+    ],
+  },
+  {
+    title: "ModelPort",
+    url: "https://www.modelport.be",
+    urlLabel: "modelport.be",
+    sector: "Platform / marketplace",
+    result: "Van casting tot booking op één plek",
+    summary:
+      "Benelux-platform waar modellen, fotografen, visagisten en kledingzaken elkaar rechtstreeks vinden — zonder klassiek bureau als tussenpersoon.",
+    brief:
+      "De vraag was een open marktplaats, geen exclusief agentschap. Iedereen moest een profiel kunnen aanmaken, opdrachten plaatsen of vinden, en rechtstreeks afspreken. Abonnementen (gratis / plus / premium), meertaligheid (NL/FR) en duidelijke rollen waren verplicht.",
+    capabilities: [
+      "Accounts per rol: model, fotograaf, visagist, kledingzaak, admin",
+      "Portfolio’s, zoekertjes/opdrachten en directe communicatie",
+      "Dashboards, inschrijven, inloggen en abonnementsplannen",
+      "Meertalig platform (Nederlands en Frans) voor de Benelux",
+      "Zoeken en filteren zodat talent en opdrachten elkaar vinden",
+    ],
+    tags: ["Platform", "Accounts", "NL/FR", "Abonnementen"],
+    backend:
+      "Beheerders houden het platform proper: wie mag erop, wat is zichtbaar, wat is betaald.",
+    backendItems: [
+      "Gebruikers per rol goedkeuren, blokkeren of aanpassen",
+      "Zoekertjes en profielen modereren",
+      "Abonnementen (gratis / plus / premium) opvolgen",
+      "Meldingen, berichten en platform-instellingen (NL/FR)",
+    ],
+  },
+  {
+    title: "Class Date",
+    url: "https://www.class-date.be",
+    urlLabel: "class-date.be",
+    sector: "Dating + app",
+    result: "Publieke site én matching-app",
+    summary:
+      "Veilig en fris daten: wervende website plus een echte app met profielen, matches, berichten en locatie — geen kale landingspagina.",
+    brief:
+      "Er moest een volwaardige datingdienst komen, geen brochure. Bezoekers zien hoe het werkt, veiligheid en prijzen. Leden stappen over naar de app: ontdekken, liken, matchpercentages, berichten en date-zoekertjes. Privacy, blokkeren/rapporteren en verificatie hoorden bij de opdracht.",
+    capabilities: [
+      "Publieke site: hoe het werkt, veiligheid, prijzen, FAQ, verhalen",
+      "App: aanmelden, profiel (categorieën), ontdekken en liken",
+      "Matchen met percentage en afstand, likes en wederzijdse matches",
+      "Berichten, locatie delen (beperkt tot goedgekeurde matches)",
+      "Zoekertjes voor concrete dateplannen, plus abonnementen",
+    ],
+    tags: ["Website + app", "Matching", "Chat", "Veiligheid"],
+    backend:
+      "De datingdienst wordt achter de schermen bewaakt: echte mensen, veilige chats, duidelijke abos.",
+    backendItems: [
+      "Leden, profielen en foto’s controleren of verifiëren",
+      "Rapporten, blokkades en misbruik afhandelen",
+      "Matches, berichten en zoekertjes inzage",
+      "Abonnementen en toegang tot Plus/Premium beheren",
+    ],
+  },
+  {
     title: "Bakkerij De Korst",
+    url: null,
+    urlLabel: null,
     sector: "Horeca",
     result: "+48% online bestelaanvragen",
     summary:
       "Presentatiesite met assortiment, openingsuren en bestelformulier, ondersteund door professionele productfotografie.",
+    brief: null,
+    capabilities: [] as string[],
     tags: ["Website", "Fotografie", "Teksten"],
+    backend: null,
+    backendItems: [] as string[],
   },
   {
     title: "Garage Meridian",
+    url: null,
+    urlLabel: null,
     sector: "Automotive",
     result: "Verdubbeling van afspraakaanvragen",
     summary:
       "Duidelijke dienstenstructuur, vertrouwensopbouw via reviews en een vernieuwde merkidentiteit.",
+    brief: null,
+    capabilities: [] as string[],
     tags: ["Website", "Logo", "SEO"],
+    backend: null,
+    backendItems: [] as string[],
   },
   {
     title: "Praxis Nova",
+    url: null,
+    urlLabel: null,
     sector: "Zorg",
     result: "+40% online afspraken",
     summary:
       "Toegankelijke website met behandelinformatie, teamportretten en een korte introductievideo.",
+    brief: null,
+    capabilities: [] as string[],
     tags: ["Website", "Video", "Fotografie"],
+    backend: null,
+    backendItems: [] as string[],
   },
   {
     title: "Markt & Meer",
+    url: null,
+    urlLabel: null,
     sector: "Retail",
     result: "Webshop live binnen 5 weken",
     summary:
       "E-commerce met productcatalogus, snelle checkout en wervende productcontent.",
+    brief: null,
+    capabilities: [] as string[],
     tags: ["Webshop", "Content", "Performance"],
+    backend: null,
+    backendItems: [] as string[],
   },
   {
     title: "Bouwfirma Sterck",
+    url: null,
+    urlLabel: null,
     sector: "Bouw",
     result: "+55% projectaanvragen",
     summary:
       "Projectportfolio, offerteflow en consistente huisstijl voor online én offline gebruik.",
+    brief: null,
+    capabilities: [] as string[],
     tags: ["Website", "Logo", "Portfolio"],
+    backend: null,
+    backendItems: [] as string[],
   },
   {
     title: "Horizon Group",
+    url: null,
+    urlLabel: null,
     sector: "Corporate",
     result: "Meertalig en schaalbaar platform",
     summary:
       "Corporate website met nieuws, vacatures en CMS voor het interne marketingteam.",
+    brief: null,
+    capabilities: [] as string[],
     tags: ["Maatwerk", "CMS", "NL/FR/EN"],
+    backend: null,
+    backendItems: [] as string[],
   },
 ] as const;
 

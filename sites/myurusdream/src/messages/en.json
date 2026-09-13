@@ -1,0 +1,638 @@
+{
+  "meta": {
+    "titleSuffix": "My Urus Dream",
+    "tagline": "Can €2 make a dream on wheels come true?"
+  },
+  "lang": {
+    "nl": "Nederlands",
+    "en": "English",
+    "fr": "Français",
+    "label": "Language"
+  },
+  "nav": {
+    "teller": "Counter",
+    "verhaal": "Story",
+    "sponsors": "Sponsors",
+    "pixelwall": "Pixelwall",
+    "volgAlles": "Follow everything",
+    "discussie": "Discussion",
+    "faq": "FAQ",
+    "dashboard": "Your dashboard",
+    "admin": "Admin",
+    "menu": "Menu",
+    "close": "Close",
+    "cta": "Join for €2",
+    "ctaAgain": "Another €2",
+    "messages": "Messages"
+  },
+  "brand": {
+    "drive": "DRIVE YOUR DREAM"
+  },
+  "common": {
+    "meedoen": "Join for €2",
+    "loading": "Please wait…",
+    "ok": "OK",
+    "error": "Something went wrong.",
+    "back": "Back",
+    "save": "Save",
+    "required": "Required"
+  },
+  "cookie": {
+    "text": "We only use essential cookies for login, security and the payment flow.",
+    "policy": "Cookie policy",
+    "accept": "OK"
+  },
+  "footer": {
+    "voluntary": "Voluntary €2 contribution, as often as you like. No subscription. No prize. No chance of winning.",
+    "everyGift": "Every contribution drives the dream forward",
+    "supportWith": "SUPPORT THE DREAM WITH",
+    "smallGift": "SMALL GIFT, BIG DREAM",
+    "legal": "Legal",
+    "photos": "Photos of the Urus are mood images of the dream, not a partnership.",
+    "copyright": "independent personal campaign"
+  },
+  "legalLinks": {
+    "terms": "Terms",
+    "campaign": "Campaign terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "refund": "Refunds",
+    "disclaimer": "Disclaimer",
+    "contact": "Contact",
+    "prize": "No prize draw",
+    "termsLower": "terms and conditions",
+    "campaignLower": "campaign terms",
+    "privacyLower": "privacy policy"
+  },
+  "home": {
+    "heroTitle1": "Can",
+    "heroTitle2": "make a",
+    "heroTitle3": "dream on wheels",
+    "heroTitle4": "come true?",
+    "heroLead1": "No charity.",
+    "heroLead2": "No made-up story.",
+    "heroLead3": "Just one big dream and one small question.",
+    "heroLeadNonRefundable": "Your €2 is gone — even if the goal is not reached. No refund.",
+    "ctaPrimary": "Join for €2",
+    "ctaSecondary": "See how it works",
+    "fineprint": "One-time contribution • no subscription • transparent counter",
+    "samen": "Together toward the dream",
+    "goalLine": "200,000 people × €2 = €400,000",
+    "liveCounter": "Total live campaign counter",
+    "asGoalReached": "If the goal is reached",
+    "ride4": "one dream on wheels",
+    "weekend": "becomes",
+    "withUrus": "reality",
+    "goalEventLine": "Then we throw a big event with a DJ. Everyone who took part is welcome — the Urus will be on display, so you can see the money went to buying it.",
+    "whyKicker": "Together toward the dream",
+    "whyTitle": "Not one person. Lots of small contributions.",
+    "togetherScript": "€2 × 200,000",
+    "togetherKicker": "I help make the dream happen",
+    "togetherTitle": "One-time €2. No subscription. Fully trackable.",
+    "togetherBody1": "For one person, €2 is something small. For me, it means something big.",
+    "togetherBody2": "That is the whole idea.",
+    "inviteTitle": "Invite others",
+    "inviteSub": "Share the campaign — help the dream grow",
+    "inviteBodyPaid": "You have already contributed. WhatsApp, Facebook and email now include your personal code. Anyone who also contributes through that link helps bring the goal closer.",
+    "pointsLink": "Go to your dashboard →",
+    "pixelKicker": "Self-employed people & small brands",
+    "pixelTitle": "The Pixelwall. Your ad, square by square.",
+    "pixelBody": "From €10, you buy a square on the Pixelwall, with your logo and link.",
+    "pixelCta": "Go to the Pixelwall",
+    "sponsorCta": "I want to sponsor",
+    "pixelBudget": "No big budget needed.",
+    "inviteSubPaid": "Your personal link — share the dream",
+    "inviteExtra": "Every €2 helps bring the €400,000 goal closer. You may contribute as often as you like. You get nothing back — except my gratitude.",
+    "helpTitle1": "I help",
+    "helpTitle2": "make the dream",
+    "helpTitle3": "come true",
+    "heroAlt": "Lamborghini Urus in champagne — dream atmosphere, not a partnership",
+    "villaAlt": "Champagne Urus on a dark terrace at dusk — atmosphere shot",
+    "samenLine1": "Together toward",
+    "samenLine2": "the dream",
+    "inviteBodyGuest1": "Not contributed yet? These buttons share the campaign so more people can help the dream.",
+    "inviteBodyGuest2": "After your €2, the same buttons automatically include your personal code.",
+    "viralTitle": "The craziest idea ever",
+    "viralLine1": "Let's find out together",
+    "viralLine2": "how far this can go",
+    "viralLine3": "Will it hit the media?",
+    "viralLine4": "Will the goal be reached?",
+    "viralLine5": "How far will it spread?"
+  },
+  "story": {
+    "kicker": "Story",
+    "title": "MY DREAM. YOUR €2. OUR STORY.",
+    "aside": {
+      "a": "maybe it works,",
+      "b": "maybe it does not",
+      "c": "....",
+      "d": "but my craziest idea ever"
+    },
+    "more": "Read more",
+    "less": "Read less",
+    "p1before": "I am not going to tell you a story about charity, and I am not going to try to convince you with illness, drama or some made-up reason why I deserve your money.",
+    "p1gold": "My reason is much simpler: I have dreamed my whole life of an exceptional car, and for me that car is the Lamborghini Urus.",
+    "p2": "My life has not always gone the way I once imagined. I was married, had two children and thought, like so many people, that I more or less knew what my future would look like. Life decided differently. There have been beautiful years, but also difficult ones, years when dreams moved into the background and other things became more important: working, carrying on, starting over and driving the cars that were possible at the time. But some dreams do not disappear, and that Lamborghini Urus is one of them for me.",
+    "p3before": "Of course I know perfectly well what a car like that costs. Putting roughly €400,000 on the table myself is simply not realistic for me. So I could accept that it would always remain a dream,",
+    "p3gold": "or try something completely different once in my life.",
+    "p4": "Not asking one person for €400,000, but asking 200,000 people for €2. That is the whole idea behind My Urus Dream. No major sponsor, no millionaire paying for everything and no sob story, but lots of people each carrying one tiny piece of an almost impossible dream. 200,000 people × €2 = €400,000. For one person, €2 probably changes nothing, but 200,000 times €2 can make something incredible possible.",
+    "h1": "NOT ASKING ONE PERSON FOR €400,000, BUT ASKING 200,000 PEOPLE FOR €2.",
+    "rest": [
+      {
+        "type": "title",
+        "text": "NOT ASKING ONE PERSON FOR €400,000, BUT ASKING 200,000 PEOPLE FOR €2."
+      },
+      {
+        "type": "p",
+        "text": "Maybe you are thinking:"
+      },
+      {
+        "type": "quote",
+        "text": "“Why would I give €2 so someone else can buy a Lamborghini?”"
+      },
+      {
+        "type": "p",
+        "text": "A fair question."
+      },
+      {
+        "type": "p",
+        "text": "I am not claiming that I need a Lamborghini, that I deserve it or that my dream is more important than anyone else's."
+      },
+      {
+        "type": "gold",
+        "text": "I am simply trying something almost everyone will say is impossible."
+      },
+      {
+        "type": "p",
+        "text": "But imagine it does work. Imagine 200,000 ordinary people, who do not even know one another, together making something happen that is completely out of reach for one ordinary person. Then this is no longer just about a car, but about what becomes possible when lots of people all do one very small thing."
+      },
+      {
+        "type": "p",
+        "text": "And that is exactly where the difficulty begins. Maybe you think:"
+      },
+      {
+        "type": "quote",
+        "text": "“If enough other people pay €2, he will get there.”"
+      },
+      {
+        "type": "gold",
+        "text": "But if everyone thinks someone else will do it, nothing happens."
+      },
+      {
+        "type": "p",
+        "text": "It only works if the person reading this right now thinks:"
+      },
+      {
+        "type": "quote",
+        "text": "“Come on, for €2 I will join.”"
+      },
+      {
+        "type": "p",
+        "text": "I am not asking for much: one minute of your time. Click ‘Join for €2’, enter your name and scan the QR code; the payment goes through the official payment system. Done."
+      },
+      {
+        "type": "p",
+        "text": "And what is €2 today? A beer, soft drink or coffee often costs more. Skip one drink and you may even come out ahead financially, but here you also get something extra:"
+      },
+      {
+        "type": "gold",
+        "text": "you become a small part of this story and, if this completely crazy dream becomes reality, you can say: “I was part of it.”"
+      },
+      {
+        "type": "title",
+        "text": "YOUR €2 HELPS. NOTHING IN RETURN."
+      },
+      {
+        "type": "p",
+        "text": "I promise you no prize, no weekend with the Urus and no chance to win anything. The law also does not allow linking a contest to this contribution."
+      },
+      {
+        "type": "gold",
+        "text": "Your €2 is a voluntary gift: you help bring one almost impossible dream closer — and you get nothing in return except my sincere gratitude."
+      },
+      {
+        "type": "p",
+        "text": "If you want, you may then invite others. Not to collect points or draw numbers for a prize, but simply because the more people see the story, the closer we get to €400,000."
+      },
+      {
+        "type": "gold",
+        "text": "Sharing is helping. Not entering a contest."
+      },
+      {
+        "type": "title",
+        "text": "LET THE STORY GO VIRAL"
+      },
+      {
+        "type": "p",
+        "text": "And that is actually my second dream with this project: not only to make that Urus happen, but to discover"
+      },
+      {
+        "type": "gold",
+        "text": "how far we can take this story together."
+      },
+      {
+        "type": "p",
+        "text": "Share your personal link with friends, family and colleagues via WhatsApp, Facebook, Instagram, TikTok or anywhere you like. Simply tell them:"
+      },
+      {
+        "type": "quote",
+        "text": "“There is someone trying to make a Lamborghini Urus happen by getting 200,000 people to contribute €2 each.”"
+      },
+      {
+        "type": "p",
+        "text": "Maybe people laugh and say:"
+      },
+      {
+        "type": "quote",
+        "text": "“He is completely crazy.”"
+      },
+      {
+        "type": "p",
+        "text": "Fine. But maybe afterwards they also think:"
+      },
+      {
+        "type": "gold",
+        "text": "“You know what? For €2 I want to see whether he can do it.”"
+      },
+      {
+        "type": "p",
+        "text": "And that is exactly what can make this story big. First ten people, then a hundred, a thousand, ten thousand... Maybe it starts living on social media, gets shared by someone with a large reach and"
+      },
+      {
+        "type": "gold",
+        "text": "one day this wildly crazy story even reaches the media."
+      },
+      {
+        "type": "quote",
+        "text": "“I was there. I joined in. I helped get this story rolling.”"
+      },
+      {
+        "type": "p",
+        "text": "And who knows, maybe one day you can say you were there — not as a winner, but as someone who helped."
+      },
+      {
+        "type": "title",
+        "text": "SO I HAVE ONE MORE QUESTION FOR YOU"
+      },
+      {
+        "type": "p",
+        "text": "If you have read this far, you have probably already spent more time on my dream than it takes to actually take part. So do not think:"
+      },
+      {
+        "type": "gold",
+        "text": "“Someone else will pay that €2.”"
+      },
+      {
+        "type": "p",
+        "text": "because that other person may be thinking exactly the same thing."
+      },
+      {
+        "type": "p",
+        "text": "It only works if you think:"
+      },
+      {
+        "type": "gold",
+        "text": "“Come on. Why not?”"
+      },
+      {
+        "type": "p",
+        "text": "One minute, one small payment, €2. Not because I told you a sad story or claim I have a right to a Lamborghini, but simply because you may find the idea just as crazy, funny and exciting as I do, and because you are curious about the answer to one question:"
+      },
+      {
+        "type": "title",
+        "text": "CAN 200,000 PEOPLE WITH €2 EACH MAKE ONE ALMOST IMPOSSIBLE DREAM COME TRUE?"
+      },
+      {
+        "type": "p",
+        "text": "Maybe it never works. Maybe it becomes one huge failure that I can laugh about later."
+      },
+      {
+        "type": "gold",
+        "text": "But maybe it does work."
+      },
+      {
+        "type": "p",
+        "text": "And if I ever stand in front of that Lamborghini Urus, I will know it is not there thanks to one wealthy donor, but thanks to thousands of people who all thought the same thing:"
+      },
+      {
+        "type": "title",
+        "text": "“COME ON. FOR €2 I WILL JOIN.”"
+      },
+      {
+        "type": "p",
+        "text": "Then lots of people, with one tiny action, will have made one person incredibly happy. Maybe you were one of them, maybe you helped make the story big."
+      },
+      {
+        "type": "gold",
+        "text": "But someone has to start. Why not you?"
+      }
+    ],
+    "ctaLine": "Join in. Share your personal link. Help the story grow. Bring the goal closer.",
+    "photoAlt": "Detail of the Urus"
+  },
+  "how": {
+    "titleHoe": "HOW",
+    "titleWerkt": "DOES IT WORK?",
+    "intro": "One small, voluntary contribution — or several, if you like. No subscription. No prize. No chance of winning. After your first €2, the share buttons on the site automatically include your personal code.",
+    "steps": [
+      "Contribute €2 voluntarily — as often as you like",
+      "Your contribution counts toward the €400,000 goal",
+      "You get nothing back — except gratitude",
+      "After your contribution, WhatsApp, Facebook and email share your code",
+      "Anyone who contributes through your link helps bring the goal closer",
+      "Everyone can follow the counter live — open and transparent"
+    ],
+    "chancesTitle": "HOW YOU HELP",
+    "chances": [
+      "Every €2 is a voluntary contribution to the campaign goal — no ticket, no draw, no prize.",
+      "Share your personal link so more people can see and support the dream.",
+      "Anyone who contributes through your link helps the total grow. You win nothing by that.",
+      "Transparency: the live counter shows what comes in. No hidden promises."
+    ],
+    "transparencyTitle": "TRANSPARENCY",
+    "transparencyBody": "Everyone can follow the counter and the amount raised. Your personal link and contributions are in your dashboard.",
+    "transparencyLink": "View the live counter →",
+    "heart": "Voluntary €2 support — no prize, just gratitude"
+  },
+  "counter": {
+    "total": "Total from €2",
+    "participants": "Participants / goal",
+    "sponsors": "Sponsors",
+    "pixels": "Pixels",
+    "visitors": "Visitors",
+    "online": "Live now",
+    "note": "Only confirmed payments count. The total shown is the gross amount.",
+    "noteNet": "Only confirmed payments count. The total shown is gross minus transaction costs.",
+    "contributions": "Contributions",
+    "deposits": "deposits",
+    "ofGoal": "Of the goal",
+    "stillNeed": "Still needed",
+    "deposit": "deposit",
+    "totalLabel": "Total",
+    "update": "Update"
+  },
+  "meedoen": {
+    "title": "I contribute €2",
+    "lead": "No account needed in advance. With your €2, we automatically create a small dashboard account and a personal link. Your €2 is voluntary: you help bring the €400,000 goal closer — you get nothing back except gratitude. Later, you may contribute an extra €2 as often as you like.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Mobile number",
+    "pay": "Pay €2",
+    "busy": "Please wait…",
+    "mollieNote": "You go to Mollie's secure checkout (Bancontact, cards, Apple Pay where available). We do not store card details.",
+    "testMode": "Test mode: Mollie key is missing. You can simulate the payment locally.",
+    "invited": "You were invited through someone's personal link. With a confirmed €2, you help bring the goal closer — you get nothing in return except gratitude.",
+    "simulate": "Simulate payment (local)",
+    "acceptTerms": "I accept the general terms.",
+    "acceptPrivacy": "I accept the privacy policy.",
+    "acceptCampaign": "I accept the campaign terms.",
+    "thanksLead": "Thanks for wanting to join!",
+    "extra": " again",
+    "loggedInLead": "You are already logged in. One button is enough — we will not ask for your name, email or phone again. Every extra €2 is again a voluntary contribution to the goal, with no prize or chance of winning.",
+    "bullet1": "This is not a charity, investment or promise of profit.",
+    "bullet2": "This is an open and transparent personal campaign.",
+    "ifNotReached": "If the goal is not reached",
+    "ifNotReachedBody": "After the end date the campaign may be extended or stopped. Your €2 or sponsor money is not refunded. We do not promise success — we do promise to say openly what follows.",
+    "businessBefore": "Business or self-employed?",
+    "becomeSponsor": "Become a sponsor",
+    "or": "or",
+    "buyPixels": "buy pixels from €10",
+    "howWorks": "See how it works",
+    "hello": "Hello {name}",
+    "alreadyPaid": "You already have {count} {deposits}. Another €2 is one click.",
+    "stayLogged": "You stay logged in. No extra form, no new details.",
+    "payClosed": "Payments are not open yet",
+    "backHome": "Back to the homepage",
+    "liveCounter": "View the live counter →",
+    "acceptPrefix": "I accept the",
+    "acceptMid1": ", the",
+    "acceptMid2": "and the",
+    "acceptEnd": ".",
+    "titleBefore": "I contribute",
+    "repeat": "Donate €2 again"
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "FAQ",
+    "items": [
+      {
+        "q": "Is this a charity?",
+        "a": "No. This is not a charity, not an investment and not a promise of profit. myurusdream.be is an open, personal campaign: one initiator asks for voluntary €2 contributions to make a car dream possible."
+      },
+      {
+        "q": "Why €2?",
+        "a": "Because €2 is a small, one-time amount for most people. Not asking one person for €400,000, but letting 200,000 people each carry €2 of that dream: 200,000 × €2 = €400,000."
+      },
+      {
+        "q": "Do I get anything in return?",
+        "a": "No. Your €2 is a voluntary contribution to help reach the €400,000 goal. There is no contest, no prize, no weekend with the Urus and no chance to win anything. You get nothing in return — except the organiser's gratitude."
+      },
+      {
+        "q": "Where does the money go?",
+        "a": "To this personal campaign, with the goal of making a Lamborghini Urus possible. The gross goal of €400,000 is not automatically the purchase price of the car. The counter shows confirmed contributions. Transaction costs are subtracted only if that is enabled. The breakdown is on Follow everything."
+      },
+      {
+        "q": "What happens if €400,000 is not reached?",
+        "a": "There is no guarantee that the goal will be reached. If it is not reached, your support remains: €2 contributions and sponsorship money are not refunded. Depending on the amount raised, that money goes toward another vehicle. The campaign may be extended or stopped after the end date."
+      },
+      {
+        "q": "Can I contribute more than €2?",
+        "a": "The personal contribution is always €2, but you may repeat it as often as you like. Every payment is again a voluntary gift to the goal — with no prize or chance of winning. Larger amounts go through sponsorship (from €500) or the Pixelwall (from €10)."
+      },
+      {
+        "q": "Is €2 a subscription?",
+        "a": "No. Nothing is ever collected automatically again. You make every extra €2 contribution yourself, whenever you want."
+      },
+      {
+        "q": "Can I cancel my payment?",
+        "a": "A contribution is a one-time, voluntary payment. €2 and sponsorship money are in principle not refunded. Duplicate payments or obvious mistakes can be refunded after review. More information is on the Refunds page."
+      },
+      {
+        "q": "How does the counter work?",
+        "a": "The counter only counts confirmed payments. By default that is the gross total. Transaction costs are subtracted only if that is enabled in the admin panel — then it also applies to earlier payments. No fictional amounts are shown. Everyone can follow the status on the homepage and on Follow everything."
+      },
+      {
+        "q": "How are payments checked?",
+        "a": "Payments run through Mollie. myurusdream.be does not store card or Bancontact details. Only a confirmed status from the payment provider counts for the counter."
+      },
+      {
+        "q": "Who can participate?",
+        "a": "Participation is intended for adults who accept the terms and voluntarily pay €2. The exact rules are in the general terms."
+      },
+      {
+        "q": "Who pays for insurance?",
+        "a": "The organiser is responsible for legally correct insurance of the vehicle if it is purchased. Details will follow in separate documents."
+      },
+      {
+        "q": "What happens if the car has not been delivered yet?",
+        "a": "The status of purchase and delivery is shown on Follow everything. There is no promise of a delivery date."
+      },
+      {
+        "q": "How is personal data protected?",
+        "a": "We ask only what is needed: email, name, mobile number and payment status. Mollie processes payments; we do not receive card numbers. Newsletters are never pre-ticked. See the privacy policy."
+      },
+      {
+        "q": "How can I get in touch?",
+        "a": "Through the contact page. The organiser's details are listed there."
+      },
+      {
+        "q": "Can companies sponsor the campaign?",
+        "a": "Yes. Brands contribute an amount of their choice, from €500. The larger the amount, the larger the spot on the site: Bronze €500, Silver €2,500, Gold €10,000, Main sponsor €25,000. The amount counts toward the campaign goal."
+      },
+      {
+        "q": "What is the pixel wall?",
+        "a": "A wall of small squares. Self-employed people buy a square, or a larger block, from €10 with a logo, name and optional link. The more squares, the larger the ad. The amount counts toward the campaign goal."
+      },
+      {
+        "q": "Why should I share the campaign?",
+        "a": "Because sharing helps reach more people who may want to support the dream voluntarily. Sharing is not a contest and earns no prize — it only helps bring the campaign goal closer."
+      },
+      {
+        "q": "How do I log in to my dashboard?",
+        "a": "After your payment, you automatically get a small account and remain logged in on that device. If you are logged out, open the dashboard with the same email address and mobile number as with your payment. Extra €2 payments do not require new details."
+      },
+      {
+        "q": "May I pay €2 multiple times?",
+        "a": "Yes. Every extra €2 is again a voluntary contribution to the campaign goal. There is no draw, no prize and no extra chance linked to more payments — you only help bring the goal closer."
+      }
+    ],
+    "intro": "Short answers, in the same language as the rest of the site. Open a question."
+  },
+  "share": {
+    "text": "I contributed €2 to perhaps Belgium's craziest honest car campaign. Let's see whether 200,000 people together can make one Lamborghini Urus possible.",
+    "whatsapp": "WhatsApp",
+    "facebook": "Facebook",
+    "email": "E-mail",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+    "snapchat": "Snapchat",
+    "copy": "Copy campaign",
+    "copied": "Text copied",
+    "subject": "My Urus Dream — €2 for a dream",
+    "copyMine": "Copy my link",
+    "copiedPaste": "Text copied — paste in {name}"
+  },
+  "disclaimer": {
+    "strip": "Total live campaign counter"
+  },
+  "sponsorsPage": {
+    "title": "Put your name on the moment the whole Benelux is watching",
+    "lead": "Big brands, SMEs and local heroes: you help reach the €400,000 goal. And you get a place in return.",
+    "kicker": "Brands & companies"
+  },
+  "pixelsPage": {
+    "title": "The Pixelwall",
+    "lead": "Tap and drag on the wall to choose squares. From €10 per square."
+  },
+  "volgAlles": {
+    "title": "Follow everything",
+    "lead": "Only confirmed payments count.",
+    "kicker": "Transparency"
+  },
+  "dashboard": {
+    "title": "Your dashboard",
+    "lead": "Log in to see your contributions and personal link. You can enable notifications below, even without an account.",
+    "login": "Log in"
+  },
+  "discussie": {
+    "title": "What is your opinion about this campaign?",
+    "lead": "Say freely what you think of the campaign. No account needed. Stay respectful.",
+    "kicker": "Discussion"
+  },
+  "contact": {
+    "title": "Contact and organiser",
+    "lead": "Responsible organiser of this personal campaign:",
+    "emailLabel": "Email"
+  },
+  "bedankt": {
+    "title": "Thank you. You are part of the dream.",
+    "lead": "Thank you for helping. Your €2 brings the goal closer — you have won nothing, and that is exactly the point.",
+    "kicker": "Confirmation",
+    "waiting": "We are waiting for confirmation.",
+    "sponsor": "Thank you. Your brand will soon be visible.",
+    "pixel": "Thank you. Your pixels are yours.",
+    "shareLink": "Share your personal link:"
+  },
+  "inloggen": {
+    "title": "Open dashboard",
+    "lead": "After your €2, you stay logged in on this device. Logged out? Open the dashboard again with the same email address and mobile number as with your payment.",
+    "submit": "Open dashboard",
+    "kicker": "Participants",
+    "ctaJoin": "Not joined yet? €2 →",
+    "submitBtn": "Log in"
+  },
+  "meldingen": {
+    "title": "Notifications",
+    "lead": "Through the app, you receive a push notification for changes and updates. Add myurusdream.be to your home screen once, then enable notifications."
+  },
+  "legal": {
+    "termsTitle": "General terms",
+    "privacyTitle": "Privacy policy",
+    "cookiesTitle": "Cookie policy",
+    "refundTitle": "Refund policy",
+    "disclaimerTitle": "Disclaimer",
+    "campaignTitle": "Campaign terms",
+    "prizeTitle": "No prize draw linked to contributions",
+    "bodyNote": "Full legal page bodies may remain Dutch until lawyer review; this note is shown at the top for English and French."
+  },
+  "lamborghini": "This independent campaign is not connected to, organised by or sponsored by Automobili Lamborghini S.p.A.",
+  "notifications": {
+    "label": "Messages",
+    "close": "Close",
+    "openPage": "Open this page",
+    "clearAll": "Clear all messages",
+    "empty": "No messages.",
+    "pageLead": "Campaign updates and notices in one place."
+  },
+  "sponsors": {
+    "putAdHere": "Put your ad here",
+    "example": "example",
+    "becomeHeadline": "Become main sponsor",
+    "becomeGold": "Become gold sponsor",
+    "becomeSilver": "Become silver sponsor",
+    "becomeBronze": "Become bronze sponsor",
+    "headlineOfferTitle": "This is what you get as main sponsor",
+    "headlineOfferBody": "Anyone who contributes €25,000 or more gets the top spot — homepage, counter and the moment we celebrate the goal. Nobody can miss you.",
+    "liveDrawWith": "Campaign moment in partnership with",
+    "chooseSpot": "Choose your spot",
+    "headline": {
+      "name": "Main sponsor",
+      "placement": "The biggest place on the site and at the campaign moment",
+      "perks": [
+        "Main logo on the homepage",
+        "Name on screen when we celebrate the goal",
+        "First place on the sponsors page",
+        "Mention in updates for as long as the campaign runs"
+      ]
+    },
+    "gold": {
+      "name": "Gold sponsor",
+      "placement": "High visibility on the homepage and at the campaign moment",
+      "perks": [
+        "Large logo on homepage and sponsors page",
+        "Visible in the stream of the campaign moment",
+        "A place in the Gold row"
+      ]
+    },
+    "silver": {
+      "name": "Silver sponsor",
+      "placement": "A clear spot on the site, visible to all participants",
+      "perks": [
+        "Logo on the sponsors page",
+        "Mention on the homepage",
+        "Visible at the campaign moment"
+      ]
+    },
+    "bronze": {
+      "name": "Bronze sponsor",
+      "placement": "A fixed place on the sponsor wall",
+      "perks": [
+        "Logo or name on the sponsors page",
+        "Counted toward the campaign goal"
+      ]
+    }
+  },
+  "noPrizeExplain": "Your €2 is a voluntary contribution to help reach the €400,000 goal. There is no contest, no lottery, no prize and no chance of winning linked to this contribution. You get nothing in return — except sincere gratitude.",
+  "shareExplain": "Share the campaign so more people can help the dream. Sharing is not a prize mechanism: it only helps the story and the goal grow."
+}

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, Source_Sans_3 } from "next/font/google";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { AppChrome } from "@/components/AppChrome";
 import "./globals.css";
 
 const display = Manrope({
@@ -35,9 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="nl" className={`${display.variable} ${body.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );

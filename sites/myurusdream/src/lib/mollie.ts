@@ -1,0 +1,61 @@
+import { createMollieClient } from "@mollie/api-client";
+import { decryptSecret } from "./secret-box";
+import { getSetting } from "./settings";
+
+export function siteUrl() {
+  const base = (process.env.NEXT_PUBLIC_BASE_PATH || "").replace(/\/$/, "");
+  const raw = (process.env.NEXT_PUBLIC_SITE_URL || "").trim().replace(/\/$/, "");
+  const local = !raw || /127\.0\.0\.1|localhost/i.test(raw);
+  if (local) {
+    const origin =
+      process.env.NODE_ENV === "production"
+        ? base
+          ? "https://www.sitebutler.be"
+          : "https://myurusdream.be"
+        : raw || "http://127.0.0.1:3001";
+    return `${origin}${base}`;
+  }
+  return `${raw}${base}`;
+}
+
+export function publicSiteUrl() {
+  return "https://myurusdream.be";
+}
+
+export async function getMollieApiKey() {
+  const stored = await getSetting("mollie_api_key");
+  if (stored) {
+    try {
+      const key = decryptSecret(stored).trim();
+      if (key) return key;
+    } catch {
+      /* fall through to env */
+    }
+  }
+  return process.env.MOLLIE_API_KEY?.trim() || "";
+}
+
+export async function getMollieWebhookUrl() {
+  const stored = (await getSetting("mollie_webhook_url"))?.trim();
+  if (stored) return stored;
+  const env = process.env.MOLLIE_WEBHOOK_URL?.trim();
+  if (env) return env;
+  return `${siteUrl()}/api/webhooks/mollie`;
+}
+
+export function isMollieKey(key: string) {
+  return key.startsWith("test_") || key.startsWith("live_");
+}
+
+export async function mollieConfigured() {
+  const key = await getMollieApiKey();
+  return isMollieKey(key);
+}
+
+export async function getMollie() {
+  const key = await getMollieApiKey();
+  if (!isMollieKey(key)) {
+    throw new Error("Mollie-sleutel ontbreekt. Zet die in het admin-dashboard.");
+  }
+  return createMollieClient({ apiKey: key });
+}

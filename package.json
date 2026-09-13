@@ -7,9 +7,10 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "npm install --include=dev && node node_modules/next/dist/bin/next build",
-    "start": "node node_modules/next/dist/bin/next start",
-    "serve": "node node_modules/next/dist/bin/next start -H 0.0.0.0",
+    "build": "npm install --include=dev && node scripts/build-all.mjs",
+    "start": "NODE_ENV=production node server.mjs",
+    "serve": "NODE_ENV=production node server.mjs",
+    "publish-site": "node scripts/publish-site.mjs",
     "lint": "eslint"
   },
   "dependencies": {

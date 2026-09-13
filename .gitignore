@@ -43,3 +43,10 @@ next-env.d.ts
 # uploaded client briefings
 /public/uploads/**
 !/public/uploads/.gitkeep
+
+# nested client sites (source is tracked, installs are not)
+/sites/*/.next/
+/sites/*/node_modules/
+/sites/*/.env*
+/sites/*/dev.db
+/sites/*/originals-backup/

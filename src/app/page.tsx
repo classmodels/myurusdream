@@ -327,6 +327,12 @@ export default function HomePage() {
                 <div className="p-6">
                   <p className="font-semibold text-teal">{item.result}</p>
                   <p className="mt-2 text-sm text-ink-soft">{item.summary}</p>
+                  {item.backend && (
+                    <p className="mt-3 text-sm text-ink-soft">
+                      <span className="font-semibold text-teal">Backoffice: </span>
+                      {item.backend}
+                    </p>
+                  )}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {item.tags.map((t) => (
                       <span
@@ -337,6 +343,16 @@ export default function HomePage() {
                       </span>
                     ))}
                   </div>
+                  {item.url && (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-5 inline-flex text-sm font-bold text-blue hover:underline"
+                    >
+                      Bezoek {item.urlLabel} →
+                    </a>
+                  )}
                 </div>
               </article>
             ))}

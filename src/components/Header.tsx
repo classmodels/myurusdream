@@ -114,9 +114,16 @@ export function Header() {
               </Link>
             ))}
             <Link
+              href="/voortgang"
+              onClick={() => setOpen(false)}
+              className="rounded-xl px-3 py-3 text-sm font-semibold text-ink-soft"
+            >
+              Voortgang / preview
+            </Link>
+            <Link
               href="/portaal"
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-xl px-3 py-3 text-sm font-semibold text-ink-soft"
+              className="rounded-xl px-3 py-3 text-sm font-semibold text-ink-soft"
             >
               Klantportaal
             </Link>
