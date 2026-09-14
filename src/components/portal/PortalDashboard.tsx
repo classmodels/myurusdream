@@ -131,6 +131,7 @@ export function PortalDashboard() {
   const [replyToId, setReplyToId] = useState<string | null>(null);
   const [replyText, setReplyText] = useState("");
   const [previewFullscreen, setPreviewFullscreen] = useState(false);
+  const [sitePopup, setSitePopup] = useState(false);
   const [reqTitle, setReqTitle] = useState("");
   const [reqDetail, setReqDetail] = useState("");
   const [logMinutes, setLogMinutes] = useState(15);
@@ -407,7 +408,24 @@ export function PortalDashboard() {
 
   function openSite() {
     if (!state?.previewUrl) return;
-    window.open(state.previewUrl, "sitebutler-klantsite", "noopener,noreferrer,width=1280,height=800");
+    const abs = state.previewUrl.startsWith("http")
+      ? state.previewUrl
+      : `${window.location.origin}${state.previewUrl}`;
+    const popup = window.open(
+      abs,
+      "sitebutler-klantsite",
+      "width=1280,height=800,left=60,top=40,scrollbars=yes,resizable=yes",
+    );
+    if (popup) {
+      try {
+        popup.opener = null;
+      } catch {
+        /* ignore */
+      }
+      popup.focus();
+      return;
+    }
+    setSitePopup(true);
   }
 
   return (
@@ -1185,6 +1203,24 @@ export function PortalDashboard() {
             </button>
           </div>
           <iframe title="Ontwerp fullscreen" src={state.previewUrl} className="min-h-0 flex-1 w-full bg-white" />
+        </div>
+      )}
+
+      {sitePopup && state.previewUrl && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 p-4">
+          <div className="flex h-[min(90vh,900px)] w-full max-w-6xl flex-col overflow-hidden rounded-xl border border-line bg-[#0a111c] shadow-2xl">
+            <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
+              <p className="text-sm font-semibold text-ink">Uw website</p>
+              <button
+                type="button"
+                className="shrink-0 rounded-md bg-white px-4 py-2.5 text-sm font-bold text-[#007aff]"
+                onClick={() => setSitePopup(false)}
+              >
+                Sluiten
+              </button>
+            </div>
+            <iframe title="Uw website" src={state.previewUrl} className="min-h-0 flex-1 w-full bg-white" />
+          </div>
         </div>
       )}
     </div>
