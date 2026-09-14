@@ -11,6 +11,7 @@ import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { pixelOrderHref, sponsorSignupHref } from "@/lib/sponsors";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { withBasePath } from "@/lib/base-path";
 
 export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
   const dict = await getDictionary();
@@ -45,7 +46,7 @@ export async function MeedoenScreen({ invitedBy }: { invitedBy?: string }) {
   return (
     <div className="relative isolate min-h-[100svh] overflow-hidden">
       <img
-        src="/images/urus-hero.png"
+        src={withBasePath("/images/urus-hero.png")}
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />

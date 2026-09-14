@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { withBasePath } from "@/lib/base-path";
 
 export function PageHero({
   title,
@@ -37,7 +38,7 @@ export function PageHero({
         : "pb-14 pt-28 md:pb-20 md:pt-32";
   return (
     <section className="relative isolate overflow-hidden">
-      <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
+      <img src={withBasePath(image)} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/35" />
       <div className={`relative mx-auto max-w-7xl px-5 ${pad}`}>
         {kicker ? (

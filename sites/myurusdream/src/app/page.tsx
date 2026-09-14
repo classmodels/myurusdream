@@ -12,6 +12,7 @@ import { PageHero } from "@/components/PageHero";
 import { groupSponsors, isExampleSponsor, sponsorSignupHref } from "@/lib/sponsors";
 import { uniqueVisitorCount, onlineVisitorCount } from "@/lib/visitors";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { withBasePath } from "@/lib/base-path";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -51,7 +52,7 @@ async function FullHome() {
         <div className="relative mb-[30px] min-h-[36rem] sm:min-h-[40rem] md:min-h-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/5.png?v=20260908a"
+            src={withBasePath("/5.png?v=20260908a")}
             alt={h.heroAlt}
             className="block h-[36rem] w-full object-cover object-[70%_center] sm:h-[40rem] md:h-auto md:object-center"
           />
@@ -120,7 +121,7 @@ async function FullHome() {
         <div className="relative aspect-cinema w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/urus-villa.png?v=20260908a"
+            src={withBasePath("/images/urus-villa.png?v=20260908a")}
             alt={h.villaAlt}
             className="h-full w-full object-cover object-[78%_center] md:object-center"
           />

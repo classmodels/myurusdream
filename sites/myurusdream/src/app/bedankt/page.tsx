@@ -7,6 +7,7 @@ import { getMollie, mollieConfigured } from "@/lib/mollie";
 import { ShareRow } from "@/components/ShareRow";
 import { RepeatDonateButton } from "@/components/RepeatDonateButton";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { withBasePath } from "@/lib/base-path";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +65,7 @@ export default async function BedanktPage({
 
   return (
     <div className="relative isolate min-h-[70svh] overflow-hidden">
-      <img src="/images/urus-hero.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <img src={withBasePath("/images/urus-hero.png")} alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/72" />
       <div className="relative mx-auto max-w-xl px-5 pb-24 pt-28 text-center">
         <p className="font-display text-sm tracking-[0.3em] text-yellow">{dict.bedankt.kicker}</p>

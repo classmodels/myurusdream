@@ -7,6 +7,7 @@ import { occupiedPixels } from "@/lib/ad-users";
 import { withoutTitleReserveAds } from "@/lib/sponsors";
 import { prisma } from "@/lib/prisma";
 import { fulfillPaidPayment } from "@/lib/payments";
+import { withBasePath } from "@/lib/base-path";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +48,7 @@ export default async function KoopPixelsPage({
 
   return (
     <div className="relative isolate min-h-[100svh] overflow-x-clip">
-      <img src="/images/urus-night.png" alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <img src={withBasePath("/images/urus-night.png")} alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-black/78" />
       <div className="relative mx-auto max-w-7xl px-5 pb-24 pt-28">
         <p className="font-display text-[0.7rem] tracking-[0.18em] text-yellow">

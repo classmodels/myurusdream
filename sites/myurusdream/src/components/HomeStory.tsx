@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
+import { withBasePath } from "@/lib/base-path";
 import { useDict } from "@/lib/i18n/client";
 
 function GoldTitle({ children, as: Tag = "h3" }: { children: ReactNode; as?: "h2" | "h3" }) {
@@ -67,7 +68,7 @@ export function HomeStory() {
   return (
     <section id="verhaal" className="relative overflow-hidden bg-black pt-16 pb-10 md:pt-24 md:pb-14">
       <img
-        src="/images/urus-dusk.png?v=20260908a"
+        src={withBasePath("/images/urus-dusk.png?v=20260908a")}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.05]"
@@ -91,7 +92,7 @@ export function HomeStory() {
         <article className="story-layout mt-4 md:mt-5">
           <div className="story-prose">
             <img
-              src="/images/urus-detail.png?v=20260908c"
+              src={withBasePath("/images/urus-detail.png?v=20260908c")}
               alt={s.photoAlt}
               className="story-photo"
             />

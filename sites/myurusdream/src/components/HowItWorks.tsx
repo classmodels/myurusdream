@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { withBasePath } from "@/lib/base-path";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 const icons = ["wallet", "star", "share", "people", "chart", "gift"] as const;
@@ -13,7 +14,7 @@ export async function HowItWorks() {
       <div className="relative overflow-hidden pt-20 pb-1 md:pt-28 md:pb-1">
         <div className="absolute inset-0">
           <img
-            src="/images/urus-night.png?v=20260908a"
+            src={withBasePath("/images/urus-night.png?v=20260908a")}
             alt=""
             className="h-full w-full object-cover object-right"
           />

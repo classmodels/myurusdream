@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { withBasePath } from "@/lib/base-path";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 /** Geen database: altijd renderbaar onder SiteButler /portaal/myurusdream */
@@ -12,7 +13,7 @@ export async function HostedSafeHome() {
         <div className="relative mb-[30px] min-h-[36rem] sm:min-h-[40rem] md:min-h-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/5.png?v=20260908a"
+            src={withBasePath("/5.png?v=20260908a")}
             alt={h.heroAlt}
             className="block h-[36rem] w-full object-cover object-[70%_center] sm:h-[40rem] md:h-auto md:object-center"
           />
@@ -50,7 +51,7 @@ export async function HostedSafeHome() {
       <section className="relative overflow-hidden bg-black py-16">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/urus-villa.png?v=20260908a"
+          src={withBasePath("/images/urus-villa.png?v=20260908a")}
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-50"
         />
