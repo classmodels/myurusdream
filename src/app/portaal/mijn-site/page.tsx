@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PortalClientSite } from "@/components/portal/PortalClientSite";
+import { PortalDashboard } from "@/components/portal/PortalDashboard";
 
 export const metadata: Metadata = {
   title: "Mijn website",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function PortaalMijnSitePage() {
-  return <PortalClientSite />;
+  return <PortalDashboard />;
 }

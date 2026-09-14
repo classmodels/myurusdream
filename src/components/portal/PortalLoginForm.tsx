@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { saveClientSiteSession } from "@/lib/client-site-session";
+import { clearClientSiteSession, saveClientSiteSession } from "@/lib/client-site-session";
 import {
   PORTAL_DEMO,
   createDefaultPortalState,
@@ -40,11 +40,13 @@ export function PortalLoginForm() {
           accessCode: string;
         };
         saveClientSiteSession(data);
-        if (!data.liveSitePath) {
-          setError("Er is nog geen website aan dit account gekoppeld.");
-          return;
-        }
-        router.push("/portaal/mijn-site");
+        setPortalSession(trimmed);
+        const existing = loadPortalState();
+        const next = !existing || existing.email !== trimmed
+          ? { ...createDefaultPortalState(trimmed), projectName: data.title, clientName: data.title, previewUrl: data.liveSitePath || "" }
+          : { ...existing, previewUrl: data.liveSitePath || existing.previewUrl };
+        savePortalState(next);
+        router.push("/portaal/project");
         return;
       }
 
@@ -54,20 +56,13 @@ export function PortalLoginForm() {
         return;
       }
       setPortalSession(trimmed);
+      clearClientSiteSession();
       const existing = loadPortalState();
       if (!existing || existing.email !== PORTAL_DEMO.email) {
-        savePortalState(createDefaultPortalState(PORTAL_DEMO.email));
+        const fresh = createDefaultPortalState(PORTAL_DEMO.email);
+        savePortalState({ ...fresh, previewUrl: "" });
       }
-      saveClientSiteSession({
-        slug: "demo",
-        publicSlug: "myurusdream",
-        liveSitePath: PORTAL_DEMO.liveSitePath,
-        title: "Myurusdream",
-        previewUrl: PORTAL_DEMO.liveSitePath,
-        progress: 70,
-        accessCode: "",
-      });
-      router.push("/portaal/mijn-site");
+      router.push("/portaal/project");
     } catch {
       setError("Geen verbinding.");
     } finally {
@@ -105,7 +100,7 @@ export function PortalLoginForm() {
         Inloggen
       </button>
       <p className="mt-4 rounded-lg bg-[#f4f7fb] px-3 py-2 text-xs text-muted-on-light">
-        Na inloggen ziet u alleen de website die bij uw login hoort.
+        Na inloggen blijft u in het portaal. Uw website verschijnt daar alleen als SiteButler die gekoppeld heeft.
       </p>
       <p className="mt-3 text-center text-xs text-muted-on-light">
         SiteButler:{" "}

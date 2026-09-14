@@ -24,6 +24,7 @@ import {
   type PortalStepId,
   type TimeEntry,
 } from "@/lib/portal";
+import { clearClientSiteSession, loadClientSiteSession } from "@/lib/client-site-session";
 
 function StatusDot({ status }: { status: ReturnType<typeof stepStatus> }) {
   const map = {
@@ -144,13 +145,20 @@ export function PortalDashboard() {
       return;
     }
     const saved = loadPortalState();
+    const client = loadClientSiteSession();
     const initial: PortalState =
       saved && saved.email === session
         ? {
             ...saved,
             activeStep: saved.activeStep || nextOpenStep(saved),
+            previewUrl: client?.liveSitePath || saved.previewUrl || "",
+            projectName: client?.title || saved.projectName,
           }
-        : createDefaultPortalState(session);
+        : {
+            ...createDefaultPortalState(session),
+            previewUrl: client?.liveSitePath || "",
+            projectName: client?.title || createDefaultPortalState(session).projectName,
+          };
     setState(initial);
     setReady(true);
   }, []);
@@ -265,6 +273,7 @@ export function PortalDashboard() {
 
   function logout() {
     clearPortalSession();
+    clearClientSiteSession();
     window.location.href = "/portaal";
   }
 
@@ -396,6 +405,11 @@ export function PortalDashboard() {
     });
   }
 
+  function openSite() {
+    if (!state.previewUrl) return;
+    window.open(state.previewUrl, "sitebutler-klantsite", "noopener,noreferrer,width=1280,height=800");
+  }
+
   return (
     <div className="bg-bg">
       <div className="border-b border-line bg-bg-alt">
@@ -419,32 +433,31 @@ export function PortalDashboard() {
             <button type="button" onClick={logout} className="btn-secondary !px-3 !py-2 text-xs">
               Uitloggen
             </button>
-            <a href={state.previewUrl || PORTAL_DEMO.liveSitePath} className="btn-soft !px-3 !py-2 text-xs">
-              Bekijk uw website
-            </a>
+            {state.previewUrl ? (
+              <button type="button" onClick={openSite} className="btn-soft !px-3 !py-2 text-xs">
+                Open uw website
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
 
       <div className="container-x py-8 md:py-10">
-        <div className="mb-8 overflow-hidden rounded-xl border border-line bg-[#121a2b]">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-3">
-            <div>
-              <p className="text-xs font-bold tracking-wide text-teal uppercase">Uw website</p>
-              <p className="mt-0.5 text-sm text-ink-soft">
-                Dit is de live site. Het stappenplan eronder is alleen de projectopvolging.
-              </p>
-            </div>
-            <a href={state.previewUrl || PORTAL_DEMO.liveSitePath} className="btn-soft !px-3 !py-2 text-xs">
-              Open in nieuw tabblad
-            </a>
-          </div>
-          <iframe
-            title="Uw website"
-            src={state.previewUrl || PORTAL_DEMO.liveSitePath}
-            className="h-[70vh] w-full bg-white"
-          />
+        {state.previewUrl ? (
+        <div className="mb-8 rounded-xl border border-line bg-[#121a2b] p-5">
+          <p className="text-xs font-bold tracking-wide text-teal uppercase">Uw website</p>
+          <p className="mt-1 text-sm text-ink-soft">
+            De site waar SiteButler aan werkt. Die opent in een apart venster, zodat u hier in het portaal blijft.
+          </p>
+          <button type="button" onClick={openSite} className="btn-primary mt-4 text-sm">
+            Open uw website
+          </button>
         </div>
+        ) : (
+        <div className="mb-8 rounded-xl border border-line bg-[#121a2b] p-5 text-sm text-ink-soft">
+          Er is nog geen website gekoppeld aan dit account. SiteButler koppelt die via Portaal → klant aan een site koppelen.
+        </div>
+        )}
         {/* Progress */}
         <div className="mb-8 rounded-xl border border-line bg-[#121a2b] p-5 md:p-6">
           <div className="mb-3 flex items-end justify-between gap-3">
@@ -761,7 +774,7 @@ export function PortalDashboard() {
                           );
                           return {
                             ...prev,
-                            previewUrl: prev.previewUrl || PORTAL_DEMO.liveSitePath,
+                            previewUrl: prev.previewUrl,
                             completedSteps: withoutLater,
                             activeStep: "feedback",
                           };

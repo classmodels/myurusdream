@@ -8,7 +8,6 @@ import { TrackVisit } from "@/components/TrackVisit";
 import { PushAsk } from "@/components/PushAsk";
 import { SITE_NAME } from "@/lib/constants";
 import { siteUrl } from "@/lib/mollie";
-import { getSessionUser } from "@/lib/auth";
 import { campaignShareMetadata } from "@/lib/share-meta";
 import { getDictionary, getLocale } from "@/lib/i18n/get-dictionary";
 import { localeHtmlLang } from "@/lib/i18n/config";
@@ -67,7 +66,6 @@ export const viewport: Viewport = {
 export const dynamic = "force-dynamic";
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const participant = await getSessionUser("participant").catch(() => null);
   const locale = await getLocale();
   const dict = await getDictionary(locale);
   return (
@@ -78,7 +76,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-bg text-white">
         <I18nProvider locale={locale} dict={dict}>
           <PatchBasePath />
-          <Header loggedIn={Boolean(participant)} />
+          <Header />
           <CaptureReferral />
           <TrackVisit />
           <PushAsk />
