@@ -25,5 +25,5 @@ if (generateOnly) process.exit(0);
 if (existsSync("node_modules/next/dist/bin/next")) {
   run("node", ["node_modules/next/dist/bin/next", "build"]);
 } else {
-  run("npx", ["--yes", "next@16.3.3", "build"]);
+  run("npx", ["--yes", "next@16.3.0", "build"]);
 }

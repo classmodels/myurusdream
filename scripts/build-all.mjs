@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 
@@ -36,6 +36,8 @@ for (const site of loadSites()) {
   }
   mkdirSync(dir, { recursive: true });
   const base = sitePrefix(site);
+  // Vastleggen zodat `next start` zonder env nog steeds dezelfde basePath gebruikt
+  writeFileSync(path.join(dir, ".sitebutler-basepath"), `${base}\n`, "utf8");
   console.log(`\n→ Build ${base}`);
   run("npm", ["install", "--include=dev"], {}, dir);
   run(

@@ -1,7 +1,21 @@
 import type { NextConfig } from "next";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
-const nestedPath = (process.env.NEXT_PUBLIC_BASE_PATH || process.env.SITEBUTLER_BASE_PATH || "").replace(/\/$/, "");
+function resolveBasePath() {
+  const fromEnv = (process.env.NEXT_PUBLIC_BASE_PATH || process.env.SITEBUTLER_BASE_PATH || "").replace(
+    /\/$/,
+    "",
+  );
+  if (fromEnv) return fromEnv;
+  const marker = path.join(__dirname, ".sitebutler-basepath");
+  if (existsSync(marker)) {
+    return readFileSync(marker, "utf8").trim().replace(/\/$/, "");
+  }
+  return "";
+}
+
+const nestedPath = resolveBasePath();
 
 const nextConfig: NextConfig = {
   basePath: nestedPath || undefined,
