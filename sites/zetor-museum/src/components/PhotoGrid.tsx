@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { AssetImage as Image } from "@/components/AssetImage";
 
 type Photo = { src: string; alt: string };
 

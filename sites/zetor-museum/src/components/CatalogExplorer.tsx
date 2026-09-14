@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { AssetImage as Image } from "@/components/AssetImage";
 import { useEffect, useMemo, useState } from "react";
 import { museumPhotos } from "@/lib/content";
 

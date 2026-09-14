@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { AssetImage as Image } from "@/components/AssetImage";
 import { PageHero } from "@/components/PageHero";
 import { PhotoGrid } from "@/components/PhotoGrid";
 import { museumPhotos } from "@/lib/content";

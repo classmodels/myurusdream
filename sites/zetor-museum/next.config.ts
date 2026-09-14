@@ -30,6 +30,8 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
   images: {
+    // Onder /portaal/... faalt de image-optimizer op lokale paden zonder basePath in ?url=
+    unoptimized: Boolean(nestedPath),
     remotePatterns: [
       {
         protocol: "https",
