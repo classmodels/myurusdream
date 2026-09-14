@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   PORTAL_DEMO,
@@ -25,6 +26,20 @@ import {
   type TimeEntry,
 } from "@/lib/portal";
 import { clearClientSiteSession, loadClientSiteSession } from "@/lib/client-site-session";
+import {
+  getAdminManageCode,
+  getAdminViewClient,
+  isAdminSession,
+  setAdminViewClient,
+} from "@/lib/portal-admin-session";
+
+type AdminMessage = {
+  id: string;
+  text: string;
+  createdAt: string;
+  from: "admin";
+  read: boolean;
+};
 
 function StatusDot({ status }: { status: ReturnType<typeof stepStatus> }) {
   const map = {
@@ -125,48 +140,136 @@ function SignaturePad({
 }
 
 export function PortalDashboard() {
+  const searchParams = useSearchParams();
   const [state, setState] = useState<PortalState | null>(null);
   const [ready, setReady] = useState(false);
   const [comment, setComment] = useState("");
   const [replyToId, setReplyToId] = useState<string | null>(null);
   const [replyText, setReplyText] = useState("");
   const [previewFullscreen, setPreviewFullscreen] = useState(false);
-  const [sitePopup, setSitePopup] = useState(false);
+  const [siteOpen, setSiteOpen] = useState(false);
   const [reqTitle, setReqTitle] = useState("");
   const [reqDetail, setReqDetail] = useState("");
   const [logMinutes, setLogMinutes] = useState(15);
   const [logLabel, setLogLabel] = useState("");
   const [logRequestId, setLogRequestId] = useState("");
   const [nowTick, setNowTick] = useState(() => Date.now());
+  const [adminMode, setAdminMode] = useState(false);
+  const [adminMessages, setAdminMessages] = useState<AdminMessage[]>([]);
+  const syncTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    const session = getPortalSession();
-    if (!session) {
-      window.location.href = "/portaal";
-      return;
+    const adminParam = searchParams.get("admin")?.trim().toLowerCase() || "";
+    if (adminParam && isAdminSession()) {
+      setAdminViewClient(adminParam);
     }
-    const saved = loadPortalState();
-    const client = loadClientSiteSession();
-    const initial: PortalState =
-      saved && saved.email === session
-        ? {
-            ...saved,
-            activeStep: saved.activeStep || nextOpenStep(saved),
-            previewUrl: client?.liveSitePath || saved.previewUrl || "",
-            projectName: client?.title || saved.projectName,
+    const viewing = (adminParam || getAdminViewClient() || "").toLowerCase();
+    const asAdmin = Boolean(viewing && isAdminSession());
+    setAdminMode(asAdmin);
+
+    async function boot() {
+      const session = asAdmin ? viewing : getPortalSession();
+      if (!session) {
+        window.location.href = asAdmin ? "/portaal/admin" : "/portaal";
+        return;
+      }
+
+      const client = loadClientSiteSession();
+      let initial: PortalState | null = null;
+
+      if (asAdmin) {
+        try {
+          const res = await fetch("/api/portal-admin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              manageCode: getAdminManageCode(),
+              action: "get-client",
+              email: session,
+            }),
+          });
+          if (res.ok) {
+            const data = (await res.json()) as {
+              record?: { portal?: Partial<PortalState> | null; adminMessages?: AdminMessage[] };
+              catalog?: { title?: string; liveSiteSlug?: string } | null;
+              liveSitePath?: string;
+            };
+            const base =
+              data.record?.portal && data.record.portal.email === session
+                ? ({
+                    ...createDefaultPortalState(session),
+                    ...data.record.portal,
+                    email: session,
+                  } as PortalState)
+                : createDefaultPortalState(session);
+            initial = {
+              ...base,
+              activeStep: base.activeStep || nextOpenStep(base),
+              previewUrl: data.liveSitePath || client?.liveSitePath || base.previewUrl || "",
+              projectName: data.catalog?.title || client?.title || base.projectName,
+            };
+            setAdminMessages(data.record?.adminMessages || []);
           }
-        : {
-            ...createDefaultPortalState(session),
-            previewUrl: client?.liveSitePath || "",
-            projectName: client?.title || createDefaultPortalState(session).projectName,
-          };
-    setState(initial);
-    setReady(true);
-  }, []);
+        } catch {
+          /* fall through */
+        }
+      }
+
+      if (!initial) {
+        const saved = loadPortalState();
+        initial =
+          saved && saved.email === session
+            ? {
+                ...saved,
+                activeStep: saved.activeStep || nextOpenStep(saved),
+                previewUrl: client?.liveSitePath || saved.previewUrl || "",
+                projectName: client?.title || saved.projectName,
+              }
+            : {
+                ...createDefaultPortalState(session),
+                previewUrl: client?.liveSitePath || "",
+                projectName: client?.title || createDefaultPortalState(session).projectName,
+              };
+      }
+
+      if (!asAdmin) {
+        try {
+          const res = await fetch("/api/portal-sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "fetch", email: session }),
+          });
+          if (res.ok) {
+            const data = (await res.json()) as { adminMessages?: AdminMessage[] };
+            setAdminMessages(data.adminMessages || []);
+          }
+        } catch {
+          /* ignore */
+        }
+      }
+
+      setState(initial);
+      setReady(true);
+    }
+
+    void boot();
+  }, [searchParams]);
 
   useEffect(() => {
-    if (state) savePortalState(state);
-  }, [state]);
+    if (!state) return;
+    if (!adminMode) savePortalState(state);
+    if (syncTimer.current) window.clearTimeout(syncTimer.current);
+    syncTimer.current = window.setTimeout(() => {
+      void fetch("/api/portal-sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "sync", email: state.email, portal: state }),
+      });
+    }, 800);
+    return () => {
+      if (syncTimer.current) window.clearTimeout(syncTimer.current);
+    };
+  }, [state, adminMode]);
 
   useEffect(() => {
     if (!previewFullscreen) return;
@@ -273,9 +376,11 @@ export function PortalDashboard() {
   }
 
   function logout() {
+    const wasAdmin = adminMode;
     clearPortalSession();
     clearClientSiteSession();
-    window.location.href = "/portaal";
+    setAdminViewClient(null);
+    window.location.href = wasAdmin ? "/portaal/admin" : "/portaal";
   }
 
   function addChangeRequest() {
@@ -406,26 +511,28 @@ export function PortalDashboard() {
     });
   }
 
-  function openSite() {
-    if (!state?.previewUrl) return;
-    const abs = state.previewUrl.startsWith("http")
+  function siteSrc() {
+    if (!state?.previewUrl) return "";
+    return state.previewUrl.startsWith("http")
       ? state.previewUrl
-      : `${window.location.origin}${state.previewUrl}`;
-    const popup = window.open(
-      abs,
-      "sitebutler-klantsite",
-      "width=1280,height=800,left=60,top=40,scrollbars=yes,resizable=yes",
-    );
-    if (popup) {
-      try {
-        popup.opener = null;
-      } catch {
-        /* ignore */
+      : `${typeof window !== "undefined" ? window.location.origin : ""}${state.previewUrl}`;
+  }
+
+  async function markMessagesRead() {
+    if (!state?.email || adminMessages.every((m) => m.read)) return;
+    try {
+      const res = await fetch("/api/portal-sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "mark-read", email: state.email }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { record?: { adminMessages?: AdminMessage[] } };
+        setAdminMessages(data.record?.adminMessages || adminMessages.map((m) => ({ ...m, read: true })));
       }
-      popup.focus();
-      return;
+    } catch {
+      /* ignore */
     }
-    setSitePopup(true);
   }
 
   return (
@@ -433,7 +540,9 @@ export function PortalDashboard() {
       <div className="border-b border-line bg-bg-alt">
         <div className="container-x flex flex-wrap items-center justify-between gap-3 py-4">
           <div>
-            <p className="text-[0.7rem] font-bold tracking-[0.14em] text-teal uppercase">Klantportaal</p>
+            <p className="text-[0.7rem] font-bold tracking-[0.14em] text-teal uppercase">
+              {adminMode ? "Admin · klantportaal" : "Klantportaal"}
+            </p>
             <h1 className="font-[family-name:var(--font-display)] text-xl font-bold text-ink md:text-2xl">
               {state.projectName}
             </h1>
@@ -442,18 +551,31 @@ export function PortalDashboard() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/" className="btn-ghost !px-3 !py-2 text-xs">
-              SiteButler
-            </Link>
-            <button type="button" onClick={resetPortal} className="btn-ghost !px-3 !py-2 text-xs">
-              Reset demo
-            </button>
+            {adminMode ? (
+              <Link href="/portaal/admin" className="btn-soft !px-3 !py-2 text-xs">
+                Terug naar backstage
+              </Link>
+            ) : (
+              <Link href="/" className="btn-ghost !px-3 !py-2 text-xs">
+                SiteButler
+              </Link>
+            )}
+            {!adminMode && (
+              <button type="button" onClick={resetPortal} className="btn-ghost !px-3 !py-2 text-xs">
+                Reset demo
+              </button>
+            )}
             <button type="button" onClick={logout} className="btn-secondary !px-3 !py-2 text-xs">
               Uitloggen
             </button>
             {state.previewUrl ? (
-              <button type="button" onClick={openSite} className="btn-soft !px-3 !py-2 text-xs">
-                Open uw website
+              <button
+                type="button"
+                onClick={() => setSiteOpen((v) => !v)}
+                className="btn-soft !px-3 !py-2 text-xs"
+                aria-expanded={siteOpen}
+              >
+                {siteOpen ? "Website inklappen" : "Open uw website"}
               </button>
             ) : null}
           </div>
@@ -461,19 +583,80 @@ export function PortalDashboard() {
       </div>
 
       <div className="container-x py-8 md:py-10">
+        {adminMode && (
+          <div className="mb-6 rounded-xl border border-teal/40 bg-teal/10 px-4 py-3 text-sm text-ink">
+            Je bekijkt dit portaal als administrator. Timer &amp; tijdregistratie zijn hier zichtbaar. Wijzigingen
+            worden gesynchroniseerd naar dit klantaccount.
+          </div>
+        )}
+
+        {adminMessages.length > 0 && !adminMode && (
+          <div className="mb-6 rounded-xl border border-line bg-[#121a2b] p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs font-bold tracking-wide text-teal uppercase">Berichten van SiteButler</p>
+              {adminMessages.some((m) => !m.read) && (
+                <button
+                  type="button"
+                  className="text-xs font-semibold text-ink-soft underline"
+                  onClick={() => void markMessagesRead()}
+                >
+                  Markeer als gelezen
+                </button>
+              )}
+            </div>
+            <ul className="mt-3 space-y-2">
+              {adminMessages.map((m) => (
+                <li
+                  key={m.id}
+                  className={`rounded-lg px-3 py-2 text-sm ${m.read ? "bg-white/5 text-ink-soft" : "bg-teal/15 text-ink"}`}
+                >
+                  {m.text}
+                  <span className="mt-1 block text-[0.65rem] text-ink-soft">
+                    {new Date(m.createdAt).toLocaleString("nl-BE")}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {state.previewUrl ? (
-        <div className="mb-8 rounded-xl border border-line bg-[#121a2b] p-5">
-          <p className="text-xs font-bold tracking-wide text-teal uppercase">Uw website</p>
-          <p className="mt-1 text-sm text-ink-soft">
-            De site waar SiteButler aan werkt. Die opent in een apart venster, zodat u hier in het portaal blijft.
-          </p>
-          <button type="button" onClick={openSite} className="btn-primary mt-4 text-sm">
-            Open uw website
+        <div className="mb-8 overflow-hidden rounded-xl border border-line bg-[#121a2b]">
+          <button
+            type="button"
+            className="flex w-full items-start justify-between gap-3 p-5 text-left"
+            onClick={() => setSiteOpen((v) => !v)}
+            aria-expanded={siteOpen}
+          >
+            <div>
+              <p className="text-xs font-bold tracking-wide text-teal uppercase">Uw website</p>
+              <p className="mt-1 text-sm text-ink-soft">
+                {siteOpen
+                  ? "De site staat hieronder inline — u blijft in het portaal."
+                  : "Klik om de site hier te openen (accordeon), zonder popup."}
+              </p>
+            </div>
+            <span className="shrink-0 rounded-md bg-[#007aff] px-3 py-2 text-xs font-bold text-white">
+              {siteOpen ? "Inklappen" : "Open uw website"}
+            </span>
           </button>
+          {siteOpen && (
+            <div className="border-t border-line">
+              <iframe
+                title="Uw website"
+                src={siteSrc()}
+                className="h-[min(70vh,720px)] w-full bg-white"
+              />
+            </div>
+          )}
         </div>
         ) : (
         <div className="mb-8 rounded-xl border border-line bg-[#121a2b] p-5 text-sm text-ink-soft">
-          Er is nog geen website gekoppeld aan dit account. SiteButler koppelt die via Portaal → klant aan een site koppelen.
+          Er is nog geen website gekoppeld aan dit account. SiteButler koppelt die via{" "}
+          <Link href="/portaal/admin" className="font-semibold text-teal underline">
+            admin backstage
+          </Link>
+          .
         </div>
         )}
         {/* Progress */}
@@ -1047,33 +1230,40 @@ export function PortalDashboard() {
                     </span>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      className="rounded-md bg-teal px-2.5 py-1 text-xs font-bold text-white"
-                      onClick={() => startTimer(`Aanvraag: ${r.title}`, r.id)}
-                    >
-                      {state.activeTimer?.requestId === r.id ? "Timer herstart" : "Start timer"}
-                    </button>
-                    <button
-                      type="button"
-                      className="rounded-md border border-[#cdd8e8] px-2.5 py-1 text-xs font-semibold text-ink-on-light"
-                      onClick={() => setRequestStatus(r.id, "bezig")}
-                    >
-                      Markeer bezig
-                    </button>
-                    <button
-                      type="button"
-                      className="rounded-md border border-[#cdd8e8] px-2.5 py-1 text-xs font-semibold text-ink-on-light"
-                      onClick={() => setRequestStatus(r.id, "klaar")}
-                    >
-                      Markeer klaar
-                    </button>
+                    {adminMode && (
+                      <button
+                        type="button"
+                        className="rounded-md bg-teal px-2.5 py-1 text-xs font-bold text-white"
+                        onClick={() => startTimer(`Aanvraag: ${r.title}`, r.id)}
+                      >
+                        {state.activeTimer?.requestId === r.id ? "Timer herstart" : "Start timer"}
+                      </button>
+                    )}
+                    {adminMode && (
+                      <>
+                        <button
+                          type="button"
+                          className="rounded-md border border-[#cdd8e8] px-2.5 py-1 text-xs font-semibold text-ink-on-light"
+                          onClick={() => setRequestStatus(r.id, "bezig")}
+                        >
+                          Markeer bezig
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded-md border border-[#cdd8e8] px-2.5 py-1 text-xs font-semibold text-ink-on-light"
+                          onClick={() => setRequestStatus(r.id, "klaar")}
+                        >
+                          Markeer klaar
+                        </button>
+                      </>
+                    )}
                   </div>
                 </li>
               ))}
             </ul>
           </div>
 
+          {adminMode && (
           <div className="rounded-xl border border-line bg-[#121a2b] p-5">
             <p className="text-[0.7rem] font-bold tracking-wide text-ink-soft uppercase">
               Timer &amp; tijdregistratie
@@ -1184,6 +1374,7 @@ export function PortalDashboard() {
               ))}
             </ul>
           </div>
+          )}
         </section>
       </div>
 
@@ -1203,24 +1394,6 @@ export function PortalDashboard() {
             </button>
           </div>
           <iframe title="Ontwerp fullscreen" src={state.previewUrl} className="min-h-0 flex-1 w-full bg-white" />
-        </div>
-      )}
-
-      {sitePopup && state.previewUrl && (
-        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 p-4">
-          <div className="flex h-[min(90vh,900px)] w-full max-w-6xl flex-col overflow-hidden rounded-xl border border-line bg-[#0a111c] shadow-2xl">
-            <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
-              <p className="text-sm font-semibold text-ink">Uw website</p>
-              <button
-                type="button"
-                className="shrink-0 rounded-md bg-white px-4 py-2.5 text-sm font-bold text-[#007aff]"
-                onClick={() => setSitePopup(false)}
-              >
-                Sluiten
-              </button>
-            </div>
-            <iframe title="Uw website" src={state.previewUrl} className="min-h-0 flex-1 w-full bg-white" />
-          </div>
         </div>
       )}
     </div>

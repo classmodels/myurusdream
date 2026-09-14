@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PortalDashboard } from "@/components/portal/PortalDashboard";
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function PortaalMijnSitePage() {
-  return <PortalDashboard />;
+  return (
+    <Suspense fallback={<div className="container-x py-20 text-sm text-ink-soft">Portaal laden…</div>}>
+      <PortalDashboard />
+    </Suspense>
+  );
 }

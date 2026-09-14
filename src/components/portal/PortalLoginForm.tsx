@@ -46,6 +46,11 @@ export function PortalLoginForm() {
           ? { ...createDefaultPortalState(trimmed), projectName: data.title, clientName: data.title, previewUrl: data.liveSitePath || "" }
           : { ...existing, previewUrl: data.liveSitePath || existing.previewUrl };
         savePortalState(next);
+        void fetch("/api/portal-sync", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "login", email: trimmed }),
+        });
         router.push("/portaal/project");
         return;
       }
@@ -62,6 +67,11 @@ export function PortalLoginForm() {
         const fresh = createDefaultPortalState(PORTAL_DEMO.email);
         savePortalState({ ...fresh, previewUrl: "" });
       }
+      void fetch("/api/portal-sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "login", email: trimmed }),
+      });
       router.push("/portaal/project");
     } catch {
       setError("Geen verbinding.");
@@ -104,8 +114,8 @@ export function PortalLoginForm() {
       </p>
       <p className="mt-3 text-center text-xs text-muted-on-light">
         SiteButler:{" "}
-        <a href="/portaal/koppelen" className="font-semibold text-ink-on-light underline">
-          klant aan een site koppelen
+        <a href="/portaal/admin" className="font-semibold text-ink-on-light underline">
+          administrator backstage
         </a>
       </p>
     </form>
