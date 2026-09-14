@@ -11,21 +11,40 @@ import {
 
 export * from "@/lib/preview-model";
 
-const catalogFile = () =>
+/** Duurzame plek (niet in gitignored public/uploads — dat verdween bij elke Combell-pipeline). */
+const durableCatalogFile = () =>
+  path.join(process.cwd(), "data", "portal-catalog.json");
+
+/** Oude locatie — nog lezen voor migratie. */
+const legacyCatalogFile = () =>
   path.join(process.cwd(), "public", "uploads", "previews", "catalog.json");
 
-export async function readCatalog(): Promise<PreviewProject[]> {
+async function readJsonFile(file: string): Promise<PreviewProject[] | null> {
   try {
-    const raw = await readFile(catalogFile(), "utf8");
+    const raw = await readFile(file, "utf8");
     const parsed = JSON.parse(raw) as PreviewProject[];
-    return Array.isArray(parsed) ? parsed : [];
+    return Array.isArray(parsed) ? parsed : null;
   } catch {
-    return [];
+    return null;
   }
 }
 
+export async function readCatalog(): Promise<PreviewProject[]> {
+  const durable = await readJsonFile(durableCatalogFile());
+  if (durable && durable.length) return durable;
+
+  const legacy = await readJsonFile(legacyCatalogFile());
+  if (legacy && legacy.length) {
+    // Eenmalig migreren zodat volgende deploys/restarts de data behouden in data/
+    await writeCatalog(legacy);
+    return legacy;
+  }
+
+  return durable || [];
+}
+
 export async function writeCatalog(items: PreviewProject[]) {
-  const file = catalogFile();
+  const file = durableCatalogFile();
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(file, JSON.stringify(items, null, 2), "utf8");
 }

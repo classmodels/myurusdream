@@ -438,7 +438,7 @@ export function PreviewStudio() {
                 className="input-field"
                 value={form.portalPassword || ""}
                 onChange={(e) => setField("portalPassword", e.target.value)}
-                placeholder="Kies een wachtwoord voor de klant"
+                placeholder="Leeg = huidig wachtwoord behouden"
               />
             </div>
             <div className="md:col-span-2">

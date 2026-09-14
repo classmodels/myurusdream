@@ -81,9 +81,12 @@ function asProject(raw: Partial<PreviewProject>, fallbackSlug: string): PreviewP
 }
 
 function studioPayload(slots: PreviewProject[], extras: PreviewProject[]) {
+  // Wachtwoorden nooit terug naar de browser sturen — lege update bewaart het bestaande.
   const reveal = (p: PreviewProject) => ({
     ...p,
     accessCode: p.accessCode,
+    portalPassword: "",
+    hasPortalPassword: Boolean(p.portalPassword),
   });
   return { slots: slots.map(reveal), extras: extras.map(reveal) };
 }
@@ -160,7 +163,7 @@ export async function POST(request: Request) {
       await writeCatalog([...catalog.filter((p) => p.slug !== parsed.slug), parsed]);
       return NextResponse.json({
         ok: true,
-        project: parsed,
+        project: { ...parsed, portalPassword: "" },
         ...studioPayload(await listTestSlots(), await listExtraPreviews()),
         sites: listHostedSites().map((s) => ({ slug: s.slug, basePath: s.basePath })),
       });
@@ -206,12 +209,22 @@ export async function POST(request: Request) {
     const existing = body.project?.slug
       ? catalog.find((p) => p.slug === body.project?.slug) || (await listTestSlots()).find((p) => p.slug === body.project?.slug)
       : undefined;
+
+    // Lege portal-velden mogen bestaande login/site-koppeling NOOIT wissen
+    // (gebeurde o.a. bij opslaan in PreviewStudio zonder wachtwoord opnieuw in te vullen).
+    const nextPassword = String(body.project?.portalPassword ?? "").trim();
+    const nextEmail = String(body.project?.portalEmail ?? "").trim().toLowerCase();
+    const nextLive = String(body.project?.liveSiteSlug ?? "").trim().toLowerCase();
+
     const merged: Partial<PreviewProject> = {
       ...existing,
       ...body.project,
       pages: body.project?.pages ?? existing?.pages,
       logoUrl: body.project?.logoUrl ?? existing?.logoUrl,
       accessCode: String(body.project?.accessCode || existing?.accessCode || "").trim(),
+      portalPassword: nextPassword || existing?.portalPassword || "",
+      portalEmail: nextEmail || existing?.portalEmail || "",
+      liveSiteSlug: nextLive || existing?.liveSiteSlug || "",
     };
 
     const parsed = asProject(merged, String(body.slug || "project"));

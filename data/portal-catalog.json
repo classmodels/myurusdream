@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "testsite-1",
+    "slot": 1,
+    "title": "myurusdream.be",
+    "clientLabel": "In opbouw",
+    "summary": "Website in ontwikkeling bij SiteButler.",
+    "progress": 10,
+    "accessCode": "klant1",
+    "previewUrl": "",
+    "changelog": [
+      {
+        "date": "Nu",
+        "text": "Testsite klaargezet voor de klant."
+      }
+    ],
+    "published": true,
+    "accent": "#2563eb",
+    "accent2": "#0f766e",
+    "tagline": "",
+    "heroText": "",
+    "about": "",
+    "services": "",
+    "contact": "",
+    "logoUrl": "",
+    "pages": [],
+    "publicSlug": "myurusdream-be",
+    "portalEmail": "test@sitebutler.be",
+    "portalPassword": "testlive1",
+    "liveSiteSlug": "myurusdream"
+  },
+  {
+    "slug": "testsite-2",
+    "slot": 2,
+    "title": "myurusdream",
+    "clientLabel": "info@class-models.be",
+    "summary": "x",
+    "progress": 10,
+    "accessCode": "klant2-kky2rq",
+    "previewUrl": "",
+    "changelog": [
+      {
+        "date": "Nu",
+        "text": "x"
+      }
+    ],
+    "published": true,
+    "accent": "#2563eb",
+    "accent2": "#0f766e",
+    "tagline": "",
+    "heroText": "",
+    "about": "",
+    "services": "",
+    "contact": "",
+    "logoUrl": "",
+    "pages": [],
+    "publicSlug": "myurusdream",
+    "portalEmail": "info@class-models.be",
+    "portalPassword": "test123",
+    "liveSiteSlug": "myurusdream"
+  }
+]
