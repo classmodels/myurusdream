@@ -406,7 +406,7 @@ export function PortalDashboard() {
   }
 
   function openSite() {
-    if (!state.previewUrl) return;
+    if (!state?.previewUrl) return;
     window.open(state.previewUrl, "sitebutler-klantsite", "noopener,noreferrer,width=1280,height=800");
   }
 
