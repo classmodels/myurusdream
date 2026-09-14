@@ -3,5 +3,10 @@
     "slug": "myurusdream",
     "dir": "sites/myurusdream",
     "basePath": "/portaal/myurusdream"
+  },
+  {
+    "slug": "zetor-museum",
+    "dir": "sites/zetor-museum",
+    "basePath": "/portaal/zetor-museum"
   }
 ]

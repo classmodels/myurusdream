@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         destination: "/portaal/myurusdream/:path*",
         permanent: false,
       },
+      {
+        source: "/zetor-museum",
+        destination: "/portaal/zetor-museum",
+        permanent: false,
+      },
+      {
+        source: "/zetor-museum/:path*",
+        destination: "/portaal/zetor-museum/:path*",
+        permanent: false,
+      },
     ];
   },
 };

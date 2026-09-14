@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #f4efe6;
+  --ink-dim: #c4b8a8;
+  --ink-mute: #8a7f72;
+  --hangar: #0e0c0a;
+  --hangar-2: #171310;
+  --steel: #2a2420;
+  --zetor: #e31c23;
+  --zetor-deep: #a51218;
+  --brass: #d4a84b;
+  --soil: #3a2e22;
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --color-ink-mute: var(--ink-mute);
+  --color-hangar: var(--hangar);
+  --color-hangar-2: var(--hangar-2);
+  --color-steel: var(--steel);
+  --color-zetor: var(--zetor);
+  --color-zetor-deep: var(--zetor-deep);
+  --color-brass: var(--brass);
+  --color-soil: var(--soil);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--hangar);
+  color: var(--ink);
+  font-family: var(--font-body), Georgia, serif;
+}
+
+::selection {
+  background: var(--zetor);
+  color: white;
+}
+
+.font-display {
+  font-family: var(--font-display), Impact, sans-serif;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ken {
+  from {
+    transform: scale(1.08) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1) translate3d(0, -1.5%, 0);
+  }
+}
+
+@keyframes slide-mark {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.anim-rise {
+  animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-rise-delay {
+  animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+
+.anim-rise-delay-2 {
+  animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+}
+
+.anim-ken {
+  animation: ken 18s ease-out forwards;
+}
+
+.anim-mark {
+  animation: slide-mark 0.8s ease-out 0.5s both;
+}
+
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+.metal-edge {
+  background: linear-gradient(
+    180deg,
+    rgba(212, 168, 75, 0.35) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(227, 28, 35, 0.2) 100%
+  );
+}
