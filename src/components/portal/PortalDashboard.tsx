@@ -205,7 +205,7 @@ export function PortalDashboard() {
             initial = {
               ...base,
               activeStep: base.activeStep || nextOpenStep(base),
-              previewUrl: data.liveSitePath || client?.liveSitePath || base.previewUrl || "",
+              previewUrl: data.liveSitePath || (asAdmin ? "" : client?.liveSitePath || base.previewUrl || ""),
               projectName: data.catalog?.title || client?.title || base.projectName,
             };
             setAdminMessages(data.record?.adminMessages || []);

@@ -58,5 +58,35 @@
     "portalEmail": "info@class-models.be",
     "portalPassword": "test123",
     "liveSiteSlug": "myurusdream"
+  },
+  {
+    "slug": "testsite-3",
+    "slot": 3,
+    "title": "Test account",
+    "clientLabel": "test@test.be",
+    "summary": "Demo-klantaccount SiteButler.",
+    "progress": 10,
+    "accessCode": "klant3-test",
+    "previewUrl": "",
+    "changelog": [
+      {
+        "date": "Nu",
+        "text": "Testaccount aangemaakt (inloggen: test@test.be / test)."
+      }
+    ],
+    "published": true,
+    "accent": "#2563eb",
+    "accent2": "#0f766e",
+    "tagline": "",
+    "heroText": "",
+    "about": "",
+    "services": "",
+    "contact": "",
+    "logoUrl": "",
+    "pages": [],
+    "publicSlug": "test-account",
+    "portalEmail": "test@test.be",
+    "portalPassword": "test",
+    "liveSiteSlug": ""
   }
 ]

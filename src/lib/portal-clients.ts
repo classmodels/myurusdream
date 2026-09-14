@@ -2,6 +2,7 @@ import { mkdir, readFile, readdir, writeFile } from "fs/promises";
 import path from "path";
 import type { PortalState } from "@/lib/portal";
 import { listExtraPreviews, listTestSlots } from "@/lib/previews";
+import { hostedPathForSlug } from "@/lib/hosted-sites";
 
 export type AdminMessage = {
   id: string;
@@ -19,9 +20,31 @@ export type ClientRecord = {
   liveSitePath: string;
   lastLoginAt: string | null;
   updatedAt: string;
+  /** Laatste keer dat admin dit dossier opende */
+  lastAdminViewAt: string | null;
+  /** Laatste sync/activiteit van de klant */
+  clientActivityAt: string | null;
   adminMessages: AdminMessage[];
-  /** Snapshot van klantportaal (lokaal gesynct) */
   portal: Partial<PortalState> | null;
+};
+
+export type AdminClientCard = {
+  email: string;
+  slug: string;
+  title: string;
+  liveSiteSlug: string;
+  liveSitePath: string;
+  lastLoginAt: string | null;
+  updatedAt: string;
+  hasPassword: boolean;
+  published: boolean;
+  messageCount: number;
+  unreadForClient: number;
+  changeRequests: number;
+  openChangeRequests: number;
+  files: number;
+  comments: number;
+  hasNewActivity: boolean;
 };
 
 const dir = () => path.join(process.cwd(), "data", "portal-clients");
@@ -31,10 +54,26 @@ function fileForEmail(email: string) {
   return path.join(dir(), `${safe}.json`);
 }
 
+function normalizeRecord(raw: Partial<ClientRecord> & { email: string }): ClientRecord {
+  return {
+    email: raw.email.trim().toLowerCase(),
+    slug: raw.slug || raw.email,
+    title: raw.title || raw.email,
+    liveSiteSlug: raw.liveSiteSlug || "",
+    liveSitePath: raw.liveSitePath || "",
+    lastLoginAt: raw.lastLoginAt ?? null,
+    updatedAt: raw.updatedAt || new Date().toISOString(),
+    lastAdminViewAt: raw.lastAdminViewAt ?? null,
+    clientActivityAt: raw.clientActivityAt ?? null,
+    adminMessages: raw.adminMessages || [],
+    portal: raw.portal ?? null,
+  };
+}
+
 export async function readClientRecord(email: string): Promise<ClientRecord | null> {
   try {
     const raw = await readFile(fileForEmail(email), "utf8");
-    return JSON.parse(raw) as ClientRecord;
+    return normalizeRecord(JSON.parse(raw) as ClientRecord);
   } catch {
     return null;
   }
@@ -42,7 +81,7 @@ export async function readClientRecord(email: string): Promise<ClientRecord | nu
 
 export async function writeClientRecord(record: ClientRecord) {
   await mkdir(dir(), { recursive: true });
-  await writeFile(fileForEmail(record.email), JSON.stringify(record, null, 2), "utf8");
+  await writeFile(fileForEmail(record.email), JSON.stringify(normalizeRecord(record), null, 2), "utf8");
 }
 
 export async function listClientRecords(): Promise<ClientRecord[]> {
@@ -54,7 +93,7 @@ export async function listClientRecords(): Promise<ClientRecord[]> {
       if (!name.endsWith(".json")) continue;
       try {
         const raw = await readFile(path.join(dir(), name), "utf8");
-        rows.push(JSON.parse(raw) as ClientRecord);
+        rows.push(normalizeRecord(JSON.parse(raw) as ClientRecord));
       } catch {
         /* skip */
       }
@@ -65,8 +104,17 @@ export async function listClientRecords(): Promise<ClientRecord[]> {
   }
 }
 
+function activityFlag(rec: ClientRecord | undefined) {
+  if (!rec) return false;
+  const open = rec.portal?.changeRequests?.filter((r) => r.status === "open").length || 0;
+  if (open > 0) return true;
+  if (!rec.clientActivityAt) return false;
+  if (!rec.lastAdminViewAt) return Boolean(rec.portal);
+  return rec.clientActivityAt > rec.lastAdminViewAt;
+}
+
 /** Catalogusklanten + eventuele activity-records samenvoegen */
-export async function listAdminClients() {
+export async function listAdminClients(): Promise<AdminClientCard[]> {
   const slots = await listTestSlots();
   const extras = await listExtraPreviews();
   const catalog = [...slots, ...extras].filter((p) => p.portalEmail);
@@ -77,12 +125,13 @@ export async function listAdminClients() {
     const email = (p.portalEmail || "").toLowerCase();
     const rec = byEmail.get(email);
     byEmail.delete(email);
+    const liveSiteSlug = p.liveSiteSlug || "";
     return {
       email,
       slug: p.slug,
       title: p.title || p.clientLabel || email,
-      liveSiteSlug: p.liveSiteSlug || "",
-      liveSitePath: p.liveSiteSlug ? `/portaal/${p.liveSiteSlug}` : "",
+      liveSiteSlug,
+      liveSitePath: liveSiteSlug ? hostedPathForSlug(liveSiteSlug) : "",
       lastLoginAt: rec?.lastLoginAt || null,
       updatedAt: rec?.updatedAt || "",
       hasPassword: Boolean(p.portalPassword),
@@ -90,8 +139,10 @@ export async function listAdminClients() {
       messageCount: rec?.adminMessages?.length || 0,
       unreadForClient: rec?.adminMessages?.filter((m) => !m.read).length || 0,
       changeRequests: rec?.portal?.changeRequests?.length || 0,
+      openChangeRequests: rec?.portal?.changeRequests?.filter((r) => r.status === "open").length || 0,
       files: rec?.portal?.files?.length || 0,
       comments: rec?.portal?.comments?.length || 0,
+      hasNewActivity: activityFlag(rec),
     };
   });
 
@@ -100,7 +151,7 @@ export async function listAdminClients() {
     slug: rec.slug,
     title: rec.title,
     liveSiteSlug: rec.liveSiteSlug,
-    liveSitePath: rec.liveSitePath,
+    liveSitePath: rec.liveSitePath || (rec.liveSiteSlug ? hostedPathForSlug(rec.liveSiteSlug) : ""),
     lastLoginAt: rec.lastLoginAt,
     updatedAt: rec.updatedAt,
     hasPassword: true,
@@ -108,8 +159,10 @@ export async function listAdminClients() {
     messageCount: rec.adminMessages?.length || 0,
     unreadForClient: rec.adminMessages?.filter((m) => !m.read).length || 0,
     changeRequests: rec.portal?.changeRequests?.length || 0,
+    openChangeRequests: rec.portal?.changeRequests?.filter((r) => r.status === "open").length || 0,
     files: rec.portal?.files?.length || 0,
     comments: rec.portal?.comments?.length || 0,
+    hasNewActivity: activityFlag(rec),
   }));
 
   return [...fromCatalog, ...orphans];

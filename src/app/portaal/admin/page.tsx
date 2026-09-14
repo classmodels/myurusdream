@@ -15,8 +15,8 @@ export default function PortaalAdminPage() {
           Administrator backstage
         </h1>
         <p className="mt-3 max-w-2xl text-ink-soft">
-          Beheer klantaccounts, koppel websites, bekijk aanvragen en uploads, en open elk klantportaal met
-          timer &amp; tijdregistratie.
+          Overzicht van alle klantkaarten. Open een kaart om site te koppelen, wachtwoord te beheren,
+          berichten te sturen en uploads/aanvragen te bekijken.
         </p>
         <div className="mt-8">
           <PortalAdmin />

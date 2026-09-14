@@ -47,6 +47,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link href="/portaal/admin" className="btn-ghost !hidden !px-4 !py-2.5 text-sm sm:!inline-flex">
+            Admin
+          </Link>
           <Link href="/portaal" className="btn-ghost !hidden !px-4 !py-2.5 text-sm sm:!inline-flex">
             Portaal
           </Link>
@@ -119,6 +122,13 @@ export function Header() {
               className="rounded-xl px-3 py-3 text-sm font-semibold text-ink-soft"
             >
               Voortgang / preview
+            </Link>
+            <Link
+              href="/portaal/admin"
+              onClick={() => setOpen(false)}
+              className="rounded-xl px-3 py-3 text-sm font-semibold text-ink-soft"
+            >
+              Admin backstage
             </Link>
             <Link
               href="/portaal"

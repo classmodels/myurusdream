@@ -1,10 +1,27 @@
 import { NextResponse } from "next/server";
 import { hostedPathForSlug } from "@/lib/hosted-sites";
-import { readClientRecord, writeClientRecord, type AdminMessage } from "@/lib/portal-clients";
+import { readClientRecord, writeClientRecord, type AdminMessage, type ClientRecord } from "@/lib/portal-clients";
 import { listExtraPreviews, listTestSlots } from "@/lib/previews";
 import type { PortalState } from "@/lib/portal";
 
 export const runtime = "nodejs";
+
+function emptyRecord(email: string, catalog?: { slug?: string; title?: string; liveSiteSlug?: string } | null): ClientRecord {
+  const liveSiteSlug = catalog?.liveSiteSlug || "";
+  return {
+    email,
+    slug: catalog?.slug || email,
+    title: catalog?.title || email,
+    liveSiteSlug,
+    liveSitePath: liveSiteSlug ? hostedPathForSlug(liveSiteSlug) : "",
+    lastLoginAt: null,
+    updatedAt: new Date().toISOString(),
+    lastAdminViewAt: null,
+    clientActivityAt: null,
+    adminMessages: [],
+    portal: null,
+  };
+}
 
 /** Klantportaal: sync state + last login; ophalen adminberichten */
 export async function POST(request: Request) {
@@ -22,18 +39,7 @@ export async function POST(request: Request) {
     const slots = await listTestSlots();
     const extras = await listExtraPreviews();
     const catalog = [...slots, ...extras].find((p) => p.portalEmail === email);
-    const liveSiteSlug = catalog?.liveSiteSlug || "";
-    const base = (await readClientRecord(email)) || {
-      email,
-      slug: catalog?.slug || email,
-      title: catalog?.title || email,
-      liveSiteSlug,
-      liveSitePath: liveSiteSlug ? hostedPathForSlug(liveSiteSlug) : "",
-      lastLoginAt: null as string | null,
-      updatedAt: new Date().toISOString(),
-      adminMessages: [] as AdminMessage[],
-      portal: null as Partial<PortalState> | null,
-    };
+    const base = (await readClientRecord(email)) || emptyRecord(email, catalog);
 
     if (body.action === "login") {
       base.lastLoginAt = new Date().toISOString();
@@ -51,10 +57,11 @@ export async function POST(request: Request) {
     if (body.action === "sync" && body.portal) {
       base.portal = body.portal;
       base.updatedAt = new Date().toISOString();
+      base.clientActivityAt = base.updatedAt;
       if (catalog) {
         base.title = catalog.title || base.title;
         base.liveSiteSlug = catalog.liveSiteSlug || base.liveSiteSlug;
-        base.liveSitePath = base.liveSiteSlug ? hostedPathForSlug(base.liveSiteSlug) : base.liveSitePath;
+        base.liveSitePath = base.liveSiteSlug ? hostedPathForSlug(base.liveSiteSlug) : "";
       }
       await writeClientRecord(base);
       return NextResponse.json({ ok: true });
@@ -66,7 +73,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, record: base });
     }
 
-    // fetch
     return NextResponse.json({
       ok: true,
       record: base,
