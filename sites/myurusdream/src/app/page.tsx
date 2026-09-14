@@ -18,6 +18,19 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  try {
+    return await HomeContent();
+  } catch (error) {
+    console.error("Homepage kon niet volledig laden.", error);
+    return (
+      <section className="relative w-full overflow-hidden pt-[4.75rem]">
+        <img src="/5.png?v=20260908a" alt="" className="block h-[36rem] w-full object-cover md:h-auto" />
+      </section>
+    );
+  }
+}
+
+async function HomeContent() {
   const dict = await getDictionary();
   const h = dict.home;
   const view = await getPublicCampaignView();
@@ -26,12 +39,14 @@ export default async function HomePage() {
   const grouped = groupSponsors(sponsors);
   const realHeadlines = grouped.headline.filter((s) => !isExampleSponsor(s.name));
   const realHeadline = realHeadlines.find((s) => s.logo) || realHeadlines[0] || null;
-  const participant = await getSessionUser("participant");
+  const participant = await getSessionUser("participant").catch(() => null);
   const paidDonor = participant
-    ? await prisma.payment.findFirst({
-        where: { userId: participant.id, status: "paid", kind: "contribution" },
-        select: { id: true },
-      })
+    ? await prisma.payment
+        .findFirst({
+          where: { userId: participant.id, status: "paid", kind: "contribution" },
+          select: { id: true },
+        })
+        .catch(() => null)
     : null;
   const shareCode = paidDonor && participant ? participant.referralCode : undefined;
 

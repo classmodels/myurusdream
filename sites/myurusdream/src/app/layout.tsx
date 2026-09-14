@@ -34,23 +34,29 @@ const script = Great_Vibes({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const url = siteUrl();
-  const dict = await getDictionary();
-  return {
-    metadataBase: new URL(url),
-    title: {
-      default: `${SITE_NAME} | ${dict.meta.tagline}`,
-      template: `%s | ${SITE_NAME}`,
-    },
-    ...campaignShareMetadata(url),
-    robots: { index: true, follow: true },
-    manifest: "/manifest.json",
-    appleWebApp: {
-      capable: true,
-      title: SITE_NAME,
-      statusBarStyle: "black-translucent",
-    },
-  };
+  try {
+    const raw = siteUrl();
+    const url = raw.startsWith("http") ? raw : `https://www.sitebutler.be${raw.startsWith("/") ? raw : `/${raw}`}`;
+    const dict = await getDictionary();
+    return {
+      metadataBase: new URL(url),
+      title: {
+        default: `${SITE_NAME} | ${dict.meta.tagline}`,
+        template: `%s | ${SITE_NAME}`,
+      },
+      ...campaignShareMetadata(url),
+      robots: { index: true, follow: true },
+      manifest: "/manifest.json",
+      appleWebApp: {
+        capable: true,
+        title: SITE_NAME,
+        statusBarStyle: "black-translucent",
+      },
+    };
+  } catch (error) {
+    console.error("generateMetadata", error);
+    return { title: SITE_NAME };
+  }
 }
 
 export const viewport: Viewport = {

@@ -4,6 +4,8 @@ import path from "node:path";
 import { parse } from "node:url";
 import next from "next";
 
+process.env.DATABASE_URL ||= "mysql://unused:unused@127.0.0.1:3306/unused";
+
 const port = Number(process.env.PORT || 3000);
 const host = process.env.HOST || "0.0.0.0";
 const dev = process.env.NODE_ENV !== "production";
@@ -79,11 +81,19 @@ async function main() {
     const match = siteHandles.find(
       (site) => pathname === site.prefix || pathname.startsWith(`${site.prefix}/`),
     );
-    if (match) {
-      match.handle(req, res, parsed);
-      return;
+    try {
+      if (match) {
+        match.handle(req, res, parsed);
+        return;
+      }
+      mainHandle(req, res, parsed);
+    } catch (error) {
+      console.error("SiteButler requestfout", pathname, error);
+      if (!res.headersSent) {
+        res.statusCode = 500;
+        res.end("Er ging iets mis. Probeer opnieuw.");
+      }
     }
-    mainHandle(req, res, parsed);
   }).listen(port, host, () => {
     const names = siteHandles.map((s) => s.prefix).join(", ") || "geen";
     console.log(`SiteButler op http://${host}:${port} · klantsites: ${names}`);
